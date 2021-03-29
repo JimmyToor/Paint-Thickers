@@ -1,0 +1,192 @@
+Using pre-set license
+Built from '2021.1/staging' branch; Version is '2021.1.0b1 (9f7c487dd2da) revision 10452040'; Using compiler version '192528614'; Build Type 'Release'
+OS: 'Windows 10 Pro; OS build 19042.906; Version 2009; 64bit' Language: 'en' Physical Memory: 16309 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
+
+ COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\2021.1.0b1\Editor\Unity.exe
+-adb2
+-batchMode
+-noUpm
+-name
+AssetImportWorker0
+-projectPath
+C:/Unity Projects/Paint Thickers
+-logFile
+Logs/AssetImportWorker0.log
+-srvPort
+63772
+Successfully changed project path to: C:/Unity Projects/Paint Thickers
+C:/Unity Projects/Paint Thickers
+Using Asset Import Pipeline V2.
+Refreshing native plugins compatible for Editor in 75.07 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 1.23 ms.
+Initialize engine version: 2021.1.0b1 (9f7c487dd2da)
+[Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/Resources/UnitySubsystems
+[Subsystems] Discovering subsystems at path C:/Unity Projects/Paint Thickers/Assets
+GfxDevice: creating device client; threaded=0; jobified=0
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.1]
+    Renderer: NVIDIA GeForce RTX 3080 (ID=0x2206)
+    Vendor:   NVIDIA
+    VRAM:     10078 MB
+    Driver:   27.21.14.6172
+Initialize mono
+Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/Managed'
+Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
+Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/MonoBleedingEdge/etc'
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56136
+Begin MonoManager ReloadAssembly
+Registering precompiled unity dll's ...
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
+Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
+Registered in 0.001638 seconds.
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 65.88 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.11 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.215 seconds
+Platform modules already initialized, skipping
+Registering precompiled user dll's ...
+Registered in 0.006405 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.80 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.11 ms.
+[XR] OculusXRPlugin: registering subsystems
+[XR] Unable to register display lifecyle provider: [1]
+[XR] Oculus Input lifecycle provider registered.
+[XR] Unable to register input lifecyle provider: [1]
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:243 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:228 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.8.1/Runtime/OculusLoader.cs Line: 243)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  0.632 seconds
+Platform modules already initialized, skipping
+========================================================================
+Worker process is ready to serve import requests
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
+Refreshing native plugins compatible for Editor in 0.92 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.12 ms.
+Unloading 3363 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 255.6 MB.
+System memory in use after: 255.8 MB.
+
+Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 3813.
+Total: 1.831500 ms (FindLiveObjects: 0.236200 ms CreateObjectMapping: 0.081300 ms MarkObjects: 1.471200 ms  DeleteObjects: 0.041900 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/SteamVR/Editor/SteamVR_Editor.asmdef
+  artifactKey: Guid(9bac448de04a4f6448fee1acc220e5a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SteamVR/Editor/SteamVR_Editor.asmdef using Guid(9bac448de04a4f6448fee1acc220e5a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9856b06dec445a36a20f97d4c0926764') in 0.018464 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008940 seconds.
+  path: Assets/SteamVR/SteamVR.asmdef
+  artifactKey: Guid(1fbf338ef6b952a448262a7ff7df5fe4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SteamVR/SteamVR.asmdef using Guid(1fbf338ef6b952a448262a7ff7df5fe4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f2c4d6493581911f465fcbfa85a055c0') in 0.005124 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 6.208522 seconds.
+  path: Assets/SteamVR/Editor/SteamVR_Editor.cs
+  artifactKey: Guid(5ba22c80948c94e44a82b9fd1b3abd0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SteamVR/Editor/SteamVR_Editor.cs using Guid(5ba22c80948c94e44a82b9fd1b3abd0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1a4d5970f01b16fe1d9738bca9d94e08') in 0.004044 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 8.642157 seconds.
+  path: Assets/SteamVR/Editor/SteamVR_UnitySettingsWindow.cs
+  artifactKey: Guid(d2244eee8a3a4784fb40d1123ff69301) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SteamVR/Editor/SteamVR_UnitySettingsWindow.cs using Guid(d2244eee8a3a4784fb40d1123ff69301) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5b963986419d00525ef8e2c73be76e4c') in 0.005356 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007129 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.36 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.17 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:243 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:228 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.8.1/Runtime/OculusLoader.cs Line: 243)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  0.672 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.85 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.16 ms.
+Unloading 3306 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 253.8 MB.
+System memory in use after: 254.0 MB.
+
+Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 3817.
+Total: 2.208800 ms (FindLiveObjects: 0.325800 ms CreateObjectMapping: 0.144500 ms MarkObjects: 1.723000 ms  DeleteObjects: 0.014700 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 34.861609 seconds.
+  path: Assets/SteamVR/Editor/SteamVR_UnitySettingsWindow.cs
+  artifactKey: Guid(d2244eee8a3a4784fb40d1123ff69301) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SteamVR/Editor/SteamVR_UnitySettingsWindow.cs using Guid(d2244eee8a3a4784fb40d1123ff69301) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a058a91b761d1431412f778863bd4b80') in 0.005678 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007640 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 1.03 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.12 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:243 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:228 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.8.1/Runtime/OculusLoader.cs Line: 243)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  0.979 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.95 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.12 ms.
+Unloading 3306 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 254.0 MB.
+System memory in use after: 254.2 MB.
+
+Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 3821.
+Total: 2.217000 ms (FindLiveObjects: 0.301300 ms CreateObjectMapping: 0.160200 ms MarkObjects: 1.738900 ms  DeleteObjects: 0.015700 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007648 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.88 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.12 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:243 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:228 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.8.1/Runtime/OculusLoader.cs Line: 243)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  0.810 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.91 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.12 ms.
+Unloading 3306 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 254.2 MB.
+System memory in use after: 254.5 MB.
+
+Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 3825.
+Total: 2.739900 ms (FindLiveObjects: 0.439000 ms CreateObjectMapping: 0.207900 ms MarkObjects: 2.078200 ms  DeleteObjects: 0.014000 ms)
+
