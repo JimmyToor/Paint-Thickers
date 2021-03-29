@@ -15,12 +15,12 @@ C:/Unity Projects/Paint Thickers
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-63772
+65158
 Successfully changed project path to: C:/Unity Projects/Paint Thickers
 C:/Unity Projects/Paint Thickers
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 75.07 ms, found 13 plugins.
-Preloading 2 native plugins for Editor in 1.23 ms.
+Refreshing native plugins compatible for Editor in 75.33 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 1.32 ms.
 Initialize engine version: 2021.1.0b1 (9f7c487dd2da)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/Resources/UnitySubsystems
 [Subsystems] Discovering subsystems at path C:/Unity Projects/Paint Thickers/Assets
@@ -35,25 +35,25 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56136
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56948
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2021.1.0b1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.001638 seconds.
+Registered in 0.001662 seconds.
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 65.88 ms, found 13 plugins.
+Refreshing native plugins compatible for Editor in 66.99 ms, found 13 plugins.
 Preloading 2 native plugins for Editor in 0.11 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.215 seconds
+- Completed reload, in  1.217 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.006405 seconds.
+Registered in 0.007501 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 0.80 ms, found 13 plugins.
+Refreshing native plugins compatible for Editor in 0.81 ms, found 13 plugins.
 Preloading 2 native plugins for Editor in 0.11 ms.
 [XR] OculusXRPlugin: registering subsystems
 [XR] Unable to register display lifecyle provider: [1]
@@ -66,84 +66,222 @@ NullReferenceException: Object reference not set to an instance of an object
 (Filename: Library/PackageCache/com.unity.xr.oculus@1.8.1/Runtime/OculusLoader.cs Line: 243)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  0.632 seconds
+- Completed reload, in  0.649 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
+Refreshing native plugins compatible for Editor in 1.41 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.12 ms.
+Unloading 3381 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 257.7 MB.
+System memory in use after: 257.9 MB.
+
+Unloading 22 unused Assets to reduce memory usage. Loaded Objects now: 3837.
+Total: 1.993000 ms (FindLiveObjects: 0.245400 ms CreateObjectMapping: 0.124200 ms MarkObjects: 1.572200 ms  DeleteObjects: 0.050600 ms)
+
+========================================================================
+Received Import Request.
+  path: Assets/Sketchfab For Unity/Dependencies/Libraries/Ionic.Zip.Unity.dll
+  artifactKey: Guid(7d5ceb7a92e0e95439ecfb73b2381701) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Libraries/Ionic.Zip.Unity.dll using Guid(7d5ceb7a92e0e95439ecfb73b2381701) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9d777f75898eb887578514e9c7f8dcda') in 0.020327 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008959 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Libraries
+  artifactKey: Guid(8db728acb8c611142a9c9ba1d07db18b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Libraries using Guid(8db728acb8c611142a9c9ba1d07db18b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '82239a2457ebd1f6a7bb92ff21bad953') in 0.005066 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.646530 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources
+  artifactKey: Guid(5511574df3e8eaf4f9d4b595d6b52555) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources using Guid(5511574df3e8eaf4f9d4b595d6b52555) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '005a90cd6bcca06df8a02bacb0c69b28') in 0.005316 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.072781 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/defaultAvatar.jpg
+  artifactKey: Guid(5407ede664b2b584fa51e9b93b5964a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/defaultAvatar.jpg using Guid(5407ede664b2b584fa51e9b93b5964a8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '43c76fe93dbbc7a12893515fcad19bea') in 0.058978 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008706 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/icon.png
+  artifactKey: Guid(b7095dae8310dba40b7c148b6e8af941) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/icon.png using Guid(b7095dae8310dba40b7c148b6e8af941) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b5327bc3c9a98ee11d0735dd0791ec52') in 0.020544 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008776 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Black.ttf
+  artifactKey: Guid(24e5bedb6669e174696c67de42c8f8e0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Black.ttf using Guid(24e5bedb6669e174696c67de42c8f8e0) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '36ba917a5989f5e1f2726e9fa60483b9') in 0.055448 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009357 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/OpenSans-Semibold.ttf
+  artifactKey: Guid(28b25074a9e5768428c0a0e60aeb6775) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/OpenSans-Semibold.ttf using Guid(28b25074a9e5768428c0a0e60aeb6775) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c35c17bed75eef6639bd26cc68a06dcd') in 0.023316 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009343 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Thin.ttf
+  artifactKey: Guid(be98a74e9c3874144a572bdfa75f8923) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Thin.ttf using Guid(be98a74e9c3874144a572bdfa75f8923) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '061daa5546e374860c5039f8921963c1') in 0.020791 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008825 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Semibold.ttf
+  artifactKey: Guid(6b22563d6d44d7340838c98e5df66288) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Semibold.ttf using Guid(6b22563d6d44d7340838c98e5df66288) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'd90d270fcd8800afc4f83f9a43177474') in 0.021996 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009971 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/planBiz.png
+  artifactKey: Guid(790e73f81c8af14478c06b6bda6e2870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/planBiz.png using Guid(790e73f81c8af14478c06b6bda6e2870) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'eced1658d9ee0cd3230948f714f789bd') in 0.023896 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008669 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Bold.ttf
+  artifactKey: Guid(d21de4e6bc23e794aa80ddc34ec666bf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Bold.ttf using Guid(d21de4e6bc23e794aa80ddc34ec666bf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c143ef0ce19fdf050c3a445a1a21f8a6') in 0.021062 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009313 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/OpenSans-Light.ttf
+  artifactKey: Guid(000e60aa1df5575438631ff7241b569b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/OpenSans-Light.ttf using Guid(000e60aa1df5575438631ff7241b569b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '7b97c394dc7dfa11bb17ace77f35d8ae') in 0.026640 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009360 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/planPro.png
+  artifactKey: Guid(e90a22a1cc0fa1d44b02652d4c3e096c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/planPro.png using Guid(e90a22a1cc0fa1d44b02652d4c3e096c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0c0b2f6f678906c214af3019fa9bac75') in 0.015892 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009672 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/OpenSans-Bold.ttf
+  artifactKey: Guid(b8fbd38fd5abbdb459dc531db9dc87bf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/OpenSans-Bold.ttf using Guid(b8fbd38fd5abbdb459dc531db9dc87bf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2b7cd8ca251f4fb5ba6912efaee58fc6') in 0.021454 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009093 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/SketchfabWhite.png
+  artifactKey: Guid(5d3049ab0a17b104bb861832259d9f94) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/SketchfabWhite.png using Guid(5d3049ab0a17b104bb861832259d9f94) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cd0319599a7b50ae4a1c2fedd3ae401e') in 0.016917 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008665 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/defaultModel.png
+  artifactKey: Guid(4031f98ad4095c04e8a757b95f992c37) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/defaultModel.png using Guid(4031f98ad4095c04e8a757b95f992c37) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8c6145e9af6fb8f00a897205292466a7') in 0.013126 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008889 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Light.ttf
+  artifactKey: Guid(b56464737c7e8614dacc751ab10e8360) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Light.ttf using Guid(b56464737c7e8614dacc751ab10e8360) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e2eadf86805f742e546fcd0bc361fbdc') in 0.010432 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008760 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Regular.ttf
+  artifactKey: Guid(5c8a1a46bf89d72408ed8b809b2f290a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/TitilliumWeb-Regular.ttf using Guid(5c8a1a46bf89d72408ed8b809b2f290a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ddc971cc268f34dbf1638e53a11684e0') in 0.010194 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009269 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/planPrem.png
+  artifactKey: Guid(d5cb239a6e0741c4c855c15eb002dbd9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/planPrem.png using Guid(d5cb239a6e0741c4c855c15eb002dbd9) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '2716f096ef4db93889b8c2efea18ee97') in 0.012346 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.008912 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/OpenSans-Regular.ttf
+  artifactKey: Guid(6076be221f6748d43ab9b94408c372dd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/OpenSans-Regular.ttf using Guid(6076be221f6748d43ab9b94408c372dd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1e6d6fbd265170dc41b7f30dd6a6b19a') in 0.010093 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009045 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/planEnt.png
+  artifactKey: Guid(81f2fff843f9c5a4fbc51d25de30bba8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/planEnt.png using Guid(81f2fff843f9c5a4fbc51d25de30bba8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8fd92cea9df2a452e21c22e4711542ba') in 0.010545 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.009019 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Resources/planPlus.png
+  artifactKey: Guid(ab76399a2bfea7444baea5dc2952916f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Resources/planPlus.png using Guid(ab76399a2bfea7444baea5dc2952916f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6fae310778092c94d636b8b9bdeb5ab5') in 0.011484 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.916378 seconds.
+  path: Assets/Sketchfab For Unity/Dependencies/Shaders
+  artifactKey: Guid(5169f2be174a4d24db8db81597636258) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sketchfab For Unity/Dependencies/Shaders using Guid(5169f2be174a4d24db8db81597636258) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '06adf2a67292a6441e3613064b14ef30') in 0.005161 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 11.269426 seconds.
+  path: Assets/ExampleAssets/Textures
+  artifactKey: Guid(2aab7ef822b354523935cb8a8fdb23fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ExampleAssets/Textures using Guid(2aab7ef822b354523935cb8a8fdb23fc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '466639af46173e6b547d74e7a3a36b27') in 0.005457 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 0.079642 seconds.
+  path: Assets/ExampleAssets/Textures/Grid_Light_512x512.png
+  artifactKey: Guid(a5888ab2610a91d40a5deefc40b7bfe4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/ExampleAssets/Textures/Grid_Light_512x512.png using Guid(a5888ab2610a91d40a5deefc40b7bfe4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cd35d752c438afc76a049778a74636ec') in 0.012366 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 3.228238 seconds.
+  path: Assets/SteamVR_Resources
+  artifactKey: Guid(a4dc062511d73fc4dbc95f8141428738) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SteamVR_Resources using Guid(a4dc062511d73fc4dbc95f8141428738) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef113d23d09a7de752d3717f24360e0a') in 0.005155 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 7.751763 seconds.
+  path: Assets/SteamVR/Resources
+  artifactKey: Guid(40af2f692be87864ba388a27fcac9ed8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/SteamVR/Resources using Guid(40af2f692be87864ba388a27fcac9ed8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '27cc6935f30373d2e92b6014ddfa04f4') in 0.002304 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 115.941759 seconds.
+  path: Packages/com.unity.xr.arsubsystems
+  artifactKey: Guid(12044b9b0e94a8f10795339fe0015729) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Packages/com.unity.xr.arsubsystems using Guid(12044b9b0e94a8f10795339fe0015729) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '776f40eec5e90d52b98504357b14acc9') in 0.005475 seconds 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.007229 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.83 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.11 ms.
+NullReferenceException: Object reference not set to an instance of an object
+  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:243 
+  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:228 
+
+(Filename: Library/PackageCache/com.unity.xr.oculus@1.8.1/Runtime/OculusLoader.cs Line: 243)
+
+Mono: successfully reloaded assembly
+- Completed reload, in  0.625 seconds
+Platform modules already initialized, skipping
 Refreshing native plugins compatible for Editor in 0.92 ms, found 13 plugins.
-Preloading 2 native plugins for Editor in 0.12 ms.
-Unloading 3363 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 255.6 MB.
-System memory in use after: 255.8 MB.
+Preloading 2 native plugins for Editor in 0.11 ms.
+Unloading 3340 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 272.1 MB.
+System memory in use after: 272.3 MB.
 
-Unloading 18 unused Assets to reduce memory usage. Loaded Objects now: 3813.
-Total: 1.831500 ms (FindLiveObjects: 0.236200 ms CreateObjectMapping: 0.081300 ms MarkObjects: 1.471200 ms  DeleteObjects: 0.041900 ms)
+Unloading 16 unused Assets to reduce memory usage. Loaded Objects now: 4193.
+Total: 2.185000 ms (FindLiveObjects: 0.246800 ms CreateObjectMapping: 0.115900 ms MarkObjects: 1.803400 ms  DeleteObjects: 0.017900 ms)
 
-========================================================================
-Received Import Request.
-  path: Assets/SteamVR/Editor/SteamVR_Editor.asmdef
-  artifactKey: Guid(9bac448de04a4f6448fee1acc220e5a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/SteamVR/Editor/SteamVR_Editor.asmdef using Guid(9bac448de04a4f6448fee1acc220e5a1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9856b06dec445a36a20f97d4c0926764') in 0.018464 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 0.008940 seconds.
-  path: Assets/SteamVR/SteamVR.asmdef
-  artifactKey: Guid(1fbf338ef6b952a448262a7ff7df5fe4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/SteamVR/SteamVR.asmdef using Guid(1fbf338ef6b952a448262a7ff7df5fe4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f2c4d6493581911f465fcbfa85a055c0') in 0.005124 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 6.208522 seconds.
-  path: Assets/SteamVR/Editor/SteamVR_Editor.cs
-  artifactKey: Guid(5ba22c80948c94e44a82b9fd1b3abd0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/SteamVR/Editor/SteamVR_Editor.cs using Guid(5ba22c80948c94e44a82b9fd1b3abd0d) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1a4d5970f01b16fe1d9738bca9d94e08') in 0.004044 seconds 
-========================================================================
-Received Import Request.
-  Time since last request: 8.642157 seconds.
-  path: Assets/SteamVR/Editor/SteamVR_UnitySettingsWindow.cs
-  artifactKey: Guid(d2244eee8a3a4784fb40d1123ff69301) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/SteamVR/Editor/SteamVR_UnitySettingsWindow.cs using Guid(d2244eee8a3a4784fb40d1123ff69301) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5b963986419d00525ef8e2c73be76e4c') in 0.005356 seconds 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.007129 seconds.
+Registered in 0.007170 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 1.36 ms, found 13 plugins.
-Preloading 2 native plugins for Editor in 0.17 ms.
-NullReferenceException: Object reference not set to an instance of an object
-  at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:243 
-  at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:228 
-
-(Filename: Library/PackageCache/com.unity.xr.oculus@1.8.1/Runtime/OculusLoader.cs Line: 243)
-
-Mono: successfully reloaded assembly
-- Completed reload, in  0.672 seconds
-Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.85 ms, found 13 plugins.
-Preloading 2 native plugins for Editor in 0.16 ms.
-Unloading 3306 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 253.8 MB.
-System memory in use after: 254.0 MB.
-
-Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 3817.
-Total: 2.208800 ms (FindLiveObjects: 0.325800 ms CreateObjectMapping: 0.144500 ms MarkObjects: 1.723000 ms  DeleteObjects: 0.014700 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 34.861609 seconds.
-  path: Assets/SteamVR/Editor/SteamVR_UnitySettingsWindow.cs
-  artifactKey: Guid(d2244eee8a3a4784fb40d1123ff69301) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/SteamVR/Editor/SteamVR_UnitySettingsWindow.cs using Guid(d2244eee8a3a4784fb40d1123ff69301) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a058a91b761d1431412f778863bd4b80') in 0.005678 seconds 
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.007640 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 1.03 ms, found 13 plugins.
+Refreshing native plugins compatible for Editor in 0.86 ms, found 13 plugins.
 Preloading 2 native plugins for Editor in 0.12 ms.
 NullReferenceException: Object reference not set to an instance of an object
   at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:243 
@@ -152,26 +290,26 @@ NullReferenceException: Object reference not set to an instance of an object
 (Filename: Library/PackageCache/com.unity.xr.oculus@1.8.1/Runtime/OculusLoader.cs Line: 243)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  0.979 seconds
+- Completed reload, in  0.621 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.95 ms, found 13 plugins.
-Preloading 2 native plugins for Editor in 0.12 ms.
-Unloading 3306 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 254.0 MB.
-System memory in use after: 254.2 MB.
+Refreshing native plugins compatible for Editor in 0.82 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.11 ms.
+Unloading 3320 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 272.5 MB.
+System memory in use after: 272.7 MB.
 
-Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 3821.
-Total: 2.217000 ms (FindLiveObjects: 0.301300 ms CreateObjectMapping: 0.160200 ms MarkObjects: 1.738900 ms  DeleteObjects: 0.015700 ms)
+Unloading 16 unused Assets to reduce memory usage. Loaded Objects now: 4197.
+Total: 2.246800 ms (FindLiveObjects: 0.280900 ms CreateObjectMapping: 0.145600 ms MarkObjects: 1.803700 ms  DeleteObjects: 0.016200 ms)
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.007648 seconds.
+Registered in 0.007938 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 0.88 ms, found 13 plugins.
-Preloading 2 native plugins for Editor in 0.12 ms.
+Refreshing native plugins compatible for Editor in 0.83 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.11 ms.
 NullReferenceException: Object reference not set to an instance of an object
   at Unity.XR.Oculus.OculusLoader.AssetPathToAbsolutePath (System.String assetPath) [0x00048] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:243 
   at Unity.XR.Oculus.OculusLoader.EditorLoadOVRPlugin () [0x0007b] in C:\Unity Projects\Paint Thickers\Library\PackageCache\com.unity.xr.oculus@1.8.1\Runtime\OculusLoader.cs:228 
@@ -179,14 +317,14 @@ NullReferenceException: Object reference not set to an instance of an object
 (Filename: Library/PackageCache/com.unity.xr.oculus@1.8.1/Runtime/OculusLoader.cs Line: 243)
 
 Mono: successfully reloaded assembly
-- Completed reload, in  0.810 seconds
+- Completed reload, in  0.611 seconds
 Platform modules already initialized, skipping
-Refreshing native plugins compatible for Editor in 0.91 ms, found 13 plugins.
-Preloading 2 native plugins for Editor in 0.12 ms.
-Unloading 3306 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 254.2 MB.
-System memory in use after: 254.5 MB.
+Refreshing native plugins compatible for Editor in 0.83 ms, found 13 plugins.
+Preloading 2 native plugins for Editor in 0.11 ms.
+Unloading 3320 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 272.2 MB.
+System memory in use after: 272.5 MB.
 
-Unloading 13 unused Assets to reduce memory usage. Loaded Objects now: 3825.
-Total: 2.739900 ms (FindLiveObjects: 0.439000 ms CreateObjectMapping: 0.207900 ms MarkObjects: 2.078200 ms  DeleteObjects: 0.014000 ms)
+Unloading 16 unused Assets to reduce memory usage. Loaded Objects now: 4201.
+Total: 2.166100 ms (FindLiveObjects: 0.281700 ms CreateObjectMapping: 0.144800 ms MarkObjects: 1.722500 ms  DeleteObjects: 0.016300 ms)
 
