@@ -2,7 +2,7 @@
   "source": "Unity",
   "applications": [
     {
-      "app_key": "application.generated.unity.paintthickers.exe",
+      "app_key": "application.generated.unity.splattonink.exe",
       "launch_type": "url",
       "url": "steam://launch/",
       "action_manifest_path": "C:\\Unity Projects\\Paint Thickers\\Assets\\StreamingAssets\\SteamVR\\actions.json",

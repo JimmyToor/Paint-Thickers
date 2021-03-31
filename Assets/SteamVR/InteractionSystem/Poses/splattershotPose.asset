@@ -15,8 +15,8 @@ MonoBehaviour:
   leftHand:
     inputSource: 1
     thumbFingerMovementType: 0
-    indexFingerMovementType: 3
-    middleFingerMovementType: 0
+    indexFingerMovementType: 2
+    middleFingerMovementType: 2
     ringFingerMovementType: 0
     pinkyFingerMovementType: 0
     ignoreRootPoseData: 1
