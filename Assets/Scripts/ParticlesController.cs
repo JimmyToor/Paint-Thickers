@@ -13,6 +13,9 @@ public class ParticlesController: MonoBehaviour{
     ParticleSystem part;
     List<ParticleCollisionEvent> collisionEvents;
 
+    [Tooltip( "List of audio clips to play." )]
+    public AudioClip[] waveFile;
+
     void Start(){
         part = GetComponent<ParticleSystem>();
         collisionEvents = new List<ParticleCollisionEvent>();
@@ -30,6 +33,8 @@ public class ParticlesController: MonoBehaviour{
                 Vector3 pos = collisionEvents[i].intersection;
                 float radius = Random.Range(minRadius, maxRadius);
                 PaintManager.instance.paint(p, pos, radius, hardness, strength, paintColor);
+
+                AudioSource.PlayClipAtPoint(this.waveFile[Random.Range( 0, waveFile.Length )], pos);
             }
         }
     }
