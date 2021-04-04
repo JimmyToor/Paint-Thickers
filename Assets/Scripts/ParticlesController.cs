@@ -12,13 +12,13 @@ public class ParticlesController: MonoBehaviour{
     [Space]
     ParticleSystem part;
     List<ParticleCollisionEvent> collisionEvents;
+    SFXSource source;
 
-    [Tooltip( "List of audio clips to play." )]
-    public AudioClip[] waveFile;
 
     void Start(){
         part = GetComponent<ParticleSystem>();
         collisionEvents = new List<ParticleCollisionEvent>();
+        source = GetComponent<SFXSource>();
         //var pr = part.GetComponent<ParticleSystemRenderer>();
         //Color c = new Color(pr.material.color.r, pr.material.color.g, pr.material.color.b, .8f);
         //paintColor = c;
@@ -34,7 +34,8 @@ public class ParticlesController: MonoBehaviour{
                 float radius = Random.Range(minRadius, maxRadius);
                 PaintManager.instance.paint(p, pos, radius, hardness, strength, paintColor);
 
-                AudioSource.PlayClipAtPoint(this.waveFile[Random.Range( 0, waveFile.Length )], pos);
+                if (source)
+                    source.TriggerPlay(pos);
             }
         }
     }
