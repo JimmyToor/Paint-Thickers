@@ -51,8 +51,10 @@ public class HandManager : MonoBehaviour
     {
         // Make sure to destroy the gameobjects
         #if UNITY_EDITOR
-        DestroyImmediate(LeftHand.gameObject);
-        DestroyImmediate(RightHand.gameObject);
+        if (LeftHand)
+            DestroyImmediate(LeftHand.gameObject);
+        if (RightHand)
+            DestroyImmediate(RightHand.gameObject);
         #endif
     }
 
