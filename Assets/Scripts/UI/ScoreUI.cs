@@ -18,10 +18,10 @@ public class ScoreUI : MonoBehaviour {
 
 		Vector4 scores = Scores.instance.totalScore + new Vector4(0.001f,0.001f,0.001f,0.001f);
 		float totalScores = scores.x + scores.y + scores.z + scores.w;
-		int yelowScore = (int)( 512 * ( scores.x / totalScores ) );
-		int redScore = (int)( 512 * ( scores.y / totalScores ) );
-		int greenScore = (int)( 512 * ( scores.z / totalScores ) );
-		int blueScore = (int)( 512 * ( scores.w / totalScores ) );
+		int yelowScore = (int)( 10 * ( scores.x ) );
+		int redScore = (int)( 10 * ( scores.y ) );
+		int greenScore = (int)( 10 * ( scores.z ) );
+		int blueScore = (int)( 10 * ( scores.w ) );
 
 		GUI.DrawTexture (new Rect (40, 20, yelowScore, 30), sliderYellow);
 		GUI.DrawTexture (new Rect (40, 60, redScore, 30), sliderRed);

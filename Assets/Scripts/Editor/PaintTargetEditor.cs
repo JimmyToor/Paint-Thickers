@@ -51,7 +51,7 @@ public class PaintTargetEditor : Editor
             {
                 foreach (Material mat in render.sharedMaterials)
                 {
-                    if (!mat.shader.name.StartsWith("Paint"))
+                    if (!mat.shader.name.StartsWith("Shader Graphs/Paintable"))
                     {
                         EditorGUILayout.HelpBox(mat.name + "\nMissing Paint Shader", MessageType.Warning);
                     }

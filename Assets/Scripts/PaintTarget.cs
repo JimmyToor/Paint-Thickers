@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.InputSystem;
 public enum PaintDebug
 {
     none,
@@ -67,6 +68,10 @@ public class PaintTarget : MonoBehaviour
     static int s_IDMax = 0;
     int m_ID;
 
+    Renderer r;
+    RenderTexture rt;
+    MeshCollider mc;
+
     private static GameObject splatObject;
 
     public static Color CursorColor()
@@ -77,8 +82,12 @@ public class PaintTarget : MonoBehaviour
             return Color.black;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        return RayColor(ray);
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 10000))
+            return RayColor(hit);
+        else
+            return Color.black;
     }
 
     public static int CursorChannel()
@@ -89,87 +98,80 @@ public class PaintTarget : MonoBehaviour
             return -1;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        return RayChannel(ray);
-    }
-
-    public static int RayChannel(Ray ray)
-    {
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 10000))
-        {
-            PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
-            if (!paintTarget) return -1;
-            if (!paintTarget.validTarget) return -1;
-            if (!paintTarget.bHasMeshCollider) return -1;
-
-            Renderer r = paintTarget.GetComponent<Renderer>();
-            if (!r) return -1;
-
-            RenderTexture rt = (RenderTexture)r.sharedMaterial.GetTexture("_SplatTex");
-            if (!rt) return -1;
-
-            UpdatePickColors(paintTarget, rt);
-
-            Texture2D tc = paintTarget.splatTexPick;
-            if (!tc) return -1;
-
-
-            int x = (int)(hit.textureCoord2.x * tc.width);
-            int y = (int)(hit.textureCoord2.y * tc.height);
-
-            Color pc = tc.GetPixel(x, y);
-
-            int l = -1;
-            if (pc.r > .5) l = 0;
-            if (pc.g > .5) l = 1;
-            if (pc.b > .5) l = 2;
-            if (pc.a > .5) l = 3;
-
-            return l;
-        }
-
-        return -1;
+            return RayChannel(hit);
+        else
+            return -1;
     }
 
-    public static Color RayColor(Ray ray)
+    // Components may have changed, so make sure we have what we need
+    bool setComponents()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, 10000))
-        {
-            PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
-            if (!paintTarget) return Color.black;
-            if (!paintTarget.validTarget) return Color.black;
-            if (!paintTarget.bHasMeshCollider) return Color.black;
+        paintRenderer = this.GetComponent<Renderer>();
+        if (!paintRenderer) return false;
 
-            Renderer r = paintTarget.GetComponent<Renderer>();
-            if (!r) return Color.black;
+        mc = this.GetComponent<MeshCollider>();
+        if (!mc) return false;
 
-            RenderTexture rt = (RenderTexture)r.sharedMaterial.GetTexture("_SplatTex");
-            if (!rt) return Color.black;
+        r = this.GetComponent<Renderer>();
+        if (!r) return false;
 
-            UpdatePickColors(paintTarget,rt);
+        rt = (RenderTexture)r.sharedMaterial.GetTexture("_SplatTex");
+        if (!rt) return false;
 
-            Texture2D tc = paintTarget.splatTexPick;
-            if (!tc) return Color.black;
+        return true;
+    }
 
+    public static Color GetPixelColor(PaintTarget paintTarget, RaycastHit hit)
+    {
+        if (!paintTarget.validTarget) return Color.clear;
 
-            int x = (int)(hit.textureCoord2.x * tc.width);
-            int y = (int)(hit.textureCoord2.y * tc.height);
+        if (!paintTarget.setComponents()) return Color.clear;
 
-            Color pc = tc.GetPixel(x,y);
+        UpdatePickColors(paintTarget, paintTarget.rt);
 
-            Color c1 = r.sharedMaterial.GetColor("_SplatColor1");
-            Color c2 = r.sharedMaterial.GetColor("_SplatColor2");
+        Texture2D tc = paintTarget.splatTexPick;
+        if (!tc) return Color.clear;
 
-            Color cc = Color.black;
-            if (pc.r > .5) cc = c1;
-            if (pc.g > .5) cc = c2;
+        int x = (int)(hit.textureCoord2.x * tc.width);
+        int y = (int)(hit.textureCoord2.y * tc.height);
 
-            return cc;
-        }
+        return tc.GetPixel(x, y);
+    }
 
-        return Color.black;
+    public static int RayChannel(RaycastHit hit)
+    {
+        PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
+        if (!paintTarget) return -1;
+
+        Color pc = GetPixelColor(paintTarget, hit);
+
+        int l = -1;
+        if (pc.r > .5) l = 0;
+        if (pc.g > .5) l = 1;
+        if (pc.b > .5) l = 2;
+        if (pc.a > .5) l = 3;
+
+        return l;
+    }
+
+    public static Color RayColor(RaycastHit hit)
+    {
+        PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
+        if (!paintTarget) return Color.black;
+
+        Color pc = GetPixelColor(paintTarget, hit);
+
+        Color c1 = paintTarget.r.sharedMaterial.GetColor("_SplatColor1");
+        Color c2 = paintTarget.r.sharedMaterial.GetColor("_SplatColor2");
+
+        Color cc = Color.black;
+        if (pc.r > .5) cc = c1;
+        if (pc.g > .5) cc = c2;
+
+        return cc;
     }
 
     public static void PaintLine(Vector3 start, Vector3 end, Brush brush)
@@ -191,9 +193,11 @@ public class PaintTarget : MonoBehaviour
             return;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         PaintRaycast(ray, brush);
     }
+
+    
 
     private static void PaintRaycast(Ray ray, Brush brush, bool multi = true)
     {
@@ -321,10 +325,10 @@ public class PaintTarget : MonoBehaviour
         paintRenderer = this.GetComponent<Renderer>();
         if (!paintRenderer) return;
 
-        validTarget = true;
-
         MeshCollider mc = this.GetComponent<MeshCollider>();
         if (mc != null) bHasMeshCollider = true;
+
+        validTarget = true;
     }
 
     private void Start()
@@ -459,14 +463,19 @@ public class PaintTarget : MonoBehaviour
     {
         if (setupComplete)
         {
-            CommandBuffer cb = new CommandBuffer();
+            /*CommandBuffer cb = new CommandBuffer();
             cb.SetRenderTarget(splatTex);
-            cb.ClearRenderTarget(true, true, new Color(0, 0, 0, 0));
+            cb.ClearRenderTarget(true, true, new Color(51, 0, 0, 0));
             cb.SetRenderTarget(splatTexAlt);
-            cb.ClearRenderTarget(true, true, new Color(0, 0, 0, 0));
-            renderCamera.AddCommandBuffer(CameraEvent.AfterForwardOpaque, cb);
+            cb.ClearRenderTarget(true, true, new Color(51, 0, 0, 0));
+            
+            renderCamera.AddCommandBuffer(CameraEvent.BeforeForwardOpaque, cb);
             renderCamera.Render();
-            renderCamera.RemoveAllCommandBuffers();
+            renderCamera.RemoveAllCommandBuffers();*/
+
+            Graphics.Blit(splatTexAlt, splatTex, paintBlitMaterial, 1);
+            Graphics.Blit(splatTex, splatTexAlt, paintBlitMaterial, 1);
+            
         }
     }
 
@@ -561,10 +570,6 @@ public class PaintTarget : MonoBehaviour
 
 			Graphics.Blit (splatTex, scoreTex, paintBlitMaterial, 4);
 			Graphics.Blit (scoreTex, RT4, paintBlitMaterial, 3);
-            foreach (Material mat in paintRenderer.materials)
-            {
-                mat.SetTexture("_DebugTexture", RT4);
-            }
 
 			RenderTexture.active = RT4;
 			Tex4.ReadPixels (new Rect (0, 0, 4, 4), 0, 0);
