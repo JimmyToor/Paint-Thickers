@@ -27,7 +27,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
             // Determine frame of reference for what the input direction is relative to
             var forwardSourceTransform = forwardSource == null ? xrRig.cameraGameObject.transform : forwardSource;
             var inputForwardInWorldSpace = forwardSourceTransform.forward;
-            var inputRightInWorldSpace = forwardSourceTransform.right;
             
             if (Mathf.Approximately(Mathf.Abs(Vector3.Dot(inputForwardInWorldSpace, rigUp)), 1f))
             {
@@ -39,10 +38,11 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 inputForwardInWorldSpace = -forwardSourceTransform.up;
             }
 
-            float movementZ = forwardSourceTransform.InverseTransformDirection(inputForwardInWorldSpace).z * inputMove.z;
-            float movementX = forwardSourceTransform.InverseTransformDirection(inputRightInWorldSpace).x * inputMove.x;
-            var movement = Vector3.ProjectOnPlane(forwardSourceTransform.TransformDirection(new Vector3(movementX,0,movementZ)),rigUp);
-            var translationInWorldSpace = movement * (moveSpeed * Time.deltaTime); 
+            var inputForwardProjectedInWorldSpace = Vector3.ProjectOnPlane(inputForwardInWorldSpace, rigUp);
+            var forwardRotation = Quaternion.AngleAxis(Vector3.Angle(rigTransform.forward,inputForwardProjectedInWorldSpace), rigUp);
+
+            var translationInRigSpace = forwardRotation  * inputMove * (moveSpeed * Time.deltaTime); 
+            var translationInWorldSpace = rigTransform.TransformDirection(translationInRigSpace);
 
             return translationInWorldSpace;
         }
