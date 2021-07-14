@@ -1872,9 +1872,9 @@
     "m_Guid": {
         "m_GuidSerialized": "e502b869-13e2-4620-ae6d-d793b25c9a6a"
     },
-    "m_Name": "DebugTexture",
+    "m_Name": "DebugTex",
     "m_DefaultReferenceName": "Texture2D_138531dff2e746db87b27fff0f14368a",
-    "m_OverrideReferenceName": "_DebugTexture",
+    "m_OverrideReferenceName": "_DebugTex",
     "m_GeneratePropertyBlock": true,
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,

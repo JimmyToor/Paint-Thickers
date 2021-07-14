@@ -9,13 +9,13 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Weapon
+  - 
   - Water
   - UI
   - Collider
-  - 
-  - 
-  - 
+  - Weapon
+  - Terrain
+  - Ink
   - 
   - 
   - 

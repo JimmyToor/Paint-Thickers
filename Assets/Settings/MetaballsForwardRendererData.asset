@@ -29,7 +29,7 @@ MonoBehaviour:
     materialErrorPS: {fileID: 4800000, guid: 5fd9a8feb75a4b5894c241777f519d4e, type: 3}
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 47
+    m_Bits: 423
   m_TransparentLayerMask:
     serializedVersion: 2
     m_Bits: 47
@@ -62,7 +62,7 @@ MonoBehaviour:
     RenderQueueType: 1
     LayerMask:
       serializedVersion: 2
-      m_Bits: 16
+      m_Bits: 512
     PassNames: []
   BlitMaterial: {fileID: 2100000, guid: 95391282e3f31ef4dada9756b388d99d, type: 2}
   WriteDepthMaterial: {fileID: 2100000, guid: 3abad26229f1dfe418d9152127d1e435, type: 2}

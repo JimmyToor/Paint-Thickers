@@ -134,7 +134,6 @@ public class PaintTarget : MonoBehaviour
 
         Texture2D tc = paintTarget.splatTexPick;
         if (!tc) return Color.clear;
-
         int x = (int)(hit.textureCoord2.x * tc.width);
         int y = (int)(hit.textureCoord2.y * tc.height);
 
@@ -149,7 +148,7 @@ public class PaintTarget : MonoBehaviour
         Color pc = GetPixelColor(paintTarget, hit);
 
         int l = -1;
-        if (pc.r > .5) l = 0;
+        if (pc.r > .1) l = 0;
         if (pc.g > .5) l = 1;
         if (pc.b > .5) l = 2;
         if (pc.a > .5) l = 3;

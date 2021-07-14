@@ -432,10 +432,10 @@
                 {
                     "name": "",
                     "id": "59e60617-4f60-4208-bca4-deb43bd811e0",
-                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Generic XR Controller",
                     "action": "Swim",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -816,7 +816,7 @@
                 {
                     "name": "",
                     "id": "2921a47c-7e64-4d10-b1cf-195f4e6692c1",
-                    "path": "<XRController>{RightHand}/primaryButton",
+                    "path": "<XRController>{RightHand}/secondaryButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
