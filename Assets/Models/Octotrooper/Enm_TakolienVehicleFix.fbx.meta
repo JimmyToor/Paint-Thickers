@@ -3,7 +3,12 @@ guid: 2b16aab95f581c24a8ead5a187963969
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Vehicle
+    second: {fileID: 2100000, guid: 8a52e185fee85534995de78dc3cded9a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -22,19 +27,33 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    importConstraints: 0
+    importConstraints: 1
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - root
+    - root/program_rot
+    - root/program_rot/body
+    - root/program_rot/body/hose00
+    - root/program_rot/body/hose00/hose01
+    - root/program_rot/body/hose00/hose01/hose02
+    - root/program_rot/body/hose00/hose01/hose02/hose03
+    - root/program_rot/body/hose00/hose01/hose02/hose03/hose04
+    - root/program_rot/body/hose00/hose01/hose02/hose03/hose04/fx_ink00
+    - root/program_rot/body/loc_Balloon
+    - root/program_rot/body/shield
+    - root/program_rot/body/stick
+    - root/program_rot/body/stick/stickball
+    - root/program_rot/body/z_body
     extraUserProperties: []
     clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 4
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -85,8 +104,8 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
-    rootMotionBoneName: 
+    globalScale: 0.1016
+    rootMotionBoneName: root
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -94,7 +113,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 

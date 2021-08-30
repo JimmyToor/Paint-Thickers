@@ -37,13 +37,34 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    importConstraints: 0
+    importConstraints: 1
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - main_root
+    - main_root/root
+    - main_root/root/head
+    - main_root/root/head/eye_L
+    - main_root/root/head/eye_R
+    - main_root/root/head/fx_laser
+    - main_root/root/joint
+    - main_root/root/leg_L_B
+    - main_root/root/leg_L_B/foot_L_B
+    - main_root/root/leg_L_B/foot_L_B/wheel_L_B
+    - main_root/root/leg_L_F
+    - main_root/root/leg_L_F/foot_L_F
+    - main_root/root/leg_L_F/foot_L_F/wheel_L_F
+    - main_root/root/leg_R_B
+    - main_root/root/leg_R_B/foot_R_B
+    - main_root/root/leg_R_B/foot_R_B/wheel_R_B
+    - main_root/root/leg_R_B/foot_R_B/wheel_R_B/z_wheel_Rb
+    - main_root/root/leg_R_F
+    - main_root/root/leg_R_F/foot_R_F
+    - main_root/root/leg_R_F/foot_R_F/wheel_R_F
+    - main_root/root/leg_R_F/foot_R_F/wheel_R_F/z_wheel_R_F
     extraUserProperties: []
     clipAnimations: []
     isReadable: 0
@@ -101,7 +122,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: root
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
@@ -109,7 +130,7 @@ ModelImporter:
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 0
+  avatarSetup: 1
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
   additionalBone: 0
   userData: 

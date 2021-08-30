@@ -5,18 +5,19 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlayerEyes
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Players
   - Water
   - UI
   - Collider
   - Weapon
   - Terrain
   - Ink
-  - 
+  - Enemies
   - 
   - 
   - 
