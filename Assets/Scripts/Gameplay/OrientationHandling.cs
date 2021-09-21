@@ -15,7 +15,6 @@ public class OrientationHandling : MonoBehaviour
     public float rotationSpeed = 90f;
     public float sinkSpeed = 2; // speed of squid transformation
     Vector3 direction;
-    bool squidForm = false;
     LayerMask mask;
     RaycastHit directionHit;
     Vector3 newOrientation;
@@ -30,73 +29,61 @@ public class OrientationHandling : MonoBehaviour
         camOffset = transform.GetChild(0);
         playerHead = camOffset.GetChild(0);
         playerEvents = GetComponent<PlayerEvents>();
-        setupEvents(); 
+        SetupEvents(); 
     }
 
-    private void setupEvents()
+    private void SetupEvents()
     {
-        playerEvents.OnSwim += handleSwim;
-        playerEvents.OnStand += handleStand;
-        playerEvents.OnMove += handleMove;
+        playerEvents.OnMove += HandleMove;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (squidForm)
+        if (player.IsSquid)
         {
-            toSquidHeight();
-            checkForOrientationChange();
+            ToSquidHeight();
+            CheckForOrientationChange();
         }
         else
         {
             if (camOffset.transform.position.y != 0)
-                toHeight(0); // Remove the squid height offset
+                ToHeight(0); // Remove the squid height offset
             if (transform.up != Vector3.up)
-                toOrientation(Vector3.up); 
+                ToOrientation(Vector3.up); 
         }    
     }
 
-    void handleSwim()
-    {
-        squidForm = true;
-    }
-
-    void handleStand()
-    {
-        squidForm = false;
-    }
-
-    void handleMove(Vector3 newDirection)
+    void HandleMove(Vector3 newDirection)
     {
         direction = newDirection;
     }
 
     // Check for an upcoming terrain orientation change so we can rotate accordingly
-    private void checkForOrientationChange()
+    private void CheckForOrientationChange()
     {
         if (checkForPaintAhead()) // Check for walls
-            toOrientation(directionHit.normal);
+            ToOrientation(directionHit.normal);
         else if (character.isGrounded && Physics.Raycast(playerHead.position, -camOffset.transform.up, out directionHit, 1f, mask)) // Check for slope changes
-            toOrientation(directionHit.normal);
+            ToOrientation(directionHit.normal);
         else if (transform.up != Vector3.up) // Reset orientation
-            toOrientation(Vector3.up);
+            ToOrientation(Vector3.up);
     }
-    private void toOrientation(Vector3 newUp) 
+    private void ToOrientation(Vector3 newUp) 
     {
         var newRotation = Quaternion.FromToRotation(transform.up, newUp)*transform.rotation; // FromToRotation may cause movement issues, might need alternative method
         transform.rotation = Quaternion.RotateTowards(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
     }
 
     // Lower view and negate vertical head movement
-    void toSquidHeight()
+    void ToSquidHeight()
     {
         float newHeight = -playerHead.localPosition.y + squidHeight; 
-        toHeight(newHeight);
+        ToHeight(newHeight);
     }
 
-    // Moves the camera closer to the passed height
-    void toHeight(float newHeight)
+    // Move the camera closer to the passed height
+    void ToHeight(float newHeight)
     {
         Vector3 newPos = camOffset.transform.localPosition;
         newPos.y = Mathf.MoveTowards(newPos.y, newHeight, Time.deltaTime * sinkSpeed);

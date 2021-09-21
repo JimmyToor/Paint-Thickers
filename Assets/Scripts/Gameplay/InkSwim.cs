@@ -9,18 +9,13 @@ public class InkSwim : MonoBehaviour
     PlayerEvents playerEvents;
     Transform playerHead; // used to get distance from floor to player head
     Transform camOffset;
-    public ActionBasedContinuousMoveProvider locomotion;
-    
+    public UnityEngine.XR.Interaction.Toolkit.AltMove locomotion;
     const float squidHeight = 0.5f;
     const float humanHeight = 0f;
-    public float squidSpeed = 0.7f; // speed of squid out of ink
-    public float swimSpeed = 2; // speed of squid in ink
-    
-    public float rayDist = 0.5f;
-    public bool canSwim = true;
-    float humanSpeed;
+    public float SquidSpeed {get; set;} = 0.7f; // speed of squid out of ink
+    public float SwimSpeed {get; set;} = 2; // speed of squid in ink
+    float rayDist = 0.5f;
     bool inInk = false;
-    bool squidForm = false;
     Vector3 direction = Vector3.zero;
     RaycastHit downHit;
     RaycastHit directionHit;
@@ -31,9 +26,8 @@ public class InkSwim : MonoBehaviour
     {
         player = GetComponent<Player>();
         playerEvents = GetComponent<PlayerEvents>();
-        playerEvents.OnSwim += handleSwim;
-        playerEvents.OnStand += handleStand;
-        humanSpeed = locomotion.moveSpeed;
+        locomotion = GetComponent<UnityEngine.XR.Interaction.Toolkit.AltMove>();
+        SetupEvents();
         mask = LayerMask.GetMask("Terrain");   
         camOffset = transform.GetChild(0);
         playerHead = camOffset.GetChild(0);
@@ -41,35 +35,47 @@ public class InkSwim : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (checkForPaintBelow())
+        if (CheckForPaintBelow())
             inInk = true;
         else
             inInk = false;
 
-        if (squidForm)
-            swim();               
+        if (player.IsSquid)
+            Swim();               
     }
 
-    void handleSwim()
+    private void SetupEvents()
     {
-        squidForm = true;
+        playerEvents.OnSwim += HandleSwim;
+        playerEvents.OnStand += HandleStand;
     }
 
-    void handleStand()
+    private void OnDisable() {
+        playerEvents.OnSwim -= HandleSwim;
+        playerEvents.OnStand -= HandleStand;
+    }
+
+    void HandleSwim()
     {
-        squidForm = false;
-        locomotion.moveSpeed = humanSpeed;
+        if (player.CanSwim)
+            player.IsSquid = true;
     }
 
-    void swim()
+    void HandleStand()
+    {
+        player.IsSquid = false;
+        locomotion.moveSpeed = player.WalkSpeed;
+    }
+
+    void Swim()
     {
         if (inInk)
-            locomotion.moveSpeed = swimSpeed;
+            locomotion.moveSpeed = SwimSpeed;
         else
-            locomotion.moveSpeed = squidSpeed;
+            locomotion.moveSpeed = SquidSpeed;
     }
 
-    private bool checkForPaintBelow()
+    private bool CheckForPaintBelow()
     {
         if (Physics.Raycast(playerHead.position, -transform.up, out downHit, camOffset.localPosition.y+1f, mask))
         {

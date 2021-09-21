@@ -1207,10 +1207,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locomotion: {fileID: 1614226180}
-  squidSpeed: 2.5
-  swimSpeed: 10
-  rayDist: 1
-  canSwim: 1
 --- !u!1001 &4989558145520396200
 PrefabInstance:
   m_ObjectHideFlags: 0

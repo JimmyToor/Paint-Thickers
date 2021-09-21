@@ -6,14 +6,17 @@ using UnityEngine;
 
 public class PlayerEvents : MonoBehaviour
 {
+    Player player;
     public InputActionAsset inputs;
+    public event Action OnLand;
     public event Action OnSwim;
     public event Action OnStand;
     public event Action<Vector3> OnMove;
+    public event Action<Vector3> OnLaunch;
     
-    // Start is called before the first frame update
     void Start()
     {
+        player = GetComponent<Player>();
         inputs.FindAction("Swim").performed += Swim;
         inputs.FindAction("Swim").canceled += Stand;
         inputs.FindAction("Move").performed +=  Move;
@@ -40,5 +43,19 @@ public class PlayerEvents : MonoBehaviour
     {
         OnMove?.Invoke(new Vector3(ctx.ReadValue<Vector2>().x, 0f, ctx.ReadValue<Vector2>().y));
     }
+
+    public void Launch(Vector3 endPos)
+    {   
+        player.DisableInputMovement();
+        OnStand?.Invoke();
+        OnLaunch?.Invoke(endPos);
+    }
+
+    public void Land()
+    {
+        player.EnableInputMovement();
+        OnLand?.Invoke();
+    }
+    
     
 }
