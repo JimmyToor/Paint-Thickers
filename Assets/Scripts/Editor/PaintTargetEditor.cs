@@ -29,6 +29,8 @@ public class PaintTargetEditor : Editor
             {
                 PaintTarget.ClearAllPaint();
             }
+            if (script.UseBaked)
+                script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex, typeof(Texture2D), true);
 
             GUILayout.EndVertical();
         }
@@ -40,7 +42,12 @@ public class PaintTargetEditor : Editor
             script.renderTextureSize = (TextureSize)EditorGUILayout.EnumPopup("Render Texture", script.renderTextureSize);
             script.SetupOnStart = GUILayout.Toggle(script.SetupOnStart, "Setup On Start");
             script.PaintAllSplats = GUILayout.Toggle(script.PaintAllSplats, "Paint All Splats");
-
+            script.UseBaked = GUILayout.Toggle(script.UseBaked, "Use Baked Texture");
+            if (script.UseBaked)
+                script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex, typeof(Texture2D), true);
+            else
+                script.bakedTex = null;
+       
             GUILayout.EndVertical();
 
             if (render == null)

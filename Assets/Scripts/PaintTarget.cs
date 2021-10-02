@@ -31,6 +31,7 @@ public class PaintTarget : MonoBehaviour
 
     public bool SetupOnStart = true;
     public bool PaintAllSplats = false;
+    public bool UseBaked = false;
 
     public PaintDebug debugTexture = PaintDebug.none;
 
@@ -39,6 +40,7 @@ public class PaintTarget : MonoBehaviour
     private RenderTexture splatTex;
     private RenderTexture splatTexAlt;
     public Texture2D splatTexPick;
+    public Texture2D bakedTex;
 
     private bool bPickDirty = true;
     private bool validTarget = false;
@@ -364,6 +366,10 @@ public class PaintTarget : MonoBehaviour
         splatTex.Create();
         splatTexAlt = new RenderTexture((int)paintTextureSize, (int)paintTextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
         splatTexAlt.Create();
+        
+        RenderTexture.active = splatTex;
+        Graphics.Blit(bakedTex, splatTex);
+        RenderTexture.active = null;
 
         //splatTexPick = new Texture2D((int)paintTextureSize, (int)paintTextureSize, TextureFormat.ARGB32, false);
         //splatTexPick = new Texture2D((int)renderTextureSize, (int)renderTextureSize, TextureFormat.ARGB32, false);
@@ -395,6 +401,8 @@ public class PaintTarget : MonoBehaviour
 		RT4 = new RenderTexture (4, 4, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
 		RT4.Create ();
 		Tex4 = new Texture2D (4, 4, TextureFormat.ARGB32, false);
+        
+
 
         StartCoroutine( UpdateScores() );
     }
@@ -438,6 +446,8 @@ public class PaintTarget : MonoBehaviour
         Graphics.Blit(worldPosTex, worldPosTexTemp, paintBlitMaterial, 2);
         Graphics.Blit(worldPosTexTemp, worldPosTex, paintBlitMaterial, 2);
 
+        
+
         switch (debugTexture)
         {
             case PaintDebug.splatTex:
@@ -476,6 +486,21 @@ public class PaintTarget : MonoBehaviour
             Graphics.Blit(splatTex, splatTexAlt, paintBlitMaterial, 1);
             
         }
+    }
+
+    public Texture2D CreateBakedTex()
+    {
+        //RenderTexture bakedRenderTex = (RenderTexture)paintRenderer.material.GetTexture("_SplatTex");
+        
+        RenderTexture.active = splatTex;
+
+        //Texture2D bakedTexture = new Texture2D((int)renderTextureSize, (int)renderTextureSize, TextureFormat.ARGB32, false);
+        Texture2D bakedTexture = new Texture2D(splatTex.width, splatTex.height, TextureFormat.ARGB32, false);
+        bakedTexture.ReadPixels(new Rect(0, 0, splatTex.width, splatTex.height), 0, 0);
+        bakedTexture.Apply();
+
+        RenderTexture.active = null;
+        return bakedTexture;
     }
 
     public void PaintSplat(Paint paint)
