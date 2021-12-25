@@ -488,13 +488,11 @@ public class PaintTarget : MonoBehaviour
         }
     }
 
+    // Returns the current splat texture as a Texture2D
     public Texture2D CreateBakedTex()
-    {
-        //RenderTexture bakedRenderTex = (RenderTexture)paintRenderer.material.GetTexture("_SplatTex");
-        
+    {        
         RenderTexture.active = splatTex;
 
-        //Texture2D bakedTexture = new Texture2D((int)renderTextureSize, (int)renderTextureSize, TextureFormat.ARGB32, false);
         Texture2D bakedTexture = new Texture2D(splatTex.width, splatTex.height, TextureFormat.ARGB32, false);
         bakedTexture.ReadPixels(new Rect(0, 0, splatTex.width, splatTex.height), 0, 0);
         bakedTexture.Apply();

@@ -7,7 +7,7 @@ public class Launchable : MonoBehaviour
 {
     PlayerEvents playerEvents;
     Vector3 endPos;
-    public float speed = 1;
+    public float speed = 1; // Units to travel per step (second)
     public float arcHeight;
 
     Vector3 startPos;
@@ -54,7 +54,7 @@ public class Launchable : MonoBehaviour
             // Continue as before.
             target.position = nextPos;
 
-            if (nextPos == endPos) // We've landed, resume normal movement
+            if (progress == 1) // We've landed, resume normal movement
                 playerEvents.Land();
         }
     }
@@ -66,7 +66,8 @@ public class Launchable : MonoBehaviour
 
         float distance = Vector3.Distance(startPos, endPos);
         
-        stepScale = speed / distance;
+        // Determines duration of launch (larger stepScale = shorter launch)
+        stepScale = speed / distance; 
 
         IsLaunched = true;
     }

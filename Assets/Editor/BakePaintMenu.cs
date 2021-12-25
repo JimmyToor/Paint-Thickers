@@ -6,6 +6,7 @@ using System.IO;
 
 public class BakePaintMenu : MonoBehaviour
 {
+    // Saves the selected object's splat texture as a png in Textures/BakedSplats
     [MenuItem("Tools/Paint/Bake Paint for Selected Object")]
     static void BakeSelected()
     {
@@ -21,7 +22,6 @@ public class BakePaintMenu : MonoBehaviour
         var name = "Baked_" + Selection.activeObject.name + "_" + num + ".png";
         
         File.WriteAllBytes(dirPath + "/" + name, splatTex.EncodeToPNG());
-        
     }
 
     [MenuItem("Tools/Paint/Bake Paint for Selected Object", true)]
