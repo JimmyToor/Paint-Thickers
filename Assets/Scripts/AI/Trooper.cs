@@ -34,7 +34,7 @@ public class Trooper : Enemy
             EnableSpray();
             EngageTarget(target);
         }
-        else // TODO: Look for player paint to target
+        else
         {
             DisableSpray();
         } 
