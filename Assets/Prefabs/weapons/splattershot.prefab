@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 989094460813185312}
   - component: {fileID: 1411372879229799711}
   - component: {fileID: 1627631272}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 2036904280780318495}
   - component: {fileID: 2036904280780318481}
   - component: {fileID: 2036904280780318480}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: Main Visual Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -5029,7 +5029,7 @@ GameObject:
   - component: {fileID: 2036904280798233727}
   - component: {fileID: 1967868526}
   - component: {fileID: 1967868529}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: Collision Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5066,7 +5066,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -8855,7 +8855,7 @@ ParticleSystem:
     radiusScale: 0.15
     collidesWith:
       serializedVersion: 2
-      m_Bits: 71
+      m_Bits: 455
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -9893,13 +9893,14 @@ MonoBehaviour:
     splatsX: 1
     splatsY: 1
     splatIndex: 1
-    splatScale: 4
+    splatScale: 2
     splatRandomScaleMin: 1
     splatRandomScaleMax: 1
     splatRotation: 0
     splatRandomRotation: 180
-    splatChannel: 0
+    splatChannel: 2
   RandomChannel: 0
+  damage: 1
 --- !u!114 &1967868529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9930,7 +9931,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2036904280967990509}
   - component: {fileID: 2036904280967990510}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: Splattershot Particles
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -9964,7 +9965,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.468, y: 0, z: -0.044}
   m_RotationAtRest: {x: 0, y: 90, z: 0}
   m_TranslationOffsets:
-  - {x: 0.468, y: 0, z: -0.044}
+  - {x: 0.46798897, y: 0, z: -0.044003844}
   m_RotationOffsets:
   - {x: 0, y: 90, z: 0}
   m_AffectTranslationX: 1
@@ -9989,7 +9990,7 @@ GameObject:
   - component: {fileID: 2036904281424473615}
   - component: {fileID: 2036904281424473601}
   - component: {fileID: 2036904281424473600}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: Droplets-SubEmitter0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10026,7 +10027,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -14851,7 +14852,7 @@ GameObject:
   - component: {fileID: 2036904281454378537}
   - component: {fileID: 2036904281454378539}
   - component: {fileID: 2036904281454378538}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: Shoot Effect Particle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14888,7 +14889,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 1
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -19768,7 +19769,7 @@ GameObject:
   - component: {fileID: 2036904281756565163}
   - component: {fileID: 2036904281756565165}
   - component: {fileID: 2036904281756565164}
-  m_Layer: 4
+  m_Layer: 9
   m_Name: Splash-SubEmitter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19806,7 +19807,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   looping: 0
   prewarm: 0
-  playOnAwake: 1
+  playOnAwake: 0
   useUnscaledTime: 0
   autoRandomSeed: 1
   useRigidbodyForVelocity: 1
@@ -19980,7 +19981,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.6039216}
+      maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -24687,7 +24688,7 @@ GameObject:
   - component: {fileID: 5915009808137099385}
   - component: {fileID: 2305616380453663460}
   - component: {fileID: 1593495571}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: nozzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24780,7 +24781,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 523435154073463616}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Cylinder002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24814,7 +24815,7 @@ GameObject:
   - component: {fileID: 6299337696148357291}
   - component: {fileID: 3814140011755409798}
   - component: {fileID: 1832340353}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24907,7 +24908,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2214614129005557553}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Line001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24938,7 +24939,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 352098788580521631}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Box003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24969,7 +24970,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2754763034915856288}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Cylinder001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25003,7 +25004,7 @@ GameObject:
   - component: {fileID: 7755150915562342095}
   - component: {fileID: 1496482637221432007}
   - component: {fileID: 1122529045}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: grip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25096,7 +25097,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1217495235844470833}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Cylinder006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25127,7 +25128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9148146736795210210}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Cylinder003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25161,7 +25162,7 @@ GameObject:
   - component: {fileID: 1445795870488120712}
   - component: {fileID: 661108032364189800}
   - component: {fileID: 481190964}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: tube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25257,7 +25258,7 @@ GameObject:
   - component: {fileID: 3628443587215659986}
   - component: {fileID: 6351261477983480453}
   - component: {fileID: 2094467220}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: pod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25350,8 +25351,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9135275368818329943}
-  m_Layer: 4
-  m_Name: Splattershot
+  m_Layer: 7
+  m_Name: splattershot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25386,7 +25387,7 @@ GameObject:
   - component: {fileID: 7098672652888897310}
   - component: {fileID: 7098672652888897311}
   - component: {fileID: 1482538231}
-  m_Layer: 3
+  m_Layer: 7
   m_Name: Splattershot Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25401,7 +25402,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9135275369120649893}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.000011622906, y: 0, z: 0.0000038146973}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 352098788580521631}
@@ -25424,7 +25425,7 @@ Rigidbody:
   m_Mass: 4
   m_Drag: 0
   m_AngularDrag: 0
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0

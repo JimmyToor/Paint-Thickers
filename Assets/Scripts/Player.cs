@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class Player : MonoBehaviour
 {
@@ -10,19 +11,20 @@ public class Player : MonoBehaviour
     public bool CanSwim { get; set; } = true;
     public bool IsSquid {get; set;} = false;
     public float WalkSpeed {get; set;} = 5f;
-    UnityEngine.XR.Interaction.Toolkit.AltMove locomotion;
+    AltMove locomotion;
     float oldSpeed;
 
     private void Start() {
         GetComponent<CharacterController>().tag = "Player";
         playerEvents = GetComponent<PlayerEvents>();
-        locomotion = GetComponent<UnityEngine.XR.Interaction.Toolkit.AltMove>();
+        locomotion = GetComponent<AltMove>();
         SetupEvents();
     }
 
     private void SetupEvents()
     {
         playerEvents.OnTakeDamage += ApplyDamage;
+        
     }
 
     // Disable dynamic player movement
@@ -39,7 +41,7 @@ public class Player : MonoBehaviour
     {
         WalkSpeed = oldSpeed;
         locomotion.moveSpeed = WalkSpeed;
-        locomotion.useGravity = false;
+        locomotion.useGravity = true;
         CanSwim = true;
     }
     

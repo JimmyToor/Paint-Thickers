@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,21 +7,23 @@ using UnityEngine.XR.Interaction.Toolkit;
 // Handle height and matching terrain orientation in squid form
 public class OrientationHandling : MonoBehaviour
 {
-    Player player;
-    PlayerEvents playerEvents;
-    Transform camOffset;
-    Transform playerHead;
     const float squidHeight = 0.5f;
     const float humanHeight = 0f;
     public float rotationSpeed = 90f;
     public float sinkSpeed = 2; // speed of squid transformation
+    public bool slopeHandling = true;
+    public AltMove locomotion;
+    public CharacterController character;
+    Player player;
+    PlayerEvents playerEvents;
+    Transform camOffset;
+    Transform playerHead;
     Vector3 direction;
     LayerMask mask;
     RaycastHit directionHit;
+    private RaycastHit slopeHit;
     Vector3 newOrientation;
     float targetHeight;
-    public ActionBasedContinuousMoveProvider locomotion;
-    public CharacterController character;
 
     void Start()
     {
@@ -50,29 +53,37 @@ public class OrientationHandling : MonoBehaviour
             if (camOffset.transform.position.y != 0)
                 ToHeight(0); // Remove the squid height offset
             if (transform.up != Vector3.up)
-                ToOrientation(Vector3.up); 
+                ToOrientation(Vector3.up);
+            if (slopeHandling) // Prevent bouncing down slopes
+            {
+                Physics.Raycast(playerHead.position, -camOffset.transform.up, out slopeHit, 1f, mask);
+                locomotion.slopeHandling = slopeHit.normal != transform.up ? true : false;
+            }
         }    
     }
 
     void HandleMove(Vector3 newDirection)
     {
+        Debug.LogError("direction " + newDirection);
         direction = newDirection;
     }
 
     // Check for an upcoming terrain orientation change so we can rotate accordingly
     private void CheckForOrientationChange()
     {
-        if (checkForPaintAhead()) // Check for walls
+        if (CheckForPaintAhead()) // Check for walls
             ToOrientation(directionHit.normal);
-        else if (character.isGrounded && Physics.Raycast(playerHead.position, -camOffset.transform.up, out directionHit, 1f, mask)) // Check for slope changes
+        else if (Physics.Raycast(playerHead.position, -camOffset.transform.up, out directionHit, 1f, mask)) // Check for slope changes
             ToOrientation(directionHit.normal);
         else if (transform.up != Vector3.up) // Reset orientation
             ToOrientation(Vector3.up);
     }
-    private void ToOrientation(Vector3 newUp) 
+    private void ToOrientation(Vector3 newUp)
     {
-        var newRotation = Quaternion.FromToRotation(transform.up, newUp)*transform.rotation; // FromToRotation may cause movement issues, might need alternative method
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, newRotation, Time.deltaTime * rotationSpeed);
+        Quaternion currRot = transform.rotation;
+        var newRotation = Quaternion.FromToRotation(transform.up, newUp)*currRot; // FromToRotation may cause movement issues, might need alternative method
+        transform.rotation = Quaternion.RotateTowards(currRot, newRotation, Time.deltaTime * rotationSpeed);
+        Debug.LogError("newup " + newUp );
     }
 
     // Lower view and negate vertical head movement
@@ -90,7 +101,7 @@ public class OrientationHandling : MonoBehaviour
         camOffset.transform.localPosition = newPos;
     }
 
-    private bool checkForPaintAhead()
+    private bool CheckForPaintAhead()
     {
         Vector3 movementDir = playerHead.TransformDirection(direction);
         movementDir.y = 0f;

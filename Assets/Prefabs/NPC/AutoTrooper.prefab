@@ -1603,7 +1603,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8450641888619837723}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0.00032104552}
+  m_LocalRotation: {x: 0, y: -0.99999994, z: 0, w: 0.00032291867}
   m_LocalPosition: {x: -0.979, y: 0.025, z: 9.8406}
   m_LocalScale: {x: 1.5813252, y: 1.5813252, z: 1.5813252}
   m_Children:
@@ -15325,7 +15325,7 @@ ParticleSystem:
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
-    collisionMessages: 0
+    collisionMessages: 1
     collidesWithDynamic: 1
     interiorCollisions: 0
   TriggerModule:
