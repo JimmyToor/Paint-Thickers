@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -15,18 +16,23 @@ public class Destructible : MonoBehaviour
     
     private Renderer _renderer;
     private bool onCooldown = false;
+    private List<ParticleCollisionEvent> collisionEvents;
 
         
     // Start is called before the first frame update
     void Start()
     {
         _renderer = GetComponent<Renderer>();
+        collisionEvents = new List<ParticleCollisionEvent>();
     }
     
     private void OnParticleCollision(GameObject other)
     {
         if (other.CompareTag("Projectile") && !onCooldown)
+        {
+            ParticlePhysicsExtensions.GetCollisionEvents(other.GetComponent<ParticleSystem>(), gameObject, collisionEvents);
             TakeHit();
+        }
     }
 
     private void TakeHit()
@@ -36,7 +42,8 @@ public class Destructible : MonoBehaviour
             _renderer.material = damageMaterial;
 
         if (useHitFX)
-            Instantiate(hitFX, transform.position, Quaternion.identity);
+            Instantiate(hitFX, collisionEvents[0].intersection, Quaternion.identity);
+
         if (hitsRemaining <= 0)
             OnDeath();
 
