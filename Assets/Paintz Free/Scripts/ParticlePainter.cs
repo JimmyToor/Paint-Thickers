@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// Handles particle interactions with other objects
 public class ParticlePainter : MonoBehaviour
 {
     public Brush brush;
-    public bool RandomChannel = false;
-    public float damage = 1;
+    public bool randomChannel = false;
+    public int damage;
 
     private ParticleSystem part;
     private List<ParticleCollisionEvent> collisionEvents;
@@ -31,7 +32,7 @@ public class ParticlePainter : MonoBehaviour
                 PaintTarget paintTarget = other.GetComponent<PaintTarget>();
                 if (paintTarget != null)
                 {
-                    if (RandomChannel) brush.splatChannel = Random.Range(0, 2);
+                    if (randomChannel) brush.splatChannel = Random.Range(0, 2);
 
                     int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
                     for (int i = 0; i < numCollisionEvents; i++)
@@ -41,8 +42,17 @@ public class ParticlePainter : MonoBehaviour
                 }
                 break;
             case "Player":
-                if (brush.splatChannel == other.GetComponent<Player>().teamChannel)
-                    other.gameObject.GetComponent<PlayerEvents>().TakeDamage(damage);
+                if (other.TryGetComponent(out Player player))
+                {
+                    if (brush.splatChannel != other.GetComponent<Player>().teamChannel)
+                        other.gameObject.GetComponent<PlayerEvents>().TakeDamage(damage);
+                }
+                break;
+            case "Enemy":
+                if (other.gameObject.TryGetComponent(out Enemy enemy))
+                    enemy.OnHit(damage);
+                else
+                    Debug.LogErrorFormat("Object hit by particle (fired by %s) has Enemy tag but is missing Enemy script!", gameObject.name);
                 break;
         };
     }

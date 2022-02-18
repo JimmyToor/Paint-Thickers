@@ -1589,6 +1589,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9083028906718061473}
   - component: {fileID: 8757214118499681353}
+  - component: {fileID: 586738508}
+  - component: {fileID: 586738509}
+  - component: {fileID: 1989729637}
   m_Layer: 10
   m_Name: AutoTrooper
   m_TagString: Enemy
@@ -1635,12 +1638,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f23c3e64e034e41a1b35724115cb7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
-  invulnerable: 0
   paintSpray: {fileID: 8757214118557992799}
   bodyRotate: {fileID: 838316479887810210}
   aimRotate: {fileID: 4963069778133124504}
   turnSpeed: 10
+--- !u!54 &586738508
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!65 &586738509
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.54, z: 1}
+  m_Center: {x: 0, y: 0.75, z: 0}
+--- !u!114 &1989729637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091bf8be20d216c4eb44f9a5654cf119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitpoints: 5
+  invulnerable: 0
+  onDeath:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 8450641888619837723}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &8757214117243039789
 GameObject:
   m_ObjectHideFlags: 0
@@ -11449,8 +11520,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8757214118557992805}
-  m_LocalRotation: {x: 0.04657748, y: 0.0059570074, z: -0.001691804, w: 0.9988955}
-  m_LocalPosition: {x: -0.008203822, y: 1.5203066, z: 1.096591}
+  m_LocalRotation: {x: 0.04657748, y: 0.0059571005, z: -0.0016918085, w: 0.9988955}
+  m_LocalPosition: {x: -0.008204375, y: 1.5203068, z: 1.0965904}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8757214119225043585}
@@ -16372,7 +16443,7 @@ MonoBehaviour:
     splatRotation: 0
     splatRandomRotation: 180
     splatChannel: 2
-  RandomChannel: 0
+  randomChannel: 0
   damage: 1
 --- !u!114 &8757214118557992800
 MonoBehaviour:

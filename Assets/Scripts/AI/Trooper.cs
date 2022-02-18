@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,8 @@ public class Trooper : Enemy
     Tweener bodyTweener;
     Tweener aimTweener;
     
-    // Player in sight? -> Paint in sight? -> Idle
+    // Player in sight? ->Yes-> Attack
+    //                  ->No-> Idle
     void Start()
     {
         InvokeRepeating("TargetSearch",1.0f, 0.2f);

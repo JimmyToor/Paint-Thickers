@@ -3994,7 +3994,7 @@ ParticleSystem:
     radiusScale: 0.15
     collidesWith:
       serializedVersion: 2
-      m_Bits: 455
+      m_Bits: 1479
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -9899,7 +9899,7 @@ MonoBehaviour:
     splatRotation: 0
     splatRandomRotation: 180
     splatChannel: 2
-  RandomChannel: 0
+  randomChannel: 0
   damage: 1
 --- !u!114 &1967868529
 MonoBehaviour:
@@ -9965,9 +9965,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.468, y: 0, z: -0.044}
   m_RotationAtRest: {x: 0, y: 90, z: 0}
   m_TranslationOffsets:
-  - {x: 0.4679885, y: 0, z: -0.044003963}
+  - {x: 0.46798706, y: 0, z: -0.04400444}
   m_RotationOffsets:
-  - {x: 0, y: 90.00002, z: 0}
+  - {x: 0, y: 90, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
