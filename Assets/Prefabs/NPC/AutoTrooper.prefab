@@ -1592,6 +1592,7 @@ GameObject:
   - component: {fileID: 586738508}
   - component: {fileID: 586738509}
   - component: {fileID: 1989729637}
+  - component: {fileID: 7683721474867376198}
   m_Layer: 10
   m_Name: AutoTrooper
   m_TagString: Enemy
@@ -1608,7 +1609,7 @@ Transform:
   m_GameObject: {fileID: 8450641888619837723}
   m_LocalRotation: {x: 0, y: -0.99999994, z: 0, w: 0.00032291867}
   m_LocalPosition: {x: -0.979, y: 0.025, z: 9.8406}
-  m_LocalScale: {x: 1.5813252, y: 1.5813252, z: 1.5813252}
+  m_LocalScale: {x: 1.249247, y: 1.249247, z: 1.249247}
   m_Children:
   - {fileID: 5432848323019959137}
   - {fileID: 9142755367849297487}
@@ -1638,10 +1639,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f23c3e64e034e41a1b35724115cb7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  groupId: 0
   paintSpray: {fileID: 8757214118557992799}
   bodyRotate: {fileID: 838316479887810210}
   aimRotate: {fileID: 4963069778133124504}
-  turnSpeed: 10
+  turnSpeed: 20
 --- !u!54 &586738508
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1688,18 +1690,6 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 8450641888619837723}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -1712,6 +1702,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!95 &7683721474867376198
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fa4c243bdf6adb242a3814bcd009b6ae, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8757214117243039789
 GameObject:
   m_ObjectHideFlags: 0
@@ -11521,7 +11530,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8757214118557992805}
   m_LocalRotation: {x: 0.04657748, y: 0.0059571005, z: -0.0016918085, w: 0.9988955}
-  m_LocalPosition: {x: -0.008204375, y: 1.5203068, z: 1.0965904}
+  m_LocalPosition: {x: -0.009099721, y: 1.5145488, z: 1.1905488}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8757214119225043585}

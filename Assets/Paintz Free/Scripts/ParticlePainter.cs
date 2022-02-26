@@ -52,7 +52,7 @@ public class ParticlePainter : MonoBehaviour
                 if (other.gameObject.TryGetComponent(out Enemy enemy))
                     enemy.OnHit(damage);
                 else
-                    Debug.LogErrorFormat("Object hit by particle (fired by %s) has Enemy tag but is missing Enemy script!", gameObject.name);
+                    Debug.LogErrorFormat("Object hit by particle (fired by {0}) has Enemy tag but is missing Enemy script!", gameObject.name);
                 break;
         };
     }

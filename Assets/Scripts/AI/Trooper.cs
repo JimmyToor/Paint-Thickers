@@ -29,8 +29,9 @@ public class Trooper : Enemy
     // Searches for and targets the nearest player
     void TargetSearch()
     {
-        Collider[] playersHit = Physics.OverlapSphere(transform.position,10f,LayerMask.GetMask("Players"));
-        if (playersHit.Length > 0)
+        Collider[] playersHit = new Collider[1];
+        int size = Physics.OverlapSphereNonAlloc(transform.position, 10f, playersHit, LayerMask.GetMask("Players"));
+        if (size > 0)
         {
             target = playersHit[0].transform;
             EnableSpray();
@@ -39,8 +40,7 @@ public class Trooper : Enemy
         else
         {
             DisableSpray();
-        } 
-        
+        }
     }
 
     // Aim at the target

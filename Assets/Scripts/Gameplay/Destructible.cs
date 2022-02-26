@@ -38,7 +38,7 @@ public class Destructible : MonoBehaviour
     private void TakeHit()
     {
         hitsRemaining--;
-        if (useHitDamageMaterial && _renderer.material != damageMaterial);
+        if (useHitDamageMaterial && _renderer.material != damageMaterial)
             _renderer.material = damageMaterial;
 
         if (useHitFX)

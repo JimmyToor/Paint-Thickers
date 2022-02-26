@@ -6,13 +6,16 @@ public class Health : MonoBehaviour
     public int hitpoints;
     public bool invulnerable;
     public UnityEvent onDeath;
-
+    
     public void ReduceHP(int damage)
     {
-        hitpoints -= damage;
-        if (hitpoints <= 0)
+        if (!invulnerable)
         {
-            onDeath.Invoke();
+            hitpoints -= damage;
+            if (hitpoints <= 0)
+            {
+                onDeath.Invoke();
+            }
         }
     }
 }

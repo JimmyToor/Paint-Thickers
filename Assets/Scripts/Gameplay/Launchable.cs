@@ -35,7 +35,7 @@ public class Launchable : MonoBehaviour
         playerEvents.OnLand -= Land;
     }
 
-    private void Update() {
+    private void FixedUpdate() {
         if (IsLaunched)
         {
             // Increment our progress from 0 at the start, to 1 when we arrive.
