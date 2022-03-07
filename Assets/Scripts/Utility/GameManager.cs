@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,16 +10,26 @@ public class GameManager : Singleton<MonoBehaviour>
     // Pairs of (groupId, Enemies of that group) 
     public Dictionary<int, HashSet<Enemy>> enemyGroupDictionary = new Dictionary<int, HashSet<Enemy>>();
 
-    private UnityAction[] onGroupDefeatedArray;
+    // Holds Actions to invoke when group id [index] is defeated
+    private Dictionary<int, UnityEvent> onGroupDefeatedEvents;
     
-    public void SubscribeGroupDefeatedEvent(int groupId, UnityAction action)
+    public void SubscribeGroupDefeatedEvent(int groupId, UnityAction newAction)
     {
-        onGroupDefeatedArray[groupId] += action;
+        if (!onGroupDefeatedEvents.TryGetValue(groupId, out var groupDefeatedEvent))
+        {
+            groupDefeatedEvent = new UnityEvent();
+            onGroupDefeatedEvents.Add(groupId,groupDefeatedEvent);
+        }
+        groupDefeatedEvent.AddListener(newAction);
     }
     
     public void RaiseGroupDefeatedEvent(int groupId)
     {
-        onGroupDefeatedArray[groupId]();
+        if (onGroupDefeatedEvents.TryGetValue(groupId, out var groupDefeatedEvent))
+        {
+            groupDefeatedEvent.Invoke();
+        }
+        Debug.LogErrorFormat("Trying to raise event for defeating enemy group {0} but there is no event!", groupId);
     }
 
     public void AddEnemy(int groupId, Enemy enemy)
