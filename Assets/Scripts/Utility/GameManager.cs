@@ -11,7 +11,7 @@ public class GameManager : Singleton<MonoBehaviour>
     public Dictionary<int, HashSet<Enemy>> enemyGroupDictionary = new Dictionary<int, HashSet<Enemy>>();
 
     // Holds Actions to invoke when group id [index] is defeated
-    private Dictionary<int, UnityEvent> onGroupDefeatedEvents;
+    private Dictionary<int, UnityEvent> onGroupDefeatedEvents = new Dictionary<int, UnityEvent>();
     
     public void SubscribeGroupDefeatedEvent(int groupId, UnityAction newAction)
     {

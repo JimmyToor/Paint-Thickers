@@ -1,3 +1,4 @@
+using UnityEngine.Animations.Rigging;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
@@ -40,8 +41,10 @@ namespace UnityEngine.XR.Interaction.Toolkit
             }
 
             var inputForwardProjectedInWorldSpace = Vector3.ProjectOnPlane(inputForwardInWorldSpace, rigUp);
-            var forwardRotation = Quaternion.AngleAxis(Vector3.Angle(rigTransform.forward,inputForwardProjectedInWorldSpace), rigUp);
-            
+
+            var angle = Vector3.SignedAngle(rigTransform.forward, inputForwardProjectedInWorldSpace,rigUp);
+            var forwardRotation = Quaternion.AngleAxis(angle, rigUp);
+
             if (slopeHandling) // Prevent bouncing down slopes
             {
                 inputMove += Vector3.down;
@@ -49,9 +52,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
             
             var translationInRigSpace = forwardRotation  * inputMove * (moveSpeed * Time.deltaTime); 
             var translationInWorldSpace = rigTransform.TransformDirection(translationInRigSpace);
-            
-            
-            
+
             return translationInWorldSpace;
         }
     }
