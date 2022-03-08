@@ -45,7 +45,7 @@ public class ParticlePainter : MonoBehaviour
                 if (other.TryGetComponent(out Player player))
                 {
                     if (brush.splatChannel != other.GetComponent<Player>().teamChannel)
-                        other.gameObject.GetComponent<PlayerEvents>().TakeDamage(damage);
+                        other.gameObject.GetComponent<PlayerEvents>().OnTakeDamage(damage);
                 }
                 break;
             case "Enemy":

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
+[RequireComponent(typeof(Player),typeof(PlayerEvents))]
 // Handle height and matching terrain orientation in squid form
 public class OrientationHandling : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class OrientationHandling : MonoBehaviour
     private void SetupEvents()
     {
         playerEvents.Move += HandleMove;
+        playerEvents.Swim += HandleSwim;
     }
 
     // Update is called once per frame
@@ -67,6 +69,11 @@ public class OrientationHandling : MonoBehaviour
         direction = newDirection;
     }
 
+    void HandleSwim()
+    {
+        locomotion.slopeHandling = false;
+    }
+
     // Check for an upcoming terrain orientation change so we can rotate accordingly
     private void CheckForOrientationChange()
     {
@@ -77,12 +84,13 @@ public class OrientationHandling : MonoBehaviour
         else if (transform.up != Vector3.up) // Reset orientation
             ToOrientation(Vector3.up);
     }
+    
+    // Rotate the rig normal towards the newUp normal
     private void ToOrientation(Vector3 newUp)
     {
         Quaternion currRot = transform.rotation;
         var newRotation = Quaternion.FromToRotation(transform.up, newUp)*currRot; // FromToRotation may cause movement issues, might need alternative method
         transform.rotation = Quaternion.RotateTowards(currRot, newRotation, Time.deltaTime * rotationSpeed);
-        Debug.LogError("newup " + newUp );
     }
 
     // Lower view and negate vertical head movement
