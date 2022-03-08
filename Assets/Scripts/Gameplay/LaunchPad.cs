@@ -15,7 +15,7 @@ public class LaunchPad : MonoBehaviour
             {
                 Player player = other.gameObject.GetComponent<Player>();
                 if (player.IsSquid)
-                    player.GetComponent<PlayerEvents>().Launch(endTarget.position);
+                    player.GetComponent<PlayerEvents>().OnLaunch(endTarget.position);
             }
             else
             {

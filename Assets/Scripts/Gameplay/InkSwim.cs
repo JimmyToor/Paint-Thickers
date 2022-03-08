@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
 // Handle swimming in ink
+[RequireComponent(typeof(Player),typeof(PlayerEvents))]
 public class InkSwim : MonoBehaviour
 {
     Player player;
@@ -46,13 +47,13 @@ public class InkSwim : MonoBehaviour
 
     private void SetupEvents()
     {
-        playerEvents.OnSwim += HandleSwim;
-        playerEvents.OnStand += HandleStand;
+        playerEvents.Swim += HandleSwim;
+        playerEvents.Stand += HandleStand;
     }
 
     private void OnDisable() {
-        playerEvents.OnSwim -= HandleSwim;
-        playerEvents.OnStand -= HandleStand;
+        playerEvents.Swim -= HandleSwim;
+        playerEvents.Stand -= HandleStand;
     }
 
     void HandleSwim()
@@ -76,7 +77,7 @@ public class InkSwim : MonoBehaviour
     }
 
     private bool CheckForPaintBelow()
-    {
+    {   
         if (Physics.Raycast(playerHead.position, -transform.up, out downHit, camOffset.localPosition.y+1f, mask))
         {
             if (PaintTarget.RayChannel(downHit) == player.teamChannel)

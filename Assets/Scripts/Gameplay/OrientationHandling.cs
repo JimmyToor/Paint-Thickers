@@ -37,7 +37,7 @@ public class OrientationHandling : MonoBehaviour
 
     private void SetupEvents()
     {
-        playerEvents.OnMove += HandleMove;
+        playerEvents.Move += HandleMove;
     }
 
     // Update is called once per frame
@@ -57,14 +57,13 @@ public class OrientationHandling : MonoBehaviour
             if (slopeHandling) // Prevent bouncing down slopes
             {
                 Physics.Raycast(playerHead.position, -camOffset.transform.up, out slopeHit, 1f, mask);
-                locomotion.slopeHandling = slopeHit.normal != transform.up ? true : false;
+                locomotion.slopeHandling = slopeHit.normal != transform.up;
             }
         }    
     }
 
     void HandleMove(Vector3 newDirection)
     {
-        Debug.LogError("direction " + newDirection);
         direction = newDirection;
     }
 
@@ -101,6 +100,7 @@ public class OrientationHandling : MonoBehaviour
         camOffset.transform.localPosition = newPos;
     }
 
+    // Look for paint straight ahead (i.e. on a wall)
     private bool CheckForPaintAhead()
     {
         Vector3 movementDir = playerHead.TransformDirection(direction);

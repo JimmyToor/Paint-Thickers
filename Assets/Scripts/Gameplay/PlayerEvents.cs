@@ -4,62 +4,63 @@ using UnityEngine.InputSystem;
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
 public class PlayerEvents : MonoBehaviour
 {
     Player player;
     public InputActionAsset inputs;
-    public event Action OnLand;
-    public event Action OnSwim;
-    public event Action OnStand;
-    public event Action<Vector3> OnMove;
-    public event Action<Vector3> OnLaunch;
-    public event Action<float> OnTakeDamage;
+    public Action Land;
+    public Action Swim;
+    public Action Stand;
+    public Action<Vector3> Move;
+    public Action<Vector3> Launch;
+    public Action<float> TakeDamage;
     
     void Start()
     {
         player = GetComponent<Player>();
-        inputs.FindAction("Swim").performed += Swim;
-        inputs.FindAction("Swim").canceled += Stand;
-        inputs.FindAction("Move").performed +=  Move;
+        inputs.FindAction("Swim").performed += OnSwim;
+        inputs.FindAction("Swim").canceled += OnStand;
+        inputs.FindAction("Move").performed +=  OnMove;
     }
 
     private void OnDisable() 
     {
-        inputs.FindAction("Swim").performed -= Swim;
-        inputs.FindAction("Swim").canceled -= Stand;
-        inputs.FindAction("Move").performed -= Move;
+        inputs.FindAction("Swim").performed -= OnSwim;
+        inputs.FindAction("Swim").canceled -= OnStand;
+        inputs.FindAction("Move").performed -= OnMove;
     }
 
-    private void Swim(InputAction.CallbackContext ctx)
+    private void OnSwim(InputAction.CallbackContext ctx)
     {
-        OnSwim?.Invoke();
+        Swim?.Invoke();
     }
 
-    private void Stand(InputAction.CallbackContext ctx)
+    private void OnStand(InputAction.CallbackContext ctx)
     {
-        OnStand?.Invoke();
+        Stand?.Invoke();
     }
 
-    private void Move(InputAction.CallbackContext ctx)
+    private void OnMove(InputAction.CallbackContext ctx)
     {
-        OnMove?.Invoke(new Vector3(ctx.ReadValue<Vector2>().x, 0f, ctx.ReadValue<Vector2>().y));
+        Move?.Invoke(new Vector3(ctx.ReadValue<Vector2>().x, 0f, ctx.ReadValue<Vector2>().y));
     }
 
-    public void Launch(Vector3 endPos)
+    public void OnLaunch(Vector3 endPos)
     {   
         player.DisableInputMovement();
-        OnStand?.Invoke();
-        OnLaunch?.Invoke(endPos);
+        Stand?.Invoke();
+        Launch?.Invoke(endPos);
     }
 
-    public void Land()
+    public void OnLand()
     {
         player.EnableInputMovement();
-        OnLand?.Invoke();
+        Land?.Invoke();
     }
 
-    public void TakeDamage(float damage)
+    public void OnTakeDamage(float damage)
     {
-        OnTakeDamage?.Invoke(damage);
+        TakeDamage?.Invoke(damage);
     }
 }

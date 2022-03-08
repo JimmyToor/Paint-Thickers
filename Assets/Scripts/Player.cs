@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
+[RequireComponent(typeof(PlayerEvents))]
 public class Player : MonoBehaviour
 {
     PlayerEvents playerEvents;
@@ -23,7 +24,7 @@ public class Player : MonoBehaviour
 
     private void SetupEvents()
     {
-        playerEvents.OnTakeDamage += ApplyDamage;
+        playerEvents.TakeDamage += ApplyDamage;
         
     }
 

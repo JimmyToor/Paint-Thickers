@@ -5,16 +5,17 @@ using UnityEngine;
 
 public class Launchable : MonoBehaviour
 {
-    PlayerEvents playerEvents;
-    Vector3 endPos;
     public float speed = 1; // Units to travel per step (second)
     public float arcHeight;
-
+    
+    PlayerEvents playerEvents;
+    Vector3 endPos;
     Vector3 startPos;
     float stepScale;
-    float progress = 0;
+    float progress;
     Transform target;
-    public bool IsLaunched {get; set;} = false;
+    
+    public bool IsLaunched {get; set;}
 
     void Start()
     {
@@ -25,14 +26,14 @@ public class Launchable : MonoBehaviour
 
     private void SetupEvents()
     {
-        playerEvents.OnLaunch += Launch;
-        playerEvents.OnLand += Land;
+        playerEvents.Launch += Launch;
+        playerEvents.Land += Land;
     }
 
     private void OnDisable() 
     {
-        playerEvents.OnLaunch -= Launch;
-        playerEvents.OnLand -= Land;
+        playerEvents.Launch -= Launch;
+        playerEvents.Land -= Land;
     }
 
     private void FixedUpdate() {
@@ -55,7 +56,7 @@ public class Launchable : MonoBehaviour
             target.position = nextPos;
 
             if (progress == 1) // We've landed, resume normal movement
-                playerEvents.Land();
+                playerEvents.OnLand();
         }
     }
 
