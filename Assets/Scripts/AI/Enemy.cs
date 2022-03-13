@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
     public virtual void OnHit(int damage)
     {
         if (health)
-            health.ReduceHP(damage);
+            health.TakeHit(damage);
     }
     
     public virtual void OnDeath()

@@ -7,7 +7,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
 {
     public class AltMove : ActionBasedContinuousMoveProvider
     {
-        public bool slopeHandling = true;
+        public bool slopeHandling;
         // Alternative method of calculating movement translation that works better with X and Z rotations, which we need for swimming
         protected override Vector3 ComputeDesiredMove(Vector2 input)
         {

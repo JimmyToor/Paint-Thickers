@@ -7,7 +7,7 @@ public class ParticlePainter : MonoBehaviour
 {
     public Brush brush;
     public bool randomChannel = false;
-    public int damage;
+    public float damage;
 
     private ParticleSystem part;
     private List<ParticleCollisionEvent> collisionEvents;
@@ -44,15 +44,24 @@ public class ParticlePainter : MonoBehaviour
             case "Player":
                 if (other.TryGetComponent(out Player player))
                 {
-                    if (brush.splatChannel != other.GetComponent<Player>().teamChannel)
-                        other.gameObject.GetComponent<PlayerEvents>().OnTakeDamage(damage);
+                    int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
+                    for (int i = 0; i < numCollisionEvents; i++)
+                    {
+                        if (brush.splatChannel != other.GetComponent<Player>().teamChannel)
+                        {
+                            other.gameObject.GetComponent<PlayerEvents>().OnTakeHit(damage);
+                        }
+                    }
                 }
                 break;
-            case "Enemy":
-                if (other.gameObject.TryGetComponent(out Enemy enemy))
-                    enemy.OnHit(damage);
+            default:
+                if (other.gameObject.TryGetComponent(out Health health))
+                {
+                    part.GetCollisionEvents(other, collisionEvents);
+                    health.TakeHit(damage,collisionEvents[0].intersection);
+                }
                 else
-                    Debug.LogErrorFormat("Object hit by particle (fired by {0}) has Enemy tag but is missing Enemy script!", gameObject.name);
+                    Debug.LogErrorFormat("Object {0} hit by particle (fired by {1}) but has no way to react.", other.name, gameObject.name);
                 break;
         };
     }

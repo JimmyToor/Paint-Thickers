@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 3216531433773375209}
   - component: {fileID: 1949128285535310156}
   - component: {fileID: 4388835423895381382}
-  - component: {fileID: 2875753835798774865}
   - component: {fileID: 2875753835798774864}
   - component: {fileID: 1124921492}
+  - component: {fileID: 2086329791943517130}
   m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
@@ -84,26 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2875753835798774865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2875753835798774867}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2e51601fcfe196428110814eebe327e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitsRemaining: 2
-  useHitDamageMaterial: 1
-  useHitFX: 1
-  useDestroyFX: 1
-  hitCooldown: 0.25
-  damageMaterial: {fileID: 2100000, guid: 02f651351c871e444b239264d2e86dbc, type: 2}
-  hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
-  destroyFX: {fileID: 7931773660669697391, guid: 82979635185ba1643b7bf8ad26b23ec1, type: 3}
 --- !u!65 &2875753835798774864
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -133,3 +113,28 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2086329791943517130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2875753835798774867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091bf8be20d216c4eb44f9a5654cf119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitpoints: 2
+  invulnerable: 0
+  useHitDamageMaterial: 1
+  useHitFX: 1
+  useDestroyFX: 1
+  destroyOnDeath: 1
+  hitCooldown: 0.25
+  damageMaterial: {fileID: 2100000, guid: 02f651351c871e444b239264d2e86dbc, type: 2}
+  hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
+  destroyFX: {fileID: 7931773660669697391, guid: 82979635185ba1643b7bf8ad26b23ec1, type: 3}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []

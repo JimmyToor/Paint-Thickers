@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -7,11 +5,11 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Player : MonoBehaviour
 {
     PlayerEvents playerEvents;
-    public float Health {get; private set; } = 10f;
-    public int teamChannel = 0; // colour channel of the player's team
+    public int teamChannel; // colour channel of the player's team
     public bool CanSwim { get; set; } = true;
-    public bool IsSquid {get; set;} = false;
+    public bool IsSquid {get; set;}
     public float WalkSpeed {get; set;} = 5f;
+    private Health health;
     AltMove locomotion;
     float oldSpeed;
 
@@ -19,13 +17,13 @@ public class Player : MonoBehaviour
         GetComponent<CharacterController>().tag = "Player";
         playerEvents = GetComponent<PlayerEvents>();
         locomotion = GetComponent<AltMove>();
+        TryGetComponent(out health);
         SetupEvents();
     }
 
     private void SetupEvents()
     {
-        playerEvents.TakeDamage += ApplyDamage;
-        
+        playerEvents.TakeHit += TakeHit;
     }
 
     // Disable dynamic player movement
@@ -46,9 +44,11 @@ public class Player : MonoBehaviour
         CanSwim = true;
     }
     
-    private void ApplyDamage(float damage)
+    private void TakeHit(float damage)
     {
-        if (Health > 0)
-            Health -= damage;
+        if (health != null)
+        {
+            health.TakeHit(damage);
+        }
     }
 }

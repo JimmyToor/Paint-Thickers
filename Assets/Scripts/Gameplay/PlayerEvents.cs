@@ -14,7 +14,7 @@ public class PlayerEvents : MonoBehaviour
     public Action Stand;
     public Action<Vector3> Move;
     public Action<Vector3> Launch;
-    public Action<float> TakeDamage;
+    public Action<float> TakeHit;
     
     void Start()
     {
@@ -59,8 +59,8 @@ public class PlayerEvents : MonoBehaviour
         Land?.Invoke();
     }
 
-    public void OnTakeDamage(float damage)
+    public void OnTakeHit(float damage)
     {
-        TakeDamage?.Invoke(damage);
+        TakeHit?.Invoke(damage);
     }
 }
