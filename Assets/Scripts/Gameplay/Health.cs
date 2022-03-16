@@ -7,26 +7,36 @@ public class Health : MonoBehaviour
 {
     public float hitpoints;
     public bool invulnerable;
-    public bool useHitDamageMaterial = true;
-    public bool useHitFX = true;
-    public bool useDestroyFX = true;
+    public bool useHitDamageMaterial;
+    public bool useHitFX;
+    public bool useDeathFX;
     public bool destroyOnDeath;
-    public float hitCooldown;
+    public float hitCooldown; // How long until we can be hit again after being hit
     public Material damageMaterial;
     public GameObject hitFX;
     public GameObject destroyFX;
     public UnityEvent onDeath;
     
     private Renderer _renderer;
-    private bool onCooldown = false;
+    private bool onCooldown;
+    private Animator animator;
+    private int takeHitHash = Animator.StringToHash("TakeHit");
+
 
     private void Start()
     {
         _renderer = GetComponent<Renderer>();
+        TryGetComponent(out animator);
     }
 
     public void TakeHit(float damage, Vector3 hitPos = default(Vector3))
     {
+        if (onCooldown)
+            return;
+        
+        if (animator != null)
+            animator.SetTrigger(takeHitHash);
+        
         if (useHitDamageMaterial && _renderer.material != damageMaterial)
             _renderer.material = damageMaterial;
 
@@ -48,7 +58,7 @@ public class Health : MonoBehaviour
 
     void OnDeath()
     {
-        if (useDestroyFX)
+        if (useDeathFX)
             Instantiate(destroyFX, transform.position, Quaternion.identity);
         
         if (destroyOnDeath)

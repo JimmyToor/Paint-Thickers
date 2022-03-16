@@ -18,12 +18,17 @@ public class Trooper : Enemy
     float aimSpeed = 25f;
     Tweener bodyTweener;
     Tweener aimTweener;
+    public float fireInterval;
+    private Animator animator;
+    private int targetFoundHash = Animator.StringToHash("TargetFound");
+    private int shootHash = Animator.StringToHash("Shoot");
     
     // Player in sight? ->Yes-> Attack
     //                  ->No-> Idle
     void Start()
     {
         InvokeRepeating("TargetSearch",1.0f, 0.2f);
+        TryGetComponent(out animator);
     }
 
     // Searches for and targets the nearest player
@@ -34,11 +39,13 @@ public class Trooper : Enemy
         if (size > 0)
         {
             target = playersHit[0].transform;
+            animator.SetBool(targetFoundHash, true);
             EnableSpray();
             EngageTarget(target);
         }
         else
         {
+            animator.SetBool(targetFoundHash, false);
             DisableSpray();
         }
     }
@@ -46,7 +53,6 @@ public class Trooper : Enemy
     // Aim at the target
     void EngageTarget(Transform target)
     {
-        
         if (!bodyTweener.IsActive())
             bodyTweener = bodyRotate.DOLookAt(target.position,turnSpeed,AxisConstraint.Y).SetSpeedBased(true);
         else
@@ -64,14 +70,16 @@ public class Trooper : Enemy
 
     void DisableSpray()
     {
-        if (paintSpray.isEmitting)
-            paintSpray.Stop();
+        paintSpray.Stop();
     }
 
     void EnableSpray()
     {
-        if (!paintSpray.isEmitting)
+        if (!paintSpray.isPlaying)
+        {
             paintSpray.Play();
+            animator.SetTrigger(shootHash);
+        }
     }
 
 }
