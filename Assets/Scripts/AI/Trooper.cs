@@ -8,7 +8,6 @@ public class Trooper : Enemy
 {
     [SerializeField]
     ParticleSystem paintSpray;
-    Transform target;
     [SerializeField]
     Transform bodyRotate;
     [SerializeField]
@@ -20,15 +19,27 @@ public class Trooper : Enemy
     Tweener aimTweener;
     public float fireInterval;
     private Animator animator;
+    private Health health;
     private int targetFoundHash = Animator.StringToHash("TargetFound");
     private int shootHash = Animator.StringToHash("Shoot");
     
     // Player in sight? ->Yes-> Attack
     //                  ->No-> Idle
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+        SetupHealth();
         InvokeRepeating("TargetSearch",1.0f, 0.2f);
         TryGetComponent(out animator);
+    }
+    
+    private void SetupHealth()
+    {
+        TryGetComponent(out health);
+        if (health)
+        {
+            health.onDeath.AddListener(base.OnDeath);
+        }
     }
 
     // Searches for and targets the nearest player
@@ -38,10 +49,9 @@ public class Trooper : Enemy
         int size = Physics.OverlapSphereNonAlloc(transform.position, 10f, playersHit, LayerMask.GetMask("Players"));
         if (size > 0)
         {
-            target = playersHit[0].transform;
             animator.SetBool(targetFoundHash, true);
             EnableSpray();
-            EngageTarget(target);
+            EngageTarget(playersHit[0].transform);
         }
         else
         {

@@ -21,6 +21,7 @@ public class GameManager : Singleton<MonoBehaviour>
             onGroupDefeatedEvents.Add(groupId,groupDefeatedEvent);
         }
         groupDefeatedEvent.AddListener(newAction);
+        Debug.LogFormat("GroupDefeatedEvent for group {0} has new action.", groupId);
     }
     
     public void RaiseGroupDefeatedEvent(int groupId)
@@ -28,8 +29,12 @@ public class GameManager : Singleton<MonoBehaviour>
         if (onGroupDefeatedEvents.TryGetValue(groupId, out var groupDefeatedEvent))
         {
             groupDefeatedEvent.Invoke();
+            Debug.LogFormat("GroupDefeatedEvent for group {0} has been raised.", groupId);
         }
-        Debug.LogErrorFormat("Trying to raise event for defeating enemy group {0} but there is no event!", groupId);
+        else
+        {
+            Debug.LogErrorFormat("Trying to raise event for defeating enemy group {0} but there is no event!", groupId);
+        }
     }
 
     public void AddEnemy(int groupId, Enemy enemy)
@@ -41,7 +46,7 @@ public class GameManager : Singleton<MonoBehaviour>
             enemyGroupDictionary.Add(groupId,groupHashSet);
         }
         groupHashSet.Add(enemy);
-        enemyGroupDictionary.Add(groupId,groupHashSet);
+        Debug.LogFormat("Enemy {0} added to group {1}.",enemy.name, groupId);
     }
     
     public void RemoveEnemy(int groupId, Enemy enemy)
@@ -53,8 +58,13 @@ public class GameManager : Singleton<MonoBehaviour>
         else
         {
             groupHashSet.Remove(enemy);
+            Debug.LogFormat("Enemy {0} removed from group {1}.",enemy.name, groupId);
+            
             if (groupHashSet.Count <= 0)
+            {
+                Debug.LogFormat("Group {0} has no more enemies.", groupId);
                 RaiseGroupDefeatedEvent(groupId);
+            }
         }
     }
 }

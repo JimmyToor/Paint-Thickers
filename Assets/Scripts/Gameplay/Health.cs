@@ -16,12 +16,15 @@ public class Health : MonoBehaviour
     public GameObject hitFX;
     public GameObject destroyFX;
     public UnityEvent onDeath;
-    
+    // Used to add behaviours provided by another script
+    public Action hitAction;
+    public Action deathAction;
+
     private Renderer _renderer;
     private bool onCooldown;
     private Animator animator;
     private int takeHitHash = Animator.StringToHash("TakeHit");
-
+    
 
     private void Start()
     {
@@ -36,6 +39,8 @@ public class Health : MonoBehaviour
         
         if (animator != null)
             animator.SetTrigger(takeHitHash);
+        
+        hitAction?.Invoke();
         
         if (useHitDamageMaterial && _renderer.material != damageMaterial)
             _renderer.material = damageMaterial;
@@ -60,7 +65,10 @@ public class Health : MonoBehaviour
     {
         if (useDeathFX)
             Instantiate(destroyFX, transform.position, Quaternion.identity);
-        
+
+        deathAction?.Invoke();
+        onDeath?.Invoke();
+
         if (destroyOnDeath)
             Destroy(gameObject);
     }
@@ -72,7 +80,6 @@ public class Health : MonoBehaviour
             hitpoints -= damage;
             if (hitpoints <= 0)
             {
-                onDeath.Invoke();
                 OnDeath();
             }
         }

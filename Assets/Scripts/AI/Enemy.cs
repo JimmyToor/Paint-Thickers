@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     private Health health; // Need health to die but not to get hit
     public int groupId; // Associate this enemy with a group of enemies
 
-    private void Start()
+    protected virtual void Start()
     {
         SetupHealth();
         SetupManager();
@@ -28,18 +28,16 @@ public class Enemy : MonoBehaviour
             health.onDeath.AddListener(OnDeath);
     }
 
-    public virtual void OnHit(int damage)
+    protected virtual void OnHit(int damage)
     {
-        if (health)
-            health.TakeHit(damage);
+        Debug.LogFormat("{0} took a hit worth {1} damage.", name, damage);
     }
     
-    public virtual void OnDeath()
+    protected virtual void OnDeath()
     {
         if (health)
         {
             _gameManager.RemoveEnemy(groupId,this);
         }
-        Destroy(gameObject);
     }
 }

@@ -10,10 +10,13 @@ public class OnGroupDeath : MonoBehaviour
     public int groupId;
     public UnityEvent onGroupDeath;
     
-    void Start()
+    private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
-        _gameManager.SubscribeGroupDefeatedEvent(groupId, onGroupDeath.Invoke);
+        if (onGroupDeath != null)
+        {
+            _gameManager.SubscribeGroupDefeatedEvent(groupId, onGroupDeath.Invoke);
+        }
     }
     
 }
