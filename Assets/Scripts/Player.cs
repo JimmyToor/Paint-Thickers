@@ -6,9 +6,9 @@ public class Player : MonoBehaviour
 {
     PlayerEvents playerEvents;
     public int teamChannel; // colour channel of the player's team
-    public bool CanSwim { get; set; } = true;
-    public bool IsSquid {get; set;}
-    public float WalkSpeed {get; set;} = 5f;
+    public bool canSwim = true;
+    public bool isSquid;
+    public float walkSpeed = 5f;
     private Health health;
     AltMove locomotion;
     float oldSpeed;
@@ -29,19 +29,20 @@ public class Player : MonoBehaviour
     // Disable dynamic player movement
     public void DisableInputMovement()
     {
-        oldSpeed = WalkSpeed;
+        oldSpeed = walkSpeed;
         locomotion.moveSpeed = 0;
-        CanSwim = false;
-        WalkSpeed = 0;
+        canSwim = false;
+        walkSpeed = 0;
         locomotion.useGravity = false;
     }
 
     public void EnableInputMovement()
     {
-        WalkSpeed = oldSpeed;
-        locomotion.moveSpeed = WalkSpeed;
+        walkSpeed = oldSpeed;
+        locomotion.moveSpeed = walkSpeed;
         locomotion.useGravity = true;
-        CanSwim = true;
+        canSwim = true;
+        Debug.LogError("speed " + walkSpeed);
     }
     
     private void TakeHit(float damage)

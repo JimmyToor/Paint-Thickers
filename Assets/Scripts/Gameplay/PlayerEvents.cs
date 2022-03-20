@@ -13,7 +13,7 @@ public class PlayerEvents : MonoBehaviour
     public Action Swim;
     public Action Stand;
     public Action<Vector3> Move;
-    public Action<Vector3> Launch;
+    public Action Launch;
     public Action<float> TakeHit;
     
     void Start()
@@ -46,11 +46,10 @@ public class PlayerEvents : MonoBehaviour
         Move?.Invoke(new Vector3(ctx.ReadValue<Vector2>().x, 0f, ctx.ReadValue<Vector2>().y));
     }
 
-    public void OnLaunch(Vector3 endPos)
+    public void OnLaunch()
     {   
         player.DisableInputMovement();
         Stand?.Invoke();
-        Launch?.Invoke(endPos);
     }
 
     public void OnLand()

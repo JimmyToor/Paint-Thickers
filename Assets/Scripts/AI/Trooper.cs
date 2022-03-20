@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
+[RequireComponent(typeof(Health))]
 public class Trooper : Enemy
 {
     [SerializeField]
@@ -17,36 +18,28 @@ public class Trooper : Enemy
     float aimSpeed = 25f;
     Tweener bodyTweener;
     Tweener aimTweener;
-    public float fireInterval;
     private Animator animator;
-    private Health health;
     private int targetFoundHash = Animator.StringToHash("TargetFound");
     private int shootHash = Animator.StringToHash("Shoot");
-    
+
+    public float sightDistance;
+
     // Player in sight? ->Yes-> Attack
     //                  ->No-> Idle
     protected override void Start()
     {
         base.Start();
-        SetupHealth();
         InvokeRepeating("TargetSearch",1.0f, 0.2f);
         TryGetComponent(out animator);
     }
-    
-    private void SetupHealth()
-    {
-        TryGetComponent(out health);
-        if (health)
-        {
-            health.onDeath.AddListener(base.OnDeath);
-        }
-    }
+
 
     // Searches for and targets the nearest player
+    // Ignores obstacles
     void TargetSearch()
     {
         Collider[] playersHit = new Collider[1];
-        int size = Physics.OverlapSphereNonAlloc(transform.position, 10f, playersHit, LayerMask.GetMask("Players"));
+        int size = Physics.OverlapSphereNonAlloc(transform.position, sightDistance, playersHit, LayerMask.GetMask("Players"));
         if (size > 0)
         {
             animator.SetBool(targetFoundHash, true);

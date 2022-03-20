@@ -6,12 +6,13 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private static GameManager _gameManager;
-    private Health health; // Need health to die but not to get hit
+    
+    protected Health health;
+    
     public int groupId; // Associate this enemy with a group of enemies
 
     protected virtual void Start()
     {
-        SetupHealth();
         SetupManager();
     }
     
@@ -19,25 +20,16 @@ public class Enemy : MonoBehaviour
     {
         _gameManager = FindObjectOfType<GameManager>();
         _gameManager.AddEnemy(groupId,this);
-    }
-
-    private void SetupHealth()
-    {
+        
         TryGetComponent(out health);
         if (health)
-            health.onDeath.AddListener(OnDeath);
+        {
+            health.onDeath.AddListener(RemoveFromManager);
+        }
     }
 
-    protected virtual void OnHit(int damage)
+    private void RemoveFromManager()
     {
-        Debug.LogFormat("{0} took a hit worth {1} damage.", name, damage);
-    }
-    
-    protected virtual void OnDeath()
-    {
-        if (health)
-        {
-            _gameManager.RemoveEnemy(groupId,this);
-        }
+        _gameManager.RemoveEnemy(groupId,this);
     }
 }

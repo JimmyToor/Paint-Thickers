@@ -5,39 +5,46 @@ using UnityEngine;
 
 public class Launchable : MonoBehaviour
 {
-    public float speed = 1; // Units to travel per step (second)
-    public float arcHeight;
     
     PlayerEvents playerEvents;
     Vector3 endPos;
     Vector3 startPos;
     float stepScale;
     float progress;
+    private float arcHeight;
     Transform target;
-    
-    public bool IsLaunched {get; set;}
+
+    public bool isLaunched;
+    public bool canLaunch;
 
     void Start()
     {
-        playerEvents = GetComponent<PlayerEvents>();
+        TryGetComponent(out playerEvents);
         target = transform;
-        SetupEvents();
+        if (playerEvents != null)
+            SetupEvents();
     }
 
     private void SetupEvents()
     {
-        playerEvents.Launch += Launch;
         playerEvents.Land += Land;
+        playerEvents.Swim += () => canLaunch = true;
+        playerEvents.Stand += () => canLaunch = false;
     }
 
-    private void OnDisable() 
+    private void OnDisable()
     {
-        playerEvents.Launch -= Launch;
+        DisableEvents();
+    }
+
+    private void DisableEvents()
+    {
         playerEvents.Land -= Land;
     }
 
+    //gamedev.stackexchange.com/q/183507
     private void FixedUpdate() {
-        if (IsLaunched)
+        if (isLaunched)
         {
             // Increment our progress from 0 at the start, to 1 when we arrive.
             progress = Mathf.Min(progress + Time.deltaTime * stepScale, 1.0f);
@@ -60,7 +67,7 @@ public class Launchable : MonoBehaviour
         }
     }
 
-    public void Launch(Vector3 endPosition)
+    public void Launch(Vector3 endPosition, float speed, float newArcHeight)
     {
         endPos = endPosition;
         startPos = transform.position;
@@ -68,15 +75,18 @@ public class Launchable : MonoBehaviour
         float distance = Vector3.Distance(startPos, endPos);
         
         // Determines duration of launch (larger stepScale = shorter launch)
-        stepScale = speed / distance; 
+        stepScale = speed / distance;
 
-        IsLaunched = true;
+        arcHeight = newArcHeight;
+        
+        isLaunched = true;
     }
 
     public void Land()
     {
+        
         progress = 0;
-        IsLaunched = false;  
+        isLaunched = false;  
     }
     
 }

@@ -14,7 +14,7 @@ public class OrientationHandling : MonoBehaviour
     public float sinkSpeed = 2; // speed of squid transformation
     public bool slopeHandling = true;
     public AltMove locomotion;
-    public CharacterController character;
+
     Player player;
     PlayerEvents playerEvents;
     Transform camOffset;
@@ -45,15 +45,15 @@ public class OrientationHandling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.IsSquid)
+        if (player.isSquid)
         {
             ToSquidHeight();
             CheckForOrientationChange();
         }
         else
         {
-            if (camOffset.transform.position.y != 0)
-                ToHeight(0); // Remove the squid height offset
+            if (camOffset.transform.position.y != humanHeight)
+                ToHeight(humanHeight); // Remove the squid height offset
             if (transform.up != Vector3.up)
                 ToOrientation(Vector3.up);
             if (slopeHandling) // Prevent bouncing down slopes

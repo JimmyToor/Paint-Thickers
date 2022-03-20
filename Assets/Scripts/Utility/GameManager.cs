@@ -33,7 +33,7 @@ public class GameManager : Singleton<MonoBehaviour>
         }
         else
         {
-            Debug.LogErrorFormat("Trying to raise event for defeating enemy group {0} but there is no event!", groupId);
+            Debug.LogFormat("Tried to raise event for defeating enemy group {0} but there is no event.", groupId);
         }
     }
 

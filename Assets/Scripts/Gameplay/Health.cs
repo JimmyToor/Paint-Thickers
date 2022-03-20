@@ -16,9 +16,7 @@ public class Health : MonoBehaviour
     public GameObject hitFX;
     public GameObject destroyFX;
     public UnityEvent onDeath;
-    // Used to add behaviours provided by another script
-    public Action hitAction;
-    public Action deathAction;
+    public UnityEvent onHit;
 
     private Renderer _renderer;
     private bool onCooldown;
@@ -36,17 +34,11 @@ public class Health : MonoBehaviour
     {
         if (onCooldown)
             return;
-        
-        if (animator != null)
-            animator.SetTrigger(takeHitHash);
-        
-        hitAction?.Invoke();
+
+        OnHit(hitPos);
         
         if (useHitDamageMaterial && _renderer.material != damageMaterial)
             _renderer.material = damageMaterial;
-
-        if (useHitFX)
-            Instantiate(hitFX, hitPos, Quaternion.identity);
 
         ReduceHP(damage);
 
@@ -65,12 +57,22 @@ public class Health : MonoBehaviour
     {
         if (useDeathFX)
             Instantiate(destroyFX, transform.position, Quaternion.identity);
-
-        deathAction?.Invoke();
+        
         onDeath?.Invoke();
 
         if (destroyOnDeath)
             Destroy(gameObject);
+    }
+
+    void OnHit(Vector3 hitPos)
+    {
+        if (animator != null)
+            animator.SetTrigger(takeHitHash);
+        
+        if (useHitFX)
+            Instantiate(hitFX, hitPos, Quaternion.identity);
+        
+        onHit.Invoke();
     }
     
     public void ReduceHP(float damage)

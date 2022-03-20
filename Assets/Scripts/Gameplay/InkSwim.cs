@@ -10,14 +10,11 @@ public class InkSwim : MonoBehaviour
     PlayerEvents playerEvents;
     Transform playerHead; // used to get distance from floor to player head
     Transform camOffset;
-    public UnityEngine.XR.Interaction.Toolkit.AltMove locomotion;
-    const float squidHeight = 0.5f;
-    const float humanHeight = 0f;
-    public float SquidSpeed {get; set;} = 0.7f; // speed of squid out of ink
-    public float SwimSpeed {get; set;} = 2; // speed of squid in ink
-    float rayDist = 0.5f;
-    bool inInk = false;
-    Vector3 direction = Vector3.zero;
+    public AltMove locomotion;
+    public float squidSpeed = 0.7f; // speed of squid out of ink
+    public float swimSpeed = 2; // speed of squid in ink
+    float rayDist = 4.5f;
+    bool inInk;
     RaycastHit downHit;
     RaycastHit directionHit;
     LayerMask mask;
@@ -27,7 +24,7 @@ public class InkSwim : MonoBehaviour
     {
         player = GetComponent<Player>();
         playerEvents = GetComponent<PlayerEvents>();
-        locomotion = GetComponent<UnityEngine.XR.Interaction.Toolkit.AltMove>();
+        locomotion = GetComponent<AltMove>();
         SetupEvents();
         mask = LayerMask.GetMask("Terrain");   
         camOffset = transform.GetChild(0);
@@ -41,7 +38,7 @@ public class InkSwim : MonoBehaviour
         else
             inInk = false;
 
-        if (player.IsSquid)
+        if (player.isSquid)
             Swim();               
     }
 
@@ -58,31 +55,34 @@ public class InkSwim : MonoBehaviour
 
     void HandleSwim()
     {
-        if (player.CanSwim)
-            player.IsSquid = true;
+        if (player.canSwim)
+            player.isSquid = true;
     }
 
     void HandleStand()
     {
-        player.IsSquid = false;
-        locomotion.moveSpeed = player.WalkSpeed;
+        player.isSquid = false;
+        locomotion.moveSpeed = player.walkSpeed;
     }
 
     void Swim()
     {
         if (inInk)
-            locomotion.moveSpeed = SwimSpeed;
+            locomotion.moveSpeed = swimSpeed;
         else
-            locomotion.moveSpeed = SquidSpeed;
+            locomotion.moveSpeed = squidSpeed;
     }
 
     private bool CheckForPaintBelow()
     {   
-        if (Physics.Raycast(playerHead.position, -transform.up, out downHit, camOffset.localPosition.y+1f, mask))
+        if (Physics.Raycast(playerHead.position, -transform.up, out downHit, camOffset.localPosition.y+rayDist, mask))
         {
             if (PaintTarget.RayChannel(downHit) == player.teamChannel)
+            {
                 return true;
+            }
         }
+        
         return false;
     }
 }

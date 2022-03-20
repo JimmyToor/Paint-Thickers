@@ -19,8 +19,10 @@ public class Deluger : Enemy
     float moveSpeed = 2f;
     [SerializeField]
     float turnSpeed = 1f;
-    private void Start() 
+    
+    protected override void Start() 
     {
+        base.Start();
         animator = gameObject.GetComponent<Animator>();
         feet = transform.Find("wheel_constraint").transform;
         if (patrolNodeGroup.childCount != 0)
