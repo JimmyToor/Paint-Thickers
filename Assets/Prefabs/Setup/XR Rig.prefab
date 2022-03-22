@@ -1184,7 +1184,7 @@ MonoBehaviour:
   teamChannel: 0
   canSwim: 1
   isSquid: 0
-  walkSpeed: 5
+  walkSpeed: 0
 --- !u!114 &1614226185
 MonoBehaviour:
   m_ObjectHideFlags: 0

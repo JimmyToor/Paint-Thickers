@@ -48,8 +48,8 @@ public class PlayerEvents : MonoBehaviour
 
     public void OnLaunch()
     {   
-        player.DisableInputMovement();
         Stand?.Invoke();
+        player.DisableInputMovement();
     }
 
     public void OnLand()

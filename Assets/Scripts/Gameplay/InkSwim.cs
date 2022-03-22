@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -6,18 +7,23 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(Player),typeof(PlayerEvents))]
 public class InkSwim : MonoBehaviour
 {
-    Player player;
-    PlayerEvents playerEvents;
-    Transform playerHead; // used to get distance from floor to player head
-    Transform camOffset;
     public AltMove locomotion;
     public float squidSpeed = 0.7f; // speed of squid out of ink
     public float swimSpeed = 2; // speed of squid in ink
     public bool inInk; // in ink (as either squid or human)
     float rayDist = 4.5f;
+    
+    Player player;
+    PlayerEvents playerEvents;
+    Transform playerHead; // used to get distance from floor to player head
+    Transform camOffset;
     RaycastHit downHit;
     RaycastHit directionHit;
-    LayerMask mask;
+    
+    private LayerMask terrainMask;
+    private LayerMask squidLayer;
+    private LayerMask playerLayer;
+    private float standSpeed;
 
 
     void Start()
@@ -26,9 +32,12 @@ public class InkSwim : MonoBehaviour
         playerEvents = GetComponent<PlayerEvents>();
         locomotion = GetComponent<AltMove>();
         SetupEvents();
-        mask = LayerMask.GetMask("Terrain");   
+        terrainMask = LayerMask.GetMask("Terrain");
+        squidLayer = LayerMask.NameToLayer("Squid");
+        playerLayer = LayerMask.NameToLayer("Players");
         camOffset = transform.GetChild(0);
         playerHead = camOffset.GetChild(0);
+        standSpeed = player.walkSpeed;
     }
 
     void FixedUpdate()
@@ -55,14 +64,16 @@ public class InkSwim : MonoBehaviour
 
     void HandleSwim()
     {
+        gameObject.layer = squidLayer;
         if (player.canSwim)
             player.isSquid = true;
     }
 
     void HandleStand()
     {
+        gameObject.layer = playerLayer;
         player.isSquid = false;
-        locomotion.moveSpeed = player.walkSpeed;
+        locomotion.moveSpeed = standSpeed;
     }
 
     void Swim()
@@ -75,8 +86,9 @@ public class InkSwim : MonoBehaviour
 
     private bool CheckForPaintBelow()
     {   
-        if (Physics.Raycast(playerHead.position, -transform.up, out downHit, camOffset.localPosition.y+rayDist, mask))
+        if (Physics.Raycast(playerHead.position, -transform.up, out downHit, camOffset.localPosition.y+rayDist, terrainMask))
         {
+            Debug.Log("channel: " + PaintTarget.RayChannel(downHit));
             if (PaintTarget.RayChannel(downHit) == player.teamChannel)
             {
                 return true;
