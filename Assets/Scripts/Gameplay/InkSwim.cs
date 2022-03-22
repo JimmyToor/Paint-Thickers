@@ -13,8 +13,8 @@ public class InkSwim : MonoBehaviour
     public AltMove locomotion;
     public float squidSpeed = 0.7f; // speed of squid out of ink
     public float swimSpeed = 2; // speed of squid in ink
+    public bool inInk; // in ink (as either squid or human)
     float rayDist = 4.5f;
-    bool inInk;
     RaycastHit downHit;
     RaycastHit directionHit;
     LayerMask mask;

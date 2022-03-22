@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SplattershotPose
   m_EditorClassIdentifier: 
   leftHandInfo:
-    attachPosition: {x: -0.1634, y: -0.0287, z: -0.105198964}
+    attachPosition: {x: -0.1674, y: -0.0217, z: -0.0822}
     attachRotation: {x: 0.5115065, y: 0.5115065, z: 0.48822236, w: 0.48822236}
     fingerRotations:
     - {x: -0.18766874, y: 0.051591672, z: -0.21481201, w: 0.95706564}
@@ -37,7 +37,7 @@ MonoBehaviour:
     - {x: -0.059007347, y: -0.027223382, z: -0.5154831, w: 0.85443217}
     - {x: 0.016157635, y: -0.00000001408625, z: 0.000000025709818, w: 0.99986947}
   rightHandInfo:
-    attachPosition: {x: -0.16339898, y: 0.0323, z: -0.1043}
+    attachPosition: {x: -0.16739899, y: 0.03929997, z: -0.08130099}
     attachRotation: {x: 0.5115065, y: 0.5115065, z: 0.48822236, w: 0.48822236}
     fingerRotations:
     - {x: -0.15519947, y: 0.08650958, z: -0.19251607, w: 0.96507347}

@@ -689,7 +689,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3528836384955869595}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.000002210989, y: 0.0063665425, z: -0.00000043725595}
+  m_LocalPosition: {x: 0.0000022294553, y: 0.0063665425, z: -0.00000043725595}
   m_LocalScale: {x: 1, y: 0.99999994, z: 1}
   m_Children:
   - {fileID: 838316479887810210}
@@ -1688,10 +1688,12 @@ GameObject:
   m_Component:
   - component: {fileID: 9083028906718061473}
   - component: {fileID: 8757214118499681353}
+  - component: {fileID: 1989729637}
   - component: {fileID: 586738508}
   - component: {fileID: 586738509}
-  - component: {fileID: 1989729637}
   - component: {fileID: 7683721474867376198}
+  - component: {fileID: 1638089495080440746}
+  - component: {fileID: 8187354230440615695}
   m_Layer: 10
   m_Name: AutoTrooper
   m_TagString: Enemy
@@ -1733,36 +1735,7 @@ MonoBehaviour:
   bodyRotate: {fileID: 4019347966162012102}
   aimRotate: {fileID: 4963069778133124504}
   turnSpeed: 5
-  fireInterval: 1
---- !u!54 &586738508
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8450641888619837723}
-  serializedVersion: 2
-  m_Mass: 20
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!65 &586738509
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8450641888619837723}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1.54, z: 1}
-  m_Center: {x: 0, y: 0.75, z: 0}
+  sightDistance: 30
 --- !u!114 &1989729637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1775,7 +1748,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091bf8be20d216c4eb44f9a5654cf119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitpoints: 5
+  hitpoints: 2
   invulnerable: 0
   useHitDamageMaterial: 0
   useHitFX: 0
@@ -1824,6 +1797,38 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!54 &586738508
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 1
+  m_AngularDrag: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0
+--- !u!65 &586738509
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  m_Material: {fileID: 13400000, guid: b1c41002552ce9044abb99dd3a2d03db, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8575266, y: 1.4143898, z: 0.8686325}
+  m_Center: {x: -0.0056395405, y: 0.68719405, z: -0.0046225735}
 --- !u!95 &7683721474867376198
 Animator:
   serializedVersion: 3
@@ -1843,6 +1848,32 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &1638089495080440746
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.11533435, y: 0.4858679, z: 0.2728077}
+  m_Center: {x: 0.0005236382, y: 1.1719584, z: 0.51628685}
+--- !u!65 &8187354230440615695
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.24841623, y: 0.2427313, z: 0.55152303}
+  m_Center: {x: -0.00248465, y: 1.5361719, z: 0.8310361}
 --- !u!1 &8757214117243039789
 GameObject:
   m_ObjectHideFlags: 0
@@ -11651,8 +11682,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8757214118557992805}
-  m_LocalRotation: {x: 0.04640295, y: 0.0059569036, z: -0.0016928441, w: 0.99890363}
-  m_LocalPosition: {x: -0.00891641, y: 1.5149653, z: 1.1898252}
+  m_LocalRotation: {x: 0.046403043, y: 0.0059575588, z: -0.0016928748, w: 0.99890363}
+  m_LocalPosition: {x: -0.00891202, y: 1.5149649, z: 1.1898252}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8757214119225043585}

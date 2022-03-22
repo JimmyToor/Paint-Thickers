@@ -1169,7 +1169,6 @@ MonoBehaviour:
   sinkSpeed: 2
   slopeHandling: 1
   locomotion: {fileID: 1614226180}
-  character: {fileID: 1614226186}
 --- !u!114 &1614226184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,6 +1182,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamChannel: 0
+  canSwim: 1
+  isSquid: 0
+  walkSpeed: 5
 --- !u!114 &1614226185
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1211,6 +1213,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locomotion: {fileID: 1614226180}
+  squidSpeed: 0.7
+  swimSpeed: 2
+  inInk: 0
 --- !u!114 &160198625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1223,8 +1228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a7fe12f82b56a14ba74301debc28d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
-  arcHeight: 10
+  isLaunched: 0
+  canLaunch: 0
 --- !u!1001 &4989558145520396200
 PrefabInstance:
   m_ObjectHideFlags: 0

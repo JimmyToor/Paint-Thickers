@@ -61,3 +61,7 @@ crashlytics-build.properties
 
 # Ignore recordings folder
 Recordings/
+Packages/manifest.json
+Packages/packages-lock.json
+Packages/manifest.json
+ProjectSettings/Packages/com.unity.probuilder/Settings.json

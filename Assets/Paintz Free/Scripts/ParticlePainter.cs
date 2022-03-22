@@ -60,8 +60,8 @@ public class ParticlePainter : MonoBehaviour
                     part.GetCollisionEvents(other, collisionEvents);
                     health.TakeHit(damage,collisionEvents[0].intersection);
                 }
-                else
-                    Debug.LogFormat("Object {0} hit by particle (fired by {1}) but has no way to react.", other.name, gameObject.name);
+                // else
+                    // Debug.LogFormat("Object {0} hit by particle (fired by {1}) but has no way to react.", other.name, gameObject.name);
                 break;
         };
     }
