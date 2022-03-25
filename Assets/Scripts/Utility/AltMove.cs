@@ -7,7 +7,9 @@ namespace UnityEngine.XR.Interaction.Toolkit
 {
     public class AltMove : ActionBasedContinuousMoveProvider
     {
+        [HideInInspector]
         public bool slopeHandling;
+        
         // Alternative method of calculating movement translation that works better with X and Z rotations, which we need for swimming
         protected override Vector3 ComputeDesiredMove(Vector2 input)
         {
@@ -41,17 +43,14 @@ namespace UnityEngine.XR.Interaction.Toolkit
             }
 
             var inputForwardProjectedInWorldSpace = Vector3.ProjectOnPlane(inputForwardInWorldSpace, rigUp);
-
-            var angle = Vector3.SignedAngle(rigTransform.forward, inputForwardProjectedInWorldSpace,rigUp);
-            var forwardRotation = Quaternion.AngleAxis(angle, rigUp);
+            var forwardRotation = Quaternion.FromToRotation(rigTransform.forward, inputForwardProjectedInWorldSpace);
 
             if (slopeHandling) // Prevent bouncing down slopes
             {
                 inputMove += Vector3.down;
             }
             
-            var translationInRigSpace = forwardRotation  * inputMove * (moveSpeed * Time.deltaTime); 
-            var translationInWorldSpace = rigTransform.TransformDirection(translationInRigSpace);
+            var translationInWorldSpace = (forwardRotation*rigTransform.TransformVector(inputMove)) * (moveSpeed * Time.deltaTime);
 
             return translationInWorldSpace;
         }
