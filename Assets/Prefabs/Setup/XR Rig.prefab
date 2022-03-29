@@ -984,13 +984,13 @@ GameObject:
   - component: {fileID: 4989558147164366918}
   - component: {fileID: 4989558147164366921}
   - component: {fileID: 1614226186}
-  - component: {fileID: 1614226180}
   - component: {fileID: 1614226181}
   - component: {fileID: 1614226183}
   - component: {fileID: 1614226184}
   - component: {fileID: 1614226185}
   - component: {fileID: 4989558145552763728}
   - component: {fileID: 160198625}
+  - component: {fileID: 1614226180}
   m_Layer: 3
   m_Name: XR Rig
   m_TagString: Player
@@ -1099,47 +1099,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &1614226180
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4989558147164366925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d186cc281dc59d74f9bb293558bd837b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_System: {fileID: 4989558147164366918}
-  m_MoveSpeed: 5
-  m_EnableStrafe: 1
-  m_UseGravity: 1
-  m_GravityApplicationMode: 1
-  m_ForwardSource: {fileID: 4989558146584083176}
-  m_LeftHandMoveAction:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Left Hand Move
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 427d80cf-5b69-4cf0-9c4f-4612ac931110
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  m_RightHandMoveAction:
-    m_UseReference: 0
-    m_Action:
-      m_Name: Right Hand Move
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 2b7ca7da-9070-4146-abd5-7990d04e9605
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  slopeHandling: 1
 --- !u!114 &1614226181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1181,6 +1140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cfe199308c756d844aeced9984dee9b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerEvents: {fileID: 0}
   teamChannel: 0
   canSwim: 1
   isSquid: 0
@@ -1230,6 +1190,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLaunched: 0
   canLaunch: 0
+--- !u!114 &1614226180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558147164366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d186cc281dc59d74f9bb293558bd837b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_System: {fileID: 4989558147164366918}
+  m_MoveSpeed: 5
+  m_EnableStrafe: 1
+  m_UseGravity: 1
+  m_GravityApplicationMode: 1
+  m_ForwardSource: {fileID: 4989558146584083176}
+  m_LeftHandMoveAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Left Hand Move
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 427d80cf-5b69-4cf0-9c4f-4612ac931110
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  m_RightHandMoveAction:
+    m_UseReference: 0
+    m_Action:
+      m_Name: Right Hand Move
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 2b7ca7da-9070-4146-abd5-7990d04e9605
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: -8198699208435500284, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  slopeHandling: 1
 --- !u!1001 &4989558145520396200
 PrefabInstance:
   m_ObjectHideFlags: 0

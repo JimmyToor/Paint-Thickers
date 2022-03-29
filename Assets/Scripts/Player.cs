@@ -1,14 +1,16 @@
+using Gameplay;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 [RequireComponent(typeof(PlayerEvents))]
 public class Player : MonoBehaviour
 {
-    PlayerEvents playerEvents;
+    public PlayerEvents playerEvents;
     public int teamChannel; // colour channel of the player's team
     public bool canSwim = true;
     public bool isSquid;
     public float walkSpeed;
+    public Inventory inventory = new Inventory();
     
     private Health health;
     AltMove locomotion;
@@ -20,6 +22,7 @@ public class Player : MonoBehaviour
         playerEvents = GetComponent<PlayerEvents>();
         locomotion = GetComponent<AltMove>();
         locomotion.moveSpeed = walkSpeed;
+        inventory.Initialize();
         TryGetComponent(out health);
         SetupEvents();
     }
