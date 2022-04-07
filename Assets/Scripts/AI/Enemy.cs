@@ -1,35 +1,36 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Utility;
 
-public class Enemy : MonoBehaviour
+namespace AI
 {
-    private static GameManager _gameManager;
+    public class Enemy : MonoBehaviour
+    {
+        private static GameManager _gameManager;
     
-    protected Health health;
+        protected Health health;
     
-    public int groupId; // Associate this enemy with a group of enemies
+        public int groupId; // Associate this enemy with a group of enemies
 
-    protected virtual void Start()
-    {
-        SetupManager();
-    }
-    
-    private void SetupManager()
-    {
-        _gameManager = FindObjectOfType<GameManager>();
-        _gameManager.AddEnemy(groupId,this);
-        
-        TryGetComponent(out health);
-        if (health)
+        protected virtual void Start()
         {
-            health.onDeath.AddListener(RemoveFromManager);
+            SetupManager();
         }
-    }
+    
+        private void SetupManager()
+        {
+            _gameManager = FindObjectOfType<GameManager>();
+            _gameManager.AddEnemy(groupId,this);
+        
+            TryGetComponent(out health);
+            if (health)
+            {
+                health.onDeath.AddListener(RemoveFromManager);
+            }
+        }
 
-    private void RemoveFromManager()
-    {
-        _gameManager.RemoveEnemy(groupId,this);
+        private void RemoveFromManager()
+        {
+            _gameManager.RemoveEnemy(groupId,this);
+        }
     }
 }

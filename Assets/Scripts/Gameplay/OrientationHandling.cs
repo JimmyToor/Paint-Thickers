@@ -43,7 +43,7 @@ public class OrientationHandling : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (player.isSquid)
         {
@@ -55,7 +55,9 @@ public class OrientationHandling : MonoBehaviour
             if (camOffset.transform.position.y != humanHeight)
                 ToHeight(humanHeight); // Remove the squid height offset
             if (transform.up != Vector3.up)
+            {
                 ToOrientation(Vector3.up);
+            }
             if (slopeHandling) // Prevent bouncing down slopes
             {
                 Physics.Raycast(playerHead.position, -camOffset.transform.up, out slopeHit, 1f, mask);
@@ -78,11 +80,17 @@ public class OrientationHandling : MonoBehaviour
     private void CheckForOrientationChange()
     {
         if (CheckForPaintAhead()) // Check for walls
+        {
             ToOrientation(directionHit.normal);
+        }
         else if (Physics.Raycast(playerHead.position, -camOffset.transform.up, out directionHit, 1f, mask)) // Check for slope changes
+        {
             ToOrientation(directionHit.normal);
+        }
         else if (transform.up != Vector3.up) // Reset orientation
+        {
             ToOrientation(Vector3.up);
+        }
     }
     
     // Rotate the rig normal towards the newUp normal
@@ -90,6 +98,7 @@ public class OrientationHandling : MonoBehaviour
     {
         Quaternion currRot = transform.rotation;
         var newRotation = Quaternion.FromToRotation(transform.up, newUp)*currRot; // FromToRotation may cause movement issues, might need alternative method
+        
         transform.rotation = Quaternion.RotateTowards(currRot, newRotation, Time.deltaTime * rotationSpeed);
     }
 

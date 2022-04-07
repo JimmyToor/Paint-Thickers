@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Utility;
 
 // Do something when an enemy group dies
 public class OnGroupDeath : MonoBehaviour

@@ -1,8 +1,3 @@
-using UnityEngine.Animations.Rigging;
-using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
-using UnityEngine.XR.Interaction.Toolkit.Inputs;
-
 namespace UnityEngine.XR.Interaction.Toolkit
 {
     public class AltMove : ActionBasedContinuousMoveProvider

@@ -9,6 +9,14 @@ namespace Gameplay
     {
         private Dictionary<ItemType, int> items = new Dictionary<ItemType, int>(); // Item, quantity pairs
 
+        public Inventory(bool init)
+        {
+            if (init)
+            {
+                Initialize();
+            }
+        }
+
         public void Initialize()
         {
             foreach (ItemType itemType in Enum.GetValues(typeof(ItemType)))

@@ -1,88 +1,97 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using DG.Tweening;
+using UnityEngine;
+using Random = System.Random;
 
-[RequireComponent(typeof(Health))]
-public class Trooper : Enemy
+namespace AI
 {
-    [SerializeField]
-    ParticleSystem paintSpray;
-    [SerializeField]
-    Transform bodyRotate;
-    [SerializeField]
-    Transform aimRotate;
-    [SerializeField]
-    float turnSpeed = 10f;
-    float aimSpeed = 25f;
-    Tweener bodyTweener;
-    Tweener aimTweener;
-    private Animator animator;
-    private int targetFoundHash = Animator.StringToHash("TargetFound");
-    private int shootHash = Animator.StringToHash("Shoot");
-
-    public float sightDistance;
-
-    // Player in sight? ->Yes-> Attack
-    //                  ->No-> Idle
-    protected override void Start()
+    [RequireComponent(typeof(Health))]
+    public class Trooper : Enemy
     {
-        base.Start();
-        InvokeRepeating("TargetSearch",1.0f, 0.2f);
-        TryGetComponent(out animator);
-    }
+        [SerializeField]
+        ParticleSystem paintSpray;
+        [SerializeField]
+        Transform bodyRotate;
+        [SerializeField]
+        Transform aimRotate;
+        [SerializeField]
+        public float turnSpeed;
+        public float aimSpeed;
+        Tweener bodyTweener;
+        Tweener aimTweener;
+        private Animator animator;
+        private int targetFoundHash = Animator.StringToHash("TargetFound");
+        private int shootHash = Animator.StringToHash("Shoot");
+        private int offsetHash = Animator.StringToHash("Offset");
 
+        public float sightDistance;
 
-    // Searches for and targets the nearest player
-    // Ignores obstacles
-    void TargetSearch()
-    {
-        Collider[] playersHit = new Collider[1];
-        int size = Physics.OverlapSphereNonAlloc(transform.position, sightDistance, playersHit, LayerMask.GetMask("Players"));
-        if (size > 0)
+        // Player in sight? ->Yes-> Attack
+        //                  ->No-> Idle
+        protected override void Start()
         {
-            animator.SetBool(targetFoundHash, true);
-            EnableSpray();
-            EngageTarget(playersHit[0].transform);
+            base.Start();
+            InvokeRepeating("TargetSearch",1.0f, 0.2f);
+            TryGetComponent(out animator);
+            animator.SetFloat(offsetHash, UnityEngine.Random.Range(0f,1f));
         }
-        else
-        {
-            animator.SetBool(targetFoundHash, false);
-            DisableSpray();
-        }
-    }
 
-    // Aim at the target
-    void EngageTarget(Transform target)
-    {
-        if (!bodyTweener.IsActive())
-            bodyTweener = bodyRotate.DOLookAt(target.position,turnSpeed,AxisConstraint.Y).SetSpeedBased(true);
-        else
-            bodyTweener.ChangeEndValue(target.position, true); // Don't make a new tween if one is active, just change the current one
-        
-        // Only move the nozzle if the target is in front us
-        if (Vector3.Angle(transform.position,target.position) < 90)
+
+        // Searches for and targets the nearest player
+        // Ignores obstacles
+        void TargetSearch()
         {
-            if (!aimTweener.IsActive())
-                aimTweener = aimRotate.DOLookAt(target.position,aimSpeed,AxisConstraint.None,Vector3.up).SetSpeedBased(true);
+            Collider[] playersHit = new Collider[1];
+            int size = Physics.OverlapSphereNonAlloc(transform.position, sightDistance, playersHit, LayerMask.GetMask("Players"));
+            if (size > 0)
+            {
+                animator.SetBool(targetFoundHash, true);
+                EnableSpray();
+                EngageTarget(playersHit[0].transform);
+            }
             else
-                aimTweener.ChangeEndValue(target.position, true);
+            {
+                animator.SetBool(targetFoundHash, false);
+                DisableSpray();
+            }
         }
-    }
 
-    void DisableSpray()
-    {
-        paintSpray.Stop();
-    }
-
-    void EnableSpray()
-    {
-        if (!paintSpray.isPlaying)
+        // Aim at the target
+        void EngageTarget(Transform target)
         {
-            paintSpray.Play();
-            animator.SetTrigger(shootHash);
+            if (!bodyTweener.IsActive())
+                bodyTweener = bodyRotate.DOLookAt(target.position,turnSpeed,AxisConstraint.Y).SetSpeedBased(true);
+            else
+                bodyTweener.ChangeEndValue(target.position, true); // Don't make a new tween if one is active, just change the current one
+        
+            // Only move the nozzle if the target is in front us
+            if (Vector3.Angle(transform.position,target.position) < 70)
+            {
+                if (!aimTweener.IsActive())
+                    aimTweener = aimRotate.DOLookAt(target.position,aimSpeed,AxisConstraint.None,Vector3.up).SetSpeedBased(true);
+                else
+                    aimTweener.ChangeEndValue(target.position, true);
+            }
+        }
+
+        void DisableSpray()
+        {
+            paintSpray.Stop();
+        }
+
+        void EnableSpray()
+        {
+            if (!paintSpray.isPlaying)
+            {
+                paintSpray.Play();
+                animator.SetTrigger(shootHash);
+            }
+        }
+
+        private void OnDisable()
+        {
+            DisableSpray();
+            CancelInvoke();
         }
     }
-
 }

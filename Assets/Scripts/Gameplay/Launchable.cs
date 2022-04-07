@@ -42,6 +42,7 @@ public class Launchable : MonoBehaviour
         playerEvents.Land -= Land;
     }
 
+    //TODO: Try animation curve instead
     //gamedev.stackexchange.com/q/183507
     private void FixedUpdate() {
         if (isLaunched)

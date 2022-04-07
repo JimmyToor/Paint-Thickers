@@ -10,9 +10,13 @@ public class ItemConsumer : MonoBehaviour
     
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.TryGetComponent(out Player player) && player.inventory.ConsumeItem(itemType))
+        if (collision.gameObject.CompareTag("Player"))
         {
-            Destroy(gameObject);
+            Player player = collision.gameObject.GetComponentInParent(typeof(Player)) as Player;
+            if (player != null && player.ConsumeItem(itemType))
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

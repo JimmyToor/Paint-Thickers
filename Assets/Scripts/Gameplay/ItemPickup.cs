@@ -12,10 +12,10 @@ public class ItemPickup : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.gameObject.TryGetComponent(out Player player);
+            Player player = collision.gameObject.GetComponentInParent(typeof(Player)) as Player;
             if (player != null)
             {
-                player.inventory.AddItem(itemType);
+                player.AddItem(itemType);
                 Destroy(gameObject);
             }
         }

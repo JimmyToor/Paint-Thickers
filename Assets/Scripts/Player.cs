@@ -1,6 +1,7 @@
 using Gameplay;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using Utility;
 
 [RequireComponent(typeof(PlayerEvents))]
 public class Player : MonoBehaviour
@@ -10,7 +11,7 @@ public class Player : MonoBehaviour
     public bool canSwim = true;
     public bool isSquid;
     public float walkSpeed;
-    public Inventory inventory = new Inventory();
+    private Inventory inventory = new Inventory(true);
     
     private Health health;
     AltMove locomotion;
@@ -22,7 +23,6 @@ public class Player : MonoBehaviour
         playerEvents = GetComponent<PlayerEvents>();
         locomotion = GetComponent<AltMove>();
         locomotion.moveSpeed = walkSpeed;
-        inventory.Initialize();
         TryGetComponent(out health);
         SetupEvents();
     }
@@ -47,6 +47,16 @@ public class Player : MonoBehaviour
         canSwim = true;
     }
     
+    public void AddItem(ItemType item)
+    {
+        inventory.AddItem(item);
+    } 
+
+    public bool ConsumeItem(ItemType item)
+    {
+        return inventory.ConsumeItem(item);
+    }
+    
     private void TakeHit(float damage)
     {
         if (health != null)
@@ -54,4 +64,6 @@ public class Player : MonoBehaviour
             health.TakeHit(damage);
         }
     }
+
+    
 }

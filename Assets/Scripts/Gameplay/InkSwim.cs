@@ -88,7 +88,8 @@ public class InkSwim : MonoBehaviour
     {   
         if (Physics.Raycast(playerHead.position, -transform.up, out downHit, camOffset.localPosition.y+rayDist, terrainMask))
         {
-            Debug.Log("channel: " + PaintTarget.RayChannel(downHit));
+            //Debug.Log("channel: " + PaintTarget.RayChannel(downHit));
+            //Debug.DrawRay(playerHead.position, -transform.up,Color.green,5f);
             if (PaintTarget.RayChannel(downHit) == player.teamChannel)
             {
                 return true;

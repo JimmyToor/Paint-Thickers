@@ -9,6 +9,7 @@ TagManager:
   - Terrain
   - Projectile
   - Fence
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -23,8 +24,8 @@ TagManager:
   - Enemies
   - Fence
   - Squid
-  - 
-  - 
+  - Item
+  - Destructible
   - 
   - 
   - 

@@ -689,6 +689,7 @@ GameObject:
   - component: {fileID: 7666871664439754641}
   - component: {fileID: 1001454058}
   - component: {fileID: 6904453673207367212}
+  - component: {fileID: 7817337012673381351}
   m_Layer: 0
   m_Name: stand
   m_TagString: Untagged
@@ -748,8 +749,21 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.010516639, y: 0.017222669, z: 0.010561028}
-  m_Center: {x: -0.000094517636, y: 0.007381352, z: 0.00001951464}
+  m_Size: {x: 0.010516639, y: 0.009144302, z: 0.010561028}
+  m_Center: {x: -0.00009451765, y: 0.011420602, z: 0.00001951534}
+--- !u!65 &7817337012673381351
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3528836384955869595}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0023707023, y: 0.006751327, z: 0.0018310026}
+  m_Center: {x: -0.000090582835, y: 0.0034724432, z: -0.000043876527}
 --- !u!1 &3596373690073762484
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,6 +1309,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2696557490251549850}
+  - component: {fileID: 7658050325606644800}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -1318,6 +1333,19 @@ Transform:
   m_Father: {fileID: 5432848323019959137}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 89.98, y: 0, z: 0}
+--- !u!65 &7658050325606644800
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5622635380371205271}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.010449374, y: 0.0013193219, z: 0.009999999}
+  m_Center: {x: -0.00008425512, y: 0.005883632, z: -1.2322929e-10}
 --- !u!1 &5648719995460054030
 GameObject:
   m_ObjectHideFlags: 0
@@ -1773,7 +1801,8 @@ MonoBehaviour:
   paintSpray: {fileID: 8757214118557992799}
   bodyRotate: {fileID: 4019347966162012102}
   aimRotate: {fileID: 4963069778133124504}
-  turnSpeed: 5
+  turnSpeed: 15
+  aimSpeed: 25
   sightDistance: 30
 --- !u!114 &1989729637
 MonoBehaviour:
@@ -1804,18 +1833,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 8757214118499681353}
-        m_TargetAssemblyTypeName: UnityEngine.MonoBehaviour, UnityEngine
-        m_MethodName: StopAllCoroutines
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -11694,8 +11711,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8757214118557992805}
-  m_LocalRotation: {x: 0.046402764, y: 0.005956903, z: -0.0016928429, w: 0.99890363}
-  m_LocalPosition: {x: -0.008916119, y: 1.515018, z: 1.1898525}
+  m_LocalRotation: {x: 0.046402767, y: 0.0059576514, z: -0.0016928776, w: 0.99890363}
+  m_LocalPosition: {x: -0.010536631, y: 1.5070497, z: 1.3417326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8757214119225043585}
@@ -16648,12 +16665,12 @@ ParentConstraint:
   m_GameObject: {fileID: 8757214118557992805}
   m_Enabled: 1
   m_Weight: 1
-  m_TranslationAtRest: {x: -0.0030000194, y: 1.5450001, z: 1.0930072}
-  m_RotationAtRest: {x: 2.3208973, y: 1.2753859, z: -0.37525374}
+  m_TranslationAtRest: {x: -0.010536631, y: 1.5070497, z: 1.3417326}
+  m_RotationAtRest: {x: 5.3203344, y: 0.6758734, z: -0.16279928}
   m_TranslationOffsets:
-  - {x: 0.00061285496, y: -0.0047249794, z: 0.5599909}
+  - {x: 0.00060892105, y: -0.004723072, z: 0.75}
   m_RotationOffsets:
-  - {x: 2.3209043, y: 1.2753985, z: -0.375252}
+  - {x: 2.3209064, y: 1.2755028, z: -0.37525055}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
