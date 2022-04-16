@@ -11,9 +11,12 @@ public class Player : MonoBehaviour
     public bool canSwim = true;
     public bool isSquid;
     public float walkSpeed;
-    private Inventory inventory = new Inventory(true);
     
+    private Inventory inventory = new Inventory(true);
     private Health health;
+    private GameObject weapon;
+    private Renderer[] weaponRenderers;
+    private GameObject weaponParticles;
     AltMove locomotion;
     float oldSpeed;
 
@@ -32,7 +35,7 @@ public class Player : MonoBehaviour
         playerEvents.TakeHit += TakeHit;
     }
 
-    // Disable dynamic player movement
+    // Disable input-driven player movement
     public void DisableInputMovement()
     {
         locomotion.moveSpeed = 0;
@@ -65,5 +68,57 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SetWeapon(GameObject newWeapon)
+    {
+        weapon = newWeapon;
+        weaponRenderers = weapon.GetComponentsInChildren<MeshRenderer>();
+        
+        // Assumes the main particle will always have this name
+        weaponParticles = weapon.transform.Find("Main Visual Particle")?.gameObject;
+    }
+
+    public void RemoveWeapon()
+    {
+        if (weapon != null)
+        {
+            weapon = null;
+        }
+    }
+
+    public void DisableWeapon()
+    {
+        if (weapon == null)
+        {
+            return;
+        }
+
+        foreach (MeshRenderer meshRenderer in weaponRenderers)
+        {
+            meshRenderer.enabled = false;
+        }
+
+        if (weaponParticles != null)
+        {
+            weaponParticles.SetActive(false);
+        }
+    }
+
+    public void EnableWeapon()
+    {
+        if (weapon == null)
+        {
+            return;
+        }
+        
+        foreach (MeshRenderer meshRenderer in weaponRenderers)
+        {
+            meshRenderer.enabled = true;
+        }
+
+        if (weaponParticles != null)
+        {
+            weaponParticles.SetActive(true);
+        }
+    }
     
 }

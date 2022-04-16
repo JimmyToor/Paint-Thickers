@@ -64,15 +64,19 @@ public class InkSwim : MonoBehaviour
 
     void HandleSwim()
     {
-        gameObject.layer = squidLayer;
         if (player.canSwim)
+        {
             player.isSquid = true;
+            player.DisableWeapon();
+            gameObject.layer = squidLayer;
+        }
     }
 
     void HandleStand()
     {
         gameObject.layer = playerLayer;
         player.isSquid = false;
+        player.EnableWeapon();
         locomotion.moveSpeed = standSpeed;
     }
 
