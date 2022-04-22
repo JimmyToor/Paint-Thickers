@@ -1,9 +1,10 @@
+using System;
 using Gameplay;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using Utility;
 
-[RequireComponent(typeof(PlayerEvents))]
+[RequireComponent(typeof(PlayerEvents),typeof(CharacterController))]
 public class Player : MonoBehaviour
 {
     public PlayerEvents playerEvents;
@@ -17,12 +18,15 @@ public class Player : MonoBehaviour
     private GameObject weapon;
     private Renderer[] weaponRenderers;
     private GameObject weaponParticles;
+    private CharacterController charController;
+    private Vector3 resetPosition;
     AltMove locomotion;
     float oldSpeed;
 
     private void Start()
     {
-        GetComponent<CharacterController>().tag = "Player";
+        charController = GetComponent<CharacterController>();
+        InvokeRepeating(nameof(NewResetPosition),2f,5f);
         playerEvents = GetComponent<PlayerEvents>();
         locomotion = GetComponent<AltMove>();
         locomotion.moveSpeed = walkSpeed;
@@ -120,5 +124,21 @@ public class Player : MonoBehaviour
             weaponParticles.SetActive(true);
         }
     }
-    
+
+    private void NewResetPosition()
+    {
+        if (charController.isGrounded)
+        {
+            resetPosition = transform.position;
+            resetPosition.y += 0.5f;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("OOBVolume"))
+        {
+            transform.position = resetPosition;
+        }
+    }
 }
