@@ -1,8 +1,10 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+
+// Got this from SO but can't find the post anymore
 
 /// <summary>
 /// Central entry point to play single use SFX (e.g. contact sound). Through a single function call, PlaySFX, allow to
@@ -10,7 +12,7 @@ using UnityEngine.PlayerLoop;
 /// The system also support using ID for event, which allow to avoid 2 event with the same ID to play too soon (e.g.
 /// contact sound would overlapping when the object collide multiple time in a second)
 /// </summary>
-public class SFXPlayer : MonoBehaviour
+public class SFXPlayer : Singleton<SFXPlayer>
 {
     public struct PlayParameters
     {
@@ -23,10 +25,7 @@ public class SFXPlayer : MonoBehaviour
     {
         public float Time;
     }
-    
-    static SFXPlayer s_Instance;
-    public static SFXPlayer Instance => s_Instance;
-    
+
     public AudioSource SFXReferenceSource;
     public int SFXSourceCount;
 
@@ -39,14 +38,6 @@ public class SFXPlayer : MonoBehaviour
     
     void Awake()
     {
-        if (s_Instance != null)
-        {
-            Destroy(this);
-            return;
-        }
-        
-        s_Instance = this;
-
         m_SFXSourcePool = new AudioSource[SFXSourceCount];
 
         for (int i = 0; i < SFXSourceCount; ++i)

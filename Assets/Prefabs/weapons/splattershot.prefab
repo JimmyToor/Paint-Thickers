@@ -9899,8 +9899,9 @@ MonoBehaviour:
     splatRotation: 0
     splatRandomRotation: 180
     splatChannel: 2
-  randomChannel: 0
   damage: 1
+  randomChannel: 0
+  collisionSFX: 1
 --- !u!114 &1967868529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9918,9 +9919,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 01fc23c9e9476444695d635ef65ed757, type: 3}
   - {fileID: 8300000, guid: ad90d2d9af49406459f8aae9884c63cf, type: 3}
   - {fileID: 8300000, guid: 2c9a504218714244196807e412626c2c, type: 3}
-  volume: 1
+  volume: 0.5
   minPitch: 1.2
   maxPitch: 0.8
+  cooldown: 0.1
 --- !u!1 &2036904280967990508
 GameObject:
   m_ObjectHideFlags: 0
@@ -25563,6 +25565,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  m_Droppable: 0
   m_OnFirstHoverEntered:
     m_PersistentCalls:
       m_Calls: []

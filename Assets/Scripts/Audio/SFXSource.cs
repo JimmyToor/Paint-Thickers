@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+// Got this from SO but can't find the post anymore
+
 /// <summary>
 /// Will trigger SFX through the SFXPlayer when the object on which this is added trigger a collision enter event
 /// </summary>
@@ -15,6 +17,7 @@ public class SFXSource : MonoBehaviour
     public float volume = 1f;
     public float minPitch = 1.2f;
     public float maxPitch = 0.8f;
+    public float cooldownTime;
 
     int m_ID;
 
@@ -28,11 +31,21 @@ public class SFXSource : MonoBehaviour
     {   
         AudioClip randomClip = Clips[Random.Range(0, Clips.Length)];
         
-        SFXPlayer.Instance.PlaySFX(randomClip, pos, new SFXPlayer.PlayParameters()
+        SFXPlayer.instance.PlaySFX(randomClip, pos, new SFXPlayer.PlayParameters()
         {
             Volume = volume,
             Pitch = Random.Range(minPitch, maxPitch),
             SourceID = m_ID
-        }, 0);
+        }, cooldownTime);
+    }
+
+    public void TriggerPlayOneShot(Vector3 pos, AudioClip clip)
+    {
+        SFXPlayer.instance.PlaySFX(clip, pos, new SFXPlayer.PlayParameters()
+        {
+            Volume = volume,
+            Pitch = Random.Range(minPitch, maxPitch),
+            SourceID = m_ID
+        }, cooldownTime);
     }
 }

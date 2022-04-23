@@ -14,15 +14,20 @@ namespace AI
         Transform bodyRotate;
         [SerializeField]
         Transform aimRotate;
+        Tweener bodyTweener;
+        Tweener aimTweener;
+        
         [SerializeField]
         public float turnSpeed;
         public float aimSpeed;
-        Tweener bodyTweener;
-        Tweener aimTweener;
+        public AudioClip shootSFX;
+
         private Animator animator;
         private int targetFoundHash = Animator.StringToHash("TargetFound");
         private int shootHash = Animator.StringToHash("Shoot");
         private int offsetHash = Animator.StringToHash("Offset");
+        private SFXSource sfxSource;
+
 
         public float sightDistance;
 
@@ -36,6 +41,8 @@ namespace AI
             {
                 animator.SetFloat(offsetHash, UnityEngine.Random.Range(0f,1f));
             }
+
+            TryGetComponent(out sfxSource);
         }
 
 
@@ -87,6 +94,7 @@ namespace AI
             {
                 paintSpray.Play();
                 animator.SetTrigger(shootHash);
+                sfxSource.TriggerPlayOneShot(transform.position, shootSFX);
             }
         }
 

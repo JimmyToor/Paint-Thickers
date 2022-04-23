@@ -6,11 +6,13 @@ using UnityEngine;
 public class ParticlePainter : MonoBehaviour
 {
     public Brush brush;
-    public bool randomChannel = false;
     public float damage;
+    public bool randomChannel = false;
+    public bool collisionSFX; // play sound effects on collision (requires SFXSource component)
 
     private ParticleSystem part;
     private List<ParticleCollisionEvent> collisionEvents;
+    private SFXSource sfxSource;
 
     private void Start()
     {
@@ -22,10 +24,13 @@ public class ParticlePainter : MonoBehaviour
             brush.splatsX = 4;
             brush.splatsY = 4;
         }
+
+        TryGetComponent(out sfxSource);
     }
 
     private void OnParticleCollision(GameObject other)
     {
+        int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
         switch (other.tag)
         {
             case "Terrain":
@@ -33,8 +38,7 @@ public class ParticlePainter : MonoBehaviour
                 if (paintTarget != null)
                 {
                     if (randomChannel) brush.splatChannel = Random.Range(0, 2);
-
-                    int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
+                    
                     for (int i = 0; i < numCollisionEvents; i++)
                     {
                         PaintTarget.PaintObject(paintTarget, collisionEvents[i].intersection, collisionEvents[i].normal, brush);
@@ -44,7 +48,6 @@ public class ParticlePainter : MonoBehaviour
             case "Player":
                 if (other.TryGetComponent(out Player player))
                 {
-                    int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
                     for (int i = 0; i < numCollisionEvents; i++)
                     {
                         if (brush.splatChannel != other.GetComponent<Player>().teamChannel)
@@ -63,6 +66,14 @@ public class ParticlePainter : MonoBehaviour
                 // else
                     // Debug.LogFormat("Object {0} hit by particle (fired by {1}) but has no way to react.", other.name, gameObject.name);
                 break;
-        };
+        }
+        
+        if (collisionSFX)
+        {
+            for (int i = 0; i < numCollisionEvents; i++)
+            {
+                sfxSource.TriggerPlay(collisionEvents[i].intersection);
+            }
+        }
     }
 }
