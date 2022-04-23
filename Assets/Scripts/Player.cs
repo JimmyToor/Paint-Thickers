@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
     private GameObject weaponParticles;
     private CharacterController charController;
     private Vector3 resetPosition;
-    AltMove locomotion;
+    ActionBasedContinuousMoveProvider locomotion;
     float oldSpeed;
 
     private void Start()
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
         charController = GetComponent<CharacterController>();
         InvokeRepeating(nameof(NewResetPosition),2f,5f);
         playerEvents = GetComponent<PlayerEvents>();
-        locomotion = GetComponent<AltMove>();
+        locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
         locomotion.moveSpeed = walkSpeed;
         TryGetComponent(out health);
         SetupEvents();

@@ -32,8 +32,10 @@ namespace AI
         {
             base.Start();
             InvokeRepeating("TargetSearch",1.0f, 0.2f);
-            TryGetComponent(out animator);
-            animator.SetFloat(offsetHash, UnityEngine.Random.Range(0f,1f));
+            if (TryGetComponent(out animator))
+            {
+                animator.SetFloat(offsetHash, UnityEngine.Random.Range(0f,1f));
+            }
         }
 
 

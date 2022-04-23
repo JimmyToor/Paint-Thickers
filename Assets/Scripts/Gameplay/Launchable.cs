@@ -19,9 +19,8 @@ public class Launchable : MonoBehaviour
 
     void Start()
     {
-        TryGetComponent(out playerEvents);
         target = transform;
-        if (playerEvents != null)
+        if (TryGetComponent(out playerEvents))
             SetupEvents();
     }
 

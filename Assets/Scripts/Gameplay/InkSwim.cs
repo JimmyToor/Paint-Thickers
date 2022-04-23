@@ -7,7 +7,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(Player),typeof(PlayerEvents))]
 public class InkSwim : MonoBehaviour
 {
-    public AltMove locomotion;
+    public ActionBasedContinuousMoveProvider locomotion;
     public float squidSpeed = 0.7f; // speed of squid out of ink
     public float swimSpeed = 2; // speed of squid in ink
     public bool inInk; // in ink (as either squid or human)
@@ -30,7 +30,7 @@ public class InkSwim : MonoBehaviour
     {
         player = GetComponent<Player>();
         playerEvents = GetComponent<PlayerEvents>();
-        locomotion = GetComponent<AltMove>();
+        locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
         SetupEvents();
         terrainMask = LayerMask.GetMask("Terrain");
         squidLayer = LayerMask.NameToLayer("Squid");

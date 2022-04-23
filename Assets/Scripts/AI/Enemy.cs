@@ -20,9 +20,8 @@ namespace AI
         {
             _gameManager = FindObjectOfType<GameManager>();
             _gameManager.AddEnemy(groupId,this);
-        
-            TryGetComponent(out health);
-            if (health)
+            
+            if (TryGetComponent(out health))
             {
                 health.onDeath.AddListener(RemoveFromManager);
             }

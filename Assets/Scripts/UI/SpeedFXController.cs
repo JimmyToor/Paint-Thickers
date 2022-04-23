@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.VFX;
 
-public class SpeedLines : MonoBehaviour
+public class SpeedFXController : MonoBehaviour
 {
     private PlayerEvents playerEvents;
     private Vector3 oldPos;

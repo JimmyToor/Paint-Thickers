@@ -13,7 +13,9 @@ public class OrientationHandling : MonoBehaviour
     public float rotationSpeed = 90f;
     public float sinkSpeed = 2; // speed of squid transformation
     public bool slopeHandling = true;
-    public AltMove locomotion;
+    public ActionBasedContinuousMoveProvider locomotion;
+
+    private RaycastHit slopeHit;
 
     Player player;
     PlayerEvents playerEvents;
@@ -22,7 +24,6 @@ public class OrientationHandling : MonoBehaviour
     Vector3 direction;
     LayerMask mask;
     RaycastHit directionHit;
-    private RaycastHit slopeHit;
     Vector3 newOrientation;
     float targetHeight;
 

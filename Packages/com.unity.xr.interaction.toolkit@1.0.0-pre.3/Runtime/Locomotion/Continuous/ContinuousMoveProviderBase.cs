@@ -8,6 +8,9 @@ namespace UnityEngine.XR.Interaction.Toolkit
     /// <seealso cref="LocomotionProvider"/>
     public abstract class ContinuousMoveProviderBase : LocomotionProvider
     {
+        [HideInInspector]
+        public bool slopeHandling;
+        
         /// <summary>
         /// Defines when gravity will begin to take effect.
         /// </summary>
@@ -154,14 +157,15 @@ namespace UnityEngine.XR.Interaction.Toolkit
             // Assumes that the input axes are in the range [-1, 1].
             // Clamps the magnitude of the input direction to prevent faster speed when moving diagonally,
             // while still allowing for analog input to move slower (which would be lost if simply normalizing).
-            var inputMove = Vector3.ClampMagnitude(new Vector3(m_EnableStrafe ? input.x : 0f, 0f, input.y), 1f);
+            var inputMove = Vector3.ClampMagnitude(new Vector3(enableStrafe ? input.x : 0f, 0f, input.y), 1f);
 
             var rigTransform = xrRig.rig.transform;
             var rigUp = rigTransform.up;
 
             // Determine frame of reference for what the input direction is relative to
-            var forwardSourceTransform = m_ForwardSource == null ? xrRig.cameraGameObject.transform : m_ForwardSource;
+            var forwardSourceTransform = forwardSource == null ? xrRig.cameraGameObject.transform : forwardSource;
             var inputForwardInWorldSpace = forwardSourceTransform.forward;
+            
             if (Mathf.Approximately(Mathf.Abs(Vector3.Dot(inputForwardInWorldSpace, rigUp)), 1f))
             {
                 // When the input forward direction is parallel with the rig normal,
@@ -175,8 +179,12 @@ namespace UnityEngine.XR.Interaction.Toolkit
             var inputForwardProjectedInWorldSpace = Vector3.ProjectOnPlane(inputForwardInWorldSpace, rigUp);
             var forwardRotation = Quaternion.FromToRotation(rigTransform.forward, inputForwardProjectedInWorldSpace);
 
-            var translationInRigSpace = forwardRotation * inputMove * (m_MoveSpeed * Time.deltaTime);
-            var translationInWorldSpace = rigTransform.TransformDirection(translationInRigSpace);
+            if (slopeHandling) // Prevent bouncing down slopes
+            {
+                inputMove += Vector3.down;
+            }
+            
+            var translationInWorldSpace = (forwardRotation*rigTransform.TransformVector(inputMove)) * (moveSpeed * Time.deltaTime);
 
             return translationInWorldSpace;
         }
