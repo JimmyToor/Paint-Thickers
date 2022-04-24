@@ -35,8 +35,9 @@ public class SFXPlayer : Singleton<SFXPlayer>
     AudioSource[] m_SFXSourcePool;
     
     int m_UsedSource = 0;
-    
-    void Awake()
+
+
+    private void Start()
     {
         m_SFXSourcePool = new AudioSource[SFXSourceCount];
 

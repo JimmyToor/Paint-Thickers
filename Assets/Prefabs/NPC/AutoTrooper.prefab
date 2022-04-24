@@ -1803,6 +1803,7 @@ MonoBehaviour:
   aimRotate: {fileID: 4963069778133124504}
   turnSpeed: 15
   aimSpeed: 25
+  shootSFX: {fileID: 0}
   sightDistance: 30
 --- !u!114 &1989729637
 MonoBehaviour:
@@ -1819,13 +1820,13 @@ MonoBehaviour:
   hitpoints: 2
   invulnerable: 0
   useHitDamageMaterial: 0
-  useHitFX: 0
-  useDeathFX: 0
   destroyOnDeath: 0
   hitCooldown: 0.75
   damageMaterial: {fileID: 0}
   hitFX: {fileID: 0}
-  destroyFX: {fileID: 0}
+  hitSFX: {fileID: 0}
+  deathFX: {fileID: 0}
+  deathSFX: {fileID: 0}
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -16633,9 +16634,10 @@ MonoBehaviour:
     splatRandomScaleMax: 1
     splatRotation: 0
     splatRandomRotation: 180
-    splatChannel: 2
-  randomChannel: 0
+    splatChannel: 0
   damage: 1
+  randomChannel: 0
+  collisionSFX: 0
 --- !u!114 &8757214118557992800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16656,6 +16658,7 @@ MonoBehaviour:
   volume: 1
   minPitch: 1.2
   maxPitch: 0.8
+  cooldownTime: 0
 --- !u!1773428102 &8757214118557992803
 ParentConstraint:
   m_ObjectHideFlags: 0

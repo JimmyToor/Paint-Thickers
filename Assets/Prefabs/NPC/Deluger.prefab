@@ -5429,8 +5429,9 @@ MonoBehaviour:
     splatRotation: 0
     splatRandomRotation: 180
     splatChannel: 0
-  RandomChannel: 0
   damage: 1
+  randomChannel: 0
+  collisionSFX: 0
 --- !u!114 &2320646125495375958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5451,6 +5452,7 @@ MonoBehaviour:
   volume: 0.45
   minPitch: 1.2
   maxPitch: 0.8
+  cooldown: 0
 --- !u!1 &2320646126164769157
 GameObject:
   m_ObjectHideFlags: 0
@@ -18891,7 +18893,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 0
+    enabled: 1
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -19064,7 +19066,7 @@ ParticleSystem:
     radiusScale: 0.18
     collidesWith:
       serializedVersion: 2
-      m_Bits: 4294967295
+      m_Bits: 64
     maxCollisionShapes: 256
     quality: 2
     voxelSize: 0.5
@@ -21910,8 +21912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55ee71103bb4350448dd957f83f85d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1
-  invulnerable: 0
+  groupId: 0
   paintSpray: {fileID: 2320646126362269966}
   patrolNodeGroup: {fileID: 0}
   head: {fileID: 5148919786165349246}
