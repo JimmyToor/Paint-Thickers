@@ -759,7 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1920fba3a163184ca0e3fd23abad80b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedThreshold: 13
+  speedThreshold: 6
   linesVFX: {fileID: 2049899795}
 --- !u!1 &4989558146991971952
 GameObject:
@@ -1295,6 +1295,7 @@ GameObject:
   - component: {fileID: 4989558147164366918}
   - component: {fileID: 4989558147164366921}
   - component: {fileID: 3953089385813430785}
+  - component: {fileID: 7547286212558639657}
   m_Layer: 3
   m_Name: XR Rig
   m_TagString: Player
@@ -1370,6 +1371,8 @@ MonoBehaviour:
   canSwim: 1
   isSquid: 0
   walkSpeed: 3
+  leftHand: {fileID: 0}
+  rightHand: {fileID: 0}
 --- !u!114 &1614226181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1535,6 +1538,38 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
     m_Reference: {fileID: 0}
+--- !u!114 &7547286212558639657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558147164366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091bf8be20d216c4eb44f9a5654cf119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitpoints: 5
+  maxHitpoints: 0
+  invulnerable: 0
+  useHitDamageMaterial: 0
+  destroyOnDeath: 0
+  regenerative: 0
+  hitCooldown: 0
+  regenCooldown: 0
+  regenRate: 0
+  damageMaterial: {fileID: 0}
+  hitFX: {fileID: 0}
+  hitSFX: {fileID: 0}
+  deathFX: {fileID: 0}
+  deathSFX: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4989558145520396200
 PrefabInstance:
   m_ObjectHideFlags: 0

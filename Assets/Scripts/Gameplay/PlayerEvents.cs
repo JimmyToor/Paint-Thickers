@@ -49,12 +49,11 @@ public class PlayerEvents : MonoBehaviour
     public void OnLaunch()
     {   
         Stand?.Invoke();
-        player.DisableInputMovement();
+        Launch?.Invoke();
     }
 
     public void OnLand()
     {
-        player.EnableInputMovement();
         Land?.Invoke();
     }
 

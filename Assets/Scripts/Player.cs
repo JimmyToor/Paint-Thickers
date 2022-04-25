@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.IO.Ports;
 using Gameplay;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -12,12 +14,13 @@ public class Player : MonoBehaviour
     public bool canSwim = true;
     public bool isSquid;
     public float walkSpeed;
+    public GameObject leftHand;
+    public GameObject rightHand;
     
     private Inventory inventory = new Inventory(true);
     private Health health;
     private GameObject weapon;
-    private Renderer[] weaponRenderers;
-    private GameObject weaponParticles;
+    private List<GameObject> weaponParts = new List<GameObject>();
     private CharacterController charController;
     private Vector3 resetPosition;
     ActionBasedContinuousMoveProvider locomotion;
@@ -37,6 +40,12 @@ public class Player : MonoBehaviour
     private void SetupEvents()
     {
         playerEvents.TakeHit += TakeHit;
+        playerEvents.Launch += DisableInputMovement;
+        playerEvents.Land += EnableInputMovement;
+        playerEvents.Swim += DisableHands;
+        playerEvents.Swim += DisableWeapon;
+        playerEvents.Stand += EnableHands;
+        playerEvents.Stand += EnableWeapon;
     }
 
     // Disable input-driven player movement
@@ -75,17 +84,30 @@ public class Player : MonoBehaviour
     public void SetWeapon(GameObject newWeapon)
     {
         weapon = newWeapon;
-        weaponRenderers = weapon.GetComponentsInChildren<MeshRenderer>();
-        
-        // Assumes the main particle will always have this name
-        weaponParticles = weapon.transform.Find("Main Visual Particle")?.gameObject;
+        foreach (Transform weaponPart in weapon.transform)
+        {
+            weaponParts.Add(weaponPart.gameObject);
+        }
     }
 
+    public void DisableHands()
+    {
+        leftHand.SetActive(false);
+        rightHand.SetActive(false);
+    }
+
+    public void EnableHands()
+    {
+        leftHand.SetActive(true);
+        rightHand.SetActive(true);
+    }
+    
     public void RemoveWeapon()
     {
         if (weapon != null)
         {
             weapon = null;
+            weaponParts.Clear();
         }
     }
 
@@ -96,14 +118,9 @@ public class Player : MonoBehaviour
             return;
         }
 
-        foreach (MeshRenderer meshRenderer in weaponRenderers)
+        foreach (GameObject weaponPart in weaponParts)
         {
-            meshRenderer.enabled = false;
-        }
-
-        if (weaponParticles != null)
-        {
-            weaponParticles.SetActive(false);
+            weaponPart.SetActive(false);
         }
     }
 
@@ -114,14 +131,9 @@ public class Player : MonoBehaviour
             return;
         }
         
-        foreach (MeshRenderer meshRenderer in weaponRenderers)
+        foreach (GameObject weaponPart in weaponParts)
         {
-            meshRenderer.enabled = true;
-        }
-
-        if (weaponParticles != null)
-        {
-            weaponParticles.SetActive(true);
+            weaponPart.SetActive(true);
         }
     }
 

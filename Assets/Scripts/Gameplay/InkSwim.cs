@@ -67,7 +67,6 @@ public class InkSwim : MonoBehaviour
         if (player.canSwim)
         {
             player.isSquid = true;
-            player.DisableWeapon();
             gameObject.layer = squidLayer;
         }
     }
@@ -76,7 +75,6 @@ public class InkSwim : MonoBehaviour
     {
         gameObject.layer = playerLayer;
         player.isSquid = false;
-        player.EnableWeapon();
         locomotion.moveSpeed = standSpeed;
     }
 
