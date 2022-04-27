@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8148065576362350429}
   - component: {fileID: 8148065576362350418}
   - component: {fileID: 8148065576362350419}
-  - component: {fileID: 1529470157}
   m_Layer: 0
   m_Name: XR Interaction Manager
   m_TagString: Untagged
@@ -73,17 +72,3 @@ MonoBehaviour:
   hideHands: 1
   leftHandPrefab: {fileID: 0}
   rightHandPrefab: {fileID: 0}
---- !u!114 &1529470157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8148065576362350430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cea5772856041394993cdb089bace8e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SFXReferenceSource: {fileID: 0}
-  SFXSourceCount: 20

@@ -5,7 +5,7 @@ namespace AI
 {
     public class Enemy : MonoBehaviour
     {
-        private static GameManager _gameManager;
+        private static EnemyManager _enemyManager;
     
         protected Health health;
     
@@ -18,13 +18,13 @@ namespace AI
     
         private void SetupManager()
         {
-            _gameManager = FindObjectOfType<GameManager>();
-            if (_gameManager == null)
+            _enemyManager = FindObjectOfType<EnemyManager>();
+            if (_enemyManager == null)
             {
-                Debug.Log("No GameManager found in the scene!");
+                Debug.Log("No EnemyManager found in the scene!");
                 return;
             }
-            _gameManager.AddEnemy(groupId,this);
+            _enemyManager.AddEnemy(groupId,this);
             
             if (TryGetComponent(out health))
             {
@@ -34,7 +34,7 @@ namespace AI
 
         private void RemoveFromManager()
         {
-            _gameManager.RemoveEnemy(groupId,this);
+            _enemyManager.RemoveEnemy(groupId,this);
         }
     }
 }

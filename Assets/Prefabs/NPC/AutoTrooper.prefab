@@ -1761,6 +1761,7 @@ GameObject:
   - component: {fileID: 1989729637}
   - component: {fileID: 586738508}
   - component: {fileID: 7683721474867376198}
+  - component: {fileID: 385746725310351694}
   m_Layer: 10
   m_Name: AutoTrooper
   m_TagString: Enemy
@@ -1803,7 +1804,7 @@ MonoBehaviour:
   aimRotate: {fileID: 4963069778133124504}
   turnSpeed: 15
   aimSpeed: 25
-  shootSFX: {fileID: 0}
+  shootSFX: {fileID: 8300000, guid: f48b538b00559ae4f952d288f4e73f90, type: 3}
   sightDistance: 30
 --- !u!114 &1989729637
 MonoBehaviour:
@@ -1818,15 +1819,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitpoints: 2
+  maxHitpoints: 0
   invulnerable: 0
   useHitDamageMaterial: 0
   destroyOnDeath: 0
+  regenerative: 0
   hitCooldown: 0.75
+  regenCooldown: 0
+  regenRate: 0
   damageMaterial: {fileID: 0}
-  hitFX: {fileID: 0}
-  hitSFX: {fileID: 0}
-  deathFX: {fileID: 0}
-  deathSFX: {fileID: 0}
+  hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
+  hitSFX:
+  - {fileID: 8300000, guid: 09c9540d9408cba45930a06462877e1c, type: 3}
+  deathFX: {fileID: 113441720838220952, guid: b0530af8f4be6e04999bf865f046ba68, type: 3}
+  deathSFX: []
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -1904,6 +1910,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &385746725310351694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a3489cd830ef54da8cd9c1bbcb5428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Clips: []
+  volume: 1
+  minPitch: 1
+  maxPitch: 1
+  cooldownTime: 0
 --- !u!1 &8757214117243039789
 GameObject:
   m_ObjectHideFlags: 0

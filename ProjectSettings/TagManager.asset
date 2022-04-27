@@ -11,6 +11,9 @@ TagManager:
   - Fence
   - Item
   - OOBVolume
+  - paint_hit
+  - crate_explode
+  - trooper_explode
   layers:
   - Default
   - TransparentFX

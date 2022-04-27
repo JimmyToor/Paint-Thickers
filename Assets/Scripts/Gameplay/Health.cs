@@ -29,6 +29,7 @@ public class Health : MonoBehaviour
     private int takeHitHash = Animator.StringToHash("TakeHit");
     private SFXSource sfxSource;
     private float regenTime; // Time until regeneration starts
+    private static ObjectPooler _objectPooler;
 
 
     private void Start()
@@ -36,6 +37,7 @@ public class Health : MonoBehaviour
         _renderer = GetComponent<Renderer>();
         TryGetComponent(out animator);
         TryGetComponent(out sfxSource);
+        _objectPooler = FindObjectOfType<ObjectPooler>();
     }
 
     private void FixedUpdate()
@@ -78,6 +80,7 @@ public class Health : MonoBehaviour
         
         if (hitpoints <= 0)
         {
+            Debug.Log("dead");
             OnDeath();
         }
         
@@ -99,14 +102,16 @@ public class Health : MonoBehaviour
     {
         if (deathFX != null)
         {
-            Instantiate(deathFX, transform.position, Quaternion.identity);
+            GameObject fxObject = _objectPooler.GetObjectFromPool(deathFX.tag);
+            fxObject.transform.position = transform.position;
+            fxObject.transform.rotation = Quaternion.identity;
+            fxObject.SetActive(true);
         }
         
         if (sfxSource != null && deathSFX.Count > 0)
         {
             int randClip = UnityEngine.Random.Range(0, deathSFX.Count);
             sfxSource.TriggerPlayOneShot(transform.position,deathSFX[randClip]);
-            Debug.Log("played clip");
         }
         
         onDeath?.Invoke();
@@ -122,7 +127,10 @@ public class Health : MonoBehaviour
 
         if (hitFX != null)
         {
-            Instantiate(hitFX, hitPos, Quaternion.identity);
+            GameObject fxObject = _objectPooler.GetObjectFromPool(hitFX.tag);
+            fxObject.transform.position = hitPos;
+            fxObject.transform.rotation = Quaternion.identity;
+            fxObject.SetActive(true);
         }
 
         if (sfxSource != null && hitSFX.Count > 0 && hitpoints > 0)

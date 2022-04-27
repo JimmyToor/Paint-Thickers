@@ -43,7 +43,7 @@ public class SFXPlayer : Singleton<SFXPlayer>
 
         for (int i = 0; i < SFXSourceCount; ++i)
         {
-            m_SFXSourcePool[i] = Instantiate(SFXReferenceSource);
+            m_SFXSourcePool[i] = Instantiate(SFXReferenceSource,transform, true);
             m_SFXSourcePool[i].gameObject.SetActive(false);
         }
     }
