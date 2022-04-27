@@ -1,20 +1,25 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
     public float hitpoints;
+    public float maxHitpoints;
     public bool invulnerable;
     public bool useHitDamageMaterial;
     public bool destroyOnDeath;
+    public bool regenerative; // Whether or not health regenerates
     public float hitCooldown; // How long until we can be hit again after being hit
+    public float regenCooldown; // How long until health regenerates
+    public float regenRate; // How many hitpoints are regenerated per LateUpdate
     public Material damageMaterial;
     public GameObject hitFX;
-    public AudioClip hitSFX; // Requires an AudioSource component
+    public List<AudioClip> hitSFX; // Requires an AudioSource component
     public GameObject deathFX;
-    public AudioClip deathSFX; // Requires an AudioSource component
+    public List<AudioClip> deathSFX; // Requires an AudioSource component
     public UnityEvent onDeath;
     public UnityEvent onHit;
 
@@ -23,7 +28,8 @@ public class Health : MonoBehaviour
     private Animator animator;
     private int takeHitHash = Animator.StringToHash("TakeHit");
     private SFXSource sfxSource;
-    
+    private float regenTime; // Time until regeneration starts
+
 
     private void Start()
     {
@@ -32,18 +38,52 @@ public class Health : MonoBehaviour
         TryGetComponent(out sfxSource);
     }
 
-    public void TakeHit(float damage, Vector3 hitPos = default(Vector3))
+    private void FixedUpdate()
+    {
+        if (regenerative && hitpoints < maxHitpoints)
+        {
+            if (regenTime <= 0)
+            {
+                RegenerateHealth();
+            }
+            else
+            {
+                regenTime -= Time.deltaTime;
+            }
+        }
+    }
+
+    private void RegenerateHealth()
+    {
+        hitpoints += regenRate;
+        if (hitpoints > maxHitpoints)
+        {
+            hitpoints = maxHitpoints;
+        }
+        regenTime = regenCooldown;
+    }
+
+    public void TakeHit(float damage, Vector3 hitPos = default)
     {
         if (onCooldown)
             return;
 
+        if (regenerative)
+        {
+            regenTime = regenCooldown;
+        }
+        
+        ReduceHP(damage);
         OnHit(hitPos);
+        
+        if (hitpoints <= 0)
+        {
+            OnDeath();
+        }
         
         if (useHitDamageMaterial && _renderer.material != damageMaterial)
             _renderer.material = damageMaterial;
-
-        ReduceHP(damage);
-
+        
         if (hitCooldown != 0)
             StartCoroutine(StartCooldown());
     }
@@ -62,10 +102,11 @@ public class Health : MonoBehaviour
             Instantiate(deathFX, transform.position, Quaternion.identity);
         }
         
-        if (sfxSource != null && deathSFX != null)
+        if (sfxSource != null && deathSFX.Count > 0)
         {
-            sfxSource.TriggerPlayOneShot(transform.position,deathSFX);
-
+            int randClip = UnityEngine.Random.Range(0, deathSFX.Count);
+            sfxSource.TriggerPlayOneShot(transform.position,deathSFX[randClip]);
+            Debug.Log("played clip");
         }
         
         onDeath?.Invoke();
@@ -84,9 +125,10 @@ public class Health : MonoBehaviour
             Instantiate(hitFX, hitPos, Quaternion.identity);
         }
 
-        if (sfxSource != null && hitSFX != null)
+        if (sfxSource != null && hitSFX.Count > 0 && hitpoints > 0)
         {
-            sfxSource.TriggerPlayOneShot(transform.position,hitSFX);
+            int randClip = UnityEngine.Random.Range(0, hitSFX.Count);
+            sfxSource.TriggerPlayOneShot(transform.position,hitSFX[randClip]);
         }
         
         onHit.Invoke();
@@ -97,10 +139,6 @@ public class Health : MonoBehaviour
         if (!invulnerable)
         {
             hitpoints -= damage;
-            if (hitpoints <= 0)
-            {
-                OnDeath();
-            }
         }
     }
 }

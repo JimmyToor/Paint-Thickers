@@ -14,6 +14,8 @@ GameObject:
   - component: {fileID: 2875753835798774864}
   - component: {fileID: 1124921492}
   - component: {fileID: 2086329791943517130}
+  - component: {fileID: 1227451621}
+  - component: {fileID: 1227451622}
   m_Layer: 14
   m_Name: Crate
   m_TagString: Untagged
@@ -126,18 +128,61 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitpoints: 2
+  maxHitpoints: 0
   invulnerable: 0
   useHitDamageMaterial: 1
-  useHitFX: 1
-  useDeathFX: 1
   destroyOnDeath: 1
+  regenerative: 0
   hitCooldown: 0.25
+  regenCooldown: 0
+  regenRate: 0
   damageMaterial: {fileID: 2100000, guid: 02f651351c871e444b239264d2e86dbc, type: 2}
   hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
-  destroyFX: {fileID: 7931773660669697391, guid: 82979635185ba1643b7bf8ad26b23ec1, type: 3}
+  hitSFX:
+  - {fileID: 8300000, guid: 626b489b96768dc4a8f50fe9c3483e82, type: 3}
+  deathFX: {fileID: 7931773660669697391, guid: 82979635185ba1643b7bf8ad26b23ec1, type: 3}
+  deathSFX:
+  - {fileID: 8300000, guid: d8b7bc8e7119fdd40a56d0724830181f, type: 3}
+  - {fileID: 8300000, guid: 6423c1f1394d45746b0507a11e2d3079, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
   onHit:
     m_PersistentCalls:
       m_Calls: []
+--- !u!95 &1227451621
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2875753835798774867}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: be471f5a026ca274fa4fb9935af03351, type: 3}
+  m_Controller: {fileID: 9100000, guid: 3266b44d1d3144443b3d0473c71d070e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1227451622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2875753835798774867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a3489cd830ef54da8cd9c1bbcb5428, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Clips: []
+  volume: 0.5
+  minPitch: 1.2
+  maxPitch: 0.8
+  cooldownTime: 0

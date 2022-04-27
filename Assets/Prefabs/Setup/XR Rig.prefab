@@ -1561,9 +1561,11 @@ MonoBehaviour:
   regenRate: 0
   damageMaterial: {fileID: 0}
   hitFX: {fileID: 0}
-  hitSFX: {fileID: 0}
+  hitSFX:
+  - {fileID: 0}
   deathFX: {fileID: 0}
-  deathSFX: {fileID: 0}
+  deathSFX:
+  - {fileID: 0}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
