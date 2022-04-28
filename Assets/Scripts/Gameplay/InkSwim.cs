@@ -40,7 +40,7 @@ public class InkSwim : MonoBehaviour
         standSpeed = player.walkSpeed;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         if (CheckForPaintBelow())
             inInk = true;

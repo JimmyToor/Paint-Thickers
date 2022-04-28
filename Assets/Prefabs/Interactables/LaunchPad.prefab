@@ -95,9 +95,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56bc875115782e94a94f33bfde9c8c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endTarget: {fileID: 2664308325178651358}
-  speed: 0
-  arcHeight: 0
+  target: {fileID: 2664308325178651358}
+  speed: 20
+  launchParameters:
+    endPos: {x: 0, y: 0, z: 0}
+    animCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5034198
+        value: 0.7534081
+        inSlope: 0.0044652033
+        outSlope: 0.0044652033
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.40999284
+      - serializedVersion: 3
+        time: 1
+        value: -0.0021133423
+        inSlope: -2.2141817
+        outSlope: -2.2141817
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.21070927
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    stepScale: 0
+    curveScale: 10
 --- !u!135 &365426405
 SphereCollider:
   m_ObjectHideFlags: 0

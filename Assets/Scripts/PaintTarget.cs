@@ -239,21 +239,22 @@ public class PaintTarget : MonoBehaviour
             //splatObject.hideFlags = HideFlags.HideInHierarchy;
         }
 
-        splatObject.transform.position = point;
+        Transform splatTransform = splatObject.transform;
+        splatTransform.position = point;
 
         Vector3 leftVec = Vector3.Cross(normal, Vector3.up);
         if (leftVec.magnitude > 0.001f)
-            splatObject.transform.rotation = Quaternion.LookRotation(leftVec, normal);
+            splatTransform.rotation = Quaternion.LookRotation(leftVec, normal);
         else
-            splatObject.transform.rotation = Quaternion.identity;
+            splatTransform.rotation = Quaternion.identity;
 
         float randScale = Random.Range(brush.splatRandomScaleMin, brush.splatRandomScaleMax);
-        splatObject.transform.RotateAround(point, normal, brush.splatRotation);
-        splatObject.transform.RotateAround(point, normal, Random.Range(-brush.splatRandomRotation, brush.splatRandomRotation));
-        splatObject.transform.localScale = new Vector3(randScale, randScale, randScale) * brush.splatScale;
+        splatTransform.RotateAround(point, normal, brush.splatRotation);
+        splatTransform.RotateAround(point, normal, Random.Range(-brush.splatRandomRotation, brush.splatRandomRotation));
+        splatTransform.localScale = new Vector3(randScale, randScale, randScale) * brush.splatScale;
 
         Paint newPaint = new Paint();
-        newPaint.paintMatrix = splatObject.transform.worldToLocalMatrix;
+        newPaint.paintMatrix = splatTransform.worldToLocalMatrix;
         newPaint.channelMask = brush.getMask();
         newPaint.scaleBias = brush.getTile();
         newPaint.brush = brush;

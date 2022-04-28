@@ -40,7 +40,7 @@ public class Health : MonoBehaviour
         _objectPooler = FindObjectOfType<ObjectPooler>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (regenerative && hitpoints < maxHitpoints)
         {
@@ -128,8 +128,9 @@ public class Health : MonoBehaviour
         if (hitFX != null)
         {
             GameObject fxObject = _objectPooler.GetObjectFromPool(hitFX.tag);
-            fxObject.transform.position = hitPos;
-            fxObject.transform.rotation = Quaternion.identity;
+            Transform fxTransform = fxObject.transform;
+            fxTransform.position = hitPos;
+            fxTransform.rotation = Quaternion.identity;
             fxObject.SetActive(true);
         }
 

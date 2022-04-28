@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
-public class ObjectPool
-{
-    public List<GameObject> pool = new List<GameObject>();
-    public GameObject objectToPool;
-    public int poolSize;
-}
-
 public class ObjectPooler : Singleton<ObjectPooler>
 {
+    [Serializable]
+    public class ObjectPool
+    {
+        public List<GameObject> pool = new List<GameObject>();
+        public GameObject objectToPool;
+        public int poolSize;
+    }
+    
     public List<ObjectPool> objectPools = new List<ObjectPool>();
     
     // Start is called before the first frame update
