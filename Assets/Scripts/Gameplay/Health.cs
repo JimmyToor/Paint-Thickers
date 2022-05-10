@@ -29,7 +29,6 @@ public class Health : MonoBehaviour
     private int takeHitHash = Animator.StringToHash("TakeHit");
     private SFXSource sfxSource;
     private float regenTime; // Time until regeneration starts
-    private static ObjectPooler _objectPooler;
 
 
     private void Start()
@@ -37,7 +36,6 @@ public class Health : MonoBehaviour
         _renderer = GetComponent<Renderer>();
         TryGetComponent(out animator);
         TryGetComponent(out sfxSource);
-        _objectPooler = FindObjectOfType<ObjectPooler>();
     }
 
     private void Update()
@@ -80,7 +78,6 @@ public class Health : MonoBehaviour
         
         if (hitpoints <= 0)
         {
-            Debug.Log("dead");
             OnDeath();
         }
         
@@ -102,7 +99,7 @@ public class Health : MonoBehaviour
     {
         if (deathFX != null)
         {
-            GameObject fxObject = _objectPooler.GetObjectFromPool(deathFX.tag);
+            GameObject fxObject = ObjectPooler.instance.GetObjectFromPool(deathFX.tag);
             fxObject.transform.position = transform.position;
             fxObject.transform.rotation = Quaternion.identity;
             fxObject.SetActive(true);
@@ -127,7 +124,7 @@ public class Health : MonoBehaviour
 
         if (hitFX != null)
         {
-            GameObject fxObject = _objectPooler.GetObjectFromPool(hitFX.tag);
+            GameObject fxObject = ObjectPooler.instance.GetObjectFromPool(hitFX.tag);
             Transform fxTransform = fxObject.transform;
             fxTransform.position = hitPos;
             fxTransform.rotation = Quaternion.identity;

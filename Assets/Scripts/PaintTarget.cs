@@ -144,6 +144,7 @@ public class PaintTarget : MonoBehaviour
 
     public static int RayChannel(RaycastHit hit)
     {
+        if (!hit.collider || !hit.transform) return -1;
         PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
         if (!paintTarget) return -1;
 

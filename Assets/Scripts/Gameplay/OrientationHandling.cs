@@ -4,131 +4,116 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-[RequireComponent(typeof(Player),typeof(PlayerEvents))]
+[RequireComponent(typeof(Player))]
 // Handle height and matching terrain orientation in squid form
 public class OrientationHandling : MonoBehaviour
 {
-    const float squidHeight = 0.5f;
-    const float humanHeight = 0f;
-    public float rotationSpeed = 90f;
-    public float sinkSpeed = 2; // speed of squid transformation
-    public bool slopeHandling = true;
+    public const float squidHeight = 0.5f;
+    public const float swimHeight = 0.3f;
+    
+    public float rotationSpeed;
+    public float sinkSpeed; // speed of squid transformation
     public ActionBasedContinuousMoveProvider locomotion;
+    [HideInInspector]
+    public Vector3 NewNormal { get; set; }
 
-    private RaycastHit slopeHit;
+    private Player player;
+    private Transform camOffset;
+    private Transform playerHead;
+    private RaycastHit directionHit;
+    private Vector3 newOrientation;
+    private float targetHeight;
+    private float slopeLimit;
+    private bool orienting;
 
-    Player player;
-    PlayerEvents playerEvents;
-    Transform camOffset;
-    Transform playerHead;
-    Vector3 direction;
-    LayerMask mask;
-    RaycastHit directionHit;
-    Vector3 newOrientation;
-    float targetHeight;
-
+    
     void Start()
     {
         player = GetComponent<Player>();
-        mask = LayerMask.GetMask("Terrain");
+        slopeLimit = GetComponent<CharacterController>().slopeLimit;
         camOffset = transform.GetChild(0);
         playerHead = camOffset.GetChild(0);
-        playerEvents = GetComponent<PlayerEvents>();
-        SetupEvents(); 
+        NewNormal = Vector3.zero;
     }
 
-    private void SetupEvents()
+    public void UpdateOrientation()
     {
-        playerEvents.Move += HandleMove;
-        playerEvents.Swim += HandleSwim;
+        if (NewNormal == Vector3.zero) 
+        { 
+            NewNormal = Vector3.up; // reset our orientation since there was nothing to match orientation with
+        }
+        
+        ToOrientation(NewNormal.normalized);
+ 
+        NewNormal = Vector3.zero;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    // Set the new normal that the XRRig will rotate to match
+    public bool SetNewNormal(RaycastHit hit, int channel)
     {
-        if (player.isSquid)
+        if (hit.transform != null) // Only factor in this surface if it has friendly paint or is a small enough slope
         {
-            ToSquidHeight();
-            CheckForOrientationChange();
+            float angle = Vector3.Angle(hit.normal, Vector3.up);
+            if (channel == player.teamChannel || angle < slopeLimit)
+            {
+                NewNormal = hit.normal;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void ResetOrientation()
+    {
+        ToOrientation(Vector3.up);
+    }
+
+    // Rotate the rig normal towards the passed normal vector
+    private void ToOrientation(Vector3 newUp)
+    {
+        if (newUp == transform.up)
+        {
+            return; // Already at this orientation, nothing to do
+        }
+        
+        Quaternion currRot = transform.rotation;
+        var newRotation = Quaternion.FromToRotation(transform.up, newUp) * currRot;
+
+        transform.rotation = Quaternion.RotateTowards(currRot, newRotation, Time.deltaTime * rotationSpeed);
+        
+        float newAngle = Vector3.Angle(newUp, Vector3.up);
+        
+        if (newAngle > slopeLimit)
+        {
+            // Reduce gravity for the rig enough to be able to move up the wall, but still slide down if not moving
+            locomotion.UseRigRelativeGravity = true;
+            locomotion.GravityScale = 0.05f;
         }
         else
         {
-            if (camOffset.transform.position.y != humanHeight)
-                ToHeight(humanHeight); // Remove the squid height offset
-            if (transform.up != Vector3.up)
-            {
-                ToOrientation(Vector3.up);
-            }
-            if (slopeHandling) // Prevent bouncing down slopes
-            {
-                Physics.Raycast(playerHead.position, -camOffset.transform.up, out slopeHit, 1f, mask);
-                locomotion.slopeHandling = slopeHit.normal != transform.up;
-            }
-        }    
+            locomotion.UseRigRelativeGravity = false;
+            locomotion.GravityScale = 1f;
+        }
     }
 
-    void HandleMove(Vector3 newDirection)
+    public void ResetHeight()
     {
-        direction = newDirection;
-    }
-
-    void HandleSwim()
-    {
-        locomotion.slopeHandling = false;
-    }
-
-    // Check for an upcoming terrain orientation change so we can rotate accordingly
-    private void CheckForOrientationChange()
-    {
-        if (CheckForPaintAhead()) // Check for walls
-        {
-            ToOrientation(directionHit.normal);
-        }
-        else if (Physics.Raycast(playerHead.position, -camOffset.transform.up, out directionHit, 1f, mask)) // Check for slope changes
-        {
-            ToOrientation(directionHit.normal);
-        }
-        else if (transform.up != Vector3.up) // Reset orientation
-        {
-            ToOrientation(Vector3.up);
-        }
+        ToHeight(0); // Remove the squid height offset
     }
     
-    // Rotate the rig normal towards the newUp normal
-    private void ToOrientation(Vector3 newUp)
+    // Set player's head height from the floor, ignoring floor offset and vertical head position
+    public void ToHeightWithoutOffset(float height)
     {
-        Quaternion currRot = transform.rotation;
-        var newRotation = Quaternion.FromToRotation(transform.up, newUp)*currRot; // FromToRotation may cause movement issues, might need alternative method
-        
-        transform.rotation = Quaternion.RotateTowards(currRot, newRotation, Time.deltaTime * rotationSpeed);
-    }
-
-    // Lower view and negate vertical head movement
-    void ToSquidHeight()
-    {
-        float newHeight = -playerHead.localPosition.y + squidHeight; 
+        float newHeight = -playerHead.localPosition.y + height; 
         ToHeight(newHeight);
     }
 
-    // Move the camera closer to the passed height
-    void ToHeight(float newHeight)
+    // Move the camera offset's y-position towards the passed float to change the height of the player's view
+    public void ToHeight(float newHeight)
     {
-        Vector3 newPos = camOffset.transform.localPosition;
+        Vector3 newPos = camOffset.localPosition;
         newPos.y = Mathf.MoveTowards(newPos.y, newHeight, Time.deltaTime * sinkSpeed);
-        camOffset.transform.localPosition = newPos;
-    }
-
-    // Look for paint straight ahead (i.e. on a wall)
-    private bool CheckForPaintAhead()
-    {
-        Vector3 movementDir = playerHead.TransformDirection(direction);
-        movementDir.y = 0f;
-
-        if (Physics.Raycast(playerHead.position,movementDir, out directionHit, 1.5f, mask))
-        {
-            if (PaintTarget.RayChannel(directionHit) == player.teamChannel)
-                return true;
-        }
-        return false;
+        camOffset.localPosition = newPos;
     }
 }

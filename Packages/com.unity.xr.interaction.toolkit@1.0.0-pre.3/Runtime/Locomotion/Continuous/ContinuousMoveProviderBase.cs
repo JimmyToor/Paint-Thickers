@@ -8,9 +8,10 @@ namespace UnityEngine.XR.Interaction.Toolkit
     /// <seealso cref="LocomotionProvider"/>
     public abstract class ContinuousMoveProviderBase : LocomotionProvider
     {
-        [HideInInspector]
-        public bool slopeHandling;
-        
+        public Vector3 LatestRelativeInput { get; private set; }
+        public bool UseRigRelativeGravity { get; set; } // Apply gravity to local Y-axis
+        public float GravityScale { get; set; } = 1;
+
         /// <summary>
         /// Defines when gravity will begin to take effect.
         /// </summary>
@@ -179,12 +180,9 @@ namespace UnityEngine.XR.Interaction.Toolkit
             var inputForwardProjectedInWorldSpace = Vector3.ProjectOnPlane(inputForwardInWorldSpace, rigUp);
             var forwardRotation = Quaternion.FromToRotation(rigTransform.forward, inputForwardProjectedInWorldSpace);
 
-            if (slopeHandling) // Prevent bouncing down slopes
-            {
-                inputMove += Vector3.down;
-            }
+            LatestRelativeInput = forwardRotation*rigTransform.TransformVector(inputMove);
             
-            var translationInWorldSpace = (forwardRotation*rigTransform.TransformVector(inputMove)) * (moveSpeed * Time.deltaTime);
+            var translationInWorldSpace = LatestRelativeInput * (moveSpeed * Time.deltaTime);
 
             return translationInWorldSpace;
         }
@@ -213,11 +211,16 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 }
                 else
                 {
-                    m_VerticalVelocity += Physics.gravity * Time.deltaTime;
+                    Vector3 scaledGravity = GravityScale * Physics.gravity;
+                    m_VerticalVelocity += scaledGravity * Time.deltaTime;
                 }
 
+                if (UseRigRelativeGravity)
+                {
+                    m_VerticalVelocity += xrRig.transform.TransformVector(Physics.gravity * Time.deltaTime);
+                }
                 motion += m_VerticalVelocity * Time.deltaTime;
-
+                
                 if (CanBeginLocomotion() && BeginLocomotion())
                 {
                     // Note that calling Move even with Vector3.zero will have an effect by causing isGrounded to update
