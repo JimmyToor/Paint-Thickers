@@ -6,44 +6,69 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using Utility;
 
-[RequireComponent(typeof(PlayerEvents),typeof(CharacterController))]
+[RequireComponent(typeof(PlayerEvents),typeof(CharacterController),typeof(InkSwim))]
 public class Player : MonoBehaviour
 {
     public PlayerEvents playerEvents;
     public int teamChannel; // colour channel of the player's team
-    public bool canSwim = true;
+    public bool canSquid = true;
     public bool isSquid;
     public float walkSpeed;
     public GameObject leftHand;
     public GameObject rightHand;
     
+    private ActionBasedContinuousMoveProvider locomotion;
+    private float oldSpeed;
     private Inventory inventory = new Inventory(true);
     private Health health;
     private GameObject weapon;
     private List<GameObject> weaponParts = new List<GameObject>();
     private CharacterController charController;
     private Vector3 resetPosition;
-    ActionBasedContinuousMoveProvider locomotion;
-    float oldSpeed;
 
     private void Start()
     {
-        charController = GetComponent<CharacterController>();
         InvokeRepeating(nameof(NewResetPosition),2f,5f);
         playerEvents = GetComponent<PlayerEvents>();
         locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
+        charController = GetComponent<CharacterController>();
         locomotion.moveSpeed = walkSpeed;
         TryGetComponent(out health);
         SetupEvents();
+        locomotion.moveSpeed = walkSpeed;
     }
+
+    // private void Update()
+    // {
+    //     // raycast down, are we standing in paint? Adjust speed if needed, store the hit.
+    //     // if not raycast hit, start resetting orientation
+    //     inkSwim.CheckGroundBelow();
+    //     
+    //     
+    //     if (isSquid)
+    //     {
+    //         // check for angle changes ahead and below. 
+    //         // if found ahead, rotate if there's paint.
+    //         // otherwise, if found below, rotate if within slopeangle or has paint
+    //     }
+    //     else
+    //     {
+    //         // reset orientation
+    //     }
+    //     
+    //     if (inkSwim.inInk && !inkSwim.canSwim)
+    //     {
+    //         locomotion.moveSpeed = enemyInkSpeed;
+    //     }
+    // }
 
     private void SetupEvents()
     {
         playerEvents.TakeHit += TakeHit;
         playerEvents.Launch += DisableInputMovement;
         playerEvents.Land += EnableInputMovement;
-        playerEvents.Swim += DisableHands;
-        playerEvents.Swim += DisableWeapon;
+        playerEvents.Squid += DisableHands;
+        playerEvents.Squid += DisableWeapon;
         playerEvents.Stand += EnableHands;
         playerEvents.Stand += EnableWeapon;
     }
@@ -52,7 +77,7 @@ public class Player : MonoBehaviour
     public void DisableInputMovement()
     {
         locomotion.moveSpeed = 0;
-        canSwim = false;
+        canSquid = false;
         locomotion.useGravity = false;
     }
 
@@ -60,7 +85,7 @@ public class Player : MonoBehaviour
     {
         locomotion.moveSpeed = walkSpeed;
         locomotion.useGravity = true;
-        canSwim = true;
+        canSquid = true;
     }
     
     public void AddItem(ItemType item)

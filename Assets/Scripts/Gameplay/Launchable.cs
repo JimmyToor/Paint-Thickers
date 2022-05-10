@@ -36,7 +36,7 @@ public class Launchable : MonoBehaviour
     private void SetupEvents()
     {
         playerEvents.Land += Land;
-        playerEvents.Swim += () => canLaunch = true;
+        playerEvents.Squid += () => canLaunch = true;
         playerEvents.Stand += () => canLaunch = false;
     }
 
@@ -75,6 +75,7 @@ public class Launchable : MonoBehaviour
 
     public void Launch(LaunchableParams launchParameters)
     {
+        //BuildUp();
         launchParams = launchParameters;
         startPos = transform.position;
         
@@ -87,6 +88,12 @@ public class Launchable : MonoBehaviour
         isLaunched = true;
     }
 
+    // private IEnumerable BuildUp()
+    // {
+    //     //wait while we play sound
+    //     
+    // }
+    
     public void Land()
     {
         isLaunched = false;

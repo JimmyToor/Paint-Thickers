@@ -9,14 +9,13 @@ namespace AI
     public class Trooper : Enemy
     {
         [SerializeField]
-        ParticleSystem paintSpray;
+        public ParticleSystem paintSpray;
         [SerializeField]
-        Transform bodyRotate;
+        public Transform bodyRotate;
         [SerializeField]
-        Transform aimRotate;
-        Tweener bodyTweener;
-        Tweener aimTweener;
-        
+        public Transform aimRotate;
+        public Tweener bodyTweener;
+        public Tweener aimTweener;
         [SerializeField]
         public float turnSpeed;
         public float aimSpeed;
@@ -48,6 +47,7 @@ namespace AI
 
         // Searches for and targets the nearest player
         // Ignores obstacles
+        // TODO: Change method of player finding (This way sucks, might as well use a volume)
         void TargetSearch()
         {
             Collider[] playersHit = new Collider[1];

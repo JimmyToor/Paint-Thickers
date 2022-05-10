@@ -532,7 +532,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Swim",
+                    "name": "Squid",
                     "type": "Button",
                     "id": "06b92d2e-44c5-4ca3-9cc9-0ed2c087bf04",
                     "expectedControlType": "Button",
@@ -801,7 +801,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Generic XR Controller",
-                    "action": "Swim",
+                    "action": "Squid",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

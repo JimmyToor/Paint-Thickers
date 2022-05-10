@@ -9269,7 +9269,7 @@ ParticleSystem:
     radiusScale: 0.15
     collidesWith:
       serializedVersion: 2
-      m_Bits: 1479
+      m_Bits: 17863
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -10388,7 +10388,7 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0.468, y: 0, z: -0.044}
   m_RotationAtRest: {x: 0, y: 90, z: 0}
   m_TranslationOffsets:
-  - {x: 0.46798897, y: 0.04399872, z: 0}
+  - {x: 0.46798992, y: 0.04399872, z: -0.0000038146973}
   m_RotationOffsets:
   - {x: 0, y: 90, z: 89.99998}
   m_AffectTranslationX: 1
