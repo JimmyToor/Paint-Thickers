@@ -47,6 +47,7 @@ namespace AI
 
         // Searches for and targets the nearest player
         // Ignores obstacles
+        // TODO: Change method of player finding (This way sucks, might as well use a volume)
         void TargetSearch()
         {
             Collider[] playersHit = new Collider[1];

@@ -11,10 +11,10 @@ public class LaunchPad : MonoBehaviour
     public Transform target;
     public float speed;
     public Launchable.LaunchableParams launchParameters;
+    public AudioClip launchAudioClip;
     
-    Vector3 endPos;
-    Vector3 startPos;
-    float stepScale; // Determines duration of launch (larger stepScale = shorter launch)
+    private Vector3 endPos; 
+    private float stepScale; // Determines duration of launch (larger stepScale = shorter launch)
     
     private void Start()
     {
@@ -28,6 +28,7 @@ public class LaunchPad : MonoBehaviour
         {
             float distance = Vector3.Distance(launchable.transform.position, launchParameters.endPos);
             launchParameters.stepScale = speed / distance;
+            AudioSource.PlayClipAtPoint(launchAudioClip,transform.position);
             launchable.Launch(launchParameters);
         }
     }

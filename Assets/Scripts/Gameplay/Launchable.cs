@@ -10,22 +10,24 @@ public class Launchable : MonoBehaviour
     {
         [HideInInspector] 
         public Vector3 endPos;
-        public AnimationCurve animCurve;
+        public AnimationCurve launchArc;
         [HideInInspector]
         public float stepScale;
-        public float curveScale;
+        public float arcScale;
+        public float buildupTime;
     }
     
     [HideInInspector]
     public bool isLaunched;
     public bool canLaunch;
+    public AudioClip landingAudioClip;
+    public GameObject landingVFX;
     
-    PlayerEvents playerEvents;
-    Vector3 startPos;
-    float progress;
-
+    private PlayerEvents playerEvents;
+    private Vector3 startPos;
+    private float progress;
     private LaunchableParams launchParams;
-    
+
 
     void Start()
     {
@@ -63,44 +65,47 @@ public class Launchable : MonoBehaviour
             Vector3 nextPos = Vector3.Lerp(startPos, launchParams.endPos, progress);
             
             // Add vertical arc
-            nextPos.y += launchParams.animCurve.Evaluate(progress)*launchParams.curveScale;
+            nextPos.y += launchParams.launchArc.Evaluate(progress)*launchParams.arcScale;
             transform.position = nextPos;
 
             if (progress >= 1) // We've landed, resume normal movement
             {
-                Land();
+                if (playerEvents != null)
+                {
+                    playerEvents.OnLand();
+                }
             }
         }
     }
 
     public void Launch(LaunchableParams launchParameters)
     {
-        //BuildUp();
         launchParams = launchParameters;
         startPos = transform.position;
+        progress = 0;
+        canLaunch = false;
         
         if (playerEvents != null)
         {
             playerEvents.OnLaunch();
         }
-
-        progress = 0;
-        isLaunched = true;
+        StartCoroutine(BuildUp());
     }
 
-    // private IEnumerable BuildUp()
-    // {
-    //     //wait while we play sound
-    //     
-    // }
+    // Wait while the launcher plays effects
+    private IEnumerator BuildUp()
+    {
+        yield return new WaitForSeconds(launchParams.buildupTime);
+        isLaunched = true;
+    }
     
     public void Land()
     {
         isLaunched = false;
-        if (playerEvents != null)
-        {
-            playerEvents.OnLand();
-        }
+        Vector3 fxPos = transform.position;
+        fxPos.y -= 0.5f; // landing sound should be below the player
+        AudioSource.PlayClipAtPoint(landingAudioClip, fxPos);
+        Instantiate(landingVFX,fxPos, Quaternion.identity);
     }
     
 }

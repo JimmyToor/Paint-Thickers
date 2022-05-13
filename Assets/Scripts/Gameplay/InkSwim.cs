@@ -9,7 +9,6 @@ public class InkSwim : MonoBehaviour
     public float squidSpeed; // Speed of squid out of ink
     public float swimSpeed; // Speed of squid in ink
     public float enemyInkSpeed; // Speed in enemy ink as human or squid
-    public bool slopeHandling = true;
     public Transform frontCheck; // Used to check for terrain changes in the direction we're moving
     [HideInInspector]
     public bool normalSet;

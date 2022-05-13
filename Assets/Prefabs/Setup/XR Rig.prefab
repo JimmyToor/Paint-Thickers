@@ -275,7 +275,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1570858204}
   m_LocalRotation: {x: -0.13052548, y: -0, z: -0, w: 0.991445}
-  m_LocalPosition: {x: 0, y: 0, z: 0.116}
+  m_LocalPosition: {x: 0, y: 0, z: 0.136}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1166761029}
@@ -1524,7 +1524,7 @@ CharacterController:
   m_Radius: 0.15
   m_SlopeLimit: 30
   m_StepOffset: 0.3
-  m_SkinWidth: 0.0001
+  m_SkinWidth: 0.01
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1614226184
@@ -1574,7 +1574,6 @@ MonoBehaviour:
   rotationSpeed: 300
   sinkSpeed: 2
   locomotion: {fileID: 3953089385813430785}
-  newNormal: {x: 0, y: 0, z: 0}
 --- !u!114 &4989558145552763728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1591,8 +1590,8 @@ MonoBehaviour:
   squidSpeed: 1
   swimSpeed: 6
   enemyInkSpeed: 3
-  slopeHandling: 1
   frontCheck: {fileID: 1570858205}
+  normalSet: 0
 --- !u!114 &160198625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1607,6 +1606,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLaunched: 0
   canLaunch: 1
+  landingAudioClip: {fileID: 8300000, guid: 3a4f5d0ea48748b4eb944fecc4f2a279, type: 3}
+  landingVFX: {fileID: 2139424295741764733, guid: daf588f721c7c884fb7e4c24594d9485, type: 3}
 --- !u!114 &1614226185
 MonoBehaviour:
   m_ObjectHideFlags: 0

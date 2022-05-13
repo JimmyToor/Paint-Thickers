@@ -10334,7 +10334,7 @@ MonoBehaviour:
     splatsX: 1
     splatsY: 1
     splatIndex: 1
-    splatScale: 2.5
+    splatScale: 10
     splatRandomScaleMin: 1
     splatRandomScaleMax: 1
     splatRotation: 0
@@ -10383,14 +10383,14 @@ ParentConstraint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036904280967990508}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Weight: 1
   m_TranslationAtRest: {x: 0.468, y: 0, z: -0.044}
   m_RotationAtRest: {x: 0, y: 90, z: 0}
   m_TranslationOffsets:
-  - {x: 0.46798992, y: 0.04399872, z: -0.0000038146973}
+  - {x: 0.46798944, y: 0.044001102, z: 0.0000014305115}
   m_RotationOffsets:
-  - {x: 0, y: 90, z: 89.99998}
+  - {x: 0, y: 90, z: 89.99997}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -26182,7 +26182,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 3
