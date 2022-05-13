@@ -88,14 +88,14 @@ public class InkSwim : MonoBehaviour
         CheckGroundAhead();
         CheckGroundBelow();
     }
-    
+
     // Look for terrain changes under the main camera
     private void CheckGroundBelow()
     {
         Physics.Raycast(playerHead.position, -camOffset.up, out belowHit, 1f, terrainMask);
 
         int channel = PaintTarget.RayChannel(belowHit);
-        
+
         // Figure out what colour ink, if any, is underneath the player
         if (channel == player.teamChannel)
         {
@@ -119,7 +119,7 @@ public class InkSwim : MonoBehaviour
             }
         }
     }
-    
+
     // Look for terrain changes under frontCheck
     private void CheckGroundAhead()
     {
@@ -181,7 +181,7 @@ public class InkSwim : MonoBehaviour
             }
         }
     }
-    
+
     // Keep frontCheck in the direction the player moving
     private void HandleMove(Vector3 newDirection)
     {
@@ -192,7 +192,7 @@ public class InkSwim : MonoBehaviour
         Vector3 currAngles = frontCheckAxis.localEulerAngles;
         currAngles.y = newAngle;
         frontCheckAxis.localEulerAngles = currAngles;
-        
+
         // Player moved, so check the terrain again
         CheckTerrain();
         orientationHandling.UpdateOrientation();

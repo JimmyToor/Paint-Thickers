@@ -56828,18 +56828,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 160198625, guid: fab35f6cc1fd0404a99d05645ec0d1c8, type: 3}
-      propertyPath: canLaunch
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 160198625, guid: fab35f6cc1fd0404a99d05645ec0d1c8, type: 3}
-      propertyPath: landingVFX
-      value: 
-      objectReference: {fileID: 2139424295741764733, guid: daf588f721c7c884fb7e4c24594d9485, type: 3}
-    - target: {fileID: 160198625, guid: fab35f6cc1fd0404a99d05645ec0d1c8, type: 3}
-      propertyPath: landingAudioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 3a4f5d0ea48748b4eb944fecc4f2a279, type: 3}
     - target: {fileID: 2049899794, guid: fab35f6cc1fd0404a99d05645ec0d1c8, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

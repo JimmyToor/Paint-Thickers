@@ -8,7 +8,7 @@ public class Launchable : MonoBehaviour
     [Serializable]
     public struct LaunchableParams
     {
-        [HideInInspector] 
+        [HideInInspector]
         public Vector3 endPos;
         public AnimationCurve launchArc;
         [HideInInspector]
@@ -16,13 +16,13 @@ public class Launchable : MonoBehaviour
         public float arcScale;
         public float buildupTime;
     }
-    
+
     [HideInInspector]
     public bool isLaunched;
     public bool canLaunch;
     public AudioClip landingAudioClip;
     public GameObject landingVFX;
-    
+
     private PlayerEvents playerEvents;
     private Vector3 startPos;
     private float progress;
@@ -63,7 +63,7 @@ public class Launchable : MonoBehaviour
             progress = Mathf.Min(progress + Time.deltaTime * launchParams.stepScale, 1.0f);
 
             Vector3 nextPos = Vector3.Lerp(startPos, launchParams.endPos, progress);
-            
+
             // Add vertical arc
             nextPos.y += launchParams.launchArc.Evaluate(progress)*launchParams.arcScale;
             transform.position = nextPos;
@@ -84,7 +84,7 @@ public class Launchable : MonoBehaviour
         startPos = transform.position;
         progress = 0;
         canLaunch = false;
-        
+
         if (playerEvents != null)
         {
             playerEvents.OnLaunch();
@@ -98,14 +98,13 @@ public class Launchable : MonoBehaviour
         yield return new WaitForSeconds(launchParams.buildupTime);
         isLaunched = true;
     }
-    
+
     public void Land()
     {
         isLaunched = false;
         Vector3 fxPos = transform.position;
-        fxPos.y -= 0.5f; // landing sound should be below the player
         AudioSource.PlayClipAtPoint(landingAudioClip, fxPos);
         Instantiate(landingVFX,fxPos, Quaternion.identity);
     }
-    
+
 }
