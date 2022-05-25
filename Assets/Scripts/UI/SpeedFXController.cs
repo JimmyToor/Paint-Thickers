@@ -21,7 +21,7 @@ public class SpeedFXController : MonoBehaviour
         linesVFX.enabled = true;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         CalcVelocity();
         if (velocity >= speedThreshold)

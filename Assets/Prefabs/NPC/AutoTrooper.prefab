@@ -1805,7 +1805,7 @@ MonoBehaviour:
   turnSpeed: 15
   aimSpeed: 25
   shootSFX: {fileID: 8300000, guid: f48b538b00559ae4f952d288f4e73f90, type: 3}
-  sightDistance: 30
+  sightDistance: 12
 --- !u!114 &1989729637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1818,8 +1818,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091bf8be20d216c4eb44f9a5654cf119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitpoints: 2
-  maxHitpoints: 0
+  hitpoints: 3
+  maxHitpoints: 3
   invulnerable: 0
   useHitDamageMaterial: 0
   destroyOnDeath: 0

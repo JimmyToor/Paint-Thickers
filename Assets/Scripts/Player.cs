@@ -21,70 +21,45 @@ public class Player : MonoBehaviour
     private float oldSpeed;
     private Inventory inventory = new Inventory(true);
     private Health health;
-    private GameObject weapon;
-    private List<GameObject> weaponParts = new List<GameObject>();
+    private Weapon.Weapon weapon;
     private CharacterController charController;
     private Vector3 resetPosition;
 
     private void Start()
     {
         InvokeRepeating(nameof(NewResetPosition),2f,5f);
-        playerEvents = GetComponent<PlayerEvents>();
         locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
         charController = GetComponent<CharacterController>();
         locomotion.moveSpeed = walkSpeed;
         TryGetComponent(out health);
-        SetupEvents();
         locomotion.moveSpeed = walkSpeed;
     }
 
-    // private void Update()
-    // {
-    //     // raycast down, are we standing in paint? Adjust speed if needed, store the hit.
-    //     // if not raycast hit, start resetting orientation
-    //     inkSwim.CheckGroundBelow();
-    //     
-    //     
-    //     if (isSquid)
-    //     {
-    //         // check for angle changes ahead and below. 
-    //         // if found ahead, rotate if there's paint.
-    //         // otherwise, if found below, rotate if within slopeangle or has paint
-    //     }
-    //     else
-    //     {
-    //         // reset orientation
-    //     }
-    //     
-    //     if (inkSwim.inInk && !inkSwim.canSwim)
-    //     {
-    //         locomotion.moveSpeed = enemyInkSpeed;
-    //     }
-    // }
+    private void OnEnable()
+    {
+        playerEvents = GetComponent<PlayerEvents>();
+        SetupEvents();
+    }
 
     private void SetupEvents()
     {
         playerEvents.TakeHit += TakeHit;
         playerEvents.Launch += DisableInputMovement;
         playerEvents.Land += EnableInputMovement;
-        playerEvents.Squid += DisableHands;
-        playerEvents.Squid += DisableWeapon;
-        playerEvents.Stand += EnableHands;
-        playerEvents.Stand += EnableWeapon;
+        playerEvents.Squid += SquidMode;
+        playerEvents.Stand += HumanMode;
     }
 
     // Disable input-driven player movement
     public void DisableInputMovement()
     {
-        locomotion.moveSpeed = 0;
+        locomotion.enabled = false;
         canSquid = false;
-        locomotion.useGravity = false;
     }
 
     public void EnableInputMovement()
     {
-        locomotion.moveSpeed = walkSpeed;
-        locomotion.useGravity = true;
+        locomotion.enabled = true;
         canSquid = true;
     }
     
@@ -106,13 +81,9 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SetWeapon(GameObject newWeapon)
+    public void SetWeapon(Weapon.Weapon newWeapon)
     {
         weapon = newWeapon;
-        foreach (Transform weaponPart in weapon.transform)
-        {
-            weaponParts.Add(weaponPart.gameObject);
-        }
     }
 
     public void DisableHands()
@@ -129,11 +100,7 @@ public class Player : MonoBehaviour
     
     public void RemoveWeapon()
     {
-        if (weapon != null)
-        {
-            weapon = null;
-            weaponParts.Clear();
-        }
+        weapon = null;
     }
 
     public void DisableWeapon()
@@ -143,10 +110,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        foreach (GameObject weaponPart in weaponParts)
-        {
-            weaponPart.SetActive(false);
-        }
+        weapon.HideWeapon();
     }
 
     public void EnableWeapon()
@@ -156,9 +120,30 @@ public class Player : MonoBehaviour
             return;
         }
         
-        foreach (GameObject weaponPart in weaponParts)
+        weapon.ShowWeapon();
+    }
+
+    public void EnableWeaponUI()
+    {
+        if (weapon != null)
         {
-            weaponPart.SetActive(true);
+            weapon.ShowUI();
+        }
+    }
+
+    public void DisableWeaponUI()
+    {
+        if (weapon != null)
+        {
+            weapon.HideUI();
+        }
+    }
+    
+    public void RefillWeaponAmmo()
+    {
+        if (weapon != null)
+        {
+            weapon.RefillAmmo();
         }
     }
 
@@ -177,5 +162,20 @@ public class Player : MonoBehaviour
         {
             transform.position = resetPosition;
         }
+    }
+
+    // Make any required changes when the player turns into a squid
+    private void SquidMode()
+    {
+        DisableWeapon();
+        DisableHands();
+    }
+
+    // Make any required changes when the player turns into a Human
+    private void HumanMode()
+    {
+        EnableWeapon();
+        EnableHands();
+        DisableWeaponUI();
     }
 }

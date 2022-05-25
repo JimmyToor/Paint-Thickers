@@ -1,5 +1,9 @@
+using System;
+using Cinemachine.Utility;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using Random = UnityEngine.Random;
 
 // Handle swimming in ink and squid related movement
 [RequireComponent(typeof(Player),typeof(OrientationHandling))]
@@ -12,6 +16,8 @@ public class InkSwim : MonoBehaviour
     public Transform frontCheck; // Used to check for terrain changes in the direction we're moving
     [HideInInspector]
     public bool normalSet;
+    public AudioSource swimSound; // Swimming sound determined by AudioSource's AudioClip
+    public SFXSource sinkSounds;
 
     public bool InInk // Tracks if the player is in ink of any colour
     {
@@ -53,19 +59,25 @@ public class InkSwim : MonoBehaviour
     private RaycastHit belowHit;
     private bool _inInk;
     private bool _canSwim;
+    private CharacterController charController;
 
     void Start()
     {
         player = GetComponent<Player>();
-        playerEvents = GetComponent<PlayerEvents>();
         locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
         orientationHandling = GetComponent<OrientationHandling>();
+        charController = GetComponent<CharacterController>();
         terrainMask = LayerMask.GetMask("Terrain");
         squidLayer = LayerMask.NameToLayer("Squid");
         playerLayer = LayerMask.NameToLayer("Players");
         camOffset = transform.GetChild(0);
         playerHead = camOffset.GetChild(0);
         frontCheckAxis = frontCheck.parent;
+    }
+
+    private void OnEnable()
+    {
+        playerEvents = GetComponent<PlayerEvents>();
         SetupEvents();
     }
 
@@ -73,10 +85,12 @@ public class InkSwim : MonoBehaviour
     {
         if (player.isSquid)
         {
+            locomotion.SlopeHandling = false;
             Swim();
         }
         else
         {
+            locomotion.SlopeHandling = true;
             orientationHandling.ResetHeight();
             orientationHandling.ResetOrientation();
         }
@@ -99,6 +113,10 @@ public class InkSwim : MonoBehaviour
         // Figure out what colour ink, if any, is underneath the player
         if (channel == player.teamChannel)
         {
+            if (!CanSwim) // Player was previously not in swimmable ink
+            {
+                sinkSounds.TriggerPlay(playerHead.position);
+            }
             CanSwim = true;
         }
         else if (channel != -1)
@@ -113,7 +131,7 @@ public class InkSwim : MonoBehaviour
 
         if (player.isSquid && belowHit.transform != null)
         {
-            if (normalSet) // Don't want to change the normal since it's been set by terrain ahead
+            if (!normalSet) // Don't want to change the normal since it's been set by terrain ahead
             {
                 orientationHandling.SetNewNormal(belowHit, channel);
             }
@@ -128,6 +146,10 @@ public class InkSwim : MonoBehaviour
             if (orientationHandling.SetNewNormal(frontHit, PaintTarget.RayChannel(frontHit)))
             {
                 normalSet = true;
+            }
+            else
+            {
+                normalSet = false;
             }
         }
     }
@@ -146,10 +168,11 @@ public class InkSwim : MonoBehaviour
 
     private void HandleSwim()
     {
-        if (player.canSquid)
+        if (player.canSquid && !player.isSquid)
         {
             player.isSquid = true;
             gameObject.layer = squidLayer;
+            CheckTerrain();
         }
     }
 
@@ -158,6 +181,17 @@ public class InkSwim : MonoBehaviour
         gameObject.layer = playerLayer;
         player.isSquid = false;
         locomotion.moveSpeed = player.walkSpeed;
+        swimSound.Stop();
+        CanSwim = false;
+        
+        // Rotating the character controller can result in clipping
+        // Pop the player up a bit to prevent this when we reset orientation
+        if (transform.up != Vector3.up)
+        {
+            Vector3 currPos = transform.localPosition;
+            currPos.y += 0.5f;
+            transform.position = currPos;
+        }
     }
 
     // Adjust speed while swimming
@@ -167,10 +201,30 @@ public class InkSwim : MonoBehaviour
         {
             orientationHandling.ToHeightWithoutOffset(OrientationHandling.swimHeight);
             locomotion.moveSpeed = swimSpeed;
+            
+            if (!swimSound.isPlaying)
+            {
+                if (charController.velocity.sqrMagnitude > 1f)
+                {
+                    swimSound.time = Random.Range(0f, swimSound.clip.length);
+                    swimSound.Play();
+                }
+            }
+            else if (charController.velocity.sqrMagnitude <= 1f)
+            {
+                swimSound.Stop();
+            }
+            player.EnableWeaponUI();
+            player.RefillWeaponAmmo();
         }
         else
         {
             orientationHandling.ToHeightWithoutOffset(OrientationHandling.squidHeight);
+
+            if (swimSound.isPlaying)
+            {
+                swimSound.Stop();
+            }
             if (!InInk)
             {
                 locomotion.moveSpeed = squidSpeed;
@@ -179,6 +233,7 @@ public class InkSwim : MonoBehaviour
             {
                 locomotion.moveSpeed = enemyInkSpeed;
             }
+            player.DisableWeaponUI();
         }
     }
 
@@ -186,16 +241,16 @@ public class InkSwim : MonoBehaviour
     private void HandleMove(Vector3 newDirection)
     {
         direction = playerHead.InverseTransformDirection(locomotion.LatestRelativeInput);
-
         float newAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-
         Vector3 currAngles = frontCheckAxis.localEulerAngles;
         currAngles.y = newAngle;
         frontCheckAxis.localEulerAngles = currAngles;
 
-        // Player moved, so check the terrain again
-        CheckTerrain();
-        orientationHandling.UpdateOrientation();
-        normalSet = false;
+        if (player.isSquid)
+        {
+            // Player moved, so check the terrain again
+            CheckTerrain();
+            orientationHandling.UpdateOrientation();
+        }
     }
 }

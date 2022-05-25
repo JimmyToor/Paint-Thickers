@@ -22,14 +22,15 @@ public class Launchable : MonoBehaviour
     public bool canLaunch;
     public AudioClip landingAudioClip;
     public GameObject landingVFX;
+    public Transform fxPosition;
 
     private PlayerEvents playerEvents;
     private Vector3 startPos;
     private float progress;
     private LaunchableParams launchParams;
+    
 
-
-    void Start()
+    private void OnEnable()
     {
         if (TryGetComponent(out playerEvents))
             SetupEvents();
@@ -44,7 +45,10 @@ public class Launchable : MonoBehaviour
 
     private void OnDisable()
     {
-        DisableEvents();
+        if (playerEvents != null)
+        {
+            DisableEvents();
+        }
     }
 
     private void DisableEvents()
@@ -102,9 +106,15 @@ public class Launchable : MonoBehaviour
     public void Land()
     {
         isLaunched = false;
-        Vector3 fxPos = transform.position;
+        SpawnFXAtFeet();
+    }
+
+    private void SpawnFXAtFeet()
+    {
+        Vector3 fxPos = fxPosition.position;
+        fxPos.y = transform.position.y;
         AudioSource.PlayClipAtPoint(landingAudioClip, fxPos);
-        Instantiate(landingVFX,fxPos, Quaternion.identity);
+        Instantiate(landingVFX, fxPos, Quaternion.identity);
     }
 
 }

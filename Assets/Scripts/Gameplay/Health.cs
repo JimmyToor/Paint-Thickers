@@ -131,7 +131,7 @@ public class Health : MonoBehaviour
             fxObject.SetActive(true);
         }
 
-        if (sfxSource != null && hitSFX.Count > 0 && hitpoints > 0)
+        if (sfxSource != null && hitSFX.Count > 0)
         {
             int randClip = UnityEngine.Random.Range(0, hitSFX.Count);
             sfxSource.TriggerPlayOneShot(transform.position,hitSFX[randClip]);

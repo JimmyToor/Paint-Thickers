@@ -10,8 +10,9 @@ namespace UnityEngine.XR.Interaction.Toolkit
     {
         public Vector3 LatestRelativeInput { get; private set; }
         public bool UseRigRelativeGravity { get; set; } // Apply gravity to local Y-axis
-        public float GravityScale { get; set; } = 1;
-
+        public float GravityScale { get; set; } = 1; // Only applies to global Y-axis gravity
+        public bool SlopeHandling { get; set; } = true; // Apply extra downward force to reduce jitter on slopes
+        
         /// <summary>
         /// Defines when gravity will begin to take effect.
         /// </summary>
@@ -214,10 +215,15 @@ namespace UnityEngine.XR.Interaction.Toolkit
                     Vector3 scaledGravity = GravityScale * Physics.gravity;
                     m_VerticalVelocity += scaledGravity * Time.deltaTime;
                 }
-
+                
                 if (UseRigRelativeGravity)
                 {
                     m_VerticalVelocity += xrRig.transform.TransformVector(Physics.gravity * Time.deltaTime);
+                }
+
+                if (SlopeHandling)
+                {
+                    m_VerticalVelocity += Vector3.down;
                 }
                 motion += m_VerticalVelocity * Time.deltaTime;
                 

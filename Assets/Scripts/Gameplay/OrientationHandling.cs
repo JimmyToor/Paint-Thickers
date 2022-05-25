@@ -11,11 +11,10 @@ public class OrientationHandling : MonoBehaviour
     public const float squidHeight = 0.5f;
     public const float swimHeight = 0.3f;
     
+    public Vector3 NewNormal { get; set; }
     public float rotationSpeed;
     public float sinkSpeed; // speed of squid transformation
     public ActionBasedContinuousMoveProvider locomotion;
-    [HideInInspector]
-    public Vector3 NewNormal { get; set; }
 
     private Player player;
     private Transform camOffset;
@@ -26,7 +25,6 @@ public class OrientationHandling : MonoBehaviour
     private float slopeLimit;
     private bool orienting;
 
-    
     void Start()
     {
         player = GetComponent<Player>();
@@ -81,7 +79,7 @@ public class OrientationHandling : MonoBehaviour
         var newRotation = Quaternion.FromToRotation(transform.up, newUp) * currRot;
 
         transform.rotation = Quaternion.RotateTowards(currRot, newRotation, Time.deltaTime * rotationSpeed);
-        
+
         float newAngle = Vector3.Angle(newUp, Vector3.up);
         
         if (newAngle > slopeLimit)
