@@ -231,7 +231,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 {
                     // Note that calling Move even with Vector3.zero will have an effect by causing isGrounded to update
                     m_CharacterController.Move(motion);
-
+    
                     EndLocomotion();
                 }
             }
