@@ -16,7 +16,10 @@ public class Player : MonoBehaviour
     public float walkSpeed;
     public GameObject leftHand;
     public GameObject rightHand;
-    
+    public GameObject leftUIHand;
+    public GameObject rightUIHand;
+    public GameObject overlayUICam;
+
     private ActionBasedContinuousMoveProvider locomotion;
     private float oldSpeed;
     private Inventory inventory = new Inventory(true);
@@ -24,7 +27,6 @@ public class Player : MonoBehaviour
     private Weapon.Weapon weapon;
     private CharacterController charController;
     private Vector3 resetPosition;
-
     private void Start()
     {
         InvokeRepeating(nameof(NewResetPosition),2f,5f);
@@ -33,6 +35,14 @@ public class Player : MonoBehaviour
         locomotion.moveSpeed = walkSpeed;
         TryGetComponent(out health);
         locomotion.moveSpeed = walkSpeed;
+        if (leftUIHand == null)
+        {
+            leftUIHand = GameObject.Find("LeftHand Ray Controller");
+        }
+        if (rightUIHand == null)
+        {
+            rightUIHand = GameObject.Find("RightHand Ray Controller");
+        }
     }
 
     private void OnEnable()
@@ -84,6 +94,7 @@ public class Player : MonoBehaviour
     public void SetWeapon(Weapon.Weapon newWeapon)
     {
         weapon = newWeapon;
+        weapon.SetUIColor(GameManager.instance.GetTeamColor(teamChannel));
     }
 
     public void DisableHands()
@@ -105,6 +116,11 @@ public class Player : MonoBehaviour
 
     public void DisableWeapon()
     {
+        weapon.gameObject.SetActive(false);
+    }
+
+    public void HideWeapon()
+    {
         if (weapon == null)
         {
             return;
@@ -113,7 +129,7 @@ public class Player : MonoBehaviour
         weapon.HideWeapon();
     }
 
-    public void EnableWeapon()
+    public void ShowWeapon()
     {
         if (weapon == null)
         {
@@ -167,15 +183,47 @@ public class Player : MonoBehaviour
     // Make any required changes when the player turns into a squid
     private void SquidMode()
     {
-        DisableWeapon();
+        HideWeapon();
         DisableHands();
+        if (weapon != null)
+        {
+            weapon.hideUIAboveThreshold = false;
+        }
     }
 
     // Make any required changes when the player turns into a Human
     private void HumanMode()
     {
-        EnableWeapon();
         EnableHands();
-        DisableWeaponUI();
+        ShowWeapon();
+        if (weapon != null)
+        {
+            weapon.hideUIAboveThreshold = true;
+        }
+    }
+
+    public void DisableOverlayUI()
+    {
+        overlayUICam.SetActive(false);
+    }
+
+    public void EnableOverlayUI()
+    {
+        overlayUICam.SetActive(true);
+    }
+
+    public void ToggleUIRays()
+    {
+        if (rightUIHand != null)
+        {
+            rightUIHand.SetActive(!rightUIHand.activeSelf);
+            rightHand.SetActive(!rightHand.activeSelf);
+        }
+
+        if (leftUIHand != null)
+        {
+            leftUIHand.SetActive(!leftUIHand.activeSelf);
+            leftHand.SetActive(!leftHand.activeSelf);
+        }
     }
 }

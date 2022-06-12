@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -16,6 +17,7 @@ public class Health : MonoBehaviour
     public float regenCooldown; // How long until health regenerates
     public float regenRate; // How many hitpoints are regenerated per LateUpdate
     public Material damageMaterial;
+    public DamageUIController damageUIController;
     public GameObject hitFX;
     public List<AudioClip> hitSFX; // Requires an AudioSource component
     public GameObject deathFX;
@@ -23,12 +25,15 @@ public class Health : MonoBehaviour
     public UnityEvent onDeath;
     public UnityEvent onHit;
 
+    public float HealthNormalized => hitpoints / maxHitpoints;
+
     private Renderer _renderer;
     private bool onCooldown;
     private Animator animator;
     private int takeHitHash = Animator.StringToHash("TakeHit");
     private SFXSource sfxSource;
     private float regenTime; // Time until regeneration starts
+    private bool updateUI;
 
 
     private void Start()
@@ -53,6 +58,15 @@ public class Health : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (damageUIController != null && updateUI)
+        {
+            damageUIController.UpdateDamageUI(HealthNormalized);
+            updateUI = false;
+        }
+    }
+
     private void RegenerateHealth()
     {
         hitpoints += regenRate;
@@ -61,9 +75,10 @@ public class Health : MonoBehaviour
             hitpoints = maxHitpoints;
         }
         regenTime = regenCooldown;
+        updateUI = true;
     }
 
-    public void TakeHit(float damage, Vector3 hitPos = default)
+    public void TakeHit(float damage = 1, Vector3 hitPos = default)
     {
         if (onCooldown)
             return;
@@ -95,6 +110,7 @@ public class Health : MonoBehaviour
         onCooldown = false;
     }
 
+    [ContextMenu("Trigger Death")]
     void OnDeath()
     {
         if (deathFX != null)
@@ -145,6 +161,13 @@ public class Health : MonoBehaviour
         if (!invulnerable)
         {
             hitpoints -= damage;
+            updateUI = true;
         }
+    }
+
+    [ContextMenu("Trigger Hit")]
+    public void DebugHit()
+    {
+        TakeHit(1, transform.position);
     }
 }

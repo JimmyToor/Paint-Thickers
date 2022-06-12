@@ -1802,8 +1802,8 @@ MonoBehaviour:
   paintSpray: {fileID: 8757214118557992799}
   bodyRotate: {fileID: 4019347966162012102}
   aimRotate: {fileID: 4963069778133124504}
-  turnSpeed: 15
-  aimSpeed: 25
+  bodyTurnSpeed: 25
+  nozzleAimSpeed: 100
   shootSFX: {fileID: 8300000, guid: f48b538b00559ae4f952d288f4e73f90, type: 3}
   sightDistance: 12
 --- !u!114 &1989729637
@@ -1828,6 +1828,7 @@ MonoBehaviour:
   regenCooldown: 0
   regenRate: 0
   damageMaterial: {fileID: 0}
+  damageUIController: {fileID: 0}
   hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
   hitSFX:
   - {fileID: 8300000, guid: 09c9540d9408cba45930a06462877e1c, type: 3}
@@ -1884,7 +1885,7 @@ Rigidbody:
   m_GameObject: {fileID: 8450641888619837723}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 1
+  m_Drag: 50
   m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0

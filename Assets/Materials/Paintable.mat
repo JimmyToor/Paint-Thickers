@@ -183,5 +183,5 @@ Material:
     - _SplatColor1: {r: 1, g: 0, b: 0, a: 0}
     - _SplatColor2: {r: 0, g: 1, b: 0, a: 0}
     - _SplatColor3: {r: 0, g: 0, b: 1, a: 0}
-    - _SplatColor4: {r: 1, g: 0, b: 1, a: 0}
+    - _SplatColor4: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []

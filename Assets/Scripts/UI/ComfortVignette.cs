@@ -9,6 +9,7 @@ using Vignette = UnityEngine.Rendering.Universal.Vignette;
 
 public class ComfortVignette : MonoBehaviour
 {
+    public bool enableVignette;
     public float intensity;
     public float fadeDuration;
 
@@ -29,6 +30,11 @@ public class ComfortVignette : MonoBehaviour
 
     private void Update()
     {
+        if (!enableVignette)
+        {
+            return;
+        }
+        
         if (Moving() && !isMoving) // Fade in vignette if player goes from stationary to moving
         {
             FadeIn();

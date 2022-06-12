@@ -29,6 +29,7 @@ public class GameplayHand : BaseHand
 
     private void TryApplyDefaultPose(SelectExitEventArgs args)
     {
+        Debug.Log("default");
         // Try and get pose container, and apply
         if ((args.interactable).TryGetComponent(out PoseContainer poseContainer))
             ApplyDefaultPose();

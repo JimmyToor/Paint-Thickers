@@ -274,7 +274,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
         {
             if (!m_Interactables.Contains(interactable))
                 return;
-
             CancelInteractableSelection(interactable);
             CancelInteractableHover(interactable);
 

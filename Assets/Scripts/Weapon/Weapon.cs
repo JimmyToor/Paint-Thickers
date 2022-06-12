@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Weapon
 {
@@ -11,31 +12,19 @@ namespace Weapon
         public float refillRate;
         public float usageRate;
         public float lowAmmoThreshold; // Ammo indicator is shown when ammo reaches this threshold
+        public bool hideUIAboveThreshold = true;
         public AmmoUI ammoUI;
         public GameObject UIObject;
         public GameObject weaponObject;
 
         public float AmmoNormalized => ammoRemaining / maxAmmo;
         
-        private void LateUpdate()
-        {
-            if (ammoUI != null)
-            {
-                UpdateAmmoUI();
-                if (ammoRemaining <= lowAmmoThreshold)
-                {
-                    ShowUI();
-                }
-            }
-        }
-
-        // Try and consume the specified amount of ammo
-        // Return true if successful
         public virtual bool ConsumeAmmo(float amount)
         {
             if (ammoRemaining >= amount)
             {
                 ammoRemaining -= amount;
+                UpdateAmmoUI();
                 return true;
             }
 
@@ -56,6 +45,10 @@ namespace Weapon
         {
             ammoRemaining += amount;
             ammoRemaining = Mathf.Clamp(ammoRemaining, 0, maxAmmo);
+            if (hideUIAboveThreshold && ammoRemaining >= lowAmmoThreshold)
+            {
+                HideUI();
+            }
         }
 
         public virtual void RefillAmmo()
@@ -65,7 +58,14 @@ namespace Weapon
 
         private void UpdateAmmoUI()
         {
-            ammoUI.SetAmount(AmmoNormalized);
+            if (ammoUI != null)
+            {
+                ammoUI.SetAmount(AmmoNormalized);
+                if (ammoRemaining <= lowAmmoThreshold)
+                {
+                    ShowUI();
+                }
+            }
         }
 
         public void HideWeapon()
@@ -86,6 +86,14 @@ namespace Weapon
         public void ShowUI()
         {
             UIObject.SetActive(true);
+        }
+
+        public void SetUIColor(Color color)
+        {
+            if (ammoUI != null)
+            {
+                ammoUI.SetColor(color);
+            }
         }
     }
 }

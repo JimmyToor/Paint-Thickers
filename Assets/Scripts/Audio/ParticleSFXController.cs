@@ -7,19 +7,19 @@ public class ParticleSFXController : MonoBehaviour
 {
     public SFXSource sfxSource;
     
-    private ParticleSystem particleSystem;
+    private ParticleSystem partSystem;
     private int particleCount;
     
     // Start is called before the first frame update
     void Start()
     {
-        particleSystem = GetComponent<ParticleSystem>();
+        partSystem = GetComponent<ParticleSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        int newParticleCount = particleSystem.particleCount;
+        int newParticleCount = partSystem.particleCount;
         if (newParticleCount > particleCount)
         {
             sfxSource.TriggerPlay(transform.position);

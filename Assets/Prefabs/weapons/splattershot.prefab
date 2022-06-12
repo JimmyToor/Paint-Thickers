@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &341989168
 Transform:
   m_ObjectHideFlags: 0
@@ -56,8 +56,6 @@ GameObject:
   - component: {fileID: 1459424811}
   - component: {fileID: 1459424815}
   - component: {fileID: 1459424814}
-  - component: {fileID: 1459424813}
-  - component: {fileID: 1459424812}
   m_Layer: 5
   m_Name: AmmoCanvas
   m_TagString: Untagged
@@ -130,42 +128,6 @@ MonoBehaviour:
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
   m_PresetInfoIsWorld: 1
---- !u!114 &1459424813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459424810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
---- !u!114 &1459424812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459424810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7951c64acb0fa62458bf30a60089fe2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 0
-  m_CheckFor2DOcclusion: 0
-  m_CheckFor3DOcclusion: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RaycastTriggerInteraction: 1
 --- !u!1 &1500159047
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +198,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 0.52
+  m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -26396,13 +26358,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammoRemaining: 50
   maxAmmo: 50
+  initialUsage: 3
   refillRate: 20
   usageRate: 3
+  lowAmmoThreshold: 25
   ammoUI: {fileID: 341989169}
-  UIObject: {fileID: 0}
-  weaponObject: {fileID: 0}
+  UIObject: {fileID: 341989167}
+  weaponObject: {fileID: 7997842969158383149}
   mainParticle: {fileID: 2036904280780318481}
-  initialUsage: 3
 --- !u!1 &9135275369120649893
 GameObject:
   m_ObjectHideFlags: 0
