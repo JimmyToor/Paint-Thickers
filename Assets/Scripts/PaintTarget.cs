@@ -364,13 +364,14 @@ public class PaintTarget : MonoBehaviour
 
     private void CreateTextures()
     {
-        splatTex = new RenderTexture((int)paintTextureSize, (int)paintTextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
+        splatTex = new RenderTexture((int)paintTextureSize, (int)paintTextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
         splatTex.Create();
-        splatTexAlt = new RenderTexture((int)paintTextureSize, (int)paintTextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
+        splatTexAlt = new RenderTexture((int)paintTextureSize, (int)paintTextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
         splatTexAlt.Create();
         
         RenderTexture.active = splatTex;
-        Graphics.Blit(bakedTex, splatTex);
+        if (UseBaked)
+            Graphics.Blit(bakedTex, splatTex);
         RenderTexture.active = null;
 
         //splatTexPick = new Texture2D((int)paintTextureSize, (int)paintTextureSize, TextureFormat.ARGB32, false);
@@ -448,24 +449,23 @@ public class PaintTarget : MonoBehaviour
         Graphics.Blit(worldPosTex, worldPosTexTemp, paintBlitMaterial, 2);
         Graphics.Blit(worldPosTexTemp, worldPosTex, paintBlitMaterial, 2);
 
-        
-
+        debugTexture = PaintDebug.splatTex;
         switch (debugTexture)
         {
             case PaintDebug.splatTex:
-                paintRenderer.material.SetTexture("_MainTex", splatTex);
+                paintRenderer.material.SetTexture("_DebugTex", splatTex);
                 break;
 
             case PaintDebug.worldPosTex:
-                paintRenderer.material.SetTexture("_MainTex", worldPosTex);
+                paintRenderer.material.SetTexture("_DebugTex", worldPosTex);
                 break;
 
             case PaintDebug.worldTangentTex:
-                paintRenderer.material.SetTexture("_MainTex", worldTangentTex);
+                paintRenderer.material.SetTexture("_DebugTex", worldTangentTex);
                 break;
 
             case PaintDebug.worldBinormalTex:
-                paintRenderer.material.SetTexture("_MainTex", worldBinormalTex);
+                paintRenderer.material.SetTexture("_DebugTex", worldBinormalTex);
                 break;
         }
     }

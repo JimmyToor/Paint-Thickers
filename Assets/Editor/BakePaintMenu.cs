@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 
+[ExecuteAlways]
 public class BakePaintMenu : MonoBehaviour
 {
     // Saves the selected object's splat texture as a png in Textures/BakedSplats
@@ -12,16 +13,22 @@ public class BakePaintMenu : MonoBehaviour
     {
         Texture2D splatTex = Selection.activeTransform.GetComponent<PaintTarget>().CreateBakedTex();
 
+        var objectName = Selection.activeObject.name;
         var splatDir = "BakedSplats";
-        var dirPath = Application.dataPath + "/Textures/" + splatDir;
+        var fullPath = Application.dataPath + "/Materials/" + splatDir;
+        var assetPath = "Assets/Materials/";
 
-        if(!AssetDatabase.IsValidFolder("Assets/Textures/" + splatDir))
-            AssetDatabase.CreateFolder("Assets/Textures", splatDir);
+        if(!AssetDatabase.IsValidFolder(assetPath + splatDir))
+            AssetDatabase.CreateFolder(assetPath, splatDir);
 
-        int num = Directory.GetFiles(dirPath).Length + 1;
-        var name = "Baked_" + Selection.activeObject.name + "_" + num + ".png";
+        int num = Directory.GetFiles(fullPath).Length + 1;
+        var name = "Baked_" + objectName + "_" + num + ".png";
+
+        byte[] bytes = splatTex.EncodeToPNG();
         
-        File.WriteAllBytes(dirPath + "/" + name, splatTex.EncodeToPNG());
+        File.WriteAllBytes(fullPath + "/" + name, bytes);
+        
+        Debug.Log(bytes.Length / 1024 + "Kb was saved as: " + splatDir + "/" + name);
     }
 
     [MenuItem("Tools/Paint/Bake Paint for Selected Object", true)]
