@@ -3137,7 +3137,7 @@
     ],
     "synonyms": [],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -4159,17 +4159,17 @@
     "m_Type": "UnityEditor.ShaderGraph.SampleTexture2DNode",
     "m_ObjectId": "1bb7c0e8003140aa9b595e7a943ef48e",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "76323c6b8d4f4941909a2ea11ff379f9"
     },
     "m_Name": "Sample Texture 2D",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2205.0,
-            "y": -2926.0,
-            "width": 184.0,
-            "height": 252.99998474121095
+            "x": -2174.0,
+            "y": -2855.0,
+            "width": 183.99998474121095,
+            "height": 253.0
         }
     },
     "m_Slots": [
@@ -9189,7 +9189,7 @@
     ],
     "synonyms": [],
     "m_Precision": 0,
-    "m_PreviewExpanded": false,
+    "m_PreviewExpanded": true,
     "m_PreviewMode": 0,
     "m_CustomColors": {
         "m_SerializableColors": []
@@ -12571,15 +12571,15 @@
     "m_Type": "UnityEditor.ShaderGraph.PropertyNode",
     "m_ObjectId": "a3bdef6008c44482b633dae6358925d1",
     "m_Group": {
-        "m_Id": ""
+        "m_Id": "76323c6b8d4f4941909a2ea11ff379f9"
     },
     "m_Name": "Property",
     "m_DrawState": {
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -2487.0,
-            "y": -2914.0,
+            "x": -2472.0,
+            "y": -2847.0,
             "width": 181.0,
             "height": 34.0
         }
