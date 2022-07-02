@@ -1,42 +1,49 @@
-using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using UnityEngine;
-using Random = System.Random;
 
 namespace AI
 {
-    [RequireComponent(typeof(Health))]
     public class Trooper : Enemy
     {
-        [SerializeField]
         public ParticleSystem paintSpray;
-        [SerializeField]
         public Transform bodyRotate;
-        [SerializeField]
         public Transform aimRotate;
         public Tweener bodyTweener;
         public Tweener nozzleTweener;
-        [SerializeField]
         public float bodyTurnSpeed;
         public float nozzleAimSpeed;
+        public float sightDistance;
         public AudioClip shootSFX;
 
-        private Animator animator;
-        private int targetFoundHash = Animator.StringToHash("TargetFound");
-        private int shootHash = Animator.StringToHash("Shoot");
-        private int offsetHash = Animator.StringToHash("Offset");
-        private SFXSource sfxSource;
-        private LayerMask playerLayerMask;
-        private LayerMask terrainLayerMask;
-
-        public float sightDistance;
-
-        // Player in sight? ->Yes-> Attack
-        //                  ->No-> Idle
-        protected override void Start()
+        public Transform Target
         {
-            base.Start();
-            InvokeRepeating("TargetSearch",1.0f, 0.2f);
+            set
+            {
+                target = value;
+                hasTarget = value != null;
+            }
+            get => target;
+        }
+        
+        protected Animator animator;
+        protected int targetFoundHash = Animator.StringToHash("TargetFound");
+        protected int shootHash = Animator.StringToHash("Shoot");
+        protected int offsetHash = Animator.StringToHash("Offset");
+        protected SFXSource sfxSource;
+        protected LayerMask playerLayerMask;
+        protected LayerMask terrainLayerMask;
+        protected CharacterController targetCharController;
+        protected bool hasTarget;
+        protected Transform target;
+
+
+        protected virtual void OnEnable()
+        {
+            InvokeRepeating("TargetSearch",1f, 0.2f);
+        }
+
+        protected virtual void Awake()
+        {
             if (TryGetComponent(out animator))
             {
                 animator.SetFloat(offsetHash, UnityEngine.Random.Range(0f,1f));
@@ -45,11 +52,10 @@ namespace AI
             TryGetComponent(out sfxSource);
             playerLayerMask = LayerMask.GetMask("Players");
             terrainLayerMask = LayerMask.GetMask("Terrain");
+            
         }
 
-
-        // Searches for and targets the nearest player within line of sight
-        void TargetSearch()
+        protected void TargetSearch()
         {
             Collider[] playersHit = new Collider[1];
             int size = Physics.OverlapSphereNonAlloc(transform.position, sightDistance, playersHit, playerLayerMask);
@@ -58,51 +64,45 @@ namespace AI
             {
                 foreach (var playerHit in playersHit)
                 {
-                    if (CheckLOS(playerHit))
-                    { // Only care about the first valid target
-                        return;
+                    if (playerHit.TryGetComponent(out targetCharController) && CheckLOS(playerHit.transform))
+                    {
+                        TargetSighted(playerHit.transform);
+                        return; // Only care about the first valid target
                     }
                 }
             }
-            
-            // No valid target found
-            animator.SetBool(targetFoundHash, false);
-            DisableSpray();
         }
 
-        // TODO : something's broken, debug this, they never shoot, probably not "seeing" player
-        // Checks for line of sight between this object and the passed collider
-        bool CheckLOS(Collider playerCollider)
+        protected virtual void TargetSighted(Transform newTarget)
+        {
+            Target = newTarget;
+            animator.SetBool(targetFoundHash, true);
+            
+            CancelInvoke(); // Stop searching for targets
+            InvokeRepeating("Fire",1.0f, 0.75f);
+        }
+
+        // Checks for line of sight between this object and the passed transform
+        protected bool CheckLOS(Transform playerHit)
         {
             // Check from eye level, not object pivot
             Vector3 eyePos = transform.position;
             eyePos.y += 1f;
 
-            if (!playerCollider.TryGetComponent(out CharacterController charController))
-            {
-                return false;
-            }
+            Vector3 targetPos = playerHit.TransformPoint(targetCharController.center);
             
-            if (!Physics.Raycast(eyePos, playerCollider.transform.TransformPoint(charController.center) - eyePos,
-                    out RaycastHit hit,Vector3.Distance(playerCollider.transform.TransformPoint(charController.center), eyePos),terrainLayerMask ))
+            if (!Physics.Raycast(eyePos,  targetPos - eyePos,
+                    out RaycastHit hit,Vector3.Distance(targetPos, eyePos),terrainLayerMask) && playerHit.gameObject.activeSelf)
             {
-                animator.SetBool(targetFoundHash, true);
-                EnableSpray();
-                EngageTarget(playerCollider.transform.TransformPoint(charController.center));
+                // Debug.DrawRay(eyePos, targetPos - eyePos, Color.blue);
                 return true;
             }
-            else
-            {
-                Debug.Log("Hit " + hit.transform.name);
-            }
-            Debug.DrawRay(eyePos, hit.point - eyePos, Color.blue);
+            // Debug.DrawRay(eyePos, targetPos - eyePos, Color.red);
 
             return false;
         }
 
-        // Aim at the target located at the passed Vector3
-        // TODO: Too slow and seems to be ignoring speed values, also nozzle not turning, only body.
-        void EngageTarget(Vector3 targetPosition)
+        protected virtual void EngageTarget(Vector3 targetPosition)
         {
             if (!bodyTweener.IsActive())
                 bodyTweener = bodyRotate.DOLookAt(targetPosition,bodyTurnSpeed,AxisConstraint.Y).SetSpeedBased(true);
@@ -119,22 +119,24 @@ namespace AI
             }
         }
 
-        void DisableSpray()
+        protected override void Attack()
+        {
+            Fire();
+        }
+
+        protected virtual void Fire()
+        {
+            paintSpray.Emit(1);
+            animator.SetTrigger(shootHash);
+            sfxSource.TriggerPlayOneShot(transform.position, shootSFX);
+        }
+
+        private void DisableSpray()
         {
             paintSpray.Stop();
         }
 
-        void EnableSpray()
-        {
-            if (!paintSpray.isPlaying)
-            {
-                paintSpray.Play();
-                animator.SetTrigger(shootHash);
-                sfxSource.TriggerPlayOneShot(transform.position, shootSFX);
-            }
-        }
-
-        private void OnDisable()
+        protected void OnDisable()
         {
             DisableSpray();
             CancelInvoke();
