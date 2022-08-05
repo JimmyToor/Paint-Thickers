@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.InputSystem;
@@ -136,10 +137,10 @@ public class PaintTarget : MonoBehaviour
 
         Texture2D tc = paintTarget.splatTexPick;
         if (!tc) return Color.clear;
-        int x = (int)(hit.textureCoord2.x * tc.width);
-        int y = (int)(hit.textureCoord2.y * tc.height);
+        int x = (int)(hit.lightmapCoord.x * tc.width);
+        int y = (int)(hit.lightmapCoord.y * tc.height);
 
-        return tc.GetPixel(x, y);
+        return tc.GetPixel(x,y);
     }
 
     public static int RayChannel(RaycastHit hit)
@@ -149,9 +150,8 @@ public class PaintTarget : MonoBehaviour
         if (!paintTarget) return -1;
 
         Color pc = GetPixelColor(paintTarget, hit);
-
         int l = -1;
-        if (pc.r > .1) l = 0;
+        if (pc.r > .5) l = 0;
         if (pc.g > .5) l = 1;
         if (pc.b > .5) l = 2;
         if (pc.a > .5) l = 3;
@@ -340,7 +340,7 @@ public class PaintTarget : MonoBehaviour
         if (SetupOnStart) SetupPaint();
         m_ID = s_IDMax;
         s_IDMax++;
-        Scores.instance.allScores.Add(m_ID, myScore);
+        Scores.Instance.allScores.Add(m_ID, myScore);
     }
 
     private void SetupPaint()
@@ -633,7 +633,7 @@ public class PaintTarget : MonoBehaviour
 			myScore.z = scoresColor.b;
 			myScore.w = scoresColor.a;
 
-			Scores.instance.allScores[m_ID] = myScore;
+			Scores.Instance.allScores[m_ID] = myScore;
 
 			yield return new WaitForSeconds (1.0f);
 
