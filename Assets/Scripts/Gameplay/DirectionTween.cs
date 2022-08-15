@@ -1,25 +1,27 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
 
-public class DirectionTween : MonoBehaviour
+namespace Gameplay
 {
-    public Transform endPos;
-    public float duration;
-    private Vector3 startPos;
-
-    private void Start()
+    public class DirectionTween : MonoBehaviour
     {
-        startPos = transform.position;
-    }
+        public Transform endPos;
+        public float duration;
+        private Vector3 _startPos;
 
-    public void StartTween()
-    {
-        transform.DOMove(endPos.position, duration);
-    }
+        private void Start()
+        {
+            _startPos = transform.position;
+        }
 
-    public void ResetPosition()
-    {
-        transform.position = startPos;
+        public void StartTween()
+        {
+            transform.DOMove(endPos.position, duration);
+        }
+
+        public void ResetPosition()
+        {
+            transform.position = _startPos;
+        }
     }
 }

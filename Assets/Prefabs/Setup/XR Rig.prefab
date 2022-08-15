@@ -2350,9 +2350,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48865e9f8cae3c84d926aff26e389a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 300
-  sinkSpeed: 2
-  locomotion: {fileID: 3953089385813430785}
+  rotationSpeed: 4.32e-43
+  sinkSpeed: 2.4938046e-38
+  locomotion: {fileID: 0}
 --- !u!114 &4989558145552763728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2414,11 +2414,9 @@ MonoBehaviour:
   damageMaterial: {fileID: 0}
   damageUIController: {fileID: 4132809242263399738}
   hitFX: {fileID: 0}
-  hitSFX:
-  - {fileID: 0}
+  hitSfx: []
   deathFX: {fileID: 0}
-  deathSFX:
-  - {fileID: 0}
+  deathSfx: []
   onDeath:
     m_PersistentCalls:
       m_Calls:
@@ -2545,10 +2543,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a3489cd830ef54da8cd9c1bbcb5428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Clips:
-  - {fileID: 8300000, guid: 37ae926e12bacc14d9a04a82781424c0, type: 3}
-  - {fileID: 8300000, guid: 8686076f0334e4e479e85a732170905d, type: 3}
-  - {fileID: 8300000, guid: bc08535e7fc58d94f8ce5e3e3cbf2b9b, type: 3}
+  clips: []
   volume: 1
   minPitch: 1.2
   maxPitch: 0.8

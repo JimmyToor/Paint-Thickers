@@ -1,5 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using AI;
+using Audio;
+using Gameplay;
 using UnityEngine;
 
 // Handles particle interactions with other objects
@@ -7,17 +9,17 @@ public class ParticlePainter : MonoBehaviour
 {
     public Brush brush;
     public float damage;
-    public bool randomChannel = false;
-    public bool collisionSFX; // play sound effects on collision (requires SFXSource component)
+    public bool randomChannel;
+    public bool collisionSfx; // play sound effects on collision (requires SFXSource component)
 
-    private ParticleSystem part;
-    private List<ParticleCollisionEvent> collisionEvents;
-    private SFXSource sfxSource;
+    private ParticleSystem _part;
+    private List<ParticleCollisionEvent> _collisionEvents;
+    private SFXSource _sfxSource;
 
     private void Start()
     {
-        part = GetComponent<ParticleSystem>();
-        collisionEvents = new List<ParticleCollisionEvent>();
+        _part = GetComponent<ParticleSystem>();
+        _collisionEvents = new List<ParticleCollisionEvent>();
         if (brush.splatTexture == null)
         {
             brush.splatTexture = Resources.Load<Texture2D>("splats");
@@ -25,54 +27,71 @@ public class ParticlePainter : MonoBehaviour
             brush.splatsY = 4;
         }
 
-        TryGetComponent(out sfxSource);
+        // if (enemy != null)
+        // {
+        //     brush.splatChannel = enemy.teamChannel;
+        //     List<Material> materials = new List<Material>();
+        //     _part.GetComponent<Renderer>().GetMaterials(new List<Material>(materials));
+        //
+        //     foreach (var mat in materials)
+        //     {
+        //         mat.color = GameManager.Instance.GetTeamColor(brush.splatChannel);
+        //     }
+        //
+        //     TryGetComponent(out _sfxSource);
+        // }
     }
 
     private void OnParticleCollision(GameObject other)
     {
-        int numCollisionEvents = part.GetCollisionEvents(other, collisionEvents);
-        switch (other.tag)
+        int numCollisionEvents = _part.GetCollisionEvents(other, _collisionEvents);
+        for (int i = 0; i < numCollisionEvents; i++)
         {
-            case "Terrain":
-                PaintTarget paintTarget = other.GetComponent<PaintTarget>();
-                if (paintTarget != null)
-                {
-                    if (randomChannel) brush.splatChannel = Random.Range(0, 2);
-                    
-                    for (int i = 0; i < numCollisionEvents; i++)
+            switch (other.tag)
+            {
+                case "Terrain":
+                    PaintTarget paintTarget = other.GetComponent<PaintTarget>();
+                    if (paintTarget != null)
                     {
-                        PaintTarget.PaintObject(paintTarget, collisionEvents[i].intersection, collisionEvents[i].normal, brush);
+                        if (randomChannel) brush.splatChannel = Random.Range(0, 2);
+                        PaintTarget.PaintObject(paintTarget, _collisionEvents[i].intersection, _collisionEvents[i].normal, brush);
+                        
                     }
-                }
-                break;
-            case "Player":
-                if (other.TryGetComponent(out Player player))
-                {
-                    for (int i = 0; i < numCollisionEvents; i++)
+                    break;
+                case "Player":
+                    if (other.TryGetComponent(out Player player))
                     {
-                        if (brush.splatChannel != other.GetComponent<Player>().teamChannel)
+                        if (brush.splatChannel != player.teamChannel)
                         {
                             other.gameObject.GetComponent<PlayerEvents>().OnTakeHit(damage);
                         }
                     }
-                }
-                break;
-            default:
-                if (other.gameObject.TryGetComponent(out Health health))
-                {
-                    part.GetCollisionEvents(other, collisionEvents);
-                    health.TakeHit(damage,collisionEvents[0].intersection);
-                }
-                else
-                    Debug.LogFormat("Object {0} hit by particle (fired by {1}) but has no way to react.", other.name, gameObject.name);
-                break;
+                    break;
+                case "Enemy":
+                    if (other.TryGetComponent(out Enemy enemy))
+                    {
+                        if (brush.splatChannel != enemy.teamChannel && other.gameObject.TryGetComponent(out Health enemyHealth))
+                        {
+                            enemyHealth.TakeHit(damage,_collisionEvents[i].intersection);
+                        }
+                    }
+                    break;
+                default:
+                    if (other.gameObject.TryGetComponent(out Health health))
+                    {
+                        health.TakeHit(damage,_collisionEvents[i].intersection);
+                    }
+                    // else
+                    //     Debug.LogFormat("Object {0} hit by particle (fired by {1}) but has no way to react.", other.name, gameObject.name);
+                    break;
+            }
         }
         
-        if (collisionSFX)
+        if (collisionSfx)
         {
             for (int i = 0; i < numCollisionEvents; i++)
             {
-                sfxSource.TriggerPlay(collisionEvents[i].intersection);
+                _sfxSource.TriggerPlay(_collisionEvents[i].intersection);
             }
         }
     }

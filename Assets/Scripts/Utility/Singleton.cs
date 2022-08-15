@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T: MonoBehaviour{
     
-    public static bool verbose = false;
-    public static bool keepAlive = true;
+    public static bool Verbose = false;
+    public static bool KeepAlive = true;
 
     private static T _instance = null;
-    public static T instance {
+    public static T Instance {
         get { 
             if(_instance == null){
                 _instance = GameObject.FindObjectOfType<T>();
@@ -20,32 +20,32 @@ public class Singleton<T> : MonoBehaviour where T: MonoBehaviour{
         }
     }
 
-    static public bool isInstanceAlive{
+    static public bool IsInstanceAlive{
         get { return _instance != null; }
     }
 
     public virtual void Awake(){
         if (_instance != null){
-            if(verbose)
-                Debug.Log("SingleAccessPoint, Destroy duplicate instance " + name + " of " + instance.name);
+            if(Verbose)
+                Debug.Log("SingleAccessPoint, Destroy duplicate instance " + name + " of " + Instance.name);
             Destroy(gameObject);
             return;
         }
 
         _instance = GetComponent<T>();
         
-        if(keepAlive){
+        if(KeepAlive){
             DontDestroyOnLoad(gameObject);
         }
         
         if (_instance == null){
-            if(verbose)
+            if(Verbose)
                 Debug.LogError("SingleAccessPoint<" + typeof(T).Name + "> Instance null in Awake");
             return;
         }
 
-        if(verbose)
-            Debug.Log("SingleAccessPoint instance found " + instance.GetType().Name);
+        if(Verbose)
+            Debug.Log("SingleAccessPoint instance found " + Instance.GetType().Name);
 
     }
 

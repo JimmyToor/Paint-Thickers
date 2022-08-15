@@ -1,3 +1,10 @@
+Requires Shaders from:
+https://assetstore.unity.com/packages/tools/paintz-free-145977
+
+Requires Skyboxes from:
+https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-series-free-103633
+
+
 MIT License
 
 Copyright (c) 2022 Jimmy
@@ -19,4 +26,93 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

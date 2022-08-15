@@ -46,6 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73126a40677cffe4a92d2e8cb5329cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  gameOverUI: {fileID: 0}
+  teamColors: {fileID: 0}
 --- !u!114 &2851713015435441237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,5 +95,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cea5772856041394993cdb089bace8e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFXReferenceSource: {fileID: 0}
-  SFXSourceCount: 4
+  sfxReferenceSource: {fileID: 0}
+  sfxSourceCount: 5

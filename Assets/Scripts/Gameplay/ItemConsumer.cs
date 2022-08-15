@@ -1,21 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using Gameplay;
 using UnityEngine;
 using Utility;
 
-public class ItemConsumer : MonoBehaviour
+namespace Gameplay
 {
-    public ItemType itemType;
-    
-    private void OnCollisionEnter(Collision collision)
+    public class ItemConsumer : MonoBehaviour
     {
-        if (collision.gameObject.CompareTag("Player"))
+        public ItemType itemType;
+    
+        private void OnCollisionEnter(Collision collision)
         {
-            Player player = collision.gameObject.GetComponentInParent(typeof(Player)) as Player;
-            if (player != null && player.ConsumeItem(itemType))
+            if (collision.gameObject.CompareTag("Player"))
             {
-                Destroy(gameObject);
+                Player player = collision.gameObject.GetComponentInParent(typeof(Player)) as Player;
+                if (player != null && player.ConsumeItem(itemType))
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }

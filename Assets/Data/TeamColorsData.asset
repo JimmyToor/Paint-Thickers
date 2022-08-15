@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4066f69e70c9544486bc17ea8a2e5a3, type: 3}
   m_Name: TeamColorsData
   m_EditorClassIdentifier: 
-  teamColor1: {r: 1, g: 0, b: 0, a: 0}
-  teamColor2: {r: 0, g: 1, b: 0, a: 0}
-  teamColor3: {r: 0, g: 0, b: 1, a: 0}
-  teamColor4: {r: 1, g: 1, b: 0, a: 0}
+  teamColors:
+  - {r: 1, g: 0, b: 0, a: 0}
+  - {r: 0, g: 1, b: 0, a: 0}
+  - {r: 0, g: 0, b: 1, a: 0}
+  - {r: 1, g: 1, b: 0, a: 0}

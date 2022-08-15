@@ -48,57 +48,57 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Eye
-    second: {fileID: 2800000, guid: 05d84e25e84eda04b8ff5c9f5e32b821, type: 3}
+    second: {fileID: 2800000, guid: 48c3284827f2b414f9919fc7ade82eac, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Metal038_2K_Color
-    second: {fileID: 2800000, guid: bad9874997a88d54fb2f169d6cd09439, type: 3}
+    second: {fileID: 2800000, guid: f1b19e4dd4215af46935a4d373d277c4, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Metal038_2K_Metalness
-    second: {fileID: 2800000, guid: f4dfa2ce65af9a340ac667021ab265ae, type: 3}
+    second: {fileID: 2800000, guid: 578b3fcb369e1cb40acde24064ced442, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Metal038_2K_NormalDX
-    second: {fileID: 2800000, guid: dbec8fe97f7603e4389f9db8c655ae0a, type: 3}
+    second: {fileID: 2800000, guid: 8aecb35a24c90b844bd5b50504fcda01, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Metal038_2K_Roughness
-    second: {fileID: 2800000, guid: ade4645d5b4b2824bb3fef5b2f4167cb, type: 3}
+    second: {fileID: 2800000, guid: fc10d0b0a6a04344ba399b099f15ddfb, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Plastic008_2K_Color
-    second: {fileID: 2800000, guid: 475547bb51d730a488f34c1723c1fa9c, type: 3}
+    second: {fileID: 2800000, guid: e5707ed146c319948b11794ac1324d9c, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Plastic008_2K_NormalDX
-    second: {fileID: 2800000, guid: 4358f58966e068b4ab28c348b4526bf6, type: 3}
+    second: {fileID: 2800000, guid: 602bbf0f8fa16aa4aab75dca380535a8, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Plastic008_2K_Roughness
-    second: {fileID: 2800000, guid: 82ad4e20510047b48a31f83cf696e793, type: 3}
+    second: {fileID: 2800000, guid: 22ba1ffa49e60fc4fb1682af6179fa8e, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Plastic_Ducktape_01_basecolor
-    second: {fileID: 2800000, guid: 2adb9638b650e944f92e2a2e27d071aa, type: 3}
+    second: {fileID: 2800000, guid: 38e15d219b75e8d4084d08c4d6bd19c6, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Plastic_Ducktape_01_metallic
-    second: {fileID: 2800000, guid: 08a4107866bf85f4e83ad24d93bb17ed, type: 3}
+    second: {fileID: 2800000, guid: fffe2a5dff0265941a4d1127f8fe82e3, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: Plastic_Ducktape_01_normal
-    second: {fileID: 2800000, guid: 5d4de273b7f2ec5498f8681de58f72bc, type: 3}
+    second: {fileID: 2800000, guid: 6ef1a5eb216ce224f80db4b5bff4b818, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -108,7 +108,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 1
+    optimizeGameObjects: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -117,19 +117,35 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
-    importConstraints: 0
+    importConstraints: 1
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - Armature_Trooper
+    - Armature_Trooper/Root
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4/hose5/hose_fx
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4/hose5
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2
+    - Armature_Trooper/Root/stand/body/hose0/hose1
+    - Armature_Trooper/Root/stand/body/hose0
+    - Armature_Trooper/Root/stand/body/Armature_Eye/Root 1/eye_R
+    - Armature_Trooper/Root/stand/body/Armature_Eye/Root 1/eye_L
+    - Armature_Trooper/Root/stand/body/Armature_Eye/Root 1
+    - Armature_Trooper/Root/stand/body/Armature_Eye
+    - Armature_Trooper/Root/stand/body
+    - Armature_Trooper/Root/stand
+    - Base
     extraUserProperties: []
     clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 100
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1

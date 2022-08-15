@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Data;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.SceneManagement;
@@ -12,8 +9,6 @@ public class GameManager : Singleton<GameManager>
     public GameObject gameOverUI;
     public TeamColorScriptableObject teamColors;
     
-    private Color[] TeamColors;
-
     private void Start()
     {
         if (player == null)
@@ -45,22 +40,9 @@ public class GameManager : Singleton<GameManager>
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-    
-    public void UpdateTeamColors()
-    {
-        if (TeamColors.Length != 4)
-        {
-            TeamColors = new Color[4];
-        }
-        
-        TeamColors[0] = teamColors.teamColor1;
-        TeamColors[1] = teamColors.teamColor2;
-        TeamColors[2] = teamColors.teamColor3;
-        TeamColors[3] = teamColors.teamColor4;
-    }
 
     public Color GetTeamColor(int channel)
     {
-        return TeamColors[channel];
+        return teamColors.teamColors[channel];
     }
 }

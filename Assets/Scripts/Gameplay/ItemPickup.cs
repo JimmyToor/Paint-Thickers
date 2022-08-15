@@ -1,22 +1,22 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Utility;
 
-public class ItemPickup : MonoBehaviour
+namespace Gameplay
 {
-    public ItemType itemType;
-
-    private void OnCollisionEnter(Collision collision)
+    public class ItemPickup : MonoBehaviour
     {
-        if (collision.gameObject.CompareTag("Player"))
+        public ItemType itemType;
+
+        private void OnCollisionEnter(Collision collision)
         {
-            Player player = collision.gameObject.GetComponentInParent(typeof(Player)) as Player;
-            if (player != null)
+            if (collision.gameObject.CompareTag("Player"))
             {
-                player.AddItem(itemType);
-                Destroy(gameObject);
+                Player player = collision.gameObject.GetComponentInParent(typeof(Player)) as Player;
+                if (player != null)
+                {
+                    player.AddItem(itemType);
+                    Destroy(gameObject);
+                }
             }
         }
     }

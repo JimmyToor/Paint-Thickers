@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: mask_hose
+  m_Mask: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: Base
+    m_Weight: 0
+  - m_Path: Armature_Trooper
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root/stand
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root/stand/body
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root/stand/body/Armature_Eye
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root/stand/body/Armature_Eye/Root 1
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root/stand/body/Armature_Eye/Root 1/eye_L
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root/stand/body/Armature_Eye/Root 1/eye_L/eye_L_end
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root/stand/body/Armature_Eye/Root 1/eye_R
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root/stand/body/Armature_Eye/Root 1/eye_R/eye_R_end
+    m_Weight: 0
+  - m_Path: Armature_Trooper/Root/stand/body/hose0
+    m_Weight: 1
+  - m_Path: Armature_Trooper/Root/stand/body/hose0/hose1
+    m_Weight: 1
+  - m_Path: Armature_Trooper/Root/stand/body/hose0/hose1/hose2
+    m_Weight: 1
+  - m_Path: Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3
+    m_Weight: 1
+  - m_Path: Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4
+    m_Weight: 1
+  - m_Path: Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4/hose5
+    m_Weight: 1
+  - m_Path: Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4/hose5/hose_fx
+    m_Weight: 1
+  - m_Path: Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4/hose5/hose_fx/hose_fx_end
+    m_Weight: 1
+  - m_Path: Eye
+    m_Weight: 0
+  - m_Path: Lid
+    m_Weight: 0
+  - m_Path: Stand
+    m_Weight: 0
+  - m_Path: Body
+    m_Weight: 0
+  - m_Path: HoseBase
+    m_Weight: 0
+  - m_Path: Hose
+    m_Weight: 0
+  - m_Path: Spout
+    m_Weight: 0
+  - m_Path: Casing
+    m_Weight: 0
+  - m_Path: Glass
+    m_Weight: 0
+  - m_Path: GlassContents
+    m_Weight: 0

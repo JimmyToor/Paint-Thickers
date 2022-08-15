@@ -156,6 +156,7 @@ Material:
     - Vector1_7a53ba3e07604b56bf5bc59497fedc16: 0
     - Vector1_7bf270fe91494824b4209d2dc1faae23: 0.7
     - Vector1_8e760635099b4147956bb9600d13cac2: 0.3
+    - Vector1_97e44d7d184d4719b865fe9c1da46e6c: 0
     - Vector1_9f0b992150d14c428a624961e9c10763: 1
     - Vector1_b160a6374fb04a77b114bb611b8c55e4: 0
     - Vector1_b5cc7f6f25194a778cb438f45fbbce66: 3
@@ -167,6 +168,7 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
+    - _Clip: 0.5
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1

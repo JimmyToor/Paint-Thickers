@@ -1,71 +1,70 @@
-using System;
-using System.Collections;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.Rendering;
-using UnityEngine.XR.Interaction.Toolkit;
 using Vignette = UnityEngine.Rendering.Universal.Vignette;
 
-public class ComfortVignette : MonoBehaviour
+namespace UI
 {
-    public bool enableVignette;
-    public float intensity;
-    public float fadeDuration;
-
-    private Vignette vignette;
-    private Volume volume;
-    private bool isMoving;
-    private Vector3 oldForward;
-
-    private CharacterController charController;
-    // Start is called before the first frame update
-    void Awake()
+    public class ComfortVignette : MonoBehaviour
     {
-        oldForward = transform.forward;
-        volume = GameObject.Find("PostProcessVol").GetComponent<Volume>();
-        volume.profile.TryGet(out vignette);
-        charController = GetComponent<CharacterController>();
-    }
+        public bool enableVignette;
+        public float intensity;
+        public float fadeDuration;
 
-    private void Update()
-    {
-        if (!enableVignette)
+        private Vignette vignette;
+        private Volume volume;
+        private bool isMoving;
+        private Vector3 oldForward;
+
+        private CharacterController charController;
+        // Start is called before the first frame update
+        void Awake()
         {
-            return;
+            oldForward = transform.forward;
+            volume = GameObject.Find("PostProcessVol").GetComponent<Volume>();
+            volume.profile.TryGet(out vignette);
+            charController = GetComponent<CharacterController>();
         }
+
+        private void Update()
+        {
+            if (!enableVignette)
+            {
+                return;
+            }
         
-        if (Moving() && !isMoving) // Fade in vignette if player goes from stationary to moving
-        {
-            FadeIn();
-            isMoving = true;
+            if (Moving() && !isMoving) // Fade in vignette if player goes from stationary to moving
+            {
+                FadeIn();
+                isMoving = true;
+            }
+            else if (!Moving() && isMoving) // Fade out vignette if player goes from moving to stationary
+            {
+                FadeOut();
+                isMoving = false;
+            }
+
+            oldForward = transform.forward;
         }
-        else if (!Moving() && isMoving) // Fade out vignette if player goes from moving to stationary
+
+        // Is the player rotating or moving?
+        private bool Moving()
         {
-            FadeOut();
-            isMoving = false;
+            if (Mathf.Approximately(charController.velocity.sqrMagnitude, 0) && transform.forward == oldForward)
+                return false;
+
+            return true;
         }
 
-        oldForward = transform.forward;
-    }
+        private void FadeIn()
+        {
+            DOTween.To(value => vignette.intensity.Override(value), vignette.intensity.value, intensity, fadeDuration);
+        }
 
-    // Is the player rotating or moving?
-    private bool Moving()
-    {
-        if (Mathf.Approximately(charController.velocity.sqrMagnitude, 0) && transform.forward == oldForward)
-            return false;
-
-        return true;
-    }
-
-    private void FadeIn()
-    {
-        DOTween.To(value => vignette.intensity.Override(value), vignette.intensity.value, intensity, fadeDuration);
-    }
-
-    private void FadeOut()
-    {
-        DOTween.To(value => vignette.intensity.Override(value), vignette.intensity.value, 0, fadeDuration);
-    }
+        private void FadeOut()
+        {
+            DOTween.To(value => vignette.intensity.Override(value), vignette.intensity.value, 0, fadeDuration);
+        }
     
+    }
 }

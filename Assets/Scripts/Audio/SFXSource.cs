@@ -1,51 +1,51 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 // Got this from SO but can't find the post anymore
 
-/// <summary>
-/// Will trigger SFX through the SFXPlayer when the object on which this is added trigger a collision enter event
-/// </summary>
-public class SFXSource : MonoBehaviour
+namespace Audio
 {
-    static int s_IDMax = 0;
-
-    public AudioClip[] Clips;
-    public float volume = 1f;
-    public float minPitch = 1.2f;
-    public float maxPitch = 0.8f;
-    public float cooldownTime;
-
-    int m_ID;
-
-    void Awake()
+    /// <summary>
+    /// Will trigger SFX through the SFXPlayer when the object on which this is added trigger a collision enter event
+    /// </summary>
+    public class SFXSource : MonoBehaviour
     {
-        m_ID = s_IDMax;
-        s_IDMax++;
-    }
+        static int _sIDMax;
 
-    public void TriggerPlay(Vector3 pos)
-    {   
-        AudioClip randomClip = Clips[Random.Range(0, Clips.Length)];
+        public AudioClip[] clips;
+        public float volume = 1f;
+        public float minPitch = 1.2f;
+        public float maxPitch = 0.8f;
+        public float cooldownTime;
+
+        private int _mID;
+
+        void Awake()
+        {
+            _mID = _sIDMax;
+            _sIDMax++;
+        }
+
+        public void TriggerPlay(Vector3 pos)
+        {   
+            AudioClip randomClip = clips[Random.Range(0, clips.Length)];
         
-        SFXPlayer.instance.PlaySFX(randomClip, pos, new SFXPlayer.PlayParameters()
-        {
-            Volume = volume,
-            Pitch = Random.Range(minPitch, maxPitch),
-            SourceID = m_ID
-        }, cooldownTime);
-    }
+            SFXPlayer.Instance.PlaySfx(randomClip, pos, new SFXPlayer.PlayParameters()
+            {
+                Volume = volume,
+                Pitch = Random.Range(minPitch, maxPitch),
+                SourceID = _mID
+            }, cooldownTime);
+        }
 
-    public void TriggerPlayOneShot(Vector3 pos, AudioClip clip)
-    {
-        SFXPlayer.instance.PlaySFX(clip, pos, new SFXPlayer.PlayParameters()
+        public void TriggerPlayOneShot(Vector3 pos, AudioClip clip)
         {
-            Volume = volume,
-            Pitch = Random.Range(minPitch, maxPitch),
-            SourceID = m_ID
-        }, cooldownTime);
+            SFXPlayer.Instance.PlaySfx(clip, pos, new SFXPlayer.PlayParameters()
+            {
+                Volume = volume,
+                Pitch = Random.Range(minPitch, maxPitch),
+                SourceID = _mID
+            }, cooldownTime);
+        }
     }
 }

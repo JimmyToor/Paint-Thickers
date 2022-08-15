@@ -17,14 +17,14 @@ namespace UnityEngine.XR.Interaction.Toolkit.Inputs
     {
         [SerializeField]
         [Tooltip("Input action assets to affect when inputs are enabled or disabled.")]
-        List<InputActionAsset> m_ActionAssets;
+        List<InputActionAsset> mActionAssets;
         /// <summary>
         /// Input action assets to affect when inputs are enabled or disabled.
         /// </summary>
-        public List<InputActionAsset> actionAssets
+        public List<InputActionAsset> ActionAssets
         {
-            get => m_ActionAssets;
-            set => m_ActionAssets = value ?? throw new ArgumentNullException(nameof(value));
+            get => mActionAssets;
+            set => mActionAssets = value ?? throw new ArgumentNullException(nameof(value));
         }
 
         protected void OnEnable()
@@ -45,15 +45,15 @@ namespace UnityEngine.XR.Interaction.Toolkit.Inputs
         /// However, this method can be called to enable input manually, such as after disabling it with <see cref="DisableInput"/>.
         /// <br />
         /// Note that enabling inputs will only enable the action maps contained within the referenced
-        /// action map assets (see <see cref="actionAssets"/>).
+        /// action map assets (see <see cref="ActionAssets"/>).
         /// </remarks>
         /// <seealso cref="DisableInput"/>
         public void EnableInput()
         {
-            if (m_ActionAssets == null)
+            if (mActionAssets == null)
                 return;
 
-            foreach (var actionAsset in m_ActionAssets)
+            foreach (var actionAsset in mActionAssets)
             {
                 if (actionAsset != null)
                 {
@@ -70,15 +70,15 @@ namespace UnityEngine.XR.Interaction.Toolkit.Inputs
         /// However, this method can be called to disable input manually, such as after enabling it with <see cref="EnableInput"/>.
         /// <br />
         /// Note that disabling inputs will only disable the action maps contained within the referenced
-        /// action map assets (see <see cref="actionAssets"/>).
+        /// action map assets (see <see cref="ActionAssets"/>).
         /// </remarks>
         /// <seealso cref="EnableInput"/>
         public void DisableInput()
         {
-            if (m_ActionAssets == null)
+            if (mActionAssets == null)
                 return;
 
-            foreach (var actionAsset in m_ActionAssets)
+            foreach (var actionAsset in mActionAssets)
             {
                 if (actionAsset != null)
                 {

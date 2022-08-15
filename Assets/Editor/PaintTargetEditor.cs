@@ -1,87 +1,90 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(PaintTarget))]
-public class PaintTargetEditor : Editor
+namespace Editor
 {
-    private static Texture2D logo;
-    private GUIStyle guiStyle = new GUIStyle(); //create a new variable
-
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(PaintTarget))]
+    public class PaintTargetEditor : UnityEditor.Editor
     {
-        PaintTarget script = (PaintTarget)target;
-        GameObject go = (GameObject)script.gameObject;
-        Renderer render = go.GetComponent<Renderer>();
+        private static Texture2D logo;
+        private GUIStyle guiStyle = new GUIStyle(); //create a new variable
 
-        if (Application.isPlaying)
+        public override void OnInspectorGUI()
         {
-            GUILayout.BeginVertical(GUI.skin.box);
+            PaintTarget script = (PaintTarget)target;
+            GameObject go = (GameObject)script.gameObject;
+            Renderer render = go.GetComponent<Renderer>();
 
-            //EditorGUILayout.ObjectField((Object)script.splatTexPick, typeof(Texture2D), true);
-
-            script.PaintAllSplats = GUILayout.Toggle(script.PaintAllSplats, "Paint All Splats");
-
-            if (GUILayout.Button("Clear Paint"))
+            if (Application.isPlaying)
             {
-                script.ClearPaint();
-            }
-            if (GUILayout.Button("Clear All Paint"))
-            {
-                PaintTarget.ClearAllPaint();
-            }
-            if (script.UseBaked)
-                script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex, typeof(Texture2D), true);
+                GUILayout.BeginVertical(GUI.skin.box);
 
-            GUILayout.EndVertical();
-        }
-        else
-        {
-            GUILayout.BeginVertical(GUI.skin.box);
+                //EditorGUILayout.ObjectField((Object)script.splatTexPick, typeof(Texture2D), true);
 
-            script.paintTextureSize = (TextureSize)EditorGUILayout.EnumPopup("Paint Texture", script.paintTextureSize);
-            script.renderTextureSize = (TextureSize)EditorGUILayout.EnumPopup("Render Texture", script.renderTextureSize);
-            script.SetupOnStart = GUILayout.Toggle(script.SetupOnStart, "Setup On Start");
-            script.PaintAllSplats = GUILayout.Toggle(script.PaintAllSplats, "Paint All Splats");
-            script.UseBaked = GUILayout.Toggle(script.UseBaked, "Use Baked Texture");
-            if (script.UseBaked)
-                script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex, typeof(Texture2D), true);
-            else
-                script.bakedTex = null;
-       
-            GUILayout.EndVertical();
+                script.PaintAllSplats = GUILayout.Toggle(script.PaintAllSplats, "Paint All Splats");
 
-            if (render == null)
-            {
-                EditorGUILayout.HelpBox("Missing Render Component", MessageType.Error);
-            }
-            else
-            {
-                foreach (Material mat in render.sharedMaterials)
+                if (GUILayout.Button("Clear Paint"))
                 {
-                    if (!mat.shader.name.StartsWith("Shader Graphs/Paintable"))
+                    script.ClearPaint();
+                }
+                if (GUILayout.Button("Clear All Paint"))
+                {
+                    PaintTarget.ClearAllPaint();
+                }
+                if (script.UseBaked)
+                    script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex, typeof(Texture2D), true);
+
+                GUILayout.EndVertical();
+            }
+            else
+            {
+                GUILayout.BeginVertical(GUI.skin.box);
+
+                script.paintTextureSize = (TextureSize)EditorGUILayout.EnumPopup("Paint Texture", script.paintTextureSize);
+                script.renderTextureSize = (TextureSize)EditorGUILayout.EnumPopup("Render Texture", script.renderTextureSize);
+                script.SetupOnStart = GUILayout.Toggle(script.SetupOnStart, "Setup On Start");
+                script.PaintAllSplats = GUILayout.Toggle(script.PaintAllSplats, "Paint All Splats");
+                script.UseBaked = GUILayout.Toggle(script.UseBaked, "Use Baked Texture");
+                if (script.UseBaked)
+                    script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex, typeof(Texture2D), true);
+                else
+                    script.bakedTex = null;
+       
+                GUILayout.EndVertical();
+
+                if (render == null)
+                {
+                    EditorGUILayout.HelpBox("Missing Render Component", MessageType.Error);
+                }
+                else
+                {
+                    foreach (Material mat in render.sharedMaterials)
                     {
-                        EditorGUILayout.HelpBox(mat.name + "\nMissing Paint Shader", MessageType.Warning);
+                        if (!mat.shader.name.StartsWith("Shader Graphs/Paintable"))
+                        {
+                            EditorGUILayout.HelpBox(mat.name + "\nMissing Paint Shader", MessageType.Warning);
+                        }
                     }
                 }
-            }
 
-            bool foundCollider = false;
-            bool foundMeshCollider = false;
-            if (go.GetComponent<MeshCollider>())
-            {
-                foundCollider = true;
-                foundMeshCollider = true;
-            }
-            if (go.GetComponent<BoxCollider>()) foundCollider = true;
-            if (go.GetComponent<SphereCollider>()) foundCollider = true;
-            if (go.GetComponent<CapsuleCollider>()) foundCollider = true;
-            if (!foundCollider)
-            {
-                EditorGUILayout.HelpBox("Missing Collider Component", MessageType.Warning);
-            }
-            if (!foundMeshCollider)
-            {
-                EditorGUILayout.HelpBox("WARNING: Color Pick only works with Mesh Collider", MessageType.Warning);
+                bool foundCollider = false;
+                bool foundMeshCollider = false;
+                if (go.GetComponent<MeshCollider>())
+                {
+                    foundCollider = true;
+                    foundMeshCollider = true;
+                }
+                if (go.GetComponent<BoxCollider>()) foundCollider = true;
+                if (go.GetComponent<SphereCollider>()) foundCollider = true;
+                if (go.GetComponent<CapsuleCollider>()) foundCollider = true;
+                if (!foundCollider)
+                {
+                    EditorGUILayout.HelpBox("Missing Collider Component", MessageType.Warning);
+                }
+                if (!foundMeshCollider)
+                {
+                    EditorGUILayout.HelpBox("WARNING: Color Pick only works with Mesh Collider", MessageType.Warning);
+                }
             }
         }
     }

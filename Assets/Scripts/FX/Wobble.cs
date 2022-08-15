@@ -1,64 +1,67 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //Code adapted from https://www.patreon.com/posts/18245226 by MinionsArt 
-public class Wobble : MonoBehaviour
+namespace FX
 {
-    Renderer rend;
-    public Transform driver;
-    Vector3 lastPos;
-    Vector3 velocity;
-    Vector3 lastRot;  
-    Vector3 angularVelocity;
-    public float WobbleScale = 0.03f;
-    public float WobbleSpeed = 1f;
-    public float Recovery = 1f;
-    public float MaxWobble = 10f;
-    float wobbleAmountX;
-    float wobbleAmountZ;
-    float wobbleAmountToAddX;
-    float wobbleAmountToAddZ;
-    float fillToAdd;
-    float pulse;
-    float time = 0.5f;
+    public class Wobble : MonoBehaviour
+    {
+        private Renderer _rend;
+        public Transform driver;
+        private Vector3 _lastPos;
+        private Vector3 _velocity;
+        private Vector3 _lastRot;
+        private Vector3 _angularVelocity;
+        
+        public float wobbleScale = 0.03f;
+        public float wobbleSpeed = 1f;
+        public float recovery = 1f;
+        public float maxWobble = 10f;
+        
+        private float _wobbleAmountX;
+        private float _wobbleAmountZ;
+        private float _wobbleAmountToAddX;
+        private float _wobbleAmountToAddZ;
+        private float _fillToAdd;
+        private float _pulse;
+        private float _time = 0.5f;
     
-    // Use this for initialization
-    void Start()
-    {
-        rend = GetComponent<Renderer>();
+        // Use this for initialization
+        private void Start()
+        {
+            _rend = GetComponent<Renderer>();
+        }
+        private void Update()
+        {
+            _time += Time.deltaTime;
+            // decrease wobble over time
+            _wobbleAmountToAddX = Mathf.Lerp(_wobbleAmountToAddX, 0, Time.deltaTime * (recovery));
+            _wobbleAmountToAddZ = Mathf.Lerp(_wobbleAmountToAddZ, 0, Time.deltaTime * (recovery));
+ 
+            // make a sine wave of the decreasing wobble
+            _pulse = 2 * Mathf.PI * wobbleSpeed;
+            _wobbleAmountX = Mathf.Clamp(_wobbleAmountToAddX,-maxWobble,maxWobble) * Mathf.Sin(_pulse * _time);
+            _wobbleAmountZ = Mathf.Clamp(_wobbleAmountToAddZ,-maxWobble,maxWobble)* Mathf.Sin(_pulse * _time);
+            //rend.material.SetFloat("_Fill", rend.material.GetFloat("_Fill") + wobbleAmountX + wobbleAmountZ);
+ 
+            // send it to the shader
+            _rend.material.SetFloat("_WobbleX", _wobbleAmountX);
+            _rend.material.SetFloat("_WobbleZ", _wobbleAmountZ);
+ 
+            // velocity
+            _velocity = (_lastPos - driver.position) / Time.deltaTime;
+            _angularVelocity = driver.rotation.eulerAngles - _lastRot;
+ 
+ 
+            // add clamped velocity to wobble
+            _wobbleAmountToAddX += Mathf.Clamp((_velocity.x) * wobbleScale, -wobbleScale, wobbleScale);
+            _wobbleAmountToAddZ += Mathf.Clamp((_velocity.z) * wobbleScale, -wobbleScale, wobbleScale);
+ 
+            // keep last position
+            _lastPos = driver.position;
+            _lastRot = driver.rotation.eulerAngles;
+        }
+ 
+ 
+ 
     }
-    private void Update()
-    {
-        time += Time.deltaTime;
-        // decrease wobble over time
-        wobbleAmountToAddX = Mathf.Lerp(wobbleAmountToAddX, 0, Time.deltaTime * (Recovery));
-        wobbleAmountToAddZ = Mathf.Lerp(wobbleAmountToAddZ, 0, Time.deltaTime * (Recovery));
- 
-        // make a sine wave of the decreasing wobble
-        pulse = 2 * Mathf.PI * WobbleSpeed;
-        wobbleAmountX = Mathf.Clamp(wobbleAmountToAddX,-MaxWobble,MaxWobble) * Mathf.Sin(pulse * time);
-        wobbleAmountZ = Mathf.Clamp(wobbleAmountToAddZ,-MaxWobble,MaxWobble)* Mathf.Sin(pulse * time);
-        //rend.material.SetFloat("_Fill", rend.material.GetFloat("_Fill") + wobbleAmountX + wobbleAmountZ);
- 
-        // send it to the shader
-        rend.material.SetFloat("_WobbleX", wobbleAmountX);
-        rend.material.SetFloat("_WobbleZ", wobbleAmountZ);
- 
-        // velocity
-        velocity = (lastPos - driver.position) / Time.deltaTime;
-        angularVelocity = driver.rotation.eulerAngles - lastRot;
- 
- 
-        // add clamped velocity to wobble
-        wobbleAmountToAddX += Mathf.Clamp((velocity.x) * WobbleScale, -WobbleScale, WobbleScale);
-        wobbleAmountToAddZ += Mathf.Clamp((velocity.z) * WobbleScale, -WobbleScale, WobbleScale);
- 
-        // keep last position
-        lastPos = driver.position;
-        lastRot = driver.rotation.eulerAngles;
-    }
- 
- 
- 
 }

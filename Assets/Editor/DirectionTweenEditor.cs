@@ -1,27 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
+using Gameplay;
 using UnityEditor;
-using UnityEditor.Experimental.TerrainAPI;
 using UnityEngine;
 
-[CustomEditor(typeof(DirectionTween))]
-public class DirectionTweenEditor : Editor
+namespace Editor
 {
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(DirectionTween))]
+    public class DirectionTweenEditor : UnityEditor.Editor
     {
-        DirectionTween tweenScriptTarget = (DirectionTween) target;
-
-        DrawDefaultInspector();
-
-        if (Application.isPlaying)
+        public override void OnInspectorGUI()
         {
-            if (GUILayout.Button("Start Tween"))
+            DirectionTween tweenScriptTarget = (DirectionTween) target;
+
+            DrawDefaultInspector();
+
+            if (Application.isPlaying)
             {
-                tweenScriptTarget.StartTween();
-            }
-            if (GUILayout.Button("Reset Position"))
-            {
-                tweenScriptTarget.ResetPosition();
+                if (GUILayout.Button("Start Tween"))
+                {
+                    tweenScriptTarget.StartTween();
+                }
+                if (GUILayout.Button("Reset Position"))
+                {
+                    tweenScriptTarget.ResetPosition();
+                }
             }
         }
     }

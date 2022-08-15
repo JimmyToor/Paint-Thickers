@@ -1,15 +1,21 @@
+using Gameplay;
 using UnityEngine;
 using Utility;
 
 namespace AI
 {
-    public class Enemy : MonoBehaviour
+    public abstract class Enemy : MonoBehaviour
     {
-        private static EnemyManager _enemyManager;
-    
-        protected Health health;
-    
         public int groupId; // Associate this enemy with a group of enemies
+        [Tooltip("The colour channel to identify as friendly paint. [-1, 4].")]
+        [Range(-1,4)]
+        public int teamChannel;
+        public ScriptableObjects.States statesData;
+
+        private Health _health;
+        private static EnemyManager _enemyManager;
+
+
 
         protected virtual void Start()
         {
@@ -26,9 +32,9 @@ namespace AI
             }
             _enemyManager.AddEnemy(groupId,this);
             
-            if (TryGetComponent(out health))
+            if (TryGetComponent(out _health))
             {
-                health.onDeath.AddListener(RemoveFromManager);
+                _health.onDeath.AddListener(RemoveFromManager);
             }
         }
 

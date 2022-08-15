@@ -1,67 +1,70 @@
-﻿using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEngine;
 
-[CustomEditor(typeof(PreviewHand))]
-public class HandPreviewEditor : Editor
+namespace Editor
 {
-    private PreviewHand previewHand = null;
-    private Transform activeJoint = null;
-
-    private void OnEnable()
+    [CustomEditor(typeof(PreviewHand))]
+    public class HandPreviewEditor : UnityEditor.Editor
     {
-        previewHand = target as PreviewHand;
-    }
+        private PreviewHand previewHand = null;
+        private Transform activeJoint = null;
 
-    private void OnSceneGUI()
-    {
-        DrawJointButtons();
-        DrawJointHandle();
-    }
-
-    private void DrawJointButtons()
-    {
-        // Draw a button for each joint
-        foreach (Transform joint in previewHand.Joints)
+        private void OnEnable()
         {
-            // Were one of the buttons pressed?
-            bool pressed = Handles.Button(joint.position, joint.rotation, 0.01f, 0.005f, Handles.SphereHandleCap);
-
-            // Did we select the same joint?
-            if (pressed)
-                activeJoint = IsSelected(joint) ? null : joint;                
+            previewHand = target as PreviewHand;
         }
-    }
 
-    private bool IsSelected(Transform joint)
-    {
-        return joint == activeJoint;
-    }
-
-    private void DrawJointHandle()
-    {
-        // If a joint is selected
-        if(HasActiveJoint())
+        private void OnSceneGUI()
         {
-            // Draw handle
-            Quaternion currentRotation = activeJoint.rotation;
-            Quaternion newRotation = Handles.RotationHandle(currentRotation, activeJoint.position);
+            DrawJointButtons();
+            DrawJointHandle();
+        }
 
-            // Detect if handle has rotated
-            if (HandleRotated(currentRotation, newRotation))
+        private void DrawJointButtons()
+        {
+            // Draw a button for each joint
+            foreach (Transform joint in previewHand.Joints)
             {
-                activeJoint.rotation = newRotation;
-                Undo.RecordObject(target, "Joint Rotated");
+                // Were one of the buttons pressed?
+                bool pressed = Handles.Button(joint.position, joint.rotation, 0.01f, 0.005f, Handles.SphereHandleCap);
+
+                // Did we select the same joint?
+                if (pressed)
+                    activeJoint = IsSelected(joint) ? null : joint;                
             }
         }
-    }
 
-    private bool HasActiveJoint()
-    {
-        return activeJoint;
-    }
+        private bool IsSelected(Transform joint)
+        {
+            return joint == activeJoint;
+        }
 
-    private bool HandleRotated(Quaternion currentRotation, Quaternion newRotation)
-    {
-        return currentRotation != newRotation;
+        private void DrawJointHandle()
+        {
+            // If a joint is selected
+            if(HasActiveJoint())
+            {
+                // Draw handle
+                Quaternion currentRotation = activeJoint.rotation;
+                Quaternion newRotation = Handles.RotationHandle(currentRotation, activeJoint.position);
+
+                // Detect if handle has rotated
+                if (HandleRotated(currentRotation, newRotation))
+                {
+                    activeJoint.rotation = newRotation;
+                    Undo.RecordObject(target, "Joint Rotated");
+                }
+            }
+        }
+
+        private bool HasActiveJoint()
+        {
+            return activeJoint;
+        }
+
+        private bool HandleRotated(Quaternion currentRotation, Quaternion newRotation)
+        {
+            return currentRotation != newRotation;
+        }
     }
 }

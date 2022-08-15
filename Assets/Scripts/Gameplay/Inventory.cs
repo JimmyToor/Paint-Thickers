@@ -7,7 +7,7 @@ namespace Gameplay
 { 
     public class Inventory
     {
-        private Dictionary<ItemType, int> items = new Dictionary<ItemType, int>(); // Item, quantity pairs
+        private Dictionary<ItemType, int> _items = new Dictionary<ItemType, int>(); // Item, quantity pairs
 
         public Inventory(bool init)
         {
@@ -21,22 +21,22 @@ namespace Gameplay
         {
             foreach (ItemType itemType in Enum.GetValues(typeof(ItemType)))
             {
-                items.Add(itemType, 0);
+                _items.Add(itemType, 0);
             }
         }
         
         public void AddItem(ItemType item)
         {
-            items.TryGetValue(item, out int amnt);
-            items[item] = amnt + 1;
+            _items.TryGetValue(item, out int amnt);
+            _items[item] = amnt + 1;
         }
 
         public bool ConsumeItem(ItemType item)
         {
-            items.TryGetValue(item, out int amnt);
+            _items.TryGetValue(item, out int amnt);
             if (amnt > 0)
             {
-                items[item] = amnt - 1;
+                _items[item] = amnt - 1;
                 return true;
             }
             return false;

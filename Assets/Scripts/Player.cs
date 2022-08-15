@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO.Ports;
 using Gameplay;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using Utility;
 
-[RequireComponent(typeof(PlayerEvents),typeof(CharacterController),typeof(InkSwim))]
+[RequireComponent(typeof(PlayerEvents),typeof(CharacterController),typeof(PaintSwim))]
 public class Player : MonoBehaviour
 {
     public PlayerEvents playerEvents;
@@ -20,21 +17,21 @@ public class Player : MonoBehaviour
     public GameObject rightUIHand;
     public GameObject overlayUICam;
 
-    private ActionBasedContinuousMoveProvider locomotion;
-    private float oldSpeed;
-    private Inventory inventory = new Inventory(true);
-    private Health health;
-    private Weapon.Weapon weapon;
-    private CharacterController charController;
-    private Vector3 resetPosition;
+    private ActionBasedContinuousMoveProvider _locomotion;
+    private float _oldSpeed;
+    private Inventory _inventory = new Inventory(true);
+    private Health _health;
+    private Weapons.Weapon _weapon;
+    private CharacterController _charController;
+    private Vector3 _resetPosition;
     private void Start()
     {
         InvokeRepeating(nameof(NewResetPosition),2f,5f);
-        locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
-        charController = GetComponent<CharacterController>();
-        locomotion.moveSpeed = walkSpeed;
-        TryGetComponent(out health);
-        locomotion.moveSpeed = walkSpeed;
+        _locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
+        _charController = GetComponent<CharacterController>();
+        _locomotion.moveSpeed = walkSpeed;
+        TryGetComponent(out _health);
+        _locomotion.moveSpeed = walkSpeed;
         if (leftUIHand == null)
         {
             leftUIHand = GameObject.Find("LeftHand Ray Controller");
@@ -63,38 +60,38 @@ public class Player : MonoBehaviour
     // Disable input-driven player movement
     public void DisableInputMovement()
     {
-        locomotion.enabled = false;
+        _locomotion.enabled = false;
         canSquid = false;
     }
 
     public void EnableInputMovement()
     {
-        locomotion.enabled = true;
+        _locomotion.enabled = true;
         canSquid = true;
     }
     
     public void AddItem(ItemType item)
     {
-        inventory.AddItem(item);
+        _inventory.AddItem(item);
     } 
 
     public bool ConsumeItem(ItemType item)
     {
-        return inventory.ConsumeItem(item);
+        return _inventory.ConsumeItem(item);
     }
     
     private void TakeHit(float damage)
     {
-        if (health != null)
+        if (_health != null)
         {
-            health.TakeHit(damage);
+            _health.TakeHit(damage);
         }
     }
 
-    public void SetWeapon(Weapon.Weapon newWeapon)
+    public void SetWeapon(Weapons.Weapon newWeapon)
     {
-        weapon = newWeapon;
-        weapon.SetUIColor(GameManager.instance.GetTeamColor(teamChannel));
+        _weapon = newWeapon;
+        _weapon.SetUIColor(GameManager.Instance.GetTeamColor(teamChannel));
     }
 
     public void DisableHands()
@@ -111,64 +108,67 @@ public class Player : MonoBehaviour
     
     public void RemoveWeapon()
     {
-        weapon = null;
+        _weapon = null;
     }
 
     public void DisableWeapon()
     {
-        weapon.gameObject.SetActive(false);
+        if (_weapon != null)
+        {
+            _weapon.gameObject.SetActive(false);
+        }
     }
 
     public void HideWeapon()
     {
-        if (weapon == null)
+        if (_weapon == null)
         {
             return;
         }
 
-        weapon.HideWeapon();
+        _weapon.HideWeapon();
     }
 
     public void ShowWeapon()
     {
-        if (weapon == null)
+        if (_weapon == null)
         {
             return;
         }
         
-        weapon.ShowWeapon();
+        _weapon.ShowWeapon();
     }
 
     public void EnableWeaponUI()
     {
-        if (weapon != null)
+        if (_weapon != null)
         {
-            weapon.ShowUI();
+            _weapon.ShowUI();
         }
     }
 
     public void DisableWeaponUI()
     {
-        if (weapon != null)
+        if (_weapon != null)
         {
-            weapon.HideUI();
+            _weapon.HideUI();
         }
     }
     
     public void RefillWeaponAmmo()
     {
-        if (weapon != null)
+        if (_weapon != null)
         {
-            weapon.RefillAmmo();
+            _weapon.RefillAmmo();
         }
     }
 
     private void NewResetPosition()
     {
-        if (charController.isGrounded)
+        if (_charController.isGrounded)
         {
-            resetPosition = transform.position;
-            resetPosition.y += 0.5f;
+            _resetPosition = transform.position;
+            _resetPosition.y += 0.5f;
         }
     }
 
@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("OOBVolume"))
         {
-            transform.position = resetPosition;
+            transform.position = _resetPosition;
         }
     }
 
@@ -185,9 +185,9 @@ public class Player : MonoBehaviour
     {
         HideWeapon();
         DisableHands();
-        if (weapon != null)
+        if (_weapon != null)
         {
-            weapon.hideUIAboveThreshold = false;
+            _weapon.hideUIAboveThreshold = false;
         }
     }
 
@@ -196,9 +196,9 @@ public class Player : MonoBehaviour
     {
         EnableHands();
         ShowWeapon();
-        if (weapon != null)
+        if (_weapon != null)
         {
-            weapon.hideUIAboveThreshold = true;
+            _weapon.hideUIAboveThreshold = true;
         }
     }
 
