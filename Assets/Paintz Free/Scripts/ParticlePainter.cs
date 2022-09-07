@@ -70,7 +70,7 @@ public class ParticlePainter : MonoBehaviour
                 case "Enemy":
                     if (other.TryGetComponent(out Enemy enemy))
                     {
-                        if (brush.splatChannel != enemy.teamChannel && other.gameObject.TryGetComponent(out Health enemyHealth))
+                        if (brush.splatChannel != enemy.team.teamChannel && other.gameObject.TryGetComponent(out Health enemyHealth))
                         {
                             enemyHealth.TakeHit(damage,_collisionEvents[i].intersection);
                         }

@@ -1,24 +1,27 @@
 using Gameplay;
+using Unity.Collections;
 using UnityEngine;
 using Utility;
 
 namespace AI
 {
+    [RequireComponent(typeof(TeamMember))]
     public abstract class Enemy : MonoBehaviour
     {
         public int groupId; // Associate this enemy with a group of enemies
-        [Tooltip("The colour channel to identify as friendly paint. [-1, 4].")]
-        [Range(-1,4)]
-        public int teamChannel;
         public ScriptableObjects.States statesData;
+        [HideInInspector]
+        public TeamMember team;
 
         private Health _health;
         private static EnemyManager _enemyManager;
-
-
-
+        
         protected virtual void Start()
         {
+            if (team == null)
+            {
+                TryGetComponent(out team);
+            }
             SetupManager();
         }
     

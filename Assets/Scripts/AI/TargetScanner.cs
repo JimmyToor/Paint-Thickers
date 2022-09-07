@@ -32,7 +32,10 @@ namespace AI
             _scanDelay = new WaitForSeconds(timeBetweenScans);
         }
 
-        // Searches for and targets the nearest player within line of sight
+        /// <summary>
+        /// Searches for and targets the nearest player within line of sight
+        /// </summary>
+        /// <returns></returns>
         public bool TargetSearch()
         {
             Collider[] targetsHit = new Collider[1];

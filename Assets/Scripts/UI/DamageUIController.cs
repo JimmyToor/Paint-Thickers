@@ -10,10 +10,9 @@ namespace UI
         [Range(0f,1f)]
         public float maxHealthSize = 1f;
 
-        private Material material;
+        public Material material;
         private static readonly int CenterSize = Shader.PropertyToID("_CenterSize");
 
-        // Start is called before the first frame update
         void Start()
         {
             material = GetComponent<Image>().material;

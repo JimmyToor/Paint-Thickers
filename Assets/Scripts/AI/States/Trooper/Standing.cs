@@ -1,14 +1,11 @@
-﻿using UnityEngine;
-
-namespace AI.States.Trooper
+﻿namespace AI.States.Trooper
 {
     public class Standing : BaseState<TrooperStateMachine>
     {
         private AutoTrooper _trooper;
 
-        public Standing(TrooperStateMachine stateMachine)
+        public Standing(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
-            StateMachine = stateMachine;
             _trooper = StateMachine.trooper;
         }
         
@@ -19,7 +16,6 @@ namespace AI.States.Trooper
             if (_trooper.paintStatus == PaintStatus.EnemyPaint)
             {
                 SwitchState(StateId.Sunk);
-                Debug.Log("standing switched to sunk, so wander should no longer be a substate");
             }
         }
 
@@ -27,7 +23,7 @@ namespace AI.States.Trooper
         {
             if (_trooper.scanner.hasTarget)
             {
-                SetSubState(StateMachine.GetState(StateId.Attacking));
+                SetSubState(StateMachine.GetState(StateId.TargetSighted));
             }
             else
             {

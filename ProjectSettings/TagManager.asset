@@ -24,7 +24,7 @@ TagManager:
   - Collider
   - Weapon
   - Terrain
-  - Ink
+  - Paint
   - Enemies
   - Fence
   - Squid

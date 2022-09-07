@@ -1,15 +1,12 @@
-﻿using UnityEngine;
-
-namespace AI.States.Trooper
+﻿namespace AI.States.Trooper
 {
     public class Scanning : BaseState<TrooperStateMachine>
     {
         private TargetScanner _scanner;
 
-        public Scanning(TrooperStateMachine stateMachine)
+        public Scanning(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
-            _scanner = stateMachine.trooper.GetComponent<TargetScanner>();
-            StateMachine = stateMachine;
+            _scanner = StateMachine.trooper.GetComponent<TargetScanner>();
         }
         
         public override StateId GetId() => StateId.Scanning;

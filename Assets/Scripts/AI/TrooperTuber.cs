@@ -15,16 +15,17 @@ namespace AI
         [Header("Movement")]
         public Wander wander;
         public float normalSpeed;
+        [Tooltip("Speed when slowed by enemy paint")]
         public float slowedSpeed;
         public NavMeshAgent navAgent;
         
         private int moveSpeedHash = Animator.StringToHash("MoveSpeed");
         private bool _wanderQueued;
-        private readonly float groundDistance = 0.5f;
+        private readonly float groundDistance = 1.4f;
 
         protected override void Start() 
         {
-            paintCheckDistance = groundDistance;
+            PaintCheckDistance = groundDistance;
             base.Start();
             navAgent = GetComponent<NavMeshAgent>();
         }
@@ -33,12 +34,12 @@ namespace AI
         {
             base.FixedUpdate();
             animator.SetFloat(moveSpeedHash, navAgent.speed);
-            if (idleBehaviour == StateId.Wander && !_wanderQueued && stateMachine?.CurrentRootState?.GetDescendantState(StateId.Idle)?.GetId() == StateId.Idle)
+            UpdateSpeed();
+            if (idleBehaviour == StateId.Wander && !_wanderQueued && stateMachine?.CurrentRootState?.
+                    GetDescendantState(StateId.Idle)?.GetId() == StateId.Idle)
             {
                 StartCoroutine(WanderAfterDelay());
             }
-            PaintEffects();
-            UpdateSpeed();
         }
         
         private void UpdateSpeed()
@@ -49,20 +50,27 @@ namespace AI
                 animator.SetFloat(moveSpeedHash, speed);
             }
         }
-        
-        protected void PaintEffects()
+
+        protected override void PaintEffects()
         {
             switch (paintStatus)
             {
                 case PaintStatus.EnemyPaint:
                     navAgent.speed = slowedSpeed;
+                    StartGroundSplash();
                     break;
-                default:
+                case PaintStatus.FriendlyPaint:
                     navAgent.speed = normalSpeed;
+                    StartGroundSplash();
                     break;
+                case PaintStatus.NoPaint:
+                    navAgent.speed = normalSpeed;
+                    StopGroundSplash();
+                    break;
+                
             }
         }
-
+        
         public override void Sink()
         {
             StopMovement();

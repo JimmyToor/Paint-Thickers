@@ -7,6 +7,11 @@ namespace AI.States
         protected T StateMachine;
         public BaseState<T> CurrentSuperState { get; private set; }
         public BaseState<T> CurrentSubState { get; private set; }
+
+        protected BaseState(T stateMachine)
+        {
+            StateMachine = stateMachine;
+        }
         
         public abstract StateId GetId();
 
@@ -22,6 +27,9 @@ namespace AI.States
             CurrentSubState?.Exit();
         }
 
+        /// <summary>
+        /// Call Execute on each state in a top-down fashion.
+        /// </summary>
         public void UpdateStates()
         {
             Execute();
@@ -51,6 +59,10 @@ namespace AI.States
             CurrentSuperState = newSuperState;
         }
 
+        /// <summary>
+        /// Exit the current substate and enter a new one. Also exits all subsequent sub-states.
+        /// </summary>
+        /// <param name="newSubState"></param>
         public void SetSubState(BaseState<T> newSubState)
         {
             CurrentSubState?.Exit();
@@ -60,7 +72,7 @@ namespace AI.States
         }
 
         /// <summary>
-        /// Switch from the current state to newState while maintaining the parent state
+        /// Switch the current state to newState while maintaining the same parent state.
         /// </summary>
         /// <param name="newState"></param>
         public void SwitchState(StateId newState)
@@ -76,11 +88,10 @@ namespace AI.States
         }
         
         /// <summary>
-        /// Returns a reference to the state with stateId if it is currently in the state machine hierarchy.
-        ///  Returns null otherwise.
+        /// Searches the state machine hierarchy for the current state down for the first state with the passed StateId.
         /// </summary>
         /// <param name="stateId"></param>
-        /// <returns></returns>
+        /// <returns>A reference to the state if found, null otherwise.</returns>
         public BaseState<T> GetDescendantState(StateId stateId)
         {
             if (GetId() == stateId)
@@ -89,6 +100,20 @@ namespace AI.States
             }
 
             return CurrentSubState?.GetDescendantState(stateId);
+        }
+
+        /// <summary>
+        /// Searches the state machine hierarchy from the current state upwards for the first state with the passed StateId.
+        /// </summary>
+        /// <param name="stateId"></param>
+        /// <returns>A reference to the state if found, null otherwise.</returns>
+        public BaseState<T> GetAncestorState(StateId stateId)
+        {
+            if (CurrentSuperState?.GetId() == stateId)
+            {
+                return CurrentSuperState;
+            }
+            return CurrentSuperState?.GetAncestorState(stateId);
         }
     }
 }

@@ -1,15 +1,24 @@
-﻿using AI.States;
+﻿using System;
+using AI.States;
 
 namespace AI
 {
     public class StateMachine<T> where T : StateMachine<T>
     {
         public BaseState<T> CurrentRootState { get; protected set; }
-        protected BaseState<T>[] States;
+        protected BaseState<T>[] States; // Stores all possible states indexed by their enum value
         
         public BaseState<T> GetState(StateId stateId)
         {
-            return States[(int) stateId];
+            try
+            {
+                return States[(int) stateId];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e + " State " + stateId + " was not in the States ScriptableObject.");
+                throw;
+            }
         }
         
         public void SetRootState(StateId newStateId)

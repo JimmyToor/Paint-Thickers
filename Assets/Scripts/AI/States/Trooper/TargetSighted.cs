@@ -1,10 +1,16 @@
-﻿namespace AI.States.Trooper
+﻿using UnityEngine;
+
+namespace AI.States.Trooper
 {
     public class TargetSighted : BaseState<TrooperStateMachine>
     {
-        public TargetSighted(TrooperStateMachine stateMachine)
+        private Animator _animator;
+        private int stateHash;
+
+        public TargetSighted(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
-            StateMachine = stateMachine;
+            _animator = StateMachine.trooper.animator;
+            stateHash = Animator.StringToHash("Attacking");
         }
         
         public override StateId GetId() => StateId.TargetSighted;
@@ -17,12 +23,15 @@
 
         public override void Execute()
         {
-            SwitchState(StateId.Attacking);
+            if (_animator.GetCurrentAnimatorStateInfo(0).tagHash == stateHash)
+            {
+                SwitchState(StateId.Attacking);
+            }
         }
 
         public override void InitializeSubState()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

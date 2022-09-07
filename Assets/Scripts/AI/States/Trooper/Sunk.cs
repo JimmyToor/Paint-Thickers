@@ -1,11 +1,12 @@
-﻿namespace AI.States.Trooper
+﻿using UnityEngine;
+
+namespace AI.States.Trooper
 {
     public class Sunk : BaseState<TrooperStateMachine>
     {
         private AutoTrooper _trooper;
-        public Sunk(TrooperStateMachine stateMachine)
+        public Sunk(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
-            StateMachine = stateMachine;
             _trooper = StateMachine.trooper;
         }
 

@@ -127,7 +127,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &40906940
 RectTransform:
   m_ObjectHideFlags: 0
@@ -220,6 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noHealthSize: 0.34
   maxHealthSize: 0.5
+  material: {fileID: 0}
 --- !u!1 &419668177
 GameObject:
   m_ObjectHideFlags: 0
@@ -1497,7 +1498,7 @@ VFXRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2049899792}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -2268,7 +2269,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4989558147164366923
 Transform:
   m_ObjectHideFlags: 0
@@ -2368,7 +2369,7 @@ MonoBehaviour:
   locomotion: {fileID: 3953089385813430785}
   squidSpeed: 1
   swimSpeed: 6
-  enemyInkSpeed: 3
+  enemyPaintSpeed: 0
   frontCheck: {fileID: 1570858205}
   normalSet: 0
   swimSound: {fileID: 1675898090}

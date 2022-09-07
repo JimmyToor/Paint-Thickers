@@ -36,7 +36,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.00008, y: 0, z: -0.291}
+        value: {x: 0.00008, y: -0.229, z: -0.00696}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -45,7 +45,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.1
-        value: {x: 0.00008, y: 0, z: -0.276}
+        value: {x: 0.00008, y: -0.229, z: -0.00696}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -54,7 +54,7 @@ AnimationClip:
         outWeight: {x: 0.33333334, y: 0.33333334, z: 0.33333334}
       - serializedVersion: 3
         time: 0.15
-        value: {x: 0.00008, y: 0, z: -0.276}
+        value: {x: 0.00008, y: -0.229, z: -0.00696}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -862,7 +862,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0
+        value: -0.229
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -871,7 +871,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.1
-        value: 0
+        value: -0.229
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -880,7 +880,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.15
-        value: 0
+        value: -0.229
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -917,7 +917,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -0.291
+        value: -0.00696
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -926,7 +926,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.1
-        value: -0.276
+        value: -0.00696
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -935,7 +935,7 @@ AnimationClip:
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 0.15
-        value: -0.276
+        value: -0.00696
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -1964,13 +1964,6 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0
-    functionName: UnlockBodyConstraint
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
   - time: 1.1333333
     functionName: StopCenterSpray
     data: 
@@ -1979,14 +1972,21 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 1.1333333
-    functionName: LockBodyConstraint
+    functionName: StopGroundSpray
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 1.1333333
-    functionName: StopGroundSpray
+    functionName: MakeNonKinematic
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.1333333
+    functionName: EnableLowerColliders
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

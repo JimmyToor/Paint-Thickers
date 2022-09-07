@@ -7,7 +7,7 @@ using Utility;
 public class Player : MonoBehaviour
 {
     public PlayerEvents playerEvents;
-    public int teamChannel; // colour channel of the player's team
+    [HideInInspector]public int teamChannel;
     public bool canSquid = true;
     public bool isSquid;
     public float walkSpeed;
@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
         InvokeRepeating(nameof(NewResetPosition),2f,5f);
         _locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
         _charController = GetComponent<CharacterController>();
+        TryGetComponent(out TeamMember member);
+        teamChannel = member.teamChannel;
         _locomotion.moveSpeed = walkSpeed;
         TryGetComponent(out _health);
         _locomotion.moveSpeed = walkSpeed;

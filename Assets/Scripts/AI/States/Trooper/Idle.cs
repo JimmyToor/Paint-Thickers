@@ -1,14 +1,11 @@
-﻿using UnityEngine;
-
-namespace AI.States
+﻿namespace AI.States.Trooper
 {
     public class Idle : BaseState<TrooperStateMachine>
     {
         private TargetScanner _scanner;
 
-        public Idle(TrooperStateMachine trooperStateMachine)
+        public Idle(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
-            StateMachine = trooperStateMachine;
             _scanner = StateMachine.trooper.GetComponent<TargetScanner>();
         }
         

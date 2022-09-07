@@ -4,9 +4,8 @@
     {
         private AutoTrooper _trooper;
 
-        public SunkEscapePaint(TrooperStateMachine stateMachine)
+        public SunkEscapePaint(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
-            StateMachine = stateMachine;
             _trooper = StateMachine.trooper;
         }
         

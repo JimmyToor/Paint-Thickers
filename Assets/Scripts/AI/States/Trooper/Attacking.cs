@@ -1,15 +1,12 @@
-﻿using UnityEngine;
-
-namespace AI.States.Trooper
+﻿namespace AI.States.Trooper
 {
     public class Attacking : BaseState<TrooperStateMachine>
     {
         private AutoTrooper _trooper;
         private TargetScanner _scanner;
 
-        public Attacking(TrooperStateMachine trooperStateMachine)
+        public Attacking(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
-            StateMachine = trooperStateMachine;
             _trooper = trooperStateMachine.trooper;
             _scanner = _trooper.scanner;
         }
@@ -19,6 +16,11 @@ namespace AI.States.Trooper
         public override void Enter()
         {
             base.Enter();
+            if (_scanner.hasTarget)
+            {
+                UnityEngine.Animator animator = StateMachine.trooper.animator;
+                animator.SetBool(StateMachine.trooper.HasTargetHash, true);
+            }
         }
 
         public override void Execute()
@@ -31,12 +33,6 @@ namespace AI.States.Trooper
             {
                 SwitchState(StateId.TargetLost);
             }
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-            
         }
 
         public override void InitializeSubState()

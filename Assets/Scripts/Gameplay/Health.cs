@@ -143,6 +143,13 @@ namespace Gameplay
             if (hitFX != null)
             {
                 GameObject fxObject = ObjectPooler.Instance.GetObjectFromPool(hitFX.tag);
+                
+                if (fxObject == null)
+                {
+                    Debug.Log("Could not retrieve VFX object from pool.");
+                    return;
+                }
+                
                 Transform fxTransform = fxObject.transform;
                 fxTransform.position = hitPos;
                 fxTransform.rotation = Quaternion.identity;

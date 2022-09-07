@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace AI.States.Trooper
 {
     public class Wander : BaseState<TrooperStateMachine>
@@ -7,11 +5,10 @@ namespace AI.States.Trooper
         private AI.Wander _wander;
         private TargetScanner _scanner;
 
-        public Wander(TrooperStateMachine stateMachine)
+        public Wander(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
-            StateMachine = stateMachine;
-            _wander = stateMachine.trooper.GetComponent<AI.Wander>();
-            _scanner = stateMachine.trooper.GetComponent<TargetScanner>();
+            _wander = StateMachine.trooper.GetComponent<AI.Wander>();
+            _scanner = StateMachine.trooper.GetComponent<TargetScanner>();
         }
         
         public override StateId GetId()
@@ -22,7 +19,6 @@ namespace AI.States.Trooper
         public override void Enter()
         {
             base.Enter();
-            Debug.Log("wander state entered");
             _wander.StartWander();
         }
 
@@ -35,14 +31,13 @@ namespace AI.States.Trooper
             }
             if (_scanner.hasTarget)
             {
-                SwitchState(StateId.Attacking);
+                SwitchState(StateId.TargetSighted);
             }
         }
 
         public override void Exit()
         {
             base.Exit();
-            Debug.Log("wander state exited");
             _wander.StopWander();
         }
 
