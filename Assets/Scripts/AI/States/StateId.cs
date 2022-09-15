@@ -14,6 +14,7 @@ namespace AI
         SunkEscapePaint,
         Scanning,
         TargetSighted,
-        TargetLost
+        TargetLost,
+        Patrol
     }
 }

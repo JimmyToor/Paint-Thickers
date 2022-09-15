@@ -6,67 +6,104 @@ namespace AI
 {
     public class Deluger : Enemy
     {
+        public float moveSpeed;
+        public float turnSpeed;
         [SerializeField] 
         ParticleSystem paintSpray;
-        Animator animator;
-        List<Transform> patrolNodes = new List<Transform>();
+        Animator _animator;
+        List<Transform> _patrolNodes = new List<Transform>();
         public Transform patrolNodeGroup;
+        public int initialPatrolNode;
         public Transform head;
-        Transform feet;
-        int nextNode = 0;
-        [SerializeField]
-        float moveSpeed = 2f;
-        [SerializeField]
-        float turnSpeed = 1f;
-    
-        protected override void Start() 
+        public Transform feet;
+        [HideInInspector] public DelugerStateMachine stateMachine;
+
+        private int _nextNode;
+
+        private static readonly int MovingHash = Animator.StringToHash("Moving");
+
+        protected void Start()
         {
-            base.Start();
-            animator = gameObject.GetComponent<Animator>();
-            feet = transform.Find("wheel_constraint").transform;
+            _animator = gameObject.GetComponent<Animator>();
+            if (feet == null )
+            {
+                feet = transform.Find("wheel_constraint").transform;
+                if (feet == null)
+                {
+                    Debug.LogErrorFormat("{0} cannot find feet under name 'wheel_constraint'", transform.name);
+                }
+            }
+            if (head == null )
+            {
+                head = transform.Find("Armature/root/top").transform;
+                if (head == null)
+                {
+                    Debug.LogErrorFormat("{0} cannot find head under name 'Armature/root/top'", transform.name);
+                }
+            }
+            
+            _nextNode = initialPatrolNode;
+            
             if (patrolNodeGroup.childCount != 0)
             {
                 foreach (Transform node in patrolNodeGroup)
-                    patrolNodes.Add(node);
-                MovePrep();
+                    _patrolNodes.Add(node);
             }
+            stateMachine = new DelugerStateMachine(this, statesData.stateList);
+            stateMachine.SetRootState(StateId.Patrol);
         }
 
-        void DisableSpray()
+        protected override void Awake()
+        {
+            base.Awake();
+        }
+
+        public void DisableSpray()
         {
             paintSpray.Stop();
         }
 
-        void EnableSpray()
+        public void EnableSpray()
         {
             paintSpray.Play();
         }
 
-        // Flooder movement is restricted to a set path of preset nodes
-        void Move()
+        public void StartPatrol()
+        { 
+            EnableSpray();
+            if (_patrolNodes.Count < 1)
+            {
+                Debug.Log(transform.name + " has nowhere to patrol to.");
+                return;
+            }
+            Move();
+        }
+        
+        // Deluger movement is restricted to a set path of preset nodes
+        private void Move()
         {
-            Vector3 nextNodePos = patrolNodes[nextNode].position;
-            nextNodePos.y = transform.position.y;
-            transform.DOMove(nextNodePos, Vector3.Distance(transform.position,nextNodePos)/moveSpeed).SetRecyclable(true).OnComplete(OnMoveComplete);
-            animator.SetBool("Moving", true);
+            Vector3 nextNodePos = _patrolNodes[_nextNode].position;
+            Vector3 position = transform.position;
+            nextNodePos.y = position.y;
+            transform.DOMove(nextNodePos, moveSpeed).SetSpeedBased(true).SetRecyclable(true).OnComplete(OnMoveComplete);
+            _animator.SetBool(MovingHash, true);
         }
 
-        void OnMoveComplete()
+        private void OnMoveComplete()
         {
-            animator.SetBool("Moving", false);
-            nextNode++;
-            nextNode %= patrolNodes.Count; // loops back to start of the list if we've reached the end 
+            _animator.SetBool(MovingHash, false);
+            _nextNode++;
+            _nextNode %= _patrolNodes.Count; // loops back to start of the list if we've reached the end 
             MovePrep();
         }
 
         // Rotates head and feet to point at the next node
-        void MovePrep()
+        public void MovePrep()
         {
-            Vector3 nextLookPos = patrolNodes[nextNode].position;
+            Vector3 nextLookPos = _patrolNodes[_nextNode].position;
             nextLookPos.y = head.position.y;
 
             feet.DOLookAt(nextLookPos, turnSpeed);
-
             head.DOLookAt(nextLookPos,turnSpeed).OnComplete(Move);
         }
     }

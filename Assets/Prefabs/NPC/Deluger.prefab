@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464129883557492597}
   - component: {fileID: 252384100601080167}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: caster3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,9 +61,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1573704257038419482}
   - component: {fileID: 4206458098355610941}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Head
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -161,9 +161,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6814570329451164297}
   - component: {fileID: 5017456330095311689}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg0
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -257,9 +257,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5688132357332941969}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: leg1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -289,9 +289,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6994149540745632050}
   - component: {fileID: 7393420889960561103}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Caster1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -386,7 +386,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 726822908650875755}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheel0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,9 +418,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6898019389724586276}
   - component: {fileID: 5720646529820160700}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -514,9 +514,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 261708299132900359}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Armature
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5431,7 +5431,7 @@ MonoBehaviour:
     splatChannel: 0
   damage: 1
   randomChannel: 0
-  collisionSFX: 0
+  collisionSfx: 0
 --- !u!114 &2320646125495375958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5444,15 +5444,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a3489cd830ef54da8cd9c1bbcb5428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Clips:
-  - {fileID: 8300000, guid: f2be57a3f90cb324f91650f6ed0c1785, type: 3}
-  - {fileID: 8300000, guid: 01fc23c9e9476444695d635ef65ed757, type: 3}
-  - {fileID: 8300000, guid: ad90d2d9af49406459f8aae9884c63cf, type: 3}
-  - {fileID: 8300000, guid: 2c9a504218714244196807e412626c2c, type: 3}
+  clips: []
   volume: 0.45
   minPitch: 1.2
   maxPitch: 0.8
-  cooldown: 0
+  cooldownTime: 0
 --- !u!1 &2320646126164769157
 GameObject:
   m_ObjectHideFlags: 0
@@ -16200,7 +16196,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 50
+        scalar: 60
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -18893,7 +18889,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -19266,7 +19262,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minVertexDistance: 1
     textureMode: 1
-    ribbonCount: 2
+    ribbonCount: 21
     shadowBias: 0.5
     worldSpace: 0
     dieWithParticles: 1
@@ -20114,9 +20110,9 @@ GameObject:
   - component: {fileID: 2320646126450410655}
   - component: {fileID: 2320646126450410640}
   - component: {fileID: 2320646126450410641}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LiquidHeadContents
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20223,10 +20219,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   driver: {fileID: 9156120533941437593}
-  WobbleScale: 1
-  WobbleSpeed: 1
-  Recovery: 1
-  MaxWobble: 10
+  wobbleScale: 0.03
+  wobbleSpeed: 1
+  recovery: 1
+  maxWobble: 10
 --- !u!1 &2320646126783809621
 GameObject:
   m_ObjectHideFlags: 0
@@ -20236,9 +20232,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2320646126783809620}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheel_constraint
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20266,7 +20262,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7897606558284242055}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheel1_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20297,9 +20293,9 @@ GameObject:
   m_Component:
   - component: {fileID: 464792329086345479}
   - component: {fileID: 3730286118752519100}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wheel3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20394,7 +20390,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4244212074233126055}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheel1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20426,9 +20422,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1491132726395748081}
   - component: {fileID: 217152337831878108}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg2Socket
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20523,9 +20519,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6647109046320977935}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: leg0
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20555,9 +20551,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3393392189977273013}
   - component: {fileID: 6819464504002440950}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg3Socket
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20652,7 +20648,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5237451493711105720}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheel3_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20682,9 +20678,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4457889915151749802}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: leg3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20713,9 +20709,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5148919786165349246}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: top
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20745,9 +20741,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2258485008027638313}
   - component: {fileID: 4120764994445023610}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wheel2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20843,7 +20839,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8434482963566979783}
   - component: {fileID: 4776879532390496935}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: caster2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -20894,9 +20890,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2950627891541739829}
   - component: {fileID: 7619597422686966028}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Caster3
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20992,7 +20988,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4630366273307553532}
   - component: {fileID: 5391528450701729238}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: caster0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21043,9 +21039,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4536128975528158214}
   - component: {fileID: 1799196671339130097}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21139,7 +21135,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1335820302969713362}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheel2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21170,9 +21166,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2736298266273040397}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: leg2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21202,9 +21198,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8826063669533775514}
   - component: {fileID: 7179270313245084996}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Caster2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21300,7 +21296,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5904754975422473682}
   - component: {fileID: 6142899063518550619}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: caster1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21350,7 +21346,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7560974486594477710}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: top_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21381,9 +21377,9 @@ GameObject:
   m_Component:
   - component: {fileID: 21346498773004302}
   - component: {fileID: 3377030194424459879}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Caster0
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21479,9 +21475,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5384037710368615143}
   - component: {fileID: 4178110623189186869}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21576,9 +21572,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5562681571109624460}
   - component: {fileID: 5140508845628734038}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg0Socket
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21674,9 +21670,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8454967197161538713}
   - component: {fileID: 3178255074475600856}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Leg1Socket
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21770,7 +21766,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8906153549757041547}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheel2_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21800,9 +21796,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5263401705086783429}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: root
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -21837,7 +21833,8 @@ GameObject:
   - component: {fileID: 9156120533941437593}
   - component: {fileID: 3022266960940408547}
   - component: {fileID: 8384228824779136546}
-  m_Layer: 0
+  - component: {fileID: 2960496387424651288}
+  m_Layer: 10
   m_Name: Deluger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21913,11 +21910,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groupId: 0
-  paintSpray: {fileID: 2320646126362269966}
-  patrolNodeGroup: {fileID: 0}
-  head: {fileID: 5148919786165349246}
+  statesData: {fileID: 11400000, guid: 45ce72d7d5fbd414e829412725aaa1ab, type: 2}
+  team: {fileID: 0}
   moveSpeed: 2
   turnSpeed: 1
+  paintSpray: {fileID: 2320646126362269966}
+  patrolNodeGroup: {fileID: 0}
+  initialPatrolNode: 0
+  head: {fileID: 5148919786165349246}
+  feet: {fileID: 2320646126783809620}
+  stateMachine:
+    deluger: {fileID: 0}
+--- !u!114 &2960496387424651288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8384228824779136547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 091bf8be20d216c4eb44f9a5654cf119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitpoints: 1
+  maxHitpoints: 1
+  invulnerable: 1
+  useHitDamageMaterial: 0
+  destroyOnDeath: 0
+  regenerative: 0
+  hitCooldown: 0
+  regenCooldown: 0
+  regenRate: 0
+  damageMaterial: {fileID: 0}
+  damageUIController: {fileID: 0}
+  hitFX: {fileID: 0}
+  hitSfx: []
+  deathFX: {fileID: 0}
+  deathSfx: []
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onHit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8766037066718690987
 GameObject:
   m_ObjectHideFlags: 0
@@ -21928,9 +21964,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3442988952089617838}
   - component: {fileID: 7861731075179634835}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wheel1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22025,7 +22061,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1043553508065436302}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheel3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22057,9 +22093,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9195238951081130897}
   - component: {fileID: 8295652277648061324}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Lights
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22157,7 +22193,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3004791709566819778}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: wheel0_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22188,9 +22224,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3706340750453514450}
   - component: {fileID: 6744608997823168070}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wheel0
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -22286,9 +22322,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6751092449000399647}
   - component: {fileID: 7971597536135940636}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HeadContents
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

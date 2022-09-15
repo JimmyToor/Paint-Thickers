@@ -39,7 +39,6 @@ namespace Editor
             
             property.enumValueIndex = (int)states[enumIndex];
             EditorGUI.EndProperty();
-            //property.serializedObject.ApplyModifiedProperties();
         }
     }
     

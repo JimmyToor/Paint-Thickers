@@ -8,11 +8,11 @@ namespace UI
     {
         public Image fillImage;
 
-        private Material mat;
+        private Material _mat;
 
-        private void Start()
+        private void OnEnable()
         {
-            mat = fillImage.material;
+            _mat = fillImage.material;
         }
 
         public void SetAmount(float amount)
@@ -22,7 +22,7 @@ namespace UI
 
         public void SetColor(Color color)
         {
-            mat.color = color;
+            _mat.color = color;
         }
     }
 }

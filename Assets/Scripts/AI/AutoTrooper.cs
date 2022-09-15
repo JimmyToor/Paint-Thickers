@@ -70,27 +70,17 @@ namespace AI
         private Transform _hoseAimTarget;
         private Transform _bodyRotationTarget;
 
-        protected override void Start()
+        protected virtual void Start()
         {
-            base.Start();
-            stateMachine = new TrooperStateMachine(this, statesData.stateList);
-            stateMachine.SetRootState(initialRootState);
             _sunkDelay = new WaitForSeconds(timeSunk);
             _attackDelay = new WaitForSeconds(attackCooldown);
+            
             scanner = GetComponent<TargetScanner>();
+            
             _hoseAimTarget = hoseAimConstraint.data.sourceObjects.GetTransform(0);
             _origHosePos = _hoseAimTarget.localPosition;
             _bodyRotationTarget = bodyRotationConstraint.data.sourceObjects.GetTransform(0);
-        }
-        
-        protected virtual void FixedUpdate()
-        {
-            stateMachine.Update();
-            CheckForPaint();
-        }
-
-        protected virtual void Awake()
-        {
+            
             if (TryGetComponent(out animator))
             {
                 animator.SetFloat(OffsetHash, Random.Range(0f,1f));
@@ -99,6 +89,15 @@ namespace AI
             TryGetComponent(out SfxSource);
             TryGetComponent(out _rigidbody);
             PaintTerrainLayerMask = LayerMask.GetMask("Terrain");
+            
+            stateMachine = new TrooperStateMachine(this, statesData.stateList);
+            stateMachine.SetRootState(initialRootState);
+        }
+        
+        protected virtual void FixedUpdate()
+        {
+            stateMachine.Update();
+            CheckForPaint();
         }
 
         // Figure out what colour ink, if any, is underneath
@@ -192,7 +191,7 @@ namespace AI
         {
             if (!_hoseTweener.IsActive())
             {
-                _hoseTweener = _hoseAimTarget.DOMove(targetPosition, hoseAimSpeed).SetSpeedBased(false);
+                _hoseTweener = _hoseAimTarget.DOMove(targetPosition, hoseAimSpeed).SetSpeedBased(true);
             }
             else
             {
@@ -203,11 +202,11 @@ namespace AI
         public void ResetAim()
         {
             animator.SetTrigger(ResetAimHash);
-            // hoseAimRotate.DOLocalRotate(_origHoseRot,
-            //         hoseAimSpeed).SetSpeedBased(true);
+            
             _hoseAimTarget.DOLocalMove(_origHosePos,
                          hoseAimSpeed).SetSpeedBased(true);
             DOTween.To(() => hoseAimConstraint.weight, x => hoseAimConstraint.weight = x, 1, 1.5f);
+            
             _bodyRotationTarget.DOLocalRotate(_bodyRotationTarget.InverseTransformDirection(transform.forward),
                     bodyTurnSpeed).SetSpeedBased(true);
         }

@@ -1,3 +1,4 @@
+using System;
 using Gameplay;
 using Unity.Collections;
 using UnityEngine;
@@ -16,16 +17,15 @@ namespace AI
         private Health _health;
         private static EnemyManager _enemyManager;
         
-        protected virtual void Start()
+        protected virtual void Awake()
         {
             if (team == null)
             {
                 TryGetComponent(out team);
             }
-            SetupManager();
         }
-    
-        private void SetupManager()
+
+        public void SetupManager()
         {
             _enemyManager = FindObjectOfType<EnemyManager>();
             if (_enemyManager == null)

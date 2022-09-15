@@ -41590,7 +41590,7 @@ MonoBehaviour:
   hoseAimConstraint: {fileID: 92664583299186510}
   paintCheckPosition: {fileID: 5625309016766643010}
   bodyTurnSpeed: 75
-  hoseAimSpeed: 0
+  hoseAimSpeed: 100
   shootSFX: {fileID: 8300000, guid: f48b538b00559ae4f952d288f4e73f90, type: 3}
   animator: {fileID: 8163667220085843564}
   lowerColliders:

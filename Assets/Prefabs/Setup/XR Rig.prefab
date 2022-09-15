@@ -2263,13 +2263,14 @@ GameObject:
   - component: {fileID: 4989558147164366918}
   - component: {fileID: 1614226185}
   - component: {fileID: 1834541895}
+  - component: {fileID: 633588063}
   m_Layer: 3
   m_Name: XR Rig
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &4989558147164366923
 Transform:
   m_ObjectHideFlags: 0
@@ -2351,8 +2352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48865e9f8cae3c84d926aff26e389a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 4.32e-43
-  sinkSpeed: 2.4938046e-38
+  rotationSpeed: 45
+  sinkSpeed: 100
   locomotion: {fileID: 0}
 --- !u!114 &4989558145552763728
 MonoBehaviour:
@@ -2367,9 +2368,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   locomotion: {fileID: 3953089385813430785}
-  squidSpeed: 1
+  squidSpeed: 2
   swimSpeed: 6
-  enemyPaintSpeed: 0
+  enemyPaintSpeed: 1
   frontCheck: {fileID: 1570858205}
   normalSet: 0
   swimSound: {fileID: 1675898090}
@@ -2687,6 +2688,19 @@ MonoBehaviour:
   enableVignette: 1
   intensity: 0.8
   fadeDuration: 0.2
+--- !u!114 &633588063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558147164366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0898ca8db51a5b445813501f2081c89b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamChannel: 2
 --- !u!1001 &447563299
 PrefabInstance:
   m_ObjectHideFlags: 0

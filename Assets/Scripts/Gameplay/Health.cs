@@ -49,7 +49,7 @@ namespace Gameplay
         {
             if (regenerative && hitpoints < maxHitpoints)
             {
-                if (_regenTime <= 0)
+                if (hitpoints > 0 && _regenTime <= 0)
                 {
                     RegenerateHealth();
                 }
@@ -85,11 +85,17 @@ namespace Gameplay
             if (_onCooldown)
                 return;
 
+            if (hitpoints <= 0)
+            {
+                // Already dead
+                return;
+            }
+            
             if (regenerative)
             {
                 _regenTime = regenCooldown;
             }
-        
+
             ReduceHP(damage);
             OnHit(hitPos);
         

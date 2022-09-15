@@ -5,11 +5,11 @@ using UnityEngine.AI;
 
 namespace AI
 {
-    // Idle 2s -> Wander -> Repeat      <-----  
-    // Spot Target -> Target/Attack -> Repeat \
-    // Lose Target ---------------------------|
-    // Sink -> be sunk for seconds, still shoot if have target but can't move
-    //      -> rise after 2 seconds
+    // Idle 2s -> Wander -> Repeat
+    // Spot Target -> Attack
+    // Lose Target -> Return to Idle loop
+    // Sink -> be sunk for some seconds, still shoot if we have target but don't move
+    //      -> rise after 2 seconds with no target
     public class TrooperTuber : AutoTrooper
     {
         [Header("Movement")]
@@ -19,21 +19,22 @@ namespace AI
         public float slowedSpeed;
         public NavMeshAgent navAgent;
         
-        private int moveSpeedHash = Animator.StringToHash("MoveSpeed");
+        private readonly int _moveSpeedHash = Animator.StringToHash("MoveSpeed");
+        
         private bool _wanderQueued;
-        private readonly float groundDistance = 1.4f;
+        private const float GroundDistance = 1.4f;
 
         protected override void Start() 
         {
-            PaintCheckDistance = groundDistance;
-            base.Start();
+            PaintCheckDistance = GroundDistance;
             navAgent = GetComponent<NavMeshAgent>();
+            base.Start();
         }
 
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
-            animator.SetFloat(moveSpeedHash, navAgent.speed);
+            animator.SetFloat(_moveSpeedHash, navAgent.speed);
             UpdateSpeed();
             if (idleBehaviour == StateId.Wander && !_wanderQueued && stateMachine?.CurrentRootState?.
                     GetDescendantState(StateId.Idle)?.GetId() == StateId.Idle)
@@ -47,7 +48,7 @@ namespace AI
             float speed = navAgent.velocity.magnitude / 3f;
             if (animator != null)
             {
-                animator.SetFloat(moveSpeedHash, speed);
+                animator.SetFloat(_moveSpeedHash, speed);
             }
         }
 
