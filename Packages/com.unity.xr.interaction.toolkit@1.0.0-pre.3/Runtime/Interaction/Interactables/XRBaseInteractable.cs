@@ -294,10 +294,10 @@ namespace UnityEngine.XR.Interaction.Toolkit
         public bool isSelected { get; private set; }
         
         [SerializeField]
-        bool m_Droppable;
+        bool m_Droppable = true;
 
         /// <summary>
-        /// Wether or not this Interactable can be dropped once selected.
+        /// Determines whether or not this Interactable can be dropped once selected.
         /// </summary>
         public bool droppable
         {
@@ -305,6 +305,18 @@ namespace UnityEngine.XR.Interaction.Toolkit
             set => m_Droppable = value;
         }
 
+        [SerializeField] 
+        private bool m_Activatable = true;
+
+        /// <summary>
+        /// Determines whether or not this Interactable can be activated. 
+        /// </summary>
+        public bool activatable
+        {
+            get => m_Activatable;
+            set => m_Activatable = value;
+        }
+        
         readonly Dictionary<XRBaseInteractor, GameObject> m_ReticleCache = new Dictionary<XRBaseInteractor, GameObject>();
 
         XRInteractionManager m_RegisteredInteractionManager;

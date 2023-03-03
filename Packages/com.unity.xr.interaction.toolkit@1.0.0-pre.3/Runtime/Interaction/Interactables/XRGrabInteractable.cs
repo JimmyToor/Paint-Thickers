@@ -394,7 +394,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
         protected override void Awake()
         {
             base.Awake();
-
             m_CurrentMovementType = m_MovementType;
             m_Rigidbody = GetComponent<Rigidbody>();
             if (m_Rigidbody == null)
@@ -621,11 +620,17 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <inheritdoc />
         protected internal override void OnSelectExiting(SelectExitEventArgs args)
         {
-            if (droppable)
-            {
-                base.OnSelectExiting(args);
-                Drop();
-            }
+            if (!droppable) return;
+            
+            base.OnSelectExiting(args);
+            Drop();
+        }
+
+        protected internal override void OnActivated(ActivateEventArgs args)
+        {
+            if (!activatable) return;
+            
+            base.OnActivated(args);
         }
 
         /// <summary>
@@ -804,6 +809,11 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 return calcVelocity / totalWeights;
 
             return Vector3.zero;
+        }
+
+        public void ForceDrop()
+        {
+            interactionManager.SelectExit(selectingInteractor, this);
         }
     }
 }

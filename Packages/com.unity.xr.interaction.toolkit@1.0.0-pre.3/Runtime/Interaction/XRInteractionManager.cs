@@ -389,10 +389,10 @@ namespace UnityEngine.XR.Interaction.Toolkit
         }
 
         /// <summary>
-        /// Force selects an Interactable.
+        /// Forces <paramref name="interactor"/> to select <paramref name="interactable"/>.
         /// </summary>
         /// <param name="interactor">The Interactor that will force select the Interactable.</param>
-        /// <param name="interactable">The Interactable to be forced selected.</param>
+        /// <param name="interactable">The Interactable to be force selected.</param>
         public void ForceSelect(XRBaseInteractor interactor, XRBaseInteractable interactable)
         {
             SelectEnter(interactor, interactable);
