@@ -1,12 +1,15 @@
 using UnityEngine;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
-    public class PaintHandler : MonoBehaviour
+    /// <summary>
+    /// This should be used to manage the team channel of painter scripts and set the color to match
+    /// </summary>
+    public class PaintColorManager : MonoBehaviour
     {
         public ParticlePainter partPainter;
         public Renderer paintRenderer;
-        [HideInInspector] public int paintChannel;
+        public int PaintChannel { get; set; }
 
         private Material[] _paintMats;
 
@@ -19,19 +22,16 @@ namespace Gameplay
                 _brush = partPainter.brush;
             }
 
-            if (paintRenderer == null)
+            if (paintRenderer != null || TryGetComponent(out paintRenderer))
             {
-                if (TryGetComponent(out paintRenderer))
-                {
-                    _paintMats = paintRenderer.materials;
-                }
+                _paintMats = paintRenderer.materials;
             }
         }
 
         public void UpdateColorChannel(int newChannel)
         {
-            paintChannel = newChannel;
-            Color newColor = GameManager.Instance.GetTeamColor(paintChannel);
+            PaintChannel = newChannel;
+            Color newColor = GameManager.Instance.GetTeamColor(PaintChannel);
             if (_paintMats != null && _paintMats.Length > 0)
             {
                 foreach (var mat in _paintMats)
@@ -42,7 +42,7 @@ namespace Gameplay
 
             if (_brush != null)
             {
-                _brush.splatChannel = paintChannel;
+                _brush.splatChannel = PaintChannel;
             }
         }
     }
