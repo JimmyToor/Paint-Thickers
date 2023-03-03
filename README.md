@@ -1,4 +1,4 @@
-Requires Shaders from:
+Requires Shaders and "Paint.cs" from:
 https://assetstore.unity.com/packages/tools/paintz-free-145977
 
 Requires Skyboxes from:
