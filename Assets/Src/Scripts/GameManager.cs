@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using ScriptableObjects;
 using Src.Scripts;
 using UnityEngine;
@@ -168,7 +167,7 @@ public class GameManager : Singleton<GameManager>
         yield return null; // Wait one frame
         constraint.constraintActive = false;
     }
-
+    
     [ContextMenu("Start Game")]
     public void StartGame()
     {

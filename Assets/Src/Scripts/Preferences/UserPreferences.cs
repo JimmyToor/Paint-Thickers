@@ -112,7 +112,7 @@ namespace Src.Scripts.Preferences
         }
         
 
-        void OnEnable()
+        void Awake()
         {
             SetTurnStyle(TurningStyle);
             SetMainHand(PreferredHand);
@@ -216,16 +216,16 @@ namespace Src.Scripts.Preferences
             switch (strength)
             {
                 case VignetteStrength.Off:
-                    ComfortVignette.SetIntensity(0f);
+                    ComfortVignette.intensity = 0f;
                     break;
                 case VignetteStrength.Low:
-                    ComfortVignette.SetIntensity(LowVignetteValue);
+                    ComfortVignette.intensity = LowVignetteValue;
                     break;
                 case VignetteStrength.Med:
-                    ComfortVignette.SetIntensity(MedVignetteValue);
+                    ComfortVignette.intensity = MedVignetteValue;
                     break;
                 case VignetteStrength.High:
-                    ComfortVignette.SetIntensity(HighVignetteValue);
+                    ComfortVignette.intensity = HighVignetteValue;
                     break;
                 default:
                     throw new NotSupportedException("Invalid input update mode: " + VignetteIntensity);

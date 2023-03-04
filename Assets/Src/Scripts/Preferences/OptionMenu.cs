@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,8 +21,9 @@ namespace Src.Scripts.Preferences
         public Slider snapTurnIncrementSlider;
         public TextMeshProUGUI snapTurnAmountText;
 
-        private void Awake()
+        private void Start()
         {
+            InitializeValues();
             leftHandToggle.onValueChanged.AddListener(OnLeftHandToggled);
             rightHandToggle.onValueChanged.AddListener(OnRightHandToggled);
             snapTurnToggle.onValueChanged.AddListener(OnSnapTurnToggled);
@@ -34,11 +34,6 @@ namespace Src.Scripts.Preferences
             vignetteLow.onValueChanged.AddListener(VignetteLowToggled);
             vignetteMed.onValueChanged.AddListener(VignetteMedToggled);
             vignetteHigh.onValueChanged.AddListener(VignetteHighToggled);
-        }
-
-        private void Start()
-        {
-            InitializeValues();
         }
 
         private void OnLeftHandToggled(bool value)
@@ -81,16 +76,9 @@ namespace Src.Scripts.Preferences
 
         private void InitializeValues()
         {
-            if (manager.Player == null)
-            {
-                manager.Player = GameObject.Find("XR Rig").GetComponent<Player>();
-            }
-
-            manager.Player.WeaponHand = manager.PreferredHand;
-            
             leftHandToggle.isOn = manager.PreferredHand == UserPreferences.MainHand.Left;
             rightHandToggle.isOn = manager.PreferredHand == UserPreferences.MainHand.Right;
-            
+
             smoothTurnSpeedSlider.value = manager.SmoothTurnProvider.turnSpeed;
             smoothTurnToggle.isOn = manager.TurningStyle == UserPreferences.TurnStyle.Smooth;
             smoothTurnSpeedText.text = smoothTurnSpeedSlider.value.ToString();

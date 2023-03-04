@@ -8,17 +8,17 @@ namespace UI
 {
     public class ComfortVignette : MonoBehaviour
     {
-
-        [SerializeField] private bool vignetteActive;
-        [SerializeField] private float intensity;
+        public float intensity; // The end strength of the faded-in vignette
         [SerializeField] private float fadeDuration;
 
         private Vignette _vignette;
         private Volume _volume;
-        private bool _vignetteActive;
+        private bool _vignetteActive; // Used to determine if the vignette has faded in
         private Vector3 _oldForward;
 
         private CharacterController _charController;
+
+
         // Start is called before the first frame update
         void OnEnable()
         {
@@ -30,40 +30,20 @@ namespace UI
 
         private void Update()
         {
-            if (!vignetteActive)
-            {
-                return;
-            }
-        
-            if (IsMoving() && !vignetteActive) // Fade in vignette if player goes from stationary to moving
+            if (IsMoving() && !_vignetteActive) // Fade in vignette if player goes from stationary to moving
             {
                 FadeIn();
-                vignetteActive = true;
+                _vignetteActive = true;
             }
-            else if (!IsMoving() && vignetteActive) // Fade out vignette if player goes from moving to stationary
+            else if (!IsMoving() && _vignetteActive) // Fade out vignette if player goes from moving to stationary
             {
                 FadeOut();
-                vignetteActive = false;
+                _vignetteActive = false;
             }
 
             _oldForward = transform.forward;
         }
 
-        public void SetIntensity(float newIntensity)
-        {
-            intensity = newIntensity;
-        }
-
-        public void DisableVignette()
-        {
-            vignetteActive = false;
-        }
-        
-        public void ActivateVignette()
-        { 
-            vignetteActive = true;
-        }
-        
         // Is the player rotating or moving?
         private bool IsMoving()
         {
