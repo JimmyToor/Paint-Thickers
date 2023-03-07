@@ -167,14 +167,14 @@ namespace Src.Scripts.Preferences
                 case MainHand.Left:
                     if (SmoothTurnProvider != null)
                     {
-                        SmoothTurnProvider.rightHandTurnAction.action.Enable();
-                        SmoothTurnProvider.leftHandTurnAction.action.Disable();
+                        SmoothTurnProvider.leftHandTurnAction.action.Enable();
+                        SmoothTurnProvider.rightHandTurnAction.action.Disable();
                     }
 
                     if (SnapTurnProvider != null)
                     {
-                        SnapTurnProvider.rightHandSnapTurnAction.action.Enable();
-                        SnapTurnProvider.leftHandSnapTurnAction.action.Disable();
+                        SnapTurnProvider.leftHandSnapTurnAction.action.Enable();
+                        SnapTurnProvider.rightHandSnapTurnAction.action.Disable();
                     }
 
                     if (SmoothMoveProvider != null)
