@@ -33,7 +33,6 @@ public class PreviewHand : BaseHand
     private Quaternion MirrorJoint(Transform sourceTransform)
     {
         Quaternion mirrorRotation = sourceTransform.localRotation;
-        mirrorRotation.x *= -1.0f;
 
         return mirrorRotation;
     }

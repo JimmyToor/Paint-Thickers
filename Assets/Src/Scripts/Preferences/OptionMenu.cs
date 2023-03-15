@@ -21,9 +21,13 @@ namespace Src.Scripts.Preferences
         public Slider snapTurnIncrementSlider;
         public TextMeshProUGUI snapTurnAmountText;
 
-        private void Start()
+        private void Awake()
         {
             InitializeValues();
+        }
+
+        private void OnEnable()
+        {
             leftHandToggle.onValueChanged.AddListener(OnLeftHandToggled);
             rightHandToggle.onValueChanged.AddListener(OnRightHandToggled);
             snapTurnToggle.onValueChanged.AddListener(OnSnapTurnToggled);
@@ -34,6 +38,20 @@ namespace Src.Scripts.Preferences
             vignetteLow.onValueChanged.AddListener(VignetteLowToggled);
             vignetteMed.onValueChanged.AddListener(VignetteMedToggled);
             vignetteHigh.onValueChanged.AddListener(VignetteHighToggled);
+        }
+
+        private void OnDisable()
+        {
+            leftHandToggle.onValueChanged.RemoveListener(OnLeftHandToggled);
+            rightHandToggle.onValueChanged.RemoveListener(OnRightHandToggled);
+            snapTurnToggle.onValueChanged.RemoveListener(OnSnapTurnToggled);
+            smoothTurnToggle.onValueChanged.RemoveListener(OnSmoothTurnToggled);
+            snapTurnIncrementSlider.onValueChanged.RemoveListener(ChangeSnapTurnAmount);
+            smoothTurnSpeedSlider.onValueChanged.RemoveListener(ChangeSmoothTurnSpeed);
+            vignetteOff.onValueChanged.RemoveListener(VignetteOffToggled);
+            vignetteLow.onValueChanged.RemoveListener(VignetteLowToggled);
+            vignetteMed.onValueChanged.RemoveListener(VignetteMedToggled);
+            vignetteHigh.onValueChanged.RemoveListener(VignetteHighToggled);
         }
 
         private void OnLeftHandToggled(bool value)

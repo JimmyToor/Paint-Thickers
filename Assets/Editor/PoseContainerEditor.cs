@@ -1,6 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
+// From: https://github.com/C-Through/XR-HandPoser/tree/main/Assets/_HandPoser
 namespace Editor
 {
     [CustomEditor(typeof(PoseContainer))]

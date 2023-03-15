@@ -2,7 +2,7 @@
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+// From: https://github.com/C-Through/XR-HandPoser/tree/main/Assets/_HandPoser
 namespace Editor
 {
     public class PoseWindow : EditorWindow

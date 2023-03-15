@@ -37,7 +37,7 @@ public class ParticlePainter : MonoBehaviour
                     if (paintTarget != null)
                     {
                         if (randomChannel) brush.splatChannel = Random.Range(0, 2);
-                        PaintTarget.PaintSphere(_collisionEvents[i].intersection,brush);
+                        PaintTarget.PaintSphere(_collisionEvents[i].intersection, _collisionEvents[i].normal, brush);
                         //PaintTarget.PaintObject(paintTarget, _collisionEvents[i].intersection, _collisionEvents[i].normal, brush);
                     }
                     break;

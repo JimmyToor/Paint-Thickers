@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
@@ -30,10 +31,7 @@ namespace Src.Scripts
 
         public Texture2D splatTexPick;
         public Texture2D bakedTex;
-        
-        public RenderTexture scoreTex;
-        public Vector4 myScore = Vector4.zero;
-        
+
         private bool _bPickDirty = true;
         private bool _validTarget;
         private bool _bHasMeshCollider;
@@ -56,9 +54,7 @@ namespace Src.Scripts
 
         private RenderTexture _rt256;
         private RenderTexture _rt4;
-        private static int _sIDMax;
-        private int _mID;
-        
+
         private Renderer _r;
         private RenderTexture _rt;
         private MeshCollider _mc;
@@ -103,38 +99,48 @@ namespace Src.Scripts
             if (!paintTarget.SetComponents()) return Color.clear;
 
             UpdatePickColors(paintTarget, paintTarget._rt);
-
             Texture2D tc = paintTarget.splatTexPick;
-            if (!tc) return Color.clear;
+            if (!tc)
+            {
+                Debug.Log("no tc");
+                return Color.clear;
+            }
             int x = (int)(hit.lightmapCoord.x * tc.width);
             int y = (int)(hit.lightmapCoord.y * tc.height);
-
+            Debug.LogFormat("Color at {0}({1}*{2}),{3}({4}*{5}) is {6}", x, hit.lightmapCoord.x,tc.width, 
+                y, hit.lightmapCoord.y, tc.height 
+                , tc.GetPixel(x,y));
             return tc.GetPixel(x,y);
+            
         }
 
         public static int RayChannel(RaycastHit hit)
         {
             if (!hit.collider || !hit.transform) return -1;
             PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
-            if (!paintTarget) return -1;
-
+            if (!paintTarget)
+            {
+                Debug.Log("hit no taget");
+                return -1;
+            }
             Color pc = GetPixelColor(paintTarget, hit);
+            Debug.Log("pixel color: " + pc);
             int l = -1;
             if (pc.r > .5) l = 0;
             if (pc.g > .5) l = 1;
             if (pc.b > .5) l = 2;
             if (pc.a > .5) l = 3;
-
+            Debug.Log("returning " + l);
             return l;
         }
 
         /// <summary>
-        /// Attempt to paint the target object
+        /// Attempt to paint the target object.
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="point"></param>
-        /// <param name="normal"></param>
-        /// <param name="brush"></param>
+        /// <param name="target">The GameObject to be painted.</param>
+        /// <param name="point">The spot to paint.</param>
+        /// <param name="normal">The normal of the paint.</param>
+        /// <param name="brush">The brush parameters to use.</param>
         public static void Paint(GameObject target, Vector3 point, Vector3 normal, Brush brush)
         {
             PaintTarget paintTarget;
@@ -144,27 +150,25 @@ namespace Src.Scripts
                 PaintObject(paintTarget, point, normal , brush);
             }
         }
-        
+
         /// <summary>
         /// Paints all objects in a sphere around the passed <paramref name="point"/>.
         /// Useful for painting multiple objects at once with a seemingly contiguous paint splat.
         /// </summary>
-        /// <param name="point"></param>
-        /// <param name="brush"></param>
-        public static void PaintSphere(Vector3 point, Brush brush)
+        /// <param name="point">The spot to paint.</param>
+        /// <param name="brush">The brush parameters to use.</param>
+        /// <param name="normal">The normal of the paint.</param>
+        public static void PaintSphere(Vector3 point, Vector3 normal, Brush brush)
         {
-            Collider[] colliders = Physics.OverlapSphere(point, brush.splatScale,
-                LayerMask.GetMask("Terrain"));
-            
-            foreach (var collider in colliders)
-            {
-                Ray ray = new Ray(point, (collider.ClosestPoint(point) - point).normalized);
-                if (Physics.Raycast(ray, out RaycastHit hitInfo, 0.5f,
-                        LayerMask.GetMask("Terrain")))
-                {
-                    Paint(collider.gameObject, point, hitInfo.normal,brush);
-                }
-            }
+            // SphereCast has issues with colliders inside the sphere at the start of the cast,
+            // so OverlapSphere is used instead
+             Collider[] colliders = Physics.OverlapSphere(point, brush.splatScale,
+                 LayerMask.GetMask("Terrain"));
+             
+             foreach (var collider in colliders)
+             {
+                 Paint(collider.gameObject, point, normal, brush);
+             }
         }
 
         private static void PaintRaycast(Ray ray, Brush brush, bool multi = true)
@@ -251,12 +255,17 @@ namespace Src.Scripts
                 paintTarget.splatTexPick = new Texture2D((int)paintTarget.paintTextureSize, (int)paintTarget.paintTextureSize, TextureFormat.ARGB32, false);
             }
 
-            Rect rectReadPicture = new Rect(0, 0, rt.width, rt.height);
-            RenderTexture.active = rt;
-            paintTarget.splatTexPick.ReadPixels(rectReadPicture, 0, 0);
+            // Rect rectReadPicture = new Rect(0, 0, rt.width, rt.height);
+            // RenderTexture.active = rt;
+            // paintTarget.splatTexPick.ReadPixels(rectReadPicture, 0, 0);
+            // paintTarget.splatTexPick.Apply();
+            
+            RenderTexture.active = paintTarget._paintMap;
+            paintTarget.splatTexPick = new Texture2D(paintTarget._paintMap.width, paintTarget._paintMap.height, TextureFormat.ARGB32, false,true);
+            paintTarget.splatTexPick.ReadPixels(new Rect(0, 0, paintTarget._paintMap.width, paintTarget._paintMap.height), 0, 0);
             paintTarget.splatTexPick.Apply();
-            RenderTexture.active = null;
 
+            RenderTexture.active = null;
             paintTarget._bPickDirty = false;
         }
 
@@ -303,10 +312,7 @@ namespace Src.Scripts
         {
             CheckValid();
             if (setupOnStart) SetupPaint();
-            _mID = _sIDMax;
-            _sIDMax++;
-            Scores.Instance.allScores.Add(_mID, myScore);
-        
+
             paintComputeShader = (ComputeShader) Resources.Load("PaintCompute");
             _paintKernel = paintComputeShader.FindKernel("BrushPaint");
             paintComputeShader.GetKernelThreadGroupSizes(_paintKernel,
@@ -363,6 +369,7 @@ namespace Src.Scripts
             _worldBinormalTex = new RenderTexture((int)renderTextureSize, (int)renderTextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
             _worldBinormalTex.Create();
 
+            splatTexPick = new Texture2D((int)paintTextureSize, (int)paintTextureSize, TextureFormat.ARGB32, false);
             foreach (Material mat in _paintRenderer.materials)
             {
                 mat.SetTexture(PaintMap, _paintMap);
@@ -427,7 +434,6 @@ namespace Src.Scripts
             Texture2D bakedTexture = new Texture2D(_paintMap.width, _paintMap.height, TextureFormat.ARGB32, false,true);
             bakedTexture.ReadPixels(new Rect(0, 0, _paintMap.width, _paintMap.height), 0, 0);
             bakedTexture.Apply();
-
             RenderTexture.active = null;
             return bakedTexture;
         }

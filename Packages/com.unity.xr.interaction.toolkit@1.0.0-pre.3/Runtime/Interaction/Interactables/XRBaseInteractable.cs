@@ -294,6 +294,18 @@ namespace UnityEngine.XR.Interaction.Toolkit
         public bool isSelected { get; private set; }
         
         [SerializeField]
+        bool m_Selectable = true;
+
+        /// <summary>
+        /// Determines whether or not this Interactable can be selected.
+        /// </summary>
+        public bool selectable
+        {
+            get => m_Selectable;
+            set => m_Selectable = value;
+        }
+
+        [SerializeField]
         bool m_Droppable = true;
 
         /// <summary>
@@ -667,6 +679,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <seealso cref="OnSelectEntered(SelectEnterEventArgs)"/>
         protected internal virtual void OnSelectEntering(SelectEnterEventArgs args)
         {
+            if (!selectable) return;
             isSelected = true;
             selectingInteractor = args.interactor;
 
@@ -687,6 +700,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <seealso cref="OnSelectExited(SelectExitEventArgs)"/>
         protected internal virtual void OnSelectEntered(SelectEnterEventArgs args)
         {
+            if (!selectable) return;
             m_SelectEntered?.Invoke(args);
 
 #pragma warning disable 618 // Calling deprecated method to help with backwards compatibility with existing user code.
@@ -706,6 +720,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <seealso cref="OnSelectExited(SelectExitEventArgs)"/>
         protected internal virtual void OnSelectExiting(SelectExitEventArgs args)
         {
+            if (!droppable) return;
             isSelected = false;
             selectingInteractor = null;
 
@@ -729,6 +744,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <seealso cref="OnSelectEntered(SelectEnterEventArgs)"/>
         protected internal virtual void OnSelectExited(SelectExitEventArgs args)
         {
+            if (!droppable) return;
             m_SelectExited?.Invoke(args);
 
 #pragma warning disable 618 // Calling deprecated method to help with backwards compatibility with existing user code.

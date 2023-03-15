@@ -99,6 +99,7 @@ namespace Gameplay
 
         private void CheckTerrain()
         {
+            Debug.Log("Checking terrain");
             // Check ahead first so we can adjust to slopes and walls
             CheckGroundAhead();
             CheckGroundBelow();

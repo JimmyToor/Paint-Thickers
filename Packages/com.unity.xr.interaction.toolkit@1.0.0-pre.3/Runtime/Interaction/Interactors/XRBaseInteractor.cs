@@ -606,6 +606,8 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 return;
             }
 
+            if (!interactable.selectable) return;
+            
             interactionManager.SelectEnter(this, interactable);
             m_IsPerformingManualInteraction = true;
         }

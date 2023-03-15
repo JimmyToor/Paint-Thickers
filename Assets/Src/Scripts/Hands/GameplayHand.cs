@@ -24,7 +24,10 @@ public class GameplayHand : BaseHand
     {
         // Try and get pose container, and apply
         if ((args.interactable).TryGetComponent(out PoseContainer poseContainer))
+        {
+            Debug.Log("applying pose for " + poseContainer.gameObject.name);
             ApplyPose(poseContainer.pose);
+        }
     }
 
     private void TryApplyDefaultPose(SelectExitEventArgs args)

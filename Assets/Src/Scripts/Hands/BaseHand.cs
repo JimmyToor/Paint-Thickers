@@ -64,7 +64,9 @@ public abstract class BaseHand : MonoBehaviour
         {
             // Set the local rotation of each joint
             for (int i = 0; i < Joints.Count; i++)
+            {
                 Joints[i].localRotation = rotations[i];
+            }
         }
     }
 

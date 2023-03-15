@@ -40,6 +40,12 @@ namespace Src.Scripts
             set => SetWeaponHand(value);
         }
 
+        public Weapon Weapon
+        {
+            get => _weapon;
+            set => SetWeapon(value);
+        }
+
         private void Awake()
         {
             InvokeRepeating(nameof(NewResetPosition),2f,5f);
@@ -131,15 +137,17 @@ namespace Src.Scripts
             }
         }
 
-        public void SetWeapon(Weapon newWeapon)
+        private void SetWeapon(Weapon newWeapon)
         {
             _weapon = newWeapon;
-            _weapon.SetUIColor(GameManager.Instance.GetTeamColor(teamChannel));
+            if (_weapon == null) return;
+            
+            Weapon.SetUIColor(GameManager.Instance.GetTeamColor(teamChannel));
 
             // Add the weapon's particle renderers to the color matcher list to ensure they are the correct color
             if (_paintColorMatcher)
             {
-                foreach (var rend in _weapon.renderers)
+                foreach (var rend in Weapon.renderers)
                 {
                     if (rend is ParticleSystemRenderer && rend.TryGetComponent(out PaintColorManager colorManager))
                     {
@@ -164,9 +172,9 @@ namespace Src.Scripts
     
         public void RemoveWeapon()
         {
-            if (_paintColorMatcher)
+            if (_paintColorMatcher && Weapon)
             {
-                foreach (var rend in _weapon.renderers)
+                foreach (var rend in Weapon.renderers)
                 {
                     if (rend is ParticleSystemRenderer && TryGetComponent(out PaintColorManager colorManager))
                     {
@@ -174,59 +182,51 @@ namespace Src.Scripts
                     }
                 }
             }
-            _weapon = null;
+            Weapon = null;
         }
 
         public void DisableWeapon()
         {
-            if (_weapon != null)
-            {
-                _weapon.gameObject.SetActive(false);
-            }
+            if (!Weapon) return;
+            
+            Weapon.gameObject.SetActive(false);
         }
 
         public void HideWeapon()
         {
-            if (_weapon == null)
-            {
-                return;
-            }
+            if (!Weapon) return;
 
-            _weapon.HideWeapon();
+            Weapon.HideWeapon();
         }
 
         public void ShowWeapon()
         {
-            if (_weapon == null)
-            {
-                return;
-            }
-        
-            _weapon.ShowWeapon();
+            if (!Weapon) return;
+
+            Weapon.ShowWeapon();
         }
 
         public void EnableWeaponUI()
         {
-            if (_weapon != null)
-            {
-                _weapon.ShowUI();
-            }
+            if (!Weapon) return;
+            
+            Weapon.ShowUI();
+            
         }
 
         public void DisableWeaponUI()
         {
-            if (_weapon != null)
-            {
-                _weapon.HideUI();
-            }
+            if (!Weapon) return;
+            
+            Weapon.HideUI();
         }
     
         public void RefillWeaponAmmo()
         {
-            if (_weapon != null)
-            {
-                _weapon.RefillAmmo();
-            }
+            if (!Weapon) return;
+            
+            Weapon.RefillAmmo();
+            
         }
 
         private void NewResetPosition()
@@ -251,9 +251,9 @@ namespace Src.Scripts
         {
             HideWeapon();
             DisableHands();
-            if (_weapon != null)
+            if (Weapon != null)
             {
-                _weapon.hideUIAboveThreshold = false;
+                Weapon.hideUIAboveThreshold = false;
             }
         }
 
@@ -262,9 +262,9 @@ namespace Src.Scripts
         {
             EnableHands();
             ShowWeapon();
-            if (_weapon != null)
+            if (Weapon != null)
             {
-                _weapon.hideUIAboveThreshold = true;
+                Weapon.hideUIAboveThreshold = true;
             }
         }
 
@@ -303,15 +303,17 @@ namespace Src.Scripts
             _weaponHand = newHand;
             
             // Switch our weapon to the new main hand
-            if (_weapon != null)
+            if (Weapon != null)
             {
-                ForceEquipWeapon(_weapon);
+                ForceEquipWeapon(Weapon);
             }
         }
 
         public void ForceEquipWeapon(Weapon weapon)
         {
             XRGrabInteractable interactable = weapon.GetComponent<XRGrabInteractable>();
+
+            interactable.selectable = true;
             
             if (interactable.selectingInteractor != null)
             {
@@ -326,7 +328,9 @@ namespace Src.Scripts
                     ? rightHand.GetComponent<XRBaseInteractor>()
                     : leftHand.GetComponent<XRBaseInteractor>(),
                 interactable);
-            SetWeapon(weapon);
+            Weapon = weapon;
+            
+            interactable.selectable = false;
         }
         
     }

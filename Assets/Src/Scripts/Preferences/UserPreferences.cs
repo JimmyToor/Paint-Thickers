@@ -112,7 +112,7 @@ namespace Src.Scripts.Preferences
         }
         
 
-        void Awake()
+        void Start()
         {
             SetTurnStyle(TurningStyle);
             SetMainHand(PreferredHand);
@@ -183,7 +183,7 @@ namespace Src.Scripts.Preferences
                         SmoothMoveProvider.leftHandMoveAction.action.Disable();
                     }
                     
-                    Player.WeaponHand = MainHand.Left;
+                    GameManager.Instance.onResume.AddListener(()=> Player.WeaponHand = MainHand.Left);
                     break;
                 case MainHand.Right:
                     if (SnapTurnProvider != null)
@@ -204,7 +204,7 @@ namespace Src.Scripts.Preferences
                         SmoothMoveProvider.rightHandMoveAction.action.Disable();
                     }
                     
-                    Player.WeaponHand = MainHand.Right;
+                    GameManager.Instance.onResume.AddListener(()=> Player.WeaponHand = MainHand.Right);
                     break;
                 default:
                     throw new InvalidEnumArgumentException(nameof(hand), (int)hand, typeof(MainHand));

@@ -305,7 +305,7 @@ GameObject:
   - component: {fileID: 697424781}
   - component: {fileID: 697424780}
   - component: {fileID: 697424779}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: LeftHand Ray Controller
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -576,9 +576,9 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1498870603
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
@@ -982,7 +982,7 @@ MonoBehaviour:
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 0
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 0
@@ -1038,7 +1038,7 @@ GameObject:
   - component: {fileID: 1592644102}
   - component: {fileID: 1592644101}
   - component: {fileID: 1592644100}
-  m_Layer: 5
+  m_Layer: 17
   m_Name: RightHand Ray Controller
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1309,9 +1309,9 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1498870603
+  m_SortingLayer: 1
+  m_SortingOrder: 2
   m_Positions: []
   m_Parameters:
     serializedVersion: 3
@@ -1724,8 +1724,8 @@ MonoBehaviour:
   m_UpdateTrackingType: 0
   m_EnableInputTracking: 1
   m_EnableInputActions: 1
-  m_ModelPrefab: {fileID: 4963077313354681072}
-  m_ModelTransform: {fileID: 4963077313354681072}
+  m_ModelPrefab: {fileID: 0}
+  m_ModelTransform: {fileID: 0}
   m_AnimateModel: 0
   m_ModelSelectTransition: 
   m_ModelDeSelectTransition: 
@@ -1932,7 +1932,6 @@ GameObject:
   - component: {fileID: 4989558146584083176}
   - component: {fileID: 4989558146584083179}
   - component: {fileID: 1535968289}
-  - component: {fileID: 4989558146584083177}
   - component: {fileID: 4989558146584083178}
   - component: {fileID: 4989558146584083181}
   - component: {fileID: 4989558146584083180}
@@ -2017,18 +2016,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedThreshold: 8
   linesVFX: {fileID: 2049899795}
---- !u!114 &4989558146584083177
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4989558146584083183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cadd15edf24c3044d9d7b5e2529465a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!81 &4989558146584083178
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2096,12 +2083,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
+  m_RequiresDepthTextureOption: 1
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras:
-  - {fileID: 1674935}
   - {fileID: 726572741}
+  - {fileID: 1674935}
   - {fileID: 1469653724}
   m_RendererIndex: -1
   m_VolumeLayerMask:
@@ -2110,7 +2097,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 0
+  m_Antialiasing: 2
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -2278,7 +2265,7 @@ MonoBehaviour:
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_AttachTransform: {fileID: 4956531211393627399}
+  m_AttachTransform: {fileID: 8095765140080326657}
   m_StartingSelectedInteractable: {fileID: 0}
   m_HoverEntered:
     m_PersistentCalls:
@@ -2376,6 +2363,7 @@ GameObject:
   - component: {fileID: 633588063}
   - component: {fileID: 3849075432392634047}
   - component: {fileID: 1675898091}
+  - component: {fileID: 1798581616}
   m_Layer: 3
   m_Name: XR Rig
   m_TagString: Player
@@ -2805,7 +2793,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8931970c1527394384bc3a70b14df2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vignetteActive: 0
   intensity: 0.8
   fadeDuration: 0.2
 --- !u!114 &633588063
@@ -2873,13 +2860,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turningStyle: 0
-  preferredHand: 1
+  preferredHand: 0
   vignetteIntensity: 2
   smoothMoveProvider: {fileID: 3953089385813430785}
   smoothTurnProvider: {fileID: 4989558147164366921}
   snapTurnProvider: {fileID: 3849075432392634047}
   comfortVignette: {fileID: 1834541895}
   player: {fileID: 1614226184}
+--- !u!114 &1798581616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558147164366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c8a25751454863a1875187de09a5be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  matchEnvironmentColor: []
+  matchTeamColor: []
 --- !u!1001 &447563299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3394,6 +3395,11 @@ PrefabInstance:
 --- !u!4 &1636695092710497709 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6019286514318719493, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
+  m_PrefabInstance: {fileID: 4989558145520396200}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8095765140080326657 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3848210651887181737, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
   m_PrefabInstance: {fileID: 4989558145520396200}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4989558145943688106

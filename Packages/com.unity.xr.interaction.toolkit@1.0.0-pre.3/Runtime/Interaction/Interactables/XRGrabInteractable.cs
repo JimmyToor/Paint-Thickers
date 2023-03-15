@@ -613,6 +613,8 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <inheritdoc />
         protected internal override void OnSelectEntering(SelectEnterEventArgs args)
         {
+            if (!selectable) return;
+            Debug.Log(args.interactable.gameObject +" grabbed by " + args.interactor.gameObject);
             base.OnSelectEntering(args);
             Grab();
         }
@@ -621,7 +623,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
         protected internal override void OnSelectExiting(SelectExitEventArgs args)
         {
             if (!droppable) return;
-            
             base.OnSelectExiting(args);
             Drop();
         }
@@ -629,7 +630,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
         protected internal override void OnActivated(ActivateEventArgs args)
         {
             if (!activatable) return;
-            
             base.OnActivated(args);
         }
 
