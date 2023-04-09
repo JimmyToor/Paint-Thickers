@@ -20,8 +20,7 @@ namespace Gameplay
         {
             if (other.CompareTag("Player"))
             {
-                _enemyManager.EnableGroup(enemyGroupId);
-                Destroy(this);
+                SpawnGroup();
             }
         }
 
@@ -32,7 +31,17 @@ namespace Gameplay
             Gizmos.DrawWireCube(_pos, transform.lossyScale);
             Gizmos.DrawIcon(_pos, "Light_Gizmo.png");
         }
-        
-        
+
+        [ContextMenu("Spawn Group")]
+        public void TriggerSpawnGroup()
+        {
+            SpawnGroup();
+        }
+
+        private void SpawnGroup()
+        {
+            _enemyManager.EnableGroup(enemyGroupId);
+            Destroy(this);
+        }
     }
 }
