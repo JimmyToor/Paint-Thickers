@@ -1,7 +1,10 @@
-﻿using Src.Scripts;
+﻿using Cinemachine.Editor;
+using Src.Scripts;
 using UnityEditor;
+using UnityEditor.ShaderGraph.Drawing.Inspector;
 using UnityEngine;
 
+// Based on 'PaintTargetEditor.cs' from https://assetstore.unity.com/packages/tools/paintz-free-145977
 namespace Editor
 {
     [CustomEditor(typeof(PaintTarget))]
@@ -86,6 +89,11 @@ namespace Editor
                 if (!foundMeshCollider)
                 {
                     EditorGUILayout.HelpBox("WARNING: Color Pick only works with Mesh Collider", MessageType.Warning);
+                }
+
+                if (GUI.changed)
+                {
+                    EditorUtility.SetDirty(target);
                 }
             }
         }

@@ -22,8 +22,13 @@ namespace Editor
             if(!AssetDatabase.IsValidFolder(assetPath + bakedDir))
                 AssetDatabase.CreateFolder(assetPath, bakedDir);
 
-            int num = Directory.GetFiles(fullPath).Length + 1;
-            var name = "Baked_" + objectName + "_" + num + ".png";
+            var num = 0;
+            var name = $"Baked_{objectName}_{num}.png";
+            while (File.Exists($"{fullPath}/{name}"))
+            {
+                num++;
+                name = $"Baked_{objectName}_{num}.png";
+            }
 
             byte[] bytes = paintMap.EncodeToPNG();
         

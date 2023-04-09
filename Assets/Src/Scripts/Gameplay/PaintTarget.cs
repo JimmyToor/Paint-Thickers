@@ -20,7 +20,9 @@ namespace Src.Scripts
     }
     public class PaintTarget : MonoBehaviour
     {
+        [Tooltip("Affects paint resolution. Higher values result in less choppy edges.")]
         public TextureSize paintTextureSize = TextureSize.Texture256x256;
+        [Tooltip("Affects paint border quality. Higher values result in better visual depth.")]
         public TextureSize renderTextureSize = TextureSize.Texture256x256;
 
         public bool setupOnStart = true;
@@ -171,7 +173,7 @@ namespace Src.Scripts
              }
         }
 
-        private static void PaintRaycast(Ray ray, Brush brush, bool multi = true)
+        public static void PaintRaycast(Ray ray, Brush brush, bool multi = true)
         {
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 10000))

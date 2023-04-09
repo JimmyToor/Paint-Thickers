@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 870535152031012274}
   - component: {fileID: 7241243032570459957}
   - component: {fileID: 6495034028493928601}
+  - component: {fileID: 7999329927751483851}
+  - component: {fileID: 4936428471604509741}
   m_Layer: 8
   m_Name: Grate
   m_TagString: Terrain
@@ -81,3 +83,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &7999329927751483851
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2448273728919721595}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 6d180b21ea57e0a41b4f9da258335061, type: 2}
+--- !u!114 &4936428471604509741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2448273728919721595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d9e9bf3a49e644b88a8db36eb56bcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintTextureSize: 256
+  renderTextureSize: 256
+  setupOnStart: 1
+  paintAllSplats: 0
+  useBaked: 0
+  paintComputeShader: {fileID: 0}
+  splatTexPick: {fileID: 0}
+  bakedTex: {fileID: 0}

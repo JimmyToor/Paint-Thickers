@@ -126,7 +126,7 @@ Material:
     - Vector1_5a326e06841d4726b0180932a6e2c845: 0
     - Vector1_739c881f19544a54bf77522dccee09d8: 1
     - Vector1_7a53ba3e07604b56bf5bc59497fedc16: 1
-    - Vector1_7bf270fe91494824b4209d2dc1faae23: 0
+    - Vector1_7bf270fe91494824b4209d2dc1faae23: 0.9
     - Vector1_97e44d7d184d4719b865fe9c1da46e6c: 0
     - Vector1_b160a6374fb04a77b114bb611b8c55e4: 0
     - Vector1_f6677799b193415b8be7686b658a6e85: 10
@@ -153,8 +153,8 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SplatEdgeBump: 1
-    - _SplatEdgeBumpWidth: 1
+    - _SplatEdgeBump: 1.75
+    - _SplatEdgeBumpWidth: 2
     - _SrcBlend: 1
     - _Surface: 0
     - _WorkflowMode: 1
@@ -162,8 +162,8 @@ Material:
     m_Colors:
     - Color_1bf9c5e6f5c34360a490da1c94e6a7c1: {r: 1, g: 1, b: 1, a: 0}
     - Color_863351f5ceea4c998ef51baab6dd758b: {r: 1, g: 1, b: 1, a: 0}
-    - Vector2_52cf70a2e8e34765aba2f52af2647c6c: {r: 1, g: 1, b: 0, a: 0}
-    - Vector2_55edcb19ba1d459dbb3c027e66abbc1e: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_52cf70a2e8e34765aba2f52af2647c6c: {r: 20, g: 20, b: 0, a: 0}
+    - Vector2_55edcb19ba1d459dbb3c027e66abbc1e: {r: 30, g: 30, b: 0, a: 0}
     - Vector2_e97cb9b7b5564bc9857e7669e2d0b82f: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

@@ -91,7 +91,6 @@ namespace Src.Scripts.Utility
             lookAction = map.AddAction("look", binding: "<Mouse>/delta");
             movementAction = map.AddAction("move", binding: "<Gamepad>/leftStick");
             verticalMovementAction = map.AddAction("Vertical Movement");
-            boostFactorAction = map.AddAction("Boost Factor", binding: "<Mouse>/scroll");
 
             lookAction.AddBinding("<Gamepad>/rightStick").WithProcessor("scaleVector2(x=15, y=15)");
             movementAction.AddCompositeBinding("Dpad")
@@ -110,12 +109,10 @@ namespace Src.Scripts.Utility
                 .With("Down", "<Keyboard>/q")
                 .With("Up", "<Gamepad>/rightshoulder")
                 .With("Down", "<Gamepad>/leftshoulder");
-            boostFactorAction.AddBinding("<Gamepad>/Dpad").WithProcessor("scaleVector2(x=1, y=4)");
 
             movementAction.Enable();
             lookAction.Enable();
             verticalMovementAction.Enable();
-            boostFactorAction.Enable();
         }
 #endif
 
@@ -208,10 +205,6 @@ namespace Src.Scripts.Utility
             {
                 translation *= 10.0f;
             }
-            
-            // Modify movement by a boost factor (defined in Inspector and modified in play mode through the mouse scroll wheel)
-            boost += GetBoostFactor();
-            translation *= Mathf.Pow(2.0f, boost);
 
             m_TargetCameraState.Translate(translation);
 
@@ -227,7 +220,7 @@ namespace Src.Scripts.Utility
         float GetBoostFactor()
         {
 #if ENABLE_INPUT_SYSTEM
-            return boostFactorAction.ReadValue<Vector2>().y * 0.01f;
+            return 1f;
 #else
             return Input.mouseScrollDelta.y * 0.01f;
 #endif

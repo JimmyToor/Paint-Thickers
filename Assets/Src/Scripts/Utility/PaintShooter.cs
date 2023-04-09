@@ -6,7 +6,14 @@ namespace Src.Scripts.Utility
     public class PaintShooter : MonoBehaviour
     {
         public Brush brush;
-    
+
+        private Camera _cam;
+
+        private void Awake()
+        {
+            _cam = GetComponent<Camera>();
+        }
+
         private void Update()
         {
             if (Mouse.current.leftButton.isPressed)
@@ -15,16 +22,10 @@ namespace Src.Scripts.Utility
             }
         }
 
-        public void PaintCursor()
+        private void PaintCursor()
         {
-            if (Camera.main == null)
-            {
-                Debug.Log("Warning: No Main Camera tagged");
-                return;
-            }
-
-            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-            PaintRaycast(ray);
+            Ray ray = _cam.ScreenPointToRay(Mouse.current.position.ReadValue());
+            PaintTarget.PaintRaycast(ray, brush);
         }
     
         private void PaintRaycast(Ray ray)
