@@ -679,7 +679,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <seealso cref="OnSelectEntered(SelectEnterEventArgs)"/>
         protected internal virtual void OnSelectEntering(SelectEnterEventArgs args)
         {
-            if (!selectable) return;
             isSelected = true;
             selectingInteractor = args.interactor;
 
@@ -700,7 +699,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <seealso cref="OnSelectExited(SelectExitEventArgs)"/>
         protected internal virtual void OnSelectEntered(SelectEnterEventArgs args)
         {
-            if (!selectable) return;
             m_SelectEntered?.Invoke(args);
 
 #pragma warning disable 618 // Calling deprecated method to help with backwards compatibility with existing user code.
@@ -720,7 +718,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <seealso cref="OnSelectExited(SelectExitEventArgs)"/>
         protected internal virtual void OnSelectExiting(SelectExitEventArgs args)
         {
-            if (!droppable) return;
             isSelected = false;
             selectingInteractor = null;
 
@@ -744,7 +741,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <seealso cref="OnSelectEntered(SelectEnterEventArgs)"/>
         protected internal virtual void OnSelectExited(SelectExitEventArgs args)
         {
-            if (!droppable) return;
             m_SelectExited?.Invoke(args);
 
 #pragma warning disable 618 // Calling deprecated method to help with backwards compatibility with existing user code.

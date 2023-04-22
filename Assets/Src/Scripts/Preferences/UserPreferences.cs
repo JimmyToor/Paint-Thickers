@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Preferences
@@ -34,6 +36,12 @@ namespace Src.Scripts.Preferences
         private const float LowVignetteValue = 0.2f;
         private const float MedVignetteValue = 0.5f;
         private const float HighVignetteValue = 0.8f;
+
+        private InputActionMap _leftHandActionMap;
+        private InputActionMap _rightHandActionMap;
+        private InputControlScheme? _baseControlScheme;
+        private InputControlScheme? _rightHandedControlScheme;
+        private InputControlScheme? _leftHandedControlScheme;
 
         [SerializeField]
         private TurnStyle turningStyle;
@@ -110,7 +118,54 @@ namespace Src.Scripts.Preferences
             get => player;
             set => player = value;
         }
+
+        [SerializeField]
+        private InputActionAsset inputs;
+        public InputActionAsset Inputs
+        {
+            get => inputs;
+            set => inputs = value;
+        }
+
+        [SerializeField]
+        private string baseControlSchemeName;
+        public string BaseControlSchemeName
+        {
+            get => baseControlSchemeName;
+            set => baseControlSchemeName = value;
+        }
+
+        [SerializeField]
+        private string leftHandedControlSchemeName;
+        public string LeftHandedControlSchemeName
+        {
+            get => leftHandedControlSchemeName;
+            set => leftHandedControlSchemeName = value;
+        }
         
+        [SerializeField]
+        private string rightHandedControlSchemeName;
+        public string RightHandedControlSchemeName
+        {
+            get => rightHandedControlSchemeName;
+            set => rightHandedControlSchemeName = value;
+        }
+        
+        private void Awake()
+        {
+            GetInputs();
+        }
+
+        private void GetInputs()
+        {
+            _leftHandActionMap = inputs.FindActionMap("XRI LeftHand");
+            _rightHandActionMap = inputs.FindActionMap("XRI RightHand");
+            
+            _leftHandedControlScheme = FindControlScheme(leftHandedControlSchemeName);
+            _rightHandedControlScheme = FindControlScheme(rightHandedControlSchemeName);
+            _baseControlScheme = FindControlScheme(baseControlSchemeName);
+            
+        }
 
         void Start()
         {
@@ -165,50 +220,39 @@ namespace Src.Scripts.Preferences
             switch (hand)
             {
                 case MainHand.Left:
-                    if (SmoothTurnProvider != null)
-                    {
-                        SmoothTurnProvider.leftHandTurnAction.action.Enable();
-                        SmoothTurnProvider.rightHandTurnAction.action.Disable();
-                    }
-
-                    if (SnapTurnProvider != null)
-                    {
-                        SnapTurnProvider.leftHandSnapTurnAction.action.Enable();
-                        SnapTurnProvider.rightHandSnapTurnAction.action.Disable();
-                    }
-
-                    if (SmoothMoveProvider != null)
-                    {
-                        SmoothMoveProvider.rightHandMoveAction.action.Enable();
-                        SmoothMoveProvider.leftHandMoveAction.action.Disable();
-                    }
-                    
-                    GameManager.Instance.onResume.AddListener(()=> Player.WeaponHand = MainHand.Left);
+                    SetHandBindingMasks(_leftHandedControlScheme);
+                    GameManager.Instance.onResume.AddListener(()=> Player.MainHand = MainHand.Left);
                     break;
+                
                 case MainHand.Right:
-                    if (SnapTurnProvider != null)
-                    {
-                        SmoothTurnProvider.rightHandTurnAction.action.Enable();
-                        SmoothTurnProvider.leftHandTurnAction.action.Disable();
-                    }
-
-                    if (SmoothTurnProvider != null)
-                    {
-                        SnapTurnProvider.rightHandSnapTurnAction.action.Enable();
-                        SnapTurnProvider.leftHandSnapTurnAction.action.Disable();
-                    }
-                    
-                    if (SmoothMoveProvider != null)
-                    {
-                        SmoothMoveProvider.leftHandMoveAction.action.Enable();
-                        SmoothMoveProvider.rightHandMoveAction.action.Disable();
-                    }
-                    
-                    GameManager.Instance.onResume.AddListener(()=> Player.WeaponHand = MainHand.Right);
+                    SetHandBindingMasks(_rightHandedControlScheme);
+                    GameManager.Instance.onResume.AddListener(()=> Player.MainHand = MainHand.Right);
                     break;
+                
                 default:
                     throw new InvalidEnumArgumentException(nameof(hand), (int)hand, typeof(MainHand));
             }
+        }
+
+        private void SetHandBindingMasks(InputControlScheme? controlScheme)
+        {
+            _leftHandActionMap.bindingMask = InputBinding.MaskByGroups(_baseControlScheme?.bindingGroup, controlScheme?.bindingGroup);
+            _rightHandActionMap.bindingMask = InputBinding.MaskByGroups(_baseControlScheme?.bindingGroup, controlScheme?.bindingGroup);
+        }
+        
+        InputControlScheme? FindControlScheme(string controlSchemeName)
+        {
+            if (string.IsNullOrEmpty(controlSchemeName))
+                return null;
+
+            var scheme = inputs.FindControlScheme(controlSchemeName);
+            if (scheme == null)
+            {
+                Debug.LogError($"Cannot find control scheme \"{controlSchemeName}\" in '{inputs}'.", this);
+                return null;
+            }
+
+            return scheme;
         }
 
         void SetVignetteStrength(VignetteStrength strength)

@@ -179,10 +179,6 @@ namespace Src.Scripts
         {
             HideStartMenu();
             Unpause();
-            if (player.startingWeapon != null)
-            {
-                player.ForceEquipWeapon(player.startingWeapon);
-            }
             player.ToggleUIRays();
             player.EnableHands();
             EnablePause();

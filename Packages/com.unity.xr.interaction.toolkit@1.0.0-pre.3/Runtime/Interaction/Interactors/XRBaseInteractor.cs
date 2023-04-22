@@ -605,8 +605,6 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 Debug.LogWarning("Cannot start manual interaction without an Interaction Manager set.", this);
                 return;
             }
-
-            if (!interactable.selectable) return;
             
             interactionManager.SelectEnter(this, interactable);
             m_IsPerformingManualInteraction = true;

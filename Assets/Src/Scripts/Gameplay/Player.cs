@@ -33,12 +33,7 @@ namespace Src.Scripts
         private Vector3 _resetPosition;
         private PaintColorMatcher _paintColorMatcher;
 
-        private UserPreferences.MainHand _weaponHand;
-        public UserPreferences.MainHand WeaponHand
-        {
-            get => _weaponHand;
-            set => SetWeaponHand(value);
-        }
+        public UserPreferences.MainHand MainHand { get; set; }
 
         public Weapon Weapon
         {
@@ -142,6 +137,7 @@ namespace Src.Scripts
             _weapon = newWeapon;
             if (_weapon == null) return;
             
+            Weapon.ShowUI();
             Weapon.SetUIColor(GameManager.Instance.GetTeamColor(teamChannel));
 
             // Add the weapon's particle renderers to the color matcher list to ensure they are the correct color
@@ -211,7 +207,6 @@ namespace Src.Scripts
             if (!Weapon) return;
             
             Weapon.ShowUI();
-            
         }
 
         public void DisableWeaponUI()
@@ -293,44 +288,22 @@ namespace Src.Scripts
             }
         }
 
-        /// <summary>
-        /// Used to drop the weapon from the current hand and place it into the new hand.
-        /// </summary>
-        /// <param name="newHand"></param>
-        private void SetWeaponHand(UserPreferences.MainHand newHand)
-        {
-            if (newHand == WeaponHand) return;
-            _weaponHand = newHand;
-            
-            // Switch our weapon to the new main hand
-            if (Weapon != null)
-            {
-                ForceEquipWeapon(Weapon);
-            }
-        }
-
         public void ForceEquipWeapon(Weapon weapon)
         {
             XRGrabInteractable interactable = weapon.GetComponent<XRGrabInteractable>();
-
-            interactable.selectable = true;
             
             if (interactable.selectingInteractor != null)
             {
                 // Make the current interactor drop the weapon so we can grab it
-                interactable.droppable = true;
                 interactable.ForceDrop();
-                interactable.droppable = false;
             }
                 
             xrInteractionManager.ForceSelect(
-                _weaponHand == UserPreferences.MainHand.Right
+                MainHand == UserPreferences.MainHand.Right
                     ? rightHand.GetComponent<XRBaseInteractor>()
                     : leftHand.GetComponent<XRBaseInteractor>(),
                 interactable);
             Weapon = weapon;
-            
-            interactable.selectable = false;
         }
         
     }

@@ -59,26 +59,35 @@ namespace Gameplay
                 _playerEvents.Land -= Land;
             }
         }
-
-        private void Update()
+        
+        private void FixedUpdate()
         {
             if (isLaunched)
             {
-                // Increment our progress from 0 at the start, to 1 when we arrive.
-                _progress = Mathf.Min(_progress + Time.deltaTime * _launchParams.stepScale, 1.0f);
+                UpdateLaunchProgress();
+            }
+        }
 
-                Vector3 nextPos = Vector3.Lerp(_startPos, _launchParams.endPos, _progress);
+        /// <summary>
+        /// Launch the object in an arc by moving it in a straight line towards the target and adjusting the
+        /// y-position over time.
+        /// </summary>
+        private void UpdateLaunchProgress()
+        {
+            // Increment our progress from 0 at the start, to 1 when we arrive.
+            _progress = Mathf.Min(_progress + Time.deltaTime * _launchParams.stepScale, 1.0f);
 
-                // Add vertical arc
-                nextPos.y += _launchParams.launchArc.Evaluate(_progress)*_launchParams.arcScale;
-                transform.position = nextPos;
+            Vector3 nextPos = Vector3.Lerp(_startPos, _launchParams.endPos, _progress);
 
-                if (_progress >= 1) // We've landed, resume normal movement
+            // Add vertical arc
+            nextPos.y += _launchParams.launchArc.Evaluate(_progress) * _launchParams.arcScale;
+            transform.position = nextPos;
+
+            if (_progress >= 1) // We've landed, resume normal movement
+            {
+                if (_playerEvents != null)
                 {
-                    if (_playerEvents != null)
-                    {
-                        _playerEvents.OnLand();
-                    }
+                    _playerEvents.OnLand();
                 }
             }
         }

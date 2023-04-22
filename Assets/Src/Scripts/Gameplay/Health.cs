@@ -36,7 +36,7 @@ namespace Gameplay
         private int _takeHitHash = Animator.StringToHash("Take Hit");
         private SFXSource _sfxSource;
         private float _regenTime; // Time until regeneration starts
-        private bool _updateUI;
+        private bool _updateUI = true;
 
 
         private void Start()

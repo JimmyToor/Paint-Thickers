@@ -17,7 +17,6 @@ namespace Src.Scripts.Weapons
         public bool hideUIAboveThreshold = true;
         public AmmoUI ammoUI;
         public GameObject UIObject;
-        public GameObject weaponObject;
         public Animator weaponAnimator;
         public float AmmoNormalized => ammoRemaining / maxAmmo;
         public List<Renderer> renderers;
@@ -65,6 +64,7 @@ namespace Src.Scripts.Weapons
         public virtual void RefillAmmo()
         {
             RefillAmmo(Time.deltaTime * refillRate);
+            UpdateAmmoUI();
         }
 
         private void UpdateAmmoUI()

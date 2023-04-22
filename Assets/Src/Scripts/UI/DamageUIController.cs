@@ -1,17 +1,18 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
 {
     public class DamageUIController : MonoBehaviour
     {
-        [Range(0f,1f)]
-        public float noHealthSize = 0.34f;
-        [Range(0f,1f)]
-        public float maxHealthSize = 1f;
+        [FormerlySerializedAs("noHealthSize")] [Range(0f,1f)]
+        public float noHealthIntensity = 0f;
+        [FormerlySerializedAs("maxHealthSize")] [Range(0f,1f)]
+        public float maxHealthIntensity = 1f;
 
         public Material material;
-        private static readonly int CenterSize = Shader.PropertyToID("_CenterSize");
+        private static readonly int CenterSize = Shader.PropertyToID("_Intensity");
 
         void Start()
         {
@@ -20,7 +21,7 @@ namespace UI
 
         public void UpdateDamageUI(float health)
         {
-            float newSize = Mathf.Lerp(noHealthSize, maxHealthSize, health);
+            float newSize = Mathf.Lerp(noHealthIntensity, maxHealthIntensity, health);
             SetIndicatorIntensity(newSize);
         }
 

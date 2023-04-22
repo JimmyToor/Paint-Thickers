@@ -404,7 +404,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <param name="interactor">The Interactor to potentially exit its selection state.</param>
         public virtual void ClearInteractorSelection(XRBaseInteractor interactor)
         {
-            if (interactor.selectTarget != null &&
+            if (interactor.selectTarget != null && interactor.selectTarget.droppable &&
                 (!interactor.isSelectActive || !interactor.CanSelect(interactor.selectTarget) || !interactor.selectTarget.IsSelectableBy(interactor)))
             {
                 SelectExit(interactor, interactor.selectTarget);
@@ -599,16 +599,13 @@ namespace UnityEngine.XR.Interaction.Toolkit
         /// <param name="args">Event data containing the Interactor and Interactable involved in the event.</param>
         protected virtual void SelectExit(XRBaseInteractor interactor, XRBaseInteractable interactable, SelectExitEventArgs args)
         {
-            if (interactable.droppable)
-            {
-                Debug.Assert(args.interactor == interactor, this);
-                Debug.Assert(args.interactable == interactable, this);
+            Debug.Assert(args.interactor == interactor, this);
+            Debug.Assert(args.interactable == interactable, this);
 
-                interactor.OnSelectExiting(args);
-                interactable.OnSelectExiting(args);
-                interactor.OnSelectExited(args);
-                interactable.OnSelectExited(args);
-            }
+            interactor.OnSelectExiting(args);
+            interactable.OnSelectExiting(args);
+            interactor.OnSelectExited(args);
+            interactable.OnSelectExited(args);
         }
 
         /// <summary>

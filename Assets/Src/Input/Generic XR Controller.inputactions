@@ -285,39 +285,6 @@
                 },
                 {
                     "name": "",
-                    "id": "99cb7ad1-51ec-4611-af68-92a85f2c17d6",
-                    "path": "<XRController>{LeftHand}/Primary2DAxis",
-                    "interactions": "Sector(directions=12,sweepBehavior=1)",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Turn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "034c3ced-8f2c-44ce-892e-678ca433265b",
-                    "path": "<XRController>{LeftHand}/Primary2DAxis",
-                    "interactions": "Sector(directions=2,sweepBehavior=2)",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Turn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8e383b1a-270f-4c20-819b-89a59cffb498",
-                    "path": "<XRController>{LeftHand}/Primary2DAxis",
-                    "interactions": "",
-                    "processors": "StickDeadzone",
-                    "groups": "Generic XR Controller",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "acdf9550-5529-4ff7-8558-73ecdf0d75bd",
                     "path": "<XRController>{LeftHand}/*",
                     "interactions": "",
@@ -478,6 +445,39 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Squid",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c4ace5c-2634-4f79-b336-1cf14072daea",
+                    "path": "<XRController>{LeftHand}/Primary2DAxis",
+                    "interactions": "Sector(directions=2,sweepBehavior=2)",
+                    "processors": "",
+                    "groups": "Left-Handed",
+                    "action": "Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3513ee9e-ab9e-4659-8eef-3ac967b57fc8",
+                    "path": "<XRController>{LeftHand}/Primary2DAxis",
+                    "interactions": "Sector(directions=12,sweepBehavior=1)",
+                    "processors": "",
+                    "groups": "Left-Handed",
+                    "action": "Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "61419a7f-b779-41b4-9190-f3248e9c334f",
+                    "path": "<XRController>{LeftHand}/Primary2DAxis",
+                    "interactions": "",
+                    "processors": "StickDeadzone",
+                    "groups": "Right-Handed",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -713,28 +713,6 @@
                 },
                 {
                     "name": "",
-                    "id": "d6c08c3d-3d41-4695-994d-1ac9016a5a9e",
-                    "path": "<XRController>{RightHand}/Primary2DAxis",
-                    "interactions": "Sector(directions=12,sweepBehavior=1)",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Turn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "70f78baa-0f00-4d32-a2b6-ea9e2090ecc2",
-                    "path": "<XRController>{RightHand}/Primary2DAxis",
-                    "interactions": "Sector(directions=2,sweepBehavior=2)",
-                    "processors": "",
-                    "groups": "Generic XR Controller",
-                    "action": "Turn",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "6011e1e6-b2dd-4cb1-8da5-29b03868f2c5",
                     "path": "<XRController>{RightHand}/*",
                     "interactions": "",
@@ -867,12 +845,34 @@
                 },
                 {
                     "name": "",
-                    "id": "e2f446da-6267-4678-bf9f-fd5bffefdb5d",
+                    "id": "97200a31-e818-44cc-97eb-61afce48a17c",
                     "path": "<XRController>{RightHand}/Primary2DAxis",
                     "interactions": "",
                     "processors": "StickDeadzone",
-                    "groups": "Generic XR Controller",
+                    "groups": "Left-Handed",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb3fddb3-2082-480d-b3ad-0cac70305677",
+                    "path": "<XRController>{RightHand}/Primary2DAxis",
+                    "interactions": "Sector(directions=2,sweepBehavior=2)",
+                    "processors": "",
+                    "groups": "Right-Handed",
+                    "action": "Turn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "734df6a1-6f31-4730-9293-7e19407a3c7f",
+                    "path": "<XRController>{RightHand}/Primary2DAxis",
+                    "interactions": "Sector(directions=12,sweepBehavior=1)",
+                    "processors": "",
+                    "groups": "Right-Handed",
+                    "action": "Turn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -931,6 +931,28 @@
                     "isOptional": false,
                     "isOR": false
                 },
+                {
+                    "devicePath": "<XRController>{RightHand}",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Left-Handed",
+            "bindingGroup": "Left-Handed",
+            "devices": [
+                {
+                    "devicePath": "<XRController>{LeftHand}",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Right-Handed",
+            "bindingGroup": "Right-Handed",
+            "devices": [
                 {
                     "devicePath": "<XRController>{RightHand}",
                     "isOptional": false,

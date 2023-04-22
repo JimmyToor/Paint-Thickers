@@ -109,9 +109,9 @@ namespace Src.Scripts
             }
             int x = (int)(hit.lightmapCoord.x * tc.width);
             int y = (int)(hit.lightmapCoord.y * tc.height);
-            Debug.LogFormat("Color at {0}({1}*{2}),{3}({4}*{5}) is {6}", x, hit.lightmapCoord.x,tc.width, 
-                y, hit.lightmapCoord.y, tc.height 
-                , tc.GetPixel(x,y));
+            // Debug.LogFormat("Color at {0}({1}*{2}),{3}({4}*{5}) is {6}", x, hit.lightmapCoord.x,tc.width, 
+            //     y, hit.lightmapCoord.y, tc.height 
+            //     , tc.GetPixel(x,y));
             return tc.GetPixel(x,y);
             
         }
@@ -122,17 +122,14 @@ namespace Src.Scripts
             PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
             if (!paintTarget)
             {
-                Debug.Log("hit no taget");
                 return -1;
             }
             Color pc = GetPixelColor(paintTarget, hit);
-            Debug.Log("pixel color: " + pc);
             int l = -1;
             if (pc.r > .5) l = 0;
             if (pc.g > .5) l = 1;
             if (pc.b > .5) l = 2;
             if (pc.a > .5) l = 3;
-            Debug.Log("returning " + l);
             return l;
         }
 
