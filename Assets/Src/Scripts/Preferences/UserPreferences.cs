@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
+using Src.Scripts.Gameplay;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Preferences
@@ -31,6 +31,12 @@ namespace Src.Scripts.Preferences
             Low,
             Med,
             High,
+        }
+
+        public enum MovementOrientation
+        {
+            Head,
+            OffHand,
         }
         
         private const float LowVignetteValue = 0.2f;
@@ -66,6 +72,18 @@ namespace Src.Scripts.Preferences
                 preferredHand = value;
             }
         }
+        
+        [SerializeField]
+        private MovementOrientation forwardReference;
+        public MovementOrientation ForwardReference
+        {
+            get => forwardReference;
+            set
+            {
+                SetForwardReference(value);
+                forwardReference = value;
+            }
+        }
 
         [SerializeField] 
         private VignetteStrength vignetteIntensity;
@@ -80,7 +98,7 @@ namespace Src.Scripts.Preferences
         }
 
         [SerializeField]
-        ActionBasedContinuousMoveProvider smoothMoveProvider;
+        private ActionBasedContinuousMoveProvider smoothMoveProvider;
         public ActionBasedContinuousMoveProvider SmoothMoveProvider
         {
             get => smoothMoveProvider;
@@ -88,7 +106,7 @@ namespace Src.Scripts.Preferences
         }
         
         [SerializeField]
-        ActionBasedContinuousTurnProvider smoothTurnProvider;
+        private ActionBasedContinuousTurnProvider smoothTurnProvider;
         public ActionBasedContinuousTurnProvider SmoothTurnProvider
         {
             get => smoothTurnProvider;
@@ -96,7 +114,7 @@ namespace Src.Scripts.Preferences
         }
         
         [SerializeField]
-        ActionBasedSnapTurnProvider snapTurnProvider;
+        private ActionBasedSnapTurnProvider snapTurnProvider;
         public ActionBasedSnapTurnProvider SnapTurnProvider
         {
             get => snapTurnProvider;
@@ -104,7 +122,7 @@ namespace Src.Scripts.Preferences
         }
         
         [SerializeField] 
-        ComfortVignette comfortVignette;
+        private ComfortVignette comfortVignette;
         public ComfortVignette ComfortVignette
         {
             get => comfortVignette;
@@ -112,7 +130,7 @@ namespace Src.Scripts.Preferences
         }
 
         [SerializeField]
-        Player player;
+        private Player player;
         public Player Player
         {
             get => player;
@@ -231,6 +249,28 @@ namespace Src.Scripts.Preferences
                 
                 default:
                     throw new InvalidEnumArgumentException(nameof(hand), (int)hand, typeof(MainHand));
+            }
+            
+            // Set the forward reference again since the offhand might have changed
+            if (forwardReference == MovementOrientation.OffHand)
+            {
+                SetForwardReference(MovementOrientation.OffHand);
+            }
+        }
+
+        void SetForwardReference(MovementOrientation forwardRef)
+        {
+            switch (forwardRef)
+            {
+                case MovementOrientation.Head:
+                    smoothMoveProvider.forwardSource = Camera.main.transform;
+                    break;
+                case MovementOrientation.OffHand:
+                    smoothMoveProvider.forwardSource = preferredHand == MainHand.Left ? player.rightHand.transform : player.leftHand.transform;
+                    break;
+                
+                default:
+                    throw new InvalidEnumArgumentException(nameof(forwardRef), (int)forwardRef, typeof(MovementOrientation));
             }
         }
 

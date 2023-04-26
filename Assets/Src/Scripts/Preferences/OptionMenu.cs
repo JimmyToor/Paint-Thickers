@@ -10,6 +10,8 @@ namespace Src.Scripts.Preferences
         public UserPreferences manager;
         public Toggle leftHandToggle;
         public Toggle rightHandToggle;
+        public Toggle headToggle;
+        public Toggle offHandToggle;
         public Toggle vignetteOff;
         public Toggle vignetteLow;
         public Toggle vignetteMed;
@@ -23,6 +25,10 @@ namespace Src.Scripts.Preferences
 
         private void Awake()
         {
+            if (manager == null)
+            {
+                Debug.LogError("Manager missing from option menu!");
+            }
             InitializeValues();
         }
 
@@ -30,6 +36,8 @@ namespace Src.Scripts.Preferences
         {
             leftHandToggle.onValueChanged.AddListener(OnLeftHandToggled);
             rightHandToggle.onValueChanged.AddListener(OnRightHandToggled);
+            headToggle.onValueChanged.AddListener(OnHeadToggled);
+            offHandToggle.onValueChanged.AddListener(OnOffHandToggled);
             snapTurnToggle.onValueChanged.AddListener(OnSnapTurnToggled);
             smoothTurnToggle.onValueChanged.AddListener(OnSmoothTurnToggled);
             snapTurnIncrementSlider.onValueChanged.AddListener(ChangeSnapTurnAmount);
@@ -58,9 +66,20 @@ namespace Src.Scripts.Preferences
         {
             manager.PreferredHand = UserPreferences.MainHand.Left;
         }
+        
         private void OnRightHandToggled(bool value)
         {
             manager.PreferredHand = UserPreferences.MainHand.Right;
+        }
+        
+        private void OnHeadToggled(bool value)
+        {
+            manager.ForwardReference = UserPreferences.MovementOrientation.Head;
+        }
+        
+        private void OnOffHandToggled(bool value)
+        {
+            manager.ForwardReference = UserPreferences.MovementOrientation.OffHand;
         }
 
         private void VignetteOffToggled(bool value)
@@ -107,7 +126,7 @@ namespace Src.Scripts.Preferences
             
             smoothTurnToggle.isOn = manager.TurningStyle == UserPreferences.TurnStyle.Smooth;
             snapTurnToggle.isOn = manager.TurningStyle == UserPreferences.TurnStyle.Snap;
-
+            
             switch (manager.VignetteIntensity)
             {
                 case UserPreferences.VignetteStrength.Off:
