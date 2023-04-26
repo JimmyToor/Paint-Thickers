@@ -1,0 +1,11 @@
+Model Information:
+* title:	Rooftop Ventilation Unit
+* source:	https://sketchfab.com/3d-models/rooftop-ventilation-unit-8810b0e37fca4ed3bfe47fb5e334769c
+* author:	D3D (https://sketchfab.com/f1del1ty)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Rooftop Ventilation Unit" (https://sketchfab.com/3d-models/rooftop-ventilation-unit-8810b0e37fca4ed3bfe47fb5e334769c) by D3D (https://sketchfab.com/f1del1ty) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

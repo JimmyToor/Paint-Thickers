@@ -1,0 +1,11 @@
+Model Information:
+* title:	Urban Communications - Low poly prop set
+* source:	https://sketchfab.com/3d-models/urban-communications-low-poly-prop-set-5b81402bd4464ba0a71712ad7a07587c
+* author:	Daniel Zhabotinsky (https://sketchfab.com/DanielZhabotinsky)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Urban Communications - Low poly prop set" (https://sketchfab.com/3d-models/urban-communications-low-poly-prop-set-5b81402bd4464ba0a71712ad7a07587c) by Daniel Zhabotinsky (https://sketchfab.com/DanielZhabotinsky) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

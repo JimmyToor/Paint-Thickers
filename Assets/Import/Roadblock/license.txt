@@ -1,0 +1,11 @@
+Model Information:
+* title:	Roadblock
+* source:	https://sketchfab.com/3d-models/roadblock-09533ccaf9e84ca1ae51f1c59b0d5392
+* author:	karollinemac (https://sketchfab.com/karollinemac)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Roadblock" (https://sketchfab.com/3d-models/roadblock-09533ccaf9e84ca1ae51f1c59b0d5392) by karollinemac (https://sketchfab.com/karollinemac) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)

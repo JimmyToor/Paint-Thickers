@@ -1,0 +1,11 @@
+Model Information:
+* title:	TV-World: Town Buildings
+* source:	https://sketchfab.com/3d-models/tv-world-town-buildings-6b4708d9c5a949eda52596efec94e3e0
+* author:	Parelaxel (https://sketchfab.com/parelaxel)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "TV-World: Town Buildings" (https://sketchfab.com/3d-models/tv-world-town-buildings-6b4708d9c5a949eda52596efec94e3e0) by Parelaxel (https://sketchfab.com/parelaxel) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

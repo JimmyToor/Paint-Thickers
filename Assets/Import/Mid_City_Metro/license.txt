@@ -1,0 +1,11 @@
+Model Information:
+* title:	Mid City Metro
+* source:	https://sketchfab.com/3d-models/mid-city-metro-ba4303059c514a869790b08ff9b1f1bf
+* author:	JVaughan (https://sketchfab.com/jvaughan)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Mid City Metro" (https://sketchfab.com/3d-models/mid-city-metro-ba4303059c514a869790b08ff9b1f1bf) by JVaughan (https://sketchfab.com/jvaughan) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

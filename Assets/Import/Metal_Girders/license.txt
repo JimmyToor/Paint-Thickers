@@ -1,0 +1,11 @@
+Model Information:
+* title:	Metal Girders
+* source:	https://sketchfab.com/3d-models/metal-girders-1b3627d434054343af7e66102602e07d
+* author:	tboiston (https://sketchfab.com/tboiston)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Metal Girders" (https://sketchfab.com/3d-models/metal-girders-1b3627d434054343af7e66102602e07d) by tboiston (https://sketchfab.com/tboiston) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
