@@ -1,12 +1,11 @@
 using Gameplay;
-using Src.Scripts.Gameplay;
 using Src.Scripts.Preferences;
 using Src.Scripts.Weapons;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using Utility;
 
-namespace Src.Scripts
+namespace Src.Scripts.Gameplay
 {
     [RequireComponent(typeof(PlayerEvents),typeof(CharacterController),typeof(PaintSwim))]
     public class Player : MonoBehaviour
@@ -22,24 +21,19 @@ namespace Src.Scripts
         public GameObject rightUIHand;
         public GameObject overlayUICam;
         public XRInteractionManager xrInteractionManager;
-        public Weapon startingWeapon;
 
         private ActionBasedContinuousMoveProvider _locomotion;
         private float _oldSpeed;
         private Inventory _inventory = new Inventory();
         private Health _health;
-        private Weapon _weapon;
         private CharacterController _charController;
         private Vector3 _resetPosition;
         private PaintColorMatcher _paintColorMatcher;
+        [SerializeField]
+        private WeaponHandler weaponHandler;
 
         public UserPreferences.MainHand MainHand { get; set; }
-
-        public Weapon Weapon
-        {
-            get => _weapon;
-            set => SetWeapon(value);
-        }
+        
 
         private void Awake()
         {
@@ -99,15 +93,15 @@ namespace Src.Scripts
             leftUIHand.SetActive(false);
             rightUIHand.SetActive(false);
         }
-        
-        public void DisableInputMovement()
+
+        private void DisableInputMovement()
         {
             playerEvents.inputs.FindAction("Squid").Disable();
             playerEvents.inputs.FindAction("Move").Disable();
             playerEvents.inputs.FindAction("Turn").Disable();
         }
 
-        public void EnableInputMovement()
+        private void EnableInputMovement()
         {
             playerEvents.inputs.FindAction("Squid").Enable();
             playerEvents.inputs.FindAction("Move").Enable();
@@ -134,16 +128,18 @@ namespace Src.Scripts
 
         private void SetWeapon(Weapon newWeapon)
         {
-            _weapon = newWeapon;
-            if (_weapon == null) return;
-            
-            Weapon.ShowUI();
-            Weapon.SetUIColor(GameManager.Instance.GetTeamColor(teamChannel));
+            if (!weaponHandler.SetWeapon(newWeapon))
+            {
+                return;
+            }
+
+            weaponHandler.ShowUI();
+            weaponHandler.SetUIColor(GameManager.Instance.GetTeamColor(teamChannel));
 
             // Add the weapon's particle renderers to the color matcher list to ensure they are the correct color
             if (_paintColorMatcher)
             {
-                foreach (var rend in Weapon.renderers)
+                foreach (var rend in weaponHandler.Weapon.renderers)
                 {
                     if (rend is ParticleSystemRenderer && rend.TryGetComponent(out PaintColorManager colorManager))
                     {
@@ -154,7 +150,7 @@ namespace Src.Scripts
             }
         }
 
-        public void DisableHands()
+        private void DisableHands()
         {
             leftHand.SetActive(false);
             rightHand.SetActive(false);
@@ -168,9 +164,9 @@ namespace Src.Scripts
     
         public void RemoveWeapon()
         {
-            if (_paintColorMatcher && Weapon)
+            if (_paintColorMatcher && weaponHandler.Weapon)
             {
-                foreach (var rend in Weapon.renderers)
+                foreach (var rend in weaponHandler.Weapon.renderers)
                 {
                     if (rend is ParticleSystemRenderer && TryGetComponent(out PaintColorManager colorManager))
                     {
@@ -178,50 +174,42 @@ namespace Src.Scripts
                     }
                 }
             }
-            Weapon = null;
+            weaponHandler.RemoveWeapon();
         }
 
         public void DisableWeapon()
         {
-            if (!Weapon) return;
-            
-            Weapon.gameObject.SetActive(false);
+            weaponHandler.DisableWeapon();
+        }
+        
+        public void EnableWeapon()
+        {
+            weaponHandler.EnableWeaponUI();
         }
 
         public void HideWeapon()
         {
-            if (!Weapon) return;
-
-            Weapon.HideWeapon();
+            weaponHandler.Weapon.HideWeapon();
         }
 
-        public void ShowWeapon()
+        private void ShowWeapon()
         {
-            if (!Weapon) return;
-
-            Weapon.ShowWeapon();
+            weaponHandler.ShowWeapon();
         }
 
         public void EnableWeaponUI()
         {
-            if (!Weapon) return;
-            
-            Weapon.ShowUI();
+            weaponHandler.ShowUI();
         }
 
         public void DisableWeaponUI()
         {
-            if (!Weapon) return;
-            
-            Weapon.HideUI();
+            weaponHandler.DisableWeaponUI();
         }
     
         public void RefillWeaponAmmo()
         {
-            if (!Weapon) return;
-            
-            Weapon.RefillAmmo();
-            
+            weaponHandler.RefillWeaponAmmo();
         }
 
         private void NewResetPosition()
@@ -246,9 +234,9 @@ namespace Src.Scripts
         {
             HideWeapon();
             DisableHands();
-            if (Weapon != null)
+            if (weaponHandler.Weapon != null)
             {
-                Weapon.hideUIAboveThreshold = false;
+                weaponHandler.Weapon.hideUIAboveThreshold = false;
             }
         }
 
@@ -257,9 +245,9 @@ namespace Src.Scripts
         {
             EnableHands();
             ShowWeapon();
-            if (Weapon != null)
+            if (weaponHandler.Weapon != null)
             {
-                Weapon.hideUIAboveThreshold = true;
+                weaponHandler.Weapon.hideUIAboveThreshold = true;
             }
         }
 
@@ -303,7 +291,7 @@ namespace Src.Scripts
                     ? rightHand.GetComponent<XRBaseInteractor>()
                     : leftHand.GetComponent<XRBaseInteractor>(),
                 interactable);
-            Weapon = weapon;
+            weaponHandler.SetWeapon(weapon);
         }
         
     }

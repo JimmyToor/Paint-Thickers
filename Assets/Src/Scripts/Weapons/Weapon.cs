@@ -47,7 +47,6 @@ namespace Src.Scripts.Weapons
             {
                 return true;
             }
-
             return false;
         }
 
@@ -93,6 +92,7 @@ namespace Src.Scripts.Weapons
         {
             foreach (var rend in renderers)
             {
+                Debug.Log(rend.name + " enabled.");
                 rend.enabled = true;
             }
             _interactable.activatable = true;

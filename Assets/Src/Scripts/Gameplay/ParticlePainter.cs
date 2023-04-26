@@ -3,6 +3,7 @@ using AI;
 using Audio;
 using Gameplay;
 using Src.Scripts;
+using Src.Scripts.Gameplay;
 using UnityEngine;
 
 /// <summary>

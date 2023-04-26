@@ -1,5 +1,6 @@
 using Audio;
 using Src.Scripts;
+using Src.Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using Random = UnityEngine.Random;
@@ -22,7 +23,11 @@ namespace Gameplay
         public AudioSource swimSound; // Swimming sound determined by AudioSource's AudioClip
         public SFXSource sinkSounds;
 
-        public bool InPaint // Tracks if the player is in paint of any colour
+        /// <summary>
+        /// Tracks if the player is in paint of any colour.
+        /// <remarks>Can affect <paramref name="CanSwim"/> when set to prevent contradicting values.</remarks>
+        /// </summary>
+        public bool InPaint
         {
             get => _inPaint;
             set
@@ -34,7 +39,12 @@ namespace Gameplay
                 }
             }
         }
-        public bool CanSwim // Tracks if the player is in paint they can swim in
+        
+        /// <summary>
+        /// Tracks if the player is in paint they can swim in.
+        /// <remarks>Can affect <paramref name="InPaint"/> when set to prevent contradicting values.</remarks>
+        /// </summary>
+        public bool CanSwim
         {
             get => _canSwim;
             set

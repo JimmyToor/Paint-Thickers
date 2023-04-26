@@ -2291,7 +2291,7 @@ MonoBehaviour:
   m_OnSelectExited:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectActionTrigger: 0
+  m_SelectActionTrigger: 1
   m_HideControllerOnSelect: 0
   m_PlayAudioClipOnSelectEntered: 0
   m_AudioClipForOnSelectEntered: {fileID: 0}
@@ -2427,7 +2427,7 @@ MonoBehaviour:
   rightUIHand: {fileID: 1592644098}
   overlayUICam: {fileID: 726572738}
   xrInteractionManager: {fileID: 0}
-  startingWeapon: {fileID: 0}
+  weaponHandler: {fileID: 0}
 --- !u!114 &1614226181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2860,6 +2860,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turningStyle: 0
   preferredHand: 1
+  forwardReference: 0
   vignetteIntensity: 2
   smoothMoveProvider: {fileID: 3953089385813430785}
   smoothTurnProvider: {fileID: 4989558147164366921}

@@ -8,7 +8,7 @@ namespace Src.Scripts.Weapons
         
         public bool Firing { get; set; }
         
-        private int _firingBoolId = Animator.StringToHash("Firing");
+        private readonly int _firingBoolId = Animator.StringToHash("Firing");
 
         // Update is called once per frame
         void Update()

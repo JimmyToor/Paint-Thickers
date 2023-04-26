@@ -1,5 +1,6 @@
 using System.Collections;
 using ScriptableObjects;
+using Src.Scripts.Gameplay;
 using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -63,7 +64,7 @@ namespace Src.Scripts
             pauseButton.action.performed += OnPauseButtonPressed;
             _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
             DisablePause();
-            ShowStartMenu();
+            ShowMenu(mainMenu);
             Pause();
         }
 
@@ -86,13 +87,13 @@ namespace Src.Scripts
             {
                 Unpause();
                 _volumeColorAdjustments.saturation.value = 0;
-                HidePauseMenu();
+                HideMenu(pauseMenu);
             }
             else
             {
                 Pause();
                 _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
-                ShowPauseMenu();
+                ShowMenu(pauseMenu);
             }
         }
 
@@ -107,62 +108,36 @@ namespace Src.Scripts
             onResume.Invoke();
         
         }
-    
-        public void ShowPauseMenu()
+
+        public void ShowMenu(GameObject menu)
         {
-            pauseMenu.gameObject.SetActive(true);
-            pauseMenu.TryGetComponent(out ParentConstraint menuConstraint);
-        
+            menu.SetActive(true);
+            
             // Stop the menu from moving around while it's open
-            if (menuConstraint != null)
-            {
-                StartCoroutine(DisableMenuConstraint(menuConstraint));
-            }
+            menu.TryGetComponent(out ParentConstraint parentConstraint);
+            menu.TryGetComponent(out RotationConstraint rotationConstraint);
+            
+            StartCoroutine(DisableMenuConstraint(parentConstraint));
+            StartCoroutine(DisableMenuConstraint(rotationConstraint));
 
             player.EnableUIHands();
         }
 
-        public void HidePauseMenu()
+        public void HideMenu(GameObject menu)
         {
-            pauseMenu.gameObject.SetActive(false);
-            pauseMenu.TryGetComponent(out ParentConstraint menuConstraint);
-            if (menuConstraint != null)
-            {
-                menuConstraint.constraintActive = true;
-            }
+            menu.SetActive(false);
+            menu.TryGetComponent(out ParentConstraint parentConstraint);
+            menu.TryGetComponent(out RotationConstraint rotationConstraint);
+
+            parentConstraint.constraintActive = true;
+            rotationConstraint.constraintActive = true;
+
             _volumeColorAdjustments.saturation.value = 0;
             player.EnableGameHands();
         }
 
-        public void ShowStartMenu()
-        {
-            mainMenu.gameObject.SetActive(true);
-            mainMenu.TryGetComponent(out ParentConstraint menuConstraint);
-        
-            // Stop the menu from moving around while it's open
-            if (menuConstraint != null)
-            {
-                StartCoroutine(DisableMenuConstraint(menuConstraint));
-            }
-        
-            player.EnableUIHands();
-        }
- 
-        public void HideStartMenu()
-        {
-            mainMenu.gameObject.SetActive(false);
-            mainMenu.TryGetComponent(out ParentConstraint menuConstraint);
-            _volumeColorAdjustments.saturation.value = 0;
-            player.EnableUIHands();
-        
-            if (menuConstraint != null)
-            {
-                menuConstraint.constraintActive = true;
-            }
-        }
-
         /// <summary>
-        /// Disables the <paramref name="constraint"/> to stop it from following the player.
+        /// Deactivates the <paramref name="constraint"/>.
         /// <remarks>This is done in a coroutine because if the constraint's GameObject was disabled,
         /// the constraint must be active for one frame to actually move into position.</remarks>
         /// </summary>
@@ -177,7 +152,7 @@ namespace Src.Scripts
         [ContextMenu("Start Game")]
         public void StartGame()
         {
-            HideStartMenu();
+            HideMenu(mainMenu);
             Unpause();
             player.ToggleUIRays();
             player.EnableHands();
