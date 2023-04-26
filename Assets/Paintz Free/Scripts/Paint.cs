@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Paint
 {
@@ -11,7 +12,7 @@ public class Paint
 [System.Serializable]
 public class Brush
 {
-    public Texture2D splatTexture;
+    public Texture2D paintPattern;
     public int splatsX = 1;
     public int splatsY = 1;
     public int splatIndex = -1;

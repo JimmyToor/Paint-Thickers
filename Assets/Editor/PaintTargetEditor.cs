@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Src.Scripts;
+using UnityEditor;
 using UnityEngine;
 
 namespace Editor
@@ -18,10 +19,8 @@ namespace Editor
             if (Application.isPlaying)
             {
                 GUILayout.BeginVertical(GUI.skin.box);
-
-                //EditorGUILayout.ObjectField((Object)script.splatTexPick, typeof(Texture2D), true);
-
-                script.PaintAllSplats = GUILayout.Toggle(script.PaintAllSplats, "Paint All Splats");
+                
+                script.paintAllSplats = GUILayout.Toggle(script.paintAllSplats, "Paint All Splats");
 
                 if (GUILayout.Button("Clear Paint"))
                 {
@@ -31,9 +30,11 @@ namespace Editor
                 {
                     PaintTarget.ClearAllPaint();
                 }
-                if (script.UseBaked)
-                    script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex, typeof(Texture2D), true);
+                if (script.useBaked)
+                    script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture",
+                        script.bakedTex, typeof(Texture2D), true);
 
+                
                 GUILayout.EndVertical();
             }
             else
@@ -42,13 +43,14 @@ namespace Editor
 
                 script.paintTextureSize = (TextureSize)EditorGUILayout.EnumPopup("Paint Texture", script.paintTextureSize);
                 script.renderTextureSize = (TextureSize)EditorGUILayout.EnumPopup("Render Texture", script.renderTextureSize);
-                script.SetupOnStart = GUILayout.Toggle(script.SetupOnStart, "Setup On Start");
-                script.PaintAllSplats = GUILayout.Toggle(script.PaintAllSplats, "Paint All Splats");
-                script.UseBaked = GUILayout.Toggle(script.UseBaked, "Use Baked Texture");
-                if (script.UseBaked)
+                script.setupOnStart = GUILayout.Toggle(script.setupOnStart, "Setup On Start");
+                script.paintAllSplats = GUILayout.Toggle(script.paintAllSplats, "Paint All Splats");
+                script.useBaked = GUILayout.Toggle(script.useBaked, "Use Baked Texture");
+                if (script.useBaked)
                     script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex, typeof(Texture2D), true);
                 else
                     script.bakedTex = null;
+       
        
                 GUILayout.EndVertical();
 

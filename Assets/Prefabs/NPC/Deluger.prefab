@@ -5419,10 +5419,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brush:
-    splatTexture: {fileID: 0}
-    splatsX: 1
-    splatsY: 1
-    splatIndex: 1
+    paintPattern: {fileID: 2800000, guid: f66159b1d87ac7c42bb17699914f00a6, type: 3}
+    splatsX: 4
+    splatsY: 4
+    splatIndex: -1
     splatScale: 2
     splatRandomScaleMin: 1
     splatRandomScaleMax: 1

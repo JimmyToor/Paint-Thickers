@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Src.Scripts;
+using UnityEngine;
 
 public class CollisionPainter : MonoBehaviour
 {

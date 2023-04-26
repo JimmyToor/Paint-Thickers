@@ -139,12 +139,37 @@ MonoBehaviour:
   damageMaterial: {fileID: 2100000, guid: 02f651351c871e444b239264d2e86dbc, type: 2}
   damageUIController: {fileID: 0}
   hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
-  hitSfx: []
+  hitSfx:
+  - {fileID: 8300000, guid: 626b489b96768dc4a8f50fe9c3483e82, type: 3}
   deathFX: {fileID: 7931773660669697391, guid: 82979635185ba1643b7bf8ad26b23ec1, type: 3}
   deathSfx: []
   onDeath:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8300000, guid: d8b7bc8e7119fdd40a56d0724830181f, type: 3}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8300000, guid: 6423c1f1394d45746b0507a11e2d3079, type: 3}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHit:
     m_PersistentCalls:
       m_Calls: []

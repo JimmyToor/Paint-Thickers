@@ -4958,9 +4958,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brush:
-    splatTexture: {fileID: 2800000, guid: d74fee8d803bcec4c948ea3405ab6e21, type: 3}
-    splatsX: 5
-    splatsY: 1
+    paintPattern: {fileID: 2800000, guid: f66159b1d87ac7c42bb17699914f00a6, type: 3}
+    splatsX: 4
+    splatsY: 4
     splatIndex: -1
     splatScale: 5
     splatRandomScaleMin: 1
@@ -4985,7 +4985,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
   paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1 &480795502051526664
 GameObject:
   m_ObjectHideFlags: 0
@@ -5318,7 +5317,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1247683609595725272}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b1c41002552ce9044abb99dd3a2d03db, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -5577,7 +5576,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753186939925184022}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b1c41002552ce9044abb99dd3a2d03db, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -5590,7 +5589,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1753186939925184022}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b1c41002552ce9044abb99dd3a2d03db, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -10709,9 +10708,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brush:
-    splatTexture: {fileID: 2800000, guid: d74fee8d803bcec4c948ea3405ab6e21, type: 3}
-    splatsX: 5
-    splatsY: 1
+    paintPattern: {fileID: 2800000, guid: f66159b1d87ac7c42bb17699914f00a6, type: 3}
+    splatsX: 4
+    splatsY: 4
     splatIndex: -1
     splatScale: 2.5
     splatRandomScaleMin: 1
@@ -10762,7 +10761,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
   paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1 &2778961536315228292
 GameObject:
   m_ObjectHideFlags: 0
@@ -15987,7 +15985,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
   paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1 &3721347387843687436
 GameObject:
   m_ObjectHideFlags: 0
@@ -16565,7 +16562,6 @@ GameObject:
   - component: {fileID: 5990740571016277935}
   - component: {fileID: 7133496912808975985}
   - component: {fileID: 9092248053039816787}
-  - component: {fileID: 4736606534731582961}
   m_Layer: 9
   m_Name: Ground Splash Visual Particles
   m_TagString: Untagged
@@ -21486,7 +21482,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
   paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1773428102 &9092248053039816787
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -21513,21 +21508,6 @@ ParentConstraint:
   m_Sources:
   - sourceTransform: {fileID: 7695810210806171426}
     weight: 1
---- !u!114 &4736606534731582961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6822432610496034552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1 &7252241165187768179
 GameObject:
   m_ObjectHideFlags: 0
@@ -21747,7 +21727,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
   paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1 &7804852058036705906
 GameObject:
   m_ObjectHideFlags: 0
@@ -21833,7 +21812,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8047867979029987540}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: b1c41002552ce9044abb99dd3a2d03db, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -22113,7 +22092,7 @@ MonoBehaviour:
   groundPaintSpray: {fileID: 6036474500683149204}
   centerPaintSpray: {fileID: 8129863341949979661}
   groundPaintSplash: {fileID: 7035724390276865844}
-  paintColorHandler: {fileID: 5864592884787230392}
+  paintColorMatcher: {fileID: 5864592884787230392}
   bodyRotationConstraint: {fileID: 7659715751252341226}
   hoseAimConstraint: {fileID: 7832942091092444042}
   paintCheckPosition: {fileID: 5808559898974005023}
@@ -22226,7 +22205,7 @@ Rigidbody:
   m_GameObject: {fileID: 8450641888619837723}
   serializedVersion: 2
   m_Mass: 20
-  m_Drag: 1
+  m_Drag: 2
   m_AngularDrag: 1
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -22354,7 +22333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0898ca8db51a5b445813501f2081c89b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamChannel: 1
+  teamChannel: 0
 --- !u!114 &5864592884787230392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22378,7 +22357,6 @@ MonoBehaviour:
   - {fileID: 2433924810294789995}
   - {fileID: 8693412098415807202}
   - {fileID: 7134303045299407968}
-  environmentChannel: 0
 --- !u!1 &8757214117243039789
 GameObject:
   m_ObjectHideFlags: 0
@@ -27312,7 +27290,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
   paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1 &8757214117580264994
 GameObject:
   m_ObjectHideFlags: 0
@@ -32190,7 +32167,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
   paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1 &8757214118557992805
 GameObject:
   m_ObjectHideFlags: 0
@@ -37133,9 +37109,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brush:
-    splatTexture: {fileID: 0}
-    splatsX: 1
-    splatsY: 1
+    paintPattern: {fileID: 2800000, guid: f66159b1d87ac7c42bb17699914f00a6, type: 3}
+    splatsX: 4
+    splatsY: 4
     splatIndex: -1
     splatScale: 2
     splatRandomScaleMin: 1
@@ -37207,7 +37183,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
   paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1 &8757214119225043584
 GameObject:
   m_ObjectHideFlags: 0
@@ -42140,7 +42115,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
   paintRenderer: {fileID: 0}
-  paintChannel: 0
 --- !u!1 &8864813187642049974
 GameObject:
   m_ObjectHideFlags: 0

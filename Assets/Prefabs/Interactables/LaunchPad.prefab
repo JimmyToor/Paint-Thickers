@@ -99,41 +99,16 @@ MonoBehaviour:
   speed: 20
   launchParameters:
     endPos: {x: 0, y: 0, z: 0}
-    animCurve:
+    launchArc:
       serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 2
-        outSlope: 2
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.5034198
-        value: 0.7534081
-        inSlope: 0.0044652033
-        outSlope: 0.0044652033
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.40999284
-      - serializedVersion: 3
-        time: 1
-        value: -0.0021133423
-        inSlope: -2.2141817
-        outSlope: -2.2141817
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.21070927
-        outWeight: 0
+      m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     stepScale: 0
-    curveScale: 10
+    arcScale: 0
+    buildupTime: 0
+  launchAudioClip: {fileID: 0}
 --- !u!135 &365426405
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -165,7 +140,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 0
 --- !u!4 &1678311666408205268
 Transform:
@@ -1979,7 +1954,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2664308325815911970}
-  - component: {fileID: 2664308325815911971}
   - component: {fileID: 5919813090637593156}
   m_Layer: 0
   m_Name: LaunchPad
@@ -2004,14 +1978,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2664308325815911971
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2664308325815911982}
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!114 &5919813090637593156
 MonoBehaviour:
   m_ObjectHideFlags: 0

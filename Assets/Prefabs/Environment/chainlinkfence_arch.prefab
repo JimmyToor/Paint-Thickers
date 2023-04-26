@@ -295,7 +295,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4913536035487072647}
   m_Layer: 11
-  m_Name: chainlinkfence_arch
+  m_Name: ChainlinkFence_Arch
   m_TagString: Fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

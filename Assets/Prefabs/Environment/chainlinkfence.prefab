@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4254115846654257086}
   - component: {fileID: 3226884602841627452}
   m_Layer: 11
-  m_Name: chainlinkfence
+  m_Name: ChainlinkFence
   m_TagString: Fence
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

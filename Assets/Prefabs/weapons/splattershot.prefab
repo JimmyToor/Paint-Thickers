@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &341989168
 Transform:
   m_ObjectHideFlags: 0
@@ -102,7 +102,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 1498870603
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &1459424814
@@ -215,6 +215,7 @@ GameObject:
   - component: {fileID: 1529877296}
   - component: {fileID: 1529877295}
   - component: {fileID: 1529877294}
+  - component: {fileID: 2094236747}
   m_Layer: 9
   m_Name: Drips-SubEmitter
   m_TagString: Projectile
@@ -5404,7 +5405,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bdfd49a249c4834c9d6a7a591023bb2, type: 2}
+  - {fileID: 2100000, guid: b4614590108756d4d8eee8e45b679e2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5463,10 +5464,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brush:
-    splatTexture: {fileID: 0}
-    splatsX: 1
-    splatsY: 1
-    splatIndex: 1
+    paintPattern: {fileID: 2800000, guid: f66159b1d87ac7c42bb17699914f00a6, type: 3}
+    splatsX: 4
+    splatsY: 4
+    splatIndex: -1
     splatScale: 2
     splatRandomScaleMin: 1
     splatRandomScaleMax: 1
@@ -5476,6 +5477,20 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   collisionSfx: 0
+--- !u!114 &2094236747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529877292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partPainter: {fileID: 1529877294}
+  paintRenderer: {fileID: 1529877295}
 --- !u!1 &1800229030
 GameObject:
   m_ObjectHideFlags: 0
@@ -5623,6 +5638,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3643831586526641206}
   - component: {fileID: 5551016121339780680}
+  - component: {fileID: 1138589490}
   m_Layer: 7
   m_Name: handle
   m_TagString: Untagged
@@ -5697,6 +5713,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_DirtyAABB: 0
+--- !u!65 &1138589490
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1521402502763647975}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.4084574, y: 0.10438644, z: 0.40055126}
+  m_Center: {x: -0.17825408, y: 0.0057587205, z: -0.11818506}
 --- !u!1 &2036904280780318494
 GameObject:
   m_ObjectHideFlags: 0
@@ -5710,6 +5739,7 @@ GameObject:
   - component: {fileID: 2036904280780318480}
   - component: {fileID: 2145561391}
   - component: {fileID: 2145561392}
+  - component: {fileID: 41887489}
   m_Layer: 9
   m_Name: Main Visual Particle
   m_TagString: Untagged
@@ -10577,8 +10607,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bdfd49a249c4834c9d6a7a591023bb2, type: 2}
-  - {fileID: 2100000, guid: 4bdfd49a249c4834c9d6a7a591023bb2, type: 2}
+  - {fileID: 2100000, guid: b4614590108756d4d8eee8e45b679e2b, type: 2}
+  - {fileID: 2100000, guid: b4614590108756d4d8eee8e45b679e2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10658,11 +10688,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brush:
-    splatTexture: {fileID: 0}
-    splatsX: 1
-    splatsY: 1
+    paintPattern: {fileID: 2800000, guid: f66159b1d87ac7c42bb17699914f00a6, type: 3}
+    splatsX: 4
+    splatsY: 4
     splatIndex: -1
-    splatScale: 10
+    splatScale: 2
     splatRandomScaleMin: 1
     splatRandomScaleMax: 1
     splatRotation: 0
@@ -10671,6 +10701,20 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   collisionSfx: 0
+--- !u!114 &41887489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036904280780318494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partPainter: {fileID: 2145561392}
+  paintRenderer: {fileID: 2036904280780318480}
 --- !u!1 &2036904280967990508
 GameObject:
   m_ObjectHideFlags: 0
@@ -10695,8 +10739,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036904280967990508}
-  m_LocalRotation: {x: -0.000000017824009, y: 0.70710665, z: -0.0000000029228746, w: 0.70710695}
-  m_LocalPosition: {x: 0.4679996, y: 0, z: -0.043998484}
+  m_LocalRotation: {x: 0.000000066204116, y: 0.7071068, z: -0.000000066204116, w: 0.7071068}
+  m_LocalPosition: {x: 0.5350019, y: 0.11699994, z: -0.043998506}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2036904280780318495}
@@ -10710,14 +10754,14 @@ ParentConstraint:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036904280967990508}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Weight: 1
-  m_TranslationAtRest: {x: 0.4679996, y: -0.0000050887465, z: -0.043998484}
-  m_RotationAtRest: {x: 0, y: 89.999985, z: 0}
+  m_TranslationAtRest: {x: 0.5350019, y: 0.11699994, z: -0.043998506}
+  m_RotationAtRest: {x: 0, y: 90, z: 0}
   m_TranslationOffsets:
-  - {x: 0.46798944, y: 0.044001102, z: 0.0000014305115}
+  - {x: 0.5349922, y: 0.04399872, z: 0.11700058}
   m_RotationOffsets:
-  - {x: 0, y: 90, z: 89.99997}
+  - {x: 0, y: 90.00001, z: 89.99997}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -10740,6 +10784,7 @@ GameObject:
   - component: {fileID: 2036904281424473615}
   - component: {fileID: 2036904281424473601}
   - component: {fileID: 2036904281424473600}
+  - component: {fileID: 1832157970}
   m_Layer: 9
   m_Name: Droplets-SubEmitter
   m_TagString: Untagged
@@ -10754,9 +10799,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036904281424473614}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.00000005960463, y: 0.000000049481972, z: 0.000000049481972, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999999, y: 0.99999976, z: 0.99999976}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2036904281756565163}
   m_RootOrder: 0
@@ -15545,7 +15590,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bdfd49a249c4834c9d6a7a591023bb2, type: 2}
+  - {fileID: 2100000, guid: b4614590108756d4d8eee8e45b679e2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15591,6 +15636,20 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1832157970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036904281424473614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partPainter: {fileID: 0}
+  paintRenderer: {fileID: 2036904281424473600}
 --- !u!1 &2036904281454378536
 GameObject:
   m_ObjectHideFlags: 0
@@ -15604,6 +15663,7 @@ GameObject:
   - component: {fileID: 2036904281454378538}
   - component: {fileID: 171742249}
   - component: {fileID: 171742250}
+  - component: {fileID: 2040966496}
   m_Layer: 9
   m_Name: Shoot Effect Particle
   m_TagString: Untagged
@@ -20463,8 +20523,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bdfd49a249c4834c9d6a7a591023bb2, type: 2}
-  - {fileID: 2100000, guid: 4bdfd49a249c4834c9d6a7a591023bb2, type: 2}
+  - {fileID: 2100000, guid: b4614590108756d4d8eee8e45b679e2b, type: 2}
+  - {fileID: 2100000, guid: b4614590108756d4d8eee8e45b679e2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -20541,6 +20601,20 @@ MonoBehaviour:
   minPitch: 1.2
   maxPitch: 0.8
   cooldownTime: 0
+--- !u!114 &2040966496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036904281454378536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partPainter: {fileID: 0}
+  paintRenderer: {fileID: 2036904281454378538}
 --- !u!1 &2036904281756565162
 GameObject:
   m_ObjectHideFlags: 0
@@ -20552,6 +20626,7 @@ GameObject:
   - component: {fileID: 2036904281756565163}
   - component: {fileID: 2036904281756565165}
   - component: {fileID: 2036904281756565164}
+  - component: {fileID: 1991731505}
   m_Layer: 9
   m_Name: Splash-SubEmitter
   m_TagString: Untagged
@@ -25412,8 +25487,8 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 4bdfd49a249c4834c9d6a7a591023bb2, type: 2}
-  - {fileID: 2100000, guid: 4bdfd49a249c4834c9d6a7a591023bb2, type: 2}
+  - {fileID: 2100000, guid: b4614590108756d4d8eee8e45b679e2b, type: 2}
+  - {fileID: 2100000, guid: b4614590108756d4d8eee8e45b679e2b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25459,6 +25534,20 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &1991731505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036904281756565162}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  partPainter: {fileID: 0}
+  paintRenderer: {fileID: 2036904281756565164}
 --- !u!1 &2427763470146190363
 GameObject:
   m_ObjectHideFlags: 0
@@ -25500,6 +25589,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5991981653850142846}
   - component: {fileID: 386943705449447661}
+  - component: {fileID: 1138589489}
   m_Layer: 0
   m_Name: Nozzle
   m_TagString: Untagged
@@ -25515,7 +25605,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3056712296863984038}
   m_LocalRotation: {x: -0.0000005662441, y: -0.00000008429362, z: 0.00000010536723, w: 1}
-  m_LocalPosition: {x: -26.371353, y: 80.618004, z: 22.06894}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_Children: []
   m_Father: {fileID: 9135275369120649904}
@@ -25540,7 +25630,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6212149142042172344, guid: 513fa79657bef2f4eb758e53640089cb, type: 3}
+  - {fileID: 2100000, guid: 0523a4d3a75ff8f4e9276f45722f60fb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25575,6 +25665,19 @@ SkinnedMeshRenderer:
     m_Center: {x: -0.000013869896, y: 0.002448895, z: -0.0000000015133992}
     m_Extent: {x: 0.0006604892, y: 0.0004754893, z: 0.00067067833}
   m_DirtyAABB: 0
+--- !u!65 &1138589489
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3056712296863984038}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.0009509789, y: 0.0013413568, z: 0.0013209785}
+  m_Center: {x: 0.0023288736, y: 0.00000006082611, z: -0.00023411491}
 --- !u!1 &4511384679173920422
 GameObject:
   m_ObjectHideFlags: 0
@@ -25930,6 +26033,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2869343604384424315}
+  - component: {fileID: 1138589486}
   m_Layer: 7
   m_Name: Physical
   m_TagString: Untagged
@@ -25953,6 +26057,25 @@ Transform:
   m_Father: {fileID: 9135275368818329943}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1138589486
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7997842969158383149}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0b44db07e1fbceb4890e0111f38cf8e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8243728079746358415
 GameObject:
   m_ObjectHideFlags: 0
@@ -26220,6 +26343,7 @@ GameObject:
   - component: {fileID: 1178192431}
   - component: {fileID: 1178192432}
   - component: {fileID: 2128515461}
+  - component: {fileID: 7387158629756650738}
   m_Layer: 7
   m_Name: splattershot
   m_TagString: Untagged
@@ -26254,8 +26378,8 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -26286,12 +26410,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_InteractionManager: {fileID: 0}
   m_Colliders:
-  - {fileID: 0}
+  - {fileID: 1138589490}
   - {fileID: 2094467220}
   - {fileID: 481190964}
   - {fileID: 1832340353}
   - {fileID: 1122529045}
-  - {fileID: 0}
+  - {fileID: 1138589489}
   m_InteractionLayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -26381,6 +26505,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_Droppable: 0
+  m_Activatable: 1
   m_OnFirstHoverEntered:
     m_PersistentCalls:
       m_Calls: []
@@ -26423,7 +26548,7 @@ MonoBehaviour:
   m_SmoothRotation: 0
   m_SmoothRotationAmount: 20
   m_TightenRotation: 1
-  m_ThrowOnDetach: 1
+  m_ThrowOnDetach: 0
   m_ThrowSmoothingDuration: 0.25
   m_ThrowSmoothingCurve:
     serializedVersion: 2
@@ -26442,8 +26567,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
-  m_ForceGravityOnDetach: 1
-  m_RetainTransformParent: 1
+  m_ForceGravityOnDetach: 0
+  m_RetainTransformParent: 0
 --- !u!114 &2128515461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26466,8 +26591,28 @@ MonoBehaviour:
   ammoUI: {fileID: 341989169}
   UIObject: {fileID: 341989167}
   weaponObject: {fileID: 7997842969158383149}
-  weaponAnimator: {fileID: 0}
+  weaponAnimator: {fileID: 7387158629756650738}
+  renderers: []
   mainParticle: {fileID: 2036904280780318481}
+--- !u!95 &7387158629756650738
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9135275368818329942}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0b44db07e1fbceb4890e0111f38cf8e3, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &9135275369120649893
 GameObject:
   m_ObjectHideFlags: 0
@@ -26477,7 +26622,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9135275369120649904}
-  - component: {fileID: 9135275369120649895}
   m_Layer: 7
   m_Name: Splattershot Model
   m_TagString: Untagged
@@ -26506,19 +26650,3 @@ Transform:
   m_Father: {fileID: 2869343604384424315}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!54 &9135275369120649895
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9135275369120649893}
-  serializedVersion: 2
-  m_Mass: 4
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 0
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 3

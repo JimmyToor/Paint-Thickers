@@ -1,4 +1,5 @@
 using System.IO;
+using Src.Scripts;
 using UnityEditor;
 using UnityEngine;
 
@@ -11,24 +12,25 @@ namespace Editor
         [MenuItem("Tools/Paint/Bake Paint for Selected Object")]
         static void BakeSelected()
         {
-            Texture2D splatTex = Selection.activeTransform.GetComponent<PaintTarget>().CreateBakedTex();
+            Texture2D paintMap = Selection.activeTransform.GetComponent<PaintTarget>().CreateBakedTex();
 
             var objectName = Selection.activeObject.name;
-            var splatDir = "BakedSplats";
-            var fullPath = Application.dataPath + "/Materials/" + splatDir;
-            var assetPath = "Assets/Materials/";
+            var bakedDir = "BakedPaint";
+            var fullPath = Application.dataPath + "/Art/" + bakedDir;
+            var assetPath = "Assets/Art/";
 
-            if(!AssetDatabase.IsValidFolder(assetPath + splatDir))
-                AssetDatabase.CreateFolder(assetPath, splatDir);
+            if(!AssetDatabase.IsValidFolder(assetPath + bakedDir))
+                AssetDatabase.CreateFolder(assetPath, bakedDir);
 
             int num = Directory.GetFiles(fullPath).Length + 1;
             var name = "Baked_" + objectName + "_" + num + ".png";
 
-            byte[] bytes = splatTex.EncodeToPNG();
+            byte[] bytes = paintMap.EncodeToPNG();
         
             File.WriteAllBytes(fullPath + "/" + name, bytes);
         
-            Debug.Log(bytes.Length / 1024 + "Kb was saved as: " + splatDir + "/" + name);
+            Debug.Log("Paintmap was saved as a " + bytes.Length / 1024 + "Kb file at: " + bakedDir + "/" + name + "."
+            + " Remember to uncheck 'sRGB (Color Texture)' when importing.");
         }
 
         [MenuItem("Tools/Paint/Bake Paint for Selected Object", true)]
@@ -36,7 +38,7 @@ namespace Editor
         {
             // Return false if no transform is selected.
             return Selection.activeTransform != null && 
-                   Selection.activeTransform.TryGetComponent<PaintTarget>(out PaintTarget component) &&
+                   Selection.activeTransform.TryGetComponent(out PaintTarget _) &&
                    Application.isPlaying;
         }
     }
