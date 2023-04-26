@@ -169,6 +169,7 @@ public class GameManager : Singleton<GameManager>
         constraint.constraintActive = false;
     }
 
+    [ContextMenu("Start Game")]
     public void StartGame()
     {
         HideStartMenu();
