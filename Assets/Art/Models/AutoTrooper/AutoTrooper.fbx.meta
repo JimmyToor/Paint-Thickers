@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: 75b9b9e9a810d204e87c4b065b9d731a
+ModelImporter:
+  serializedVersion: 20200
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body
+    second: {fileID: 2100000, guid: a1587eb2f16a8204faa813a7b81ab228, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eye
+    second: {fileID: 2100000, guid: a992702abcebaa442ad1d76581d47a90, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: EyeTank
+    second: {fileID: 2100000, guid: 74c948b128c124f41b51b2abbd36ddcb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hose
+    second: {fileID: 2100000, guid: 684417b9be57644468045a30dbe55e03, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: HoseEnd
+    second: {fileID: 2100000, guid: 35a166a6b0cbfee44a08b6e8fa4594bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Steel_Dark
+    second: {fileID: 2100000, guid: 87f0785bb231db44988ae597b12c4578, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Steel_Light
+    second: {fileID: 2100000, guid: f971d268b4d7e1b4f8ae9d54acdc84ad, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TubLiquid
+    second: {fileID: 2100000, guid: cac114fd9e90b834b8a41eedecc7e19c, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Eye
+    second: {fileID: 2800000, guid: 48c3284827f2b414f9919fc7ade82eac, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Metal038_2K_Color
+    second: {fileID: 2800000, guid: f1b19e4dd4215af46935a4d373d277c4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Metal038_2K_Metalness
+    second: {fileID: 2800000, guid: 578b3fcb369e1cb40acde24064ced442, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Metal038_2K_NormalDX
+    second: {fileID: 2800000, guid: 8aecb35a24c90b844bd5b50504fcda01, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Metal038_2K_Roughness
+    second: {fileID: 2800000, guid: fc10d0b0a6a04344ba399b099f15ddfb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Plastic008_2K_Color
+    second: {fileID: 2800000, guid: e5707ed146c319948b11794ac1324d9c, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Plastic008_2K_NormalDX
+    second: {fileID: 2800000, guid: 602bbf0f8fa16aa4aab75dca380535a8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Plastic008_2K_Roughness
+    second: {fileID: 2800000, guid: 22ba1ffa49e60fc4fb1682af6179fa8e, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Plastic_Ducktape_01_basecolor
+    second: {fileID: 2800000, guid: 38e15d219b75e8d4084d08c4d6bd19c6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Plastic_Ducktape_01_metallic
+    second: {fileID: 2800000, guid: fffe2a5dff0265941a4d1127f8fe82e3, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Plastic_Ducktape_01_normal
+    second: {fileID: 2800000, guid: 6ef1a5eb216ce224f80db4b5bff4b818, type: 3}
+  materials:
+    materialImportMode: 2
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 1
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths:
+    - Armature_Trooper
+    - Armature_Trooper/Root
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4/hose5/hose_fx
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4/hose5
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3/hose4
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2/hose3
+    - Armature_Trooper/Root/stand/body/hose0/hose1/hose2
+    - Armature_Trooper/Root/stand/body/hose0/hose1
+    - Armature_Trooper/Root/stand/body/hose0
+    - Armature_Trooper/Root/stand/body/Armature_Eye/Root 1/eye_R
+    - Armature_Trooper/Root/stand/body/Armature_Eye/Root 1/eye_L
+    - Armature_Trooper/Root/stand/body/Armature_Eye/Root 1
+    - Armature_Trooper/Root/stand/body/Armature_Eye
+    - Armature_Trooper/Root/stand/body
+    - Armature_Trooper/Root/stand
+    - Base
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 0
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 100
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    fileIdsGeneration: 2
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    keepQuads: 0
+    weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 1
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
+  importAnimation: 1
+  humanDescription:
+    serializedVersion: 3
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    globalScale: 100
+    rootMotionBoneName: Root
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
+  animationType: 2
+  humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
