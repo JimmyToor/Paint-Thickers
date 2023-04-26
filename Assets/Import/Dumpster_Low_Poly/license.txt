@@ -1,0 +1,11 @@
+Model Information:
+* title:	Dumpster Low Poly
+* source:	https://sketchfab.com/3d-models/dumpster-low-poly-63493df5976545e690c80157a2c49fb2
+* author:	DigitalBirb (https://sketchfab.com/pawwozniak333)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Dumpster Low Poly" (https://sketchfab.com/3d-models/dumpster-low-poly-63493df5976545e690c80157a2c49fb2) by DigitalBirb (https://sketchfab.com/pawwozniak333) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

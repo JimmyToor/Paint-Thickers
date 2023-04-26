@@ -1,0 +1,11 @@
+Model Information:
+* title:	Girder
+* source:	https://sketchfab.com/3d-models/girder-dcce98962f2044249939160ff8bda70f
+* author:	Théo Richard (https://sketchfab.com/theorichard)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Girder" (https://sketchfab.com/3d-models/girder-dcce98962f2044249939160ff8bda70f) by Théo Richard (https://sketchfab.com/theorichard) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)

@@ -1,0 +1,11 @@
+Model Information:
+* title:	Bridge_safety_fence_01
+* source:	https://sketchfab.com/3d-models/bridge-safety-fence-01-ce039c5e84da4607a89595f8c578945c
+* author:	ARTANKHN | 3D ART (https://sketchfab.com/artankhn)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Bridge_safety_fence_01" (https://sketchfab.com/3d-models/bridge-safety-fence-01-ce039c5e84da4607a89595f8c578945c) by ARTANKHN | 3D ART (https://sketchfab.com/artankhn) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

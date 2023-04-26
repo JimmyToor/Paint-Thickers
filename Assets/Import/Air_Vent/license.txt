@@ -1,0 +1,11 @@
+Model Information:
+* title:	Air Vent
+* source:	https://sketchfab.com/3d-models/air-vent-eee5b0fc49ed408786b6d7abcfc52dcc
+* author:	AFX/CGMotion 3DModel Maker (https://sketchfab.com/afx_cgmotion)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Air Vent" (https://sketchfab.com/3d-models/air-vent-eee5b0fc49ed408786b6d7abcfc52dcc) by AFX/CGMotion 3DModel Maker (https://sketchfab.com/afx_cgmotion) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

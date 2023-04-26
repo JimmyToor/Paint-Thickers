@@ -1,0 +1,11 @@
+Model Information:
+* title:	Animated Emissive Arrow Translucent Sign
+* source:	https://sketchfab.com/3d-models/animated-emissive-arrow-translucent-sign-2724012671a74c5eb1085e7c04473788
+* author:	Greg neumiller (https://sketchfab.com/rlneumiller)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Animated Emissive Arrow Translucent Sign" (https://sketchfab.com/3d-models/animated-emissive-arrow-translucent-sign-2724012671a74c5eb1085e7c04473788) by Greg neumiller (https://sketchfab.com/rlneumiller) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
