@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
-namespace AI
+namespace Src.Scripts.AI
 {
     public class TargetScanner : MonoBehaviour
     {
@@ -53,19 +52,12 @@ namespace AI
                     return false;
                 }
 
-                if (targetHit.TryGetComponent(out _targetCharController))
-                {
-                    if (CheckLOS(targetHit.transform.position))
-                    {
-                        SetNewTarget(targetHit.transform);
-                        return true;
-                    }
-                }
-                else if (CheckLOS(targetHit.transform.TransformPoint(_targetCharController.center)))
-                {
-                    SetNewTarget(targetHit.transform);
-                    return true;
-                }
+                // Only care about seeing the body. Ignore things like the player's hands and weapons.
+                if (!targetHit.TryGetComponent(out _targetCharController)) continue;
+                if (!CheckLOS(targetHit.transform.position)) continue;
+                
+                SetNewTarget(targetHit.transform);
+                return true;
             }
 
             return false;
@@ -89,7 +81,12 @@ namespace AI
             }
         }
         
-        // Checks for line of sight between this object and the passed transform
+        
+        /// <summary>
+        /// Checks for line of sight between this object and the passed position.
+        /// </summary>
+        /// <param name="targetPos"></param>
+        /// <returns>True if no obstacles are between us and the target. False otherwise.</returns>
         public bool CheckLOS(Vector3 targetPos)
         {
             // Check from closer to eye level, not object pivot

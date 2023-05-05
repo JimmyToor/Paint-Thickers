@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using AI.States;
-using Attributes;
-using Audio;
 using DG.Tweening;
-using Gameplay;
-using Src.Scripts;
+using Src.Scripts.AI.States;
+using Src.Scripts.Attributes;
+using Src.Scripts.Audio;
 using Src.Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-namespace AI
+namespace Src.Scripts.AI
 {   
     public class AutoTrooper : Enemy
     {
@@ -39,6 +37,7 @@ namespace AI
         public Transform paintCheckPosition;
         public float bodyTurnSpeed;
         public float hoseAimSpeed;
+        public AudioClip alertSFX;
         public AudioClip shootSFX;
         public Animator animator;
         [Tooltip("Colliders to disable when sunk.")]
@@ -46,15 +45,15 @@ namespace AI
 
         #region Animation Hashes
 
-        public readonly int TargetFoundHash = Animator.StringToHash("Target Found");
-        public readonly int HasTargetHash = Animator.StringToHash("Has Target");
-        public readonly int ShootHash = Animator.StringToHash("Shoot");
-        public readonly int OffsetHash = Animator.StringToHash("Offset");
-        public readonly int SinkHash = Animator.StringToHash("Sink");
-        public readonly int SunkHash = Animator.StringToHash("Sunk");
-        public readonly int RiseHash = Animator.StringToHash("Rise");
-        public readonly int ShootGroundHash = Animator.StringToHash("Shoot Ground");
-        public readonly int ResetAimHash = Animator.StringToHash("Reset Aim");
+        private readonly int _targetFoundHash = Animator.StringToHash("Target Found");
+        private readonly int _hasTargetHash = Animator.StringToHash("Has Target");
+        private readonly int _shootHash = Animator.StringToHash("Shoot");
+        private readonly int _offsetHash = Animator.StringToHash("Offset");
+        private readonly int _sinkHash = Animator.StringToHash("Sink");
+        private readonly int _sunkHash = Animator.StringToHash("Sunk");
+        private readonly int _riseHash = Animator.StringToHash("Rise");
+        private readonly int _shootGroundHash = Animator.StringToHash("Shoot Ground");
+        private readonly int _resetAimHash = Animator.StringToHash("Reset Aim");
 
         #endregion
 
@@ -86,7 +85,7 @@ namespace AI
             
             if (TryGetComponent(out animator))
             {
-                animator.SetFloat(OffsetHash, Random.Range(0f,1f));
+                animator.SetFloat(_offsetHash, Random.Range(0f,1f));
             }
 
             TryGetComponent(out SfxSource);
@@ -108,8 +107,9 @@ namespace AI
         {
             Vector3 currPos = paintCheckPosition.position;
 
-            Physics.Raycast(currPos, -transform.up, out RaycastHit hit, PaintCheckDistance, PaintTerrainLayerMask);
-            Debug.DrawRay(currPos, -transform.up * PaintCheckDistance, Color.red);
+            var up = transform.up;
+            Physics.Raycast(currPos, -up, out RaycastHit hit, PaintCheckDistance, PaintTerrainLayerMask);
+            Debug.DrawRay(currPos, -up * PaintCheckDistance, Color.red);
             int channel = PaintTarget.RayChannel(hit);
 
             if (channel == -1)
@@ -122,15 +122,8 @@ namespace AI
                 {
                     paintColorMatcher.UpdateEnvironmentColor(channel);
                 }
-                
-                if (channel == team.teamChannel)
-                {
-                    paintStatus = PaintStatus.FriendlyPaint;
-                }
-                else
-                {
-                    paintStatus = PaintStatus.EnemyPaint;
-                }
+
+                paintStatus = channel == team.teamChannel ? PaintStatus.FriendlyPaint : PaintStatus.EnemyPaint;
             }
             
             PaintEffects();
@@ -154,8 +147,9 @@ namespace AI
 
         public virtual void TargetSighted()
         {
-            animator.SetTrigger(TargetFoundHash);
-            animator.SetBool(HasTargetHash, true);
+            SfxSource.TriggerPlayOneShot(transform.position, alertSFX);
+            animator.SetTrigger(_targetFoundHash);
+            animator.SetBool(_hasTargetHash, true);
             DOTween.To(() => hoseAimConstraint.weight, x => hoseAimConstraint.weight = x, 1, 1.5f);
         }
 
@@ -208,7 +202,7 @@ namespace AI
 
         public void ResetAim()
         {
-            animator.SetTrigger(ResetAimHash);
+            animator.SetTrigger(_resetAimHash);
             
             _hoseAimTarget.DOLocalMove(_origHosePos,
                          hoseAimSpeed).SetSpeedBased(true);
@@ -220,24 +214,7 @@ namespace AI
 
         public virtual void TargetLost()
         {
-            animator.SetBool(HasTargetHash, false);
-        }
-
-        public virtual void TargetForgotten()
-        {
-            BaseState<TrooperStateMachine> lostState = stateMachine.CurrentRootState.GetDescendantState(StateId.TargetLost);
-            if (lostState == null)
-            {
-                return;
-            }
-            if (lostState.GetAncestorState(StateId.Sunk) != null)
-            {
-                lostState.SwitchState(StateId.SunkStruggle);
-            }
-            else
-            {
-                lostState.SwitchState(idleBehaviour);
-            }
+            animator.SetBool(_hasTargetHash, false);
         }
 
         protected virtual void Attack()
@@ -249,7 +226,7 @@ namespace AI
         protected void Fire()
         {
             weaponPaintSpray.Emit(1);
-            animator.SetTrigger(ShootHash);
+            animator.SetTrigger(_shootHash);
             SfxSource.TriggerPlayOneShot(transform.position, shootSFX);
         }
         
@@ -274,14 +251,14 @@ namespace AI
 
         public virtual void Sink()
         {
-            animator.SetTrigger(SinkHash);
-            animator.SetBool(SunkHash, true);
+            animator.SetTrigger(_sinkHash);
+            animator.SetBool(_sunkHash, true);
         }
 
         public virtual void Rise()
         {
-            animator.SetTrigger(RiseHash);
-            animator.SetBool(SunkHash, false);
+            animator.SetTrigger(_riseHash);
+            animator.SetBool(_sunkHash, false);
         }
         
         public IEnumerator StartPaintEscapeAfterTimer()
@@ -294,7 +271,7 @@ namespace AI
         
         public virtual void EscapePaint()
         {
-            animator.SetTrigger(ShootGroundHash);
+            animator.SetTrigger(_shootGroundHash);
         }
 
         public void StartGroundSpray()
