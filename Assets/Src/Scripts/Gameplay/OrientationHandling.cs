@@ -1,10 +1,7 @@
-using System;
-using Src.Scripts;
-using Src.Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     [RequireComponent(typeof(Player))]
 // Handle height and matching terrain orientation in squid form

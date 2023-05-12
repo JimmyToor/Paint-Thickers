@@ -1,8 +1,7 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI
+namespace Src.Scripts.UI
 {
     public class AmmoUI : MonoBehaviour
     {

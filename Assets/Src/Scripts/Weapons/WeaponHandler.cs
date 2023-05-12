@@ -1,3 +1,4 @@
+using Src.Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -6,38 +7,20 @@ namespace Src.Scripts.Weapons
     public class WeaponHandler : MonoBehaviour
     {
         public Weapon Weapon { get; private set; }
-        
+
         [SerializeField]
         private XRBaseInteractor leftInteractor;
         [SerializeField]
         private XRBaseInteractor rightInteractor;
 
-        public void OnEnable()
+        public bool IsUnequipValid(Weapon weapon)
         {
-            leftInteractor.selectEntered.AddListener(TrySetWeapon);
-            rightInteractor.selectExited.AddListener(TryRemoveWeapon);
+            // Only un-equip the weapon if neither hand is holding it.
+            if (!weapon.TryGetComponent(out XRBaseInteractable interactable)) return false;
+            return weapon == Weapon && leftInteractor.selectTarget != interactable &&
+                   rightInteractor.selectTarget != interactable;
         }
-        public void OnDisable()
-        {
-            leftInteractor.selectEntered.RemoveListener(TrySetWeapon);
-            rightInteractor.selectExited.RemoveListener(TryRemoveWeapon);
-        }
-
-        private void TrySetWeapon(SelectEnterEventArgs args)
-        {
-            if ((args.interactable).TryGetComponent(out Weapon weapon))
-            {
-                SetWeapon(weapon);
-            }
-        }
-        private void TryRemoveWeapon(SelectExitEventArgs args)
-        {
-            if ((args.interactable).TryGetComponent(out Weapon _))
-            {
-                RemoveWeapon();
-            }
-        }
-
+        
         public bool SetWeapon(Weapon newWeapon)
         {
             if (newWeapon == null)
@@ -51,6 +34,138 @@ namespace Src.Scripts.Weapons
 
         public void ShowUI()
         {
+            if (Weapon == null) return;
+            Weapon.ShowUI();
+        }
+
+        public void SetUIColor(Color color)
+        {
+            if (Weapon == null) return;
+            Weapon.SetUIColor(color);
+        }
+        
+        public void UnequipWeapon()
+        {
+            Weapon = null;
+        }
+
+        public void DisableWeapon()
+        {
+            if (Weapon == null) return;
+            
+            Weapon.gameObject.SetActive(false);
+        }
+
+        public void EnableWeapon()
+        {
+            if (Weapon == null) return;
+            
+            Weapon.gameObject.SetActive(true);
+        }
+
+        public void HideWeapon()
+        {
+            if (Weapon == null) return;
+
+            Weapon.HideWeapon();
+        }
+
+        public void ShowWeapon()
+        {
+            if (Weapon == null) return;
+            Weapon.ShowWeapon();
+        }
+
+        public void EnableWeaponUI()
+        {
+            if (Weapon == null) return;
+            
+            Weapon.ShowUI();
+        }
+
+        public void DisableWeaponUI()
+        {
+            if (Weapon == null) return;
+            
+            Weapon.HideUI();
+        }
+    
+        public void RefillWeaponAmmo()
+        {
+            if (Weapon == null) return;
+            
+            Weapon.RefillAmmo();
+            
+        }
+
+        public void HumanMode()
+        {
+            if (Weapon == null) return;
+            ShowWeapon();
+            Weapon.hideUIAboveThreshold = true;
+            Weapon.StopReloadSfx();
+        }
+
+        public void SquidMode()
+        {
+            if (Weapon == null) return;
+            HideWeapon();
+            Weapon.hideUIAboveThreshold = false;
+        }
+        
+        public void MatchColors(PaintColorMatcher paintColorMatcher)
+        {
+            // Add the weapon's particle renderers to the color matcher list to ensure they are the correct color
+            foreach (var rend in Weapon.renderers)
+            {
+                if (rend.TryGetComponent(out PaintColorManager colorManager) &&
+                    !paintColorMatcher.matchTeamColor.Contains(colorManager))
+                {
+                    paintColorMatcher.matchTeamColor.Add(colorManager);
+                }
+            }
+            paintColorMatcher.UpdateTeamColor();
+        }
+
+        public void UnmatchColors(PaintColorMatcher paintColorMatcher)
+        {
+            foreach (var rend in Weapon.renderers)
+            {
+                if (rend.TryGetComponent(out PaintColorManager colorManager))
+                {
+                    paintColorMatcher.matchTeamColor.Remove(colorManager);
+                }
+            }
+        }
+    }
+}
+
+/*
+ *
+ * using Src.Scripts.Gameplay;
+using UnityEngine;
+
+namespace Src.Scripts.Weapons
+{
+    public class WeaponHandler
+    {
+
+        public Weapon Weapon { get; private set; }
+
+        public bool SetWeapon(Weapon newWeapon)
+        {
+            if (newWeapon == null)
+            {
+                Debug.LogError("Attempted to pickup a null weapon {0}.", newWeapon);
+                return false;
+            }
+            Weapon = newWeapon;
+            return true;
+        }
+
+        public void ShowUI()
+        {
+            if (Weapon == null) return;
             Weapon.ShowUI();
         }
 
@@ -61,56 +176,103 @@ namespace Src.Scripts.Weapons
         
         public void RemoveWeapon()
         {
+            
             Weapon = null;
         }
 
         public void DisableWeapon()
         {
-            if (!Weapon) return;
+            if (Weapon == null) return;
             
             Weapon.gameObject.SetActive(false);
         }
 
         public void EnableWeapon()
         {
-            if (!Weapon) return;
+            if (Weapon == null) return;
             
             Weapon.gameObject.SetActive(true);
         }
 
         public void HideWeapon()
         {
-            if (!Weapon) return;
+            if (Weapon == null) return;
 
             Weapon.HideWeapon();
         }
 
         public void ShowWeapon()
         {
-            if (!Weapon) return;
+            if (Weapon == null) return;
             Weapon.ShowWeapon();
         }
 
         public void EnableWeaponUI()
         {
-            if (!Weapon) return;
+            if (Weapon == null) return;
             
             Weapon.ShowUI();
         }
 
         public void DisableWeaponUI()
         {
-            if (!Weapon) return;
+            if (Weapon == null) return;
             
             Weapon.HideUI();
         }
     
         public void RefillWeaponAmmo()
         {
-            if (!Weapon) return;
+            if (Weapon == null) return;
             
             Weapon.RefillAmmo();
             
         }
+
+        public void HumanMode()
+        {
+            ShowWeapon();
+            if (Weapon != null)
+            {
+                Weapon.hideUIAboveThreshold = true;
+            }
+            Weapon.StopReloadSfx();
+        }
+
+        public void SquidMode()
+        {
+            HideWeapon();
+            if (Weapon != null)
+            {
+                Weapon.hideUIAboveThreshold = false;
+            }
+        }
+        
+        public void MatchColors(PaintColorMatcher paintColorMatcher)
+        {
+            // Add the weapon's particle renderers to the color matcher list to ensure they are the correct color
+            foreach (var rend in Weapon.renderers)
+            {
+                if (rend.TryGetComponent(out PaintColorManager colorManager) &&
+                    !paintColorMatcher.matchTeamColor.Contains(colorManager))
+                {
+                    paintColorMatcher.matchTeamColor.Add(colorManager);
+                }
+            }
+            paintColorMatcher.UpdateTeamColor();
+        }
+
+        public void UnmatchColors(PaintColorMatcher paintColorMatcher)
+        {
+            foreach (var rend in Weapon.renderers)
+            {
+                if (rend.TryGetComponent(out PaintColorManager colorManager))
+                {
+                    paintColorMatcher.matchTeamColor.Remove(colorManager);
+                }
+            }
+        }
     }
 }
+
+ */

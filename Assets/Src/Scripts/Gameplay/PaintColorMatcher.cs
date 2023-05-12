@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Gameplay;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Src.Scripts.Gameplay
@@ -8,6 +8,7 @@ namespace Src.Scripts.Gameplay
     /// This is used to set the paint color of desired objects to match their team's paint
     /// or the color of paint in the environment.
     /// </summary>
+    [RequireComponent(typeof(TeamMember))]
     public class PaintColorMatcher : MonoBehaviour
     {
         [Tooltip("The color of these will match the environment paint color")]
@@ -16,6 +17,13 @@ namespace Src.Scripts.Gameplay
         public List<PaintColorManager> matchTeamColor;
 
         public int EnvironmentChannel { get; private set; }
+
+        private TeamMember _teamMember;
+
+        private void OnEnable()
+        {
+            TryGetComponent(out _teamMember);
+        }
 
         private void Start()
         {
@@ -33,12 +41,10 @@ namespace Src.Scripts.Gameplay
 
         public void UpdateTeamColor()
         {
-            if (TryGetComponent(out TeamMember member))
+            int teamChannel = _teamMember.teamChannel;
+            foreach (var manager in matchTeamColor)
             {
-                foreach (var manager in matchTeamColor)
-                {
-                    manager.UpdateColorChannel(member.teamChannel);
-                }
+                manager.UpdateColorChannel(teamChannel);
             }
         }
     }

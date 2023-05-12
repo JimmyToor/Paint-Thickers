@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     /// <summary>
     /// Enables an enemy group when an object with the Player tag collides with the trigger.

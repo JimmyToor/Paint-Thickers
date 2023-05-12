@@ -2363,6 +2363,7 @@ GameObject:
   - component: {fileID: 633588063}
   - component: {fileID: 3849075432392634047}
   - component: {fileID: 1675898091}
+  - component: {fileID: 2461705147737017340}
   m_Layer: 3
   m_Name: XR Rig
   m_TagString: Player
@@ -2427,7 +2428,6 @@ MonoBehaviour:
   rightUIHand: {fileID: 1592644098}
   overlayUICam: {fileID: 726572738}
   xrInteractionManager: {fileID: 0}
-  weaponHandler: {fileID: 0}
 --- !u!114 &1614226181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2871,6 +2871,20 @@ MonoBehaviour:
   baseControlSchemeName: Generic XR Controller
   leftHandedControlSchemeName: Left-Handed
   rightHandedControlSchemeName: Right-Handed
+--- !u!114 &2461705147737017340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558147164366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e094f56fd8031f4890b54c899f61421, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftInteractor: {fileID: 2166605066285271879}
+  rightInteractor: {fileID: 4989558145643014248}
 --- !u!1001 &447563299
 PrefabInstance:
   m_ObjectHideFlags: 0

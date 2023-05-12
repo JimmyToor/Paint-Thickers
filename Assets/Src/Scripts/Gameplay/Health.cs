@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Audio;
-using UI;
+using Src.Scripts.Audio;
+using Src.Scripts.UI;
+using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Events;
-using Utility;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     public class Health : MonoBehaviour
     {
@@ -46,18 +46,17 @@ namespace Gameplay
             TryGetComponent(out _sfxSource);
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            if (regenerative && hitpoints < maxHitpoints)
+            if (!regenerative || !(hitpoints < maxHitpoints)) return;
+            
+            if (hitpoints > 0 && _regenTime <= 0)
             {
-                if (hitpoints > 0 && _regenTime <= 0)
-                {
-                    RegenerateHealth();
-                }
-                else
-                {
-                    _regenTime -= Time.deltaTime;
-                }
+                RegenerateHealth();
+            }
+            else
+            {
+                _regenTime -= Time.deltaTime;
             }
         }
 
@@ -77,7 +76,6 @@ namespace Gameplay
             {
                 hitpoints = maxHitpoints;
             }
-            _regenTime = regenCooldown;
             _updateUI = true;
         }
 
@@ -144,6 +142,7 @@ namespace Gameplay
 
         void OnHit(Vector3 hitPos)
         {
+            _regenTime = regenCooldown;
             if (_animator != null)
                 _animator.SetTrigger(_takeHitHash);
 
@@ -165,7 +164,7 @@ namespace Gameplay
 
             if (_sfxSource != null && hitSfx.Count > 0)
             {
-                int randClip = UnityEngine.Random.Range(0, hitSfx.Count);
+                int randClip = Random.Range(0, hitSfx.Count);
                 _sfxSource.TriggerPlayOneShot(transform.position,hitSfx[randClip]);
             }
         

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using AI.States;
+using Src.Scripts.AI.States;
 using UnityEngine;
 
-namespace AI
+namespace Src.Scripts.AI
 {
     [Serializable]
     public class TrooperStateMachine : StateMachine<TrooperStateMachine>

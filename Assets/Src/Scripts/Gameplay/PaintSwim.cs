@@ -1,12 +1,10 @@
-using Audio;
-using Src.Scripts;
-using Src.Scripts.Gameplay;
+using Src.Scripts.Audio;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using Random = UnityEngine.Random;
 
 // Handle swimming in paint and squid related movement
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     [RequireComponent(typeof(Player),typeof(OrientationHandling))]
     public class PaintSwim : MonoBehaviour
@@ -98,6 +96,10 @@ namespace Gameplay
             {
                 locomotion.SlopeHandling = false;
                 Swim();
+                if (CanSwim)
+                {
+                    _player.RefillWeaponAmmo();
+                }
             }
             else
             {
@@ -225,8 +227,8 @@ namespace Gameplay
                 {
                     swimSound.Stop();
                 }
-                _player.EnableWeaponUI();
-                _player.RefillWeaponAmmo();
+                //_player.EnableWeaponUI();
+                //_player.RefillWeaponAmmo();
             }
             else
             {

@@ -1,4 +1,4 @@
-﻿namespace AI.States.Trooper
+﻿namespace Src.Scripts.AI.States.Trooper
 {
     public class Attacking : BaseState<TrooperStateMachine>
     {
@@ -12,16 +12,6 @@
         }
         
         public override StateId GetId() => StateId.Attacking;
-
-        public override void Enter()
-        {
-            base.Enter();
-            if (_scanner.hasTarget)
-            {
-                UnityEngine.Animator animator = StateMachine.trooper.animator;
-                animator.SetBool(StateMachine.trooper.HasTargetHash, true);
-            }
-        }
 
         public override void Execute()
         {

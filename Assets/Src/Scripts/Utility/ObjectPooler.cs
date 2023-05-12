@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Src.Scripts.Utility;
 using UnityEngine;
 
-namespace Utility
+namespace Src.Scripts.Utility
 {
     public class ObjectPooler : Singleton<ObjectPooler>
     {
@@ -38,6 +37,7 @@ namespace Utility
             {
                 return currPool;
             }
+            
             Debug.LogFormat("No Object Pool found for object with tag {0}", objTag);
             return null;
         }
@@ -45,19 +45,16 @@ namespace Utility
         public GameObject GetObjectFromPool(string objTag)
         {
             ObjectPool objectPool = GetObjectPool(objTag);
-        
-            if (objectPool != null)
+
+            if (objectPool == null) return null;
+            
+            foreach (var currObject in objectPool.pool.Where(currObject => !currObject.activeInHierarchy))
             {
-                foreach (var currObject in objectPool.pool)
-                {
-                    if (!currObject.activeInHierarchy)
-                    {
-                        return currObject;
-                    }
-                }
-                Debug.LogFormat("No available objects found in pool for object with tag {0}", objTag);
+                return currObject;
             }
-        
+            
+            Debug.LogFormat("No available objects found in pool for object with tag {0}", objTag);
+
             return null;
         }
     

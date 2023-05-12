@@ -1,34 +1,37 @@
-﻿using Src.Scripts;
+﻿using Src.Scripts.Gameplay;
 using UnityEngine;
 
-public class CollisionPainter : MonoBehaviour
+namespace Paintz_Free.Scripts
 {
-    public Brush brush;
-    public bool RandomChannel = false;
-
-    private void Start()
+    public class CollisionPainter : MonoBehaviour
     {
-    }
+        public Brush brush;
+        public bool RandomChannel = false;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        HandleCollision(collision);
-    }
-
-    private void OnCollisionStay(Collision collision)
-    {
-        HandleCollision(collision);
-    }
-
-    private void HandleCollision(Collision collision)
-    {
-        foreach (ContactPoint contact in collision.contacts)
+        private void Start()
         {
-            PaintTarget paintTarget = contact.otherCollider.GetComponent<PaintTarget>();
-            if (paintTarget != null)
+        }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            HandleCollision(collision);
+        }
+
+        private void OnCollisionStay(Collision collision)
+        {
+            HandleCollision(collision);
+        }
+
+        private void HandleCollision(Collision collision)
+        {
+            foreach (ContactPoint contact in collision.contacts)
             {
-                if (RandomChannel) brush.splatChannel = Random.Range(0, 4);
-                PaintTarget.PaintObject(paintTarget, contact.point, contact.normal, brush);
+                PaintTarget paintTarget = contact.otherCollider.GetComponent<PaintTarget>();
+                if (paintTarget != null)
+                {
+                    if (RandomChannel) brush.splatChannel = Random.Range(0, 4);
+                    PaintTarget.PaintObject(paintTarget, contact.point, contact.normal, brush);
+                }
             }
         }
     }

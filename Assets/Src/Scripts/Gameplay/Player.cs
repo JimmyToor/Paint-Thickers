@@ -1,9 +1,8 @@
-using Gameplay;
 using Src.Scripts.Preferences;
+using Src.Scripts.Utility;
 using Src.Scripts.Weapons;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
-using Utility;
 
 namespace Src.Scripts.Gameplay
 {
@@ -29,10 +28,11 @@ namespace Src.Scripts.Gameplay
         private CharacterController _charController;
         private Vector3 _resetPosition;
         private PaintColorMatcher _paintColorMatcher;
-        [SerializeField]
-        private WeaponHandler weaponHandler;
+        private WeaponHandler _weaponHandler;
+        private XRController _leftController;
+        private XRController _rightController;
 
-        public UserPreferences.MainHand MainHand { get; set; }
+        public UserPreferencesManager.MainHand MainHand { get; set; }
         
 
         private void Awake()
@@ -55,12 +55,20 @@ namespace Src.Scripts.Gameplay
                 rightUIHand = GameObject.Find("RightHand Ray Controller");
             }
 
+            _leftController = leftHand.GetComponent<XRController>();
+            _rightController = rightHand.GetComponent<XRController>();
+            
             if (xrInteractionManager == null)
             {
                 xrInteractionManager = GameObject.Find("XR Interaction Manager").GetComponent<XRInteractionManager>();
             }
 
             TryGetComponent(out _paintColorMatcher);
+
+            if (!TryGetComponent(out _weaponHandler))
+            {
+                Debug.LogErrorFormat("{0} has no WeaponHandler!", gameObject);
+            }
         }
 
         private void Start()
@@ -73,25 +81,51 @@ namespace Src.Scripts.Gameplay
         {
             playerEvents.TakeHit += TakeHit;
             playerEvents.Launch += DisableInputMovement;
+            playerEvents.Launch += DisableGravity;
             playerEvents.Land += EnableInputMovement;
+            playerEvents.Land += EnableGravity;
             playerEvents.Squid += SquidMode;
             playerEvents.Stand += HumanMode;
         }
         
         public void EnableUIHands()
         {
-            leftHand.SetActive(false);
-            rightHand.SetActive(false);
             leftUIHand.SetActive(true);
             rightUIHand.SetActive(true);
+        }
+
+        public void DisableUIHands()
+        {
+            leftUIHand.SetActive(false);
+            rightUIHand.SetActive(false);
         }
     
         public void EnableGameHands()
         {
             leftHand.SetActive(true);
             rightHand.SetActive(true);
-            leftUIHand.SetActive(false);
-            rightUIHand.SetActive(false);
+        }
+
+        public void DisableGameHands()
+        {
+            leftHand.SetActive(false);
+            rightHand.SetActive(false);
+        }
+        
+        public void ShowGameHands()
+        {
+            leftHand.transform.localScale = Vector3.one;
+            rightHand.transform.localScale = Vector3.one;
+            _leftController.enableInputTracking = true;
+            _rightController.enableInputTracking = true;
+        }
+
+        public void HideGameHands()
+        {
+            leftHand.transform.localScale = Vector3.zero;
+            rightHand.transform.localScale = Vector3.zero;
+            _leftController.enableInputTracking = false;
+            _rightController.enableInputTracking = false;
         }
 
         private void DisableInputMovement()
@@ -126,90 +160,66 @@ namespace Src.Scripts.Gameplay
             }
         }
 
-        private void SetWeapon(Weapon newWeapon)
+        public void SetWeapon(Weapon newWeapon)
         {
-            if (!weaponHandler.SetWeapon(newWeapon))
+            if (!_weaponHandler.SetWeapon(newWeapon))
             {
                 return;
             }
 
-            weaponHandler.ShowUI();
-            weaponHandler.SetUIColor(GameManager.Instance.GetTeamColor(teamChannel));
-
-            // Add the weapon's particle renderers to the color matcher list to ensure they are the correct color
+            _weaponHandler.ShowUI();
+            _weaponHandler.SetUIColor(GameManager.Instance.GetTeamColor(teamChannel));
             if (_paintColorMatcher)
             {
-                foreach (var rend in weaponHandler.Weapon.renderers)
-                {
-                    if (rend is ParticleSystemRenderer && rend.TryGetComponent(out PaintColorManager colorManager))
-                    {
-                        _paintColorMatcher.matchTeamColor.Add(colorManager);
-                    }
-                    _paintColorMatcher.UpdateTeamColor();
-                }
+                _weaponHandler.MatchColors(_paintColorMatcher);
             }
         }
 
-        private void DisableHands()
+        public void TryUnequipWeapon(Weapon weapon)
         {
-            leftHand.SetActive(false);
-            rightHand.SetActive(false);
-        }
-
-        public void EnableHands()
-        {
-            leftHand.SetActive(true);
-            rightHand.SetActive(true);
-        }
-    
-        public void RemoveWeapon()
-        {
-            if (_paintColorMatcher && weaponHandler.Weapon)
+            if (!_weaponHandler.IsUnequipValid(weapon) || isSquid) return;
+            
+            if (_paintColorMatcher != null && _weaponHandler.Weapon != null)
             {
-                foreach (var rend in weaponHandler.Weapon.renderers)
-                {
-                    if (rend is ParticleSystemRenderer && TryGetComponent(out PaintColorManager colorManager))
-                    {
-                        _paintColorMatcher.matchTeamColor.Remove(colorManager);
-                    }
-                }
+                _weaponHandler.UnmatchColors(_paintColorMatcher);
             }
-            weaponHandler.RemoveWeapon();
+            _weaponHandler.UnequipWeapon();
+
         }
 
         public void DisableWeapon()
         {
-            weaponHandler.DisableWeapon();
+            _weaponHandler.DisableWeapon();
         }
         
         public void EnableWeapon()
         {
-            weaponHandler.EnableWeaponUI();
+            _weaponHandler.EnableWeaponUI();
         }
 
         public void HideWeapon()
         {
-            weaponHandler.Weapon.HideWeapon();
+            _weaponHandler.HideWeapon();
         }
 
         private void ShowWeapon()
         {
-            weaponHandler.ShowWeapon();
+            _weaponHandler.ShowWeapon();
         }
 
         public void EnableWeaponUI()
         {
-            weaponHandler.ShowUI();
+            _weaponHandler.ShowUI();
         }
 
         public void DisableWeaponUI()
         {
-            weaponHandler.DisableWeaponUI();
+            _weaponHandler.DisableWeaponUI();
         }
     
         public void RefillWeaponAmmo()
         {
-            weaponHandler.RefillWeaponAmmo();
+            _weaponHandler.RefillWeaponAmmo();
         }
 
         private void NewResetPosition()
@@ -232,25 +242,27 @@ namespace Src.Scripts.Gameplay
         // Make any required changes when the player turns into a squid
         private void SquidMode()
         {
-            HideWeapon();
-            DisableHands();
-            if (weaponHandler.Weapon != null)
-            {
-                weaponHandler.Weapon.hideUIAboveThreshold = false;
-            }
+            _weaponHandler.SquidMode();
+            HideGameHands();
         }
 
         // Make any required changes when the player turns into a Human
         private void HumanMode()
         {
-            EnableHands();
-            ShowWeapon();
-            if (weaponHandler.Weapon != null)
-            {
-                weaponHandler.Weapon.hideUIAboveThreshold = true;
-            }
+            ShowGameHands();
+            _weaponHandler.HumanMode();
         }
 
+        public void DisableGravity()
+        {
+            _locomotion.useGravity = false;
+        }
+        
+        public void EnableGravity()
+        {
+            _locomotion.useGravity = true;
+        }
+        
         public void DisableOverlayUI()
         {
             overlayUICam.SetActive(false);
@@ -259,21 +271,6 @@ namespace Src.Scripts.Gameplay
         public void EnableOverlayUI()
         {
             overlayUICam.SetActive(true);
-        }
-
-        public void ToggleUIRays()
-        {
-            if (rightUIHand != null)
-            {
-                rightUIHand.SetActive(!rightUIHand.activeSelf);
-                rightHand.SetActive(!rightHand.activeSelf);
-            }
-
-            if (leftUIHand != null)
-            {
-                leftUIHand.SetActive(!leftUIHand.activeSelf);
-                leftHand.SetActive(!leftHand.activeSelf);
-            }
         }
 
         public void ForceEquipWeapon(Weapon weapon)
@@ -287,11 +284,11 @@ namespace Src.Scripts.Gameplay
             }
                 
             xrInteractionManager.ForceSelect(
-                MainHand == UserPreferences.MainHand.Right
+                MainHand == UserPreferencesManager.MainHand.Right
                     ? rightHand.GetComponent<XRBaseInteractor>()
                     : leftHand.GetComponent<XRBaseInteractor>(),
                 interactable);
-            weaponHandler.SetWeapon(weapon);
+            _weaponHandler.SetWeapon(weapon);
         }
         
     }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Src.Scripts.Utility
+namespace Src.Scripts.Gameplay
 {
     /// <summary>
     /// Switches between material A and B.

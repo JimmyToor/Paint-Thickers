@@ -1,15 +1,15 @@
-namespace AI.States.Deluger
+namespace Src.Scripts.AI.States.Deluger
 {
     public class Patrol : BaseState<DelugerStateMachine>
     {
-        private AI.Deluger _deluger;
+        private Src.Scripts.AI.Deluger _deluger;
 
         public Patrol(DelugerStateMachine delugerStateMachine) : base(delugerStateMachine)
         {
             _deluger = delugerStateMachine.deluger;
         }
         
-        public override StateId GetId() => StateId.Attacking;
+        public override StateId GetId() => StateId.Patrol;
 
         public override void Enter()
         {

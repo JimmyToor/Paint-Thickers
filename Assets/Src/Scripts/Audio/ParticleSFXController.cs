@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Audio
+namespace Src.Scripts.Audio
 {
     [RequireComponent(typeof(ParticleSystem))]
     public class ParticleSFXController : MonoBehaviour

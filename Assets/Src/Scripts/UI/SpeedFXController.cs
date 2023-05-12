@@ -1,8 +1,8 @@
-using Gameplay;
+using Src.Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.VFX;
 
-namespace UI
+namespace Src.Scripts.UI
 {
     public class SpeedFXController : MonoBehaviour
     {

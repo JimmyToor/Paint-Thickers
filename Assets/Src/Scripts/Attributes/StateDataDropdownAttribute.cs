@@ -1,8 +1,6 @@
-﻿using AI;
-using ScriptableObjects;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Attributes
+namespace Src.Scripts.Attributes
 {
     public class StateDataDropdownAttribute : PropertyAttribute
     {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace Src.Scripts.ScriptableObjects
 {
     [Serializable]
     [CreateAssetMenu(fileName = "New Team Colors Data", menuName = "Data Objects/Team Colors Object")]

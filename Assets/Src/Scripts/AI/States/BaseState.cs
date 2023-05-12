@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace AI.States
+﻿namespace Src.Scripts.AI.States
 {
     public abstract class BaseState<T> where T : StateMachine<T>
     {

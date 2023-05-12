@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using Src.Scripts.Hands;
+using UnityEditor;
 using UnityEngine;
 
 namespace Editor

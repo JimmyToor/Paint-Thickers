@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1898757012557102279}
   - component: {fileID: 887622926153716736}
   - component: {fileID: 6919523236711859259}
+  - component: {fileID: 6805427463368067061}
   m_Layer: 0
   m_Name: paint_hit
   m_TagString: paint_hit
@@ -109,3 +110,16 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &6805427463368067061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8940228086136423718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c76d6303a3577a4f8c8602edae8b986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 3

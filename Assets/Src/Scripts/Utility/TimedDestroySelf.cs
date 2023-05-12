@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 // Handy for disabling VFX when they're done playing
-namespace Utility
+namespace Src.Scripts.Utility
 {
     public class TimedDestroySelf : MonoBehaviour
     {

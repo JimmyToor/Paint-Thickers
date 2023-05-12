@@ -1,27 +1,31 @@
-﻿using UnityEngine;
+﻿using Src.Scripts.Hands.Support;
+using UnityEngine;
 
-[SerializeField]
-[CreateAssetMenu(fileName = "NewPoseData")]
-public class Pose : ScriptableObject
+namespace Src.Scripts.Pose
 {
-    // Info for each hand
-    public HandInfo leftHandInfo = HandInfo.Empty;
-    public HandInfo rightHandInfo = HandInfo.Empty;
-
-    public HandInfo GetHandInfo(HandType handType)
+    [SerializeField]
+    [CreateAssetMenu(fileName = "NewPoseData")]
+    public class Pose : ScriptableObject
     {
-        // Return Left or Right, you can use a dictionary or different pose appliers
-        switch (handType)
-        {
-            case HandType.Left:
-                return leftHandInfo;
-            case HandType.Right:
-                return rightHandInfo;
-            case HandType.None:
-                return HandInfo.Empty;
-        }
+        // Info for each hand
+        public HandInfo leftHandInfo = HandInfo.Empty;
+        public HandInfo rightHandInfo = HandInfo.Empty;
 
-        // Return an empty 
-        return HandInfo.Empty;
+        public HandInfo GetHandInfo(HandType handType)
+        {
+            // Return Left or Right, you can use a dictionary or different pose appliers
+            switch (handType)
+            {
+                case HandType.Left:
+                    return leftHandInfo;
+                case HandType.Right:
+                    return rightHandInfo;
+                case HandType.None:
+                    return HandInfo.Empty;
+            }
+
+            // Return an empty 
+            return HandInfo.Empty;
+        }
     }
 }

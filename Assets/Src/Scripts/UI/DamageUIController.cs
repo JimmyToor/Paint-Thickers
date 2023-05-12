@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-namespace UI
+namespace Src.Scripts.UI
 {
     public class DamageUIController : MonoBehaviour
     {

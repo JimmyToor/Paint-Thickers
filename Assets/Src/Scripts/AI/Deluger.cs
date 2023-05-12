@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using Src.Scripts.AI.States;
 using UnityEngine;
 
-namespace AI
+namespace Src.Scripts.AI
 {
     public class Deluger : Enemy
     {

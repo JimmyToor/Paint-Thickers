@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     public class LaunchPad : MonoBehaviour
     {

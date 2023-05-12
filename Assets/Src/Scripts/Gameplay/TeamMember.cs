@@ -1,11 +1,12 @@
-using System;
-using Src.Scripts.Gameplay;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     public class TeamMember : MonoBehaviour
     {
+        [FormerlySerializedAs("TeamChannel")]
         [Tooltip("The colour channel to identify as friendly paint. [-1, 4].")]
         [Range(-1,4)]
         public int teamChannel;

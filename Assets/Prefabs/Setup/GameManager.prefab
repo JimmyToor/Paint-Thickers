@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 6622962116039377312}
   m_Layer: 0
   m_Name: GameManager
-  m_TagString: Untagged
+  m_TagString: GameManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -168,6 +168,9 @@ MonoBehaviour:
     m_Reference: {fileID: -9181390090371721781, guid: b0c1d4f9606bd6449aba71126370870d, type: 3}
   mainMenu: {fileID: 0}
   teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
+  onResume:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2851713015435441237
 MonoBehaviour:
   m_ObjectHideFlags: 0

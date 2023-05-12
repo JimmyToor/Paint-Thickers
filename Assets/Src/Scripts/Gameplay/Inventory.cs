@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Utility;
+using Src.Scripts.Utility;
 
-
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 { 
     public class Inventory
     {

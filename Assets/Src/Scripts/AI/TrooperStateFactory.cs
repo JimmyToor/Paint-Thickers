@@ -1,7 +1,7 @@
-﻿using AI.States;
-using AI.States.Trooper;
+﻿using Src.Scripts.AI.States;
+using Src.Scripts.AI.States.Trooper;
 
-namespace AI
+namespace Src.Scripts.AI
 {
     public static class TrooperStateFactory
     {
@@ -10,25 +10,25 @@ namespace AI
             switch (id)
             {
                 case StateId.Idle:
-                    return new States.Trooper.Idle(trooperStateMachine);
+                    return new Idle(trooperStateMachine);
                 case StateId.Attacking:
-                    return new States.Trooper.Attacking(trooperStateMachine);
+                    return new Attacking(trooperStateMachine);
                 case StateId.Wander:
-                    return new States.Trooper.Wander(trooperStateMachine);
+                    return new Src.Scripts.AI.States.Trooper.Wander(trooperStateMachine);
                 case StateId.Sunk:
-                    return new States.Trooper.Sunk(trooperStateMachine);
+                    return new Sunk(trooperStateMachine);
                 case StateId.Standing:
-                    return new States.Trooper.Standing(trooperStateMachine);
+                    return new Standing(trooperStateMachine);
                 case StateId.SunkStruggle:
-                    return new States.Trooper.SunkStruggle(trooperStateMachine);
+                    return new SunkStruggle(trooperStateMachine);
                 case StateId.SunkEscapePaint:
-                    return new States.Trooper.SunkEscapePaint(trooperStateMachine);
+                    return new SunkEscapePaint(trooperStateMachine);
                 case StateId.Scanning:
-                    return new States.Trooper.Scanning(trooperStateMachine);
+                    return new Scanning(trooperStateMachine);
                 case StateId.TargetLost:
-                    return new States.Trooper.TargetLost(trooperStateMachine);
+                    return new TargetLost(trooperStateMachine);
                 case StateId.TargetSighted:
-                    return new States.Trooper.TargetSighted(trooperStateMachine);
+                    return new TargetSighted(trooperStateMachine);
                 default:
                     return null;
             }

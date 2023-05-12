@@ -1,6 +1,6 @@
-using AI;
-using Attributes;
-using ScriptableObjects;
+using Src.Scripts.AI;
+using Src.Scripts.AI.States;
+using Src.Scripts.Attributes;
 using UnityEditor;
 using UnityEngine;
 

@@ -1,10 +1,8 @@
-using Src.Scripts;
-using Src.Scripts.Gameplay;
+using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Events;
-using Utility;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     public class ItemConsumer : MonoBehaviour
     {

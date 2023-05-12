@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
-using UI;
+using Paintz_Free.Scripts;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 // Based on 'PaintTarget.cs' from https://assetstore.unity.com/packages/tools/paintz-free-145977
-namespace Src.Scripts
+namespace Src.Scripts.Gameplay
 {
     public enum TextureSize
     {
@@ -54,9 +53,6 @@ namespace Src.Scripts
         private Material _worldTangentMaterial;
         private Material _worldBiNormalMaterial;
 
-        private RenderTexture _rt256;
-        private RenderTexture _rt4;
-
         private Renderer _r;
         private RenderTexture _rt;
         private MeshCollider _mc;
@@ -89,9 +85,7 @@ namespace Src.Scripts
             if (!_r) return false;
 
             _rt = (RenderTexture)_r.sharedMaterial.GetTexture(PaintMap);
-            if (!_rt) return false;
-
-            return true;
+            return _rt;
         }
 
         private static Color GetPixelColor(PaintTarget paintTarget, RaycastHit hit)
@@ -100,7 +94,7 @@ namespace Src.Scripts
 
             if (!paintTarget.SetComponents()) return Color.clear;
 
-            UpdatePickColors(paintTarget, paintTarget._rt);
+            UpdatePickColors(paintTarget);
             Texture2D tc = paintTarget.splatTexPick;
             if (!tc)
             {
@@ -109,9 +103,7 @@ namespace Src.Scripts
             }
             int x = (int)(hit.lightmapCoord.x * tc.width);
             int y = (int)(hit.lightmapCoord.y * tc.height);
-            // Debug.LogFormat("Color at {0}({1}*{2}),{3}({4}*{5}) is {6}", x, hit.lightmapCoord.x,tc.width, 
-            //     y, hit.lightmapCoord.y, tc.height 
-            //     , tc.GetPixel(x,y));
+            
             return tc.GetPixel(x,y);
             
         }
@@ -243,7 +235,7 @@ namespace Src.Scripts
             }
         }
 
-        private static void UpdatePickColors(PaintTarget paintTarget, RenderTexture rt)
+        private static void UpdatePickColors(PaintTarget paintTarget)
         {
             if (!paintTarget._validTarget) return;
             if (!paintTarget._bPickDirty) return;

@@ -1,10 +1,7 @@
-using System;
-using Gameplay;
-using Unity.Collections;
+using Src.Scripts.Gameplay;
 using UnityEngine;
-using Utility;
 
-namespace AI
+namespace Src.Scripts.AI
 {
     [RequireComponent(typeof(TeamMember))]
     public abstract class Enemy : MonoBehaviour

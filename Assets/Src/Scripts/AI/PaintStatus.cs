@@ -1,6 +1,9 @@
-﻿public enum PaintStatus
+﻿namespace Src.Scripts.AI
 {
-    NoPaint,
-    FriendlyPaint,
-    EnemyPaint
+    public enum PaintStatus
+    {
+        NoPaint,
+        FriendlyPaint,
+        EnemyPaint
+    }
 }

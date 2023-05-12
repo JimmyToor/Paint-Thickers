@@ -1,8 +1,7 @@
-﻿using System;
-using AI;
+﻿using Src.Scripts.AI;
 using UnityEngine;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     public class AddEnemyGroupToManager : MonoBehaviour
     {

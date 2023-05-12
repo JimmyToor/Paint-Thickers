@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7601616729745319329}
   - component: {fileID: 852829567262589129}
   - component: {fileID: 700252534724376706}
+  - component: {fileID: -8309153557912297929}
   m_Layer: 0
   m_Name: crate_explode
   m_TagString: crate_explode
@@ -110,3 +111,16 @@ VFXRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!114 &-8309153557912297929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7931773660669697391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c76d6303a3577a4f8c8602edae8b986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifetime: 3

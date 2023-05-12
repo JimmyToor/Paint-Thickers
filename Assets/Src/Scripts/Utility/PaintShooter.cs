@@ -1,3 +1,5 @@
+using Paintz_Free.Scripts;
+using Src.Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

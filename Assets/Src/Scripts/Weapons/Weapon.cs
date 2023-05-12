@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using UI;
+using Src.Scripts.UI;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Weapons
@@ -15,14 +16,17 @@ namespace Src.Scripts.Weapons
         public float usageRate;
         public float lowAmmoThreshold; // Ammo indicator is shown when ammo reaches this threshold
         public bool hideUIAboveThreshold = true;
+        public AudioClip ammoFullSFX;
+        public AudioClip ammoRefillSFX;
         public AmmoUI ammoUI;
         public GameObject UIObject;
         public Animator weaponAnimator;
         public float AmmoNormalized => ammoRemaining / maxAmmo;
         public List<Renderer> renderers;
+        public AudioSource audioSource;
+
         
         private XRGrabInteractable _interactable;
-
         private void Awake()
         {
             renderers = GetComponentsInChildren<Renderer>().ToList();
@@ -58,10 +62,43 @@ namespace Src.Scripts.Weapons
             {
                 HideUI();
             }
+
+            if (ammoRemaining >= maxAmmo)
+            {
+                PlayFullSfx();
+            }
+            else
+            {
+                PlayReloadSfx();
+            }
+        }
+
+        public void PlayFullSfx()
+        {
+            if (ammoRemaining >= maxAmmo)
+            {
+                StopReloadSfx();
+                audioSource.PlayOneShot(ammoFullSFX);
+            }
+        }
+
+        public void PlayReloadSfx()
+        {
+            if (!audioSource.isPlaying)
+            {
+                audioSource.clip = ammoRefillSFX;
+                audioSource.Play();
+            }
+        }
+
+        public void StopReloadSfx()
+        {
+            audioSource.Stop();
         }
 
         public virtual void RefillAmmo()
         {
+            if (ammoRemaining >= maxAmmo) return;
             RefillAmmo(Time.deltaTime * refillRate);
             UpdateAmmoUI();
         }
@@ -92,7 +129,6 @@ namespace Src.Scripts.Weapons
         {
             foreach (var rend in renderers)
             {
-                Debug.Log(rend.name + " enabled.");
                 rend.enabled = true;
             }
             _interactable.activatable = true;

@@ -1,6 +1,7 @@
-﻿using AI.States;
+﻿using Src.Scripts.AI.States;
+using Src.Scripts.AI.States.Deluger;
 
-namespace AI
+namespace Src.Scripts.AI
 {
     public static class DelugerStateFactory
     {
@@ -9,7 +10,7 @@ namespace AI
             switch (id)
             {
                 case StateId.Patrol:
-                    return new States.Deluger.Patrol(delugerStateMachine);
+                    return new Patrol(delugerStateMachine);
                 default:
                     return null;
             }

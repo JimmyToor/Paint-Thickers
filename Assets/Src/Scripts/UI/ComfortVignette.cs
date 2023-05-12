@@ -1,10 +1,9 @@
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using Vignette = UnityEngine.Rendering.Universal.Vignette;
 
-namespace UI
+namespace Src.Scripts.UI
 {
     public class ComfortVignette : MonoBehaviour
     {

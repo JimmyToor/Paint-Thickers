@@ -41582,6 +41582,7 @@ MonoBehaviour:
   paintCheckPosition: {fileID: 5625309016766643010}
   bodyTurnSpeed: 75
   hoseAimSpeed: 100
+  alertSFX: {fileID: 8300000, guid: 7c63f9a4535768d49bad41c90497a619, type: 3}
   shootSFX: {fileID: 8300000, guid: f48b538b00559ae4f952d288f4e73f90, type: 3}
   animator: {fileID: 8163667220085843564}
   lowerColliders:

@@ -1,7 +1,7 @@
 ﻿using System;
-using AI.States;
+using Src.Scripts.AI.States;
 
-namespace AI
+namespace Src.Scripts.AI
 {
     public class StateMachine<T> where T : StateMachine<T>
     {

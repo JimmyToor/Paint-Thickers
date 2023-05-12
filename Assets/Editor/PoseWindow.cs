@@ -1,7 +1,11 @@
-﻿using UnityEditor;
+﻿using Src.Scripts.Hands;
+using Src.Scripts.Pose.PoseHelper;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Pose = Src.Scripts.Pose.Pose;
+
 // From: https://github.com/C-Through/XR-HandPoser/tree/main/Assets/_HandPoser
 namespace Editor
 {

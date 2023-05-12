@@ -1,4 +1,4 @@
-namespace Utility
+namespace Src.Scripts.Utility
 {
     public enum ItemType
     {

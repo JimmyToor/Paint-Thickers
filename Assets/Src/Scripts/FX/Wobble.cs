@@ -1,7 +1,7 @@
 using UnityEngine;
 
 //Code adapted from https://www.patreon.com/posts/18245226 by MinionsArt 
-namespace FX
+namespace Src.Scripts.FX
 {
     public class Wobble : MonoBehaviour
     {

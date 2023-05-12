@@ -1,7 +1,6 @@
-using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 
-namespace FX
+namespace Src.Scripts.FX
 {
     [RequireComponent(typeof(SkinnedMeshRenderer))]
     public class Dematerialize : MonoBehaviour

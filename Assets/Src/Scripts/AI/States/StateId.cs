@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AI
+namespace Src.Scripts.AI.States
 {
     [Serializable]
     public enum StateId

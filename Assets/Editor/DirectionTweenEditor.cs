@@ -1,4 +1,4 @@
-using Gameplay;
+using Src.Scripts.Gameplay;
 using UnityEditor;
 using UnityEngine;
 

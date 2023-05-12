@@ -1,8 +1,8 @@
 ﻿using System;
-using AI;
+using Src.Scripts.AI.States;
 using UnityEngine;
 
-namespace ScriptableObjects
+namespace Src.Scripts.ScriptableObjects
 {
     [Serializable]
     [CreateAssetMenu(fileName = "New States Data", menuName = "Data Objects/StatesData")]

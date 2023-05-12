@@ -1,4 +1,4 @@
-﻿namespace AI.States.Trooper
+﻿namespace Src.Scripts.AI.States.Trooper
 {
     public class Standing : BaseState<TrooperStateMachine>
     {
@@ -21,15 +21,9 @@
 
         public override void InitializeSubState()
         {
-            if (_trooper.scanner.hasTarget)
-            {
-                SetSubState(StateMachine.GetState(StateId.TargetSighted));
-            }
-            else
-            {
-                SetSubState(StateMachine.GetState(StateId.Idle));
-            }
-            
+            SetSubState(_trooper.scanner.hasTarget
+                ? StateMachine.GetState(StateId.TargetSighted)
+                : StateMachine.GetState(StateId.Idle));
         }
     }
 }

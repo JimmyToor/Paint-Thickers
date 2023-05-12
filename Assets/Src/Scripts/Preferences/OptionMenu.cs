@@ -1,13 +1,14 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Src.Scripts.Preferences
 {
     public class OptionMenu : MonoBehaviour
     {
-        public UserPreferences manager;
+        public UserPreferencesManager userPreferencesManager;
         public Toggle leftHandToggle;
         public Toggle rightHandToggle;
         public Toggle headToggle;
@@ -25,7 +26,7 @@ namespace Src.Scripts.Preferences
 
         private void Awake()
         {
-            if (manager == null)
+            if (userPreferencesManager == null)
             {
                 Debug.LogError("Manager missing from option menu!");
             }
@@ -64,97 +65,97 @@ namespace Src.Scripts.Preferences
 
         private void OnLeftHandToggled(bool value)
         {
-            manager.PreferredHand = UserPreferences.MainHand.Left;
+            userPreferencesManager.PreferredHand = UserPreferencesManager.MainHand.Left;
         }
         
         private void OnRightHandToggled(bool value)
         {
-            manager.PreferredHand = UserPreferences.MainHand.Right;
+            userPreferencesManager.PreferredHand = UserPreferencesManager.MainHand.Right;
         }
         
         private void OnHeadToggled(bool value)
         {
-            manager.ForwardReference = UserPreferences.MovementOrientation.Head;
+            userPreferencesManager.ForwardReference = UserPreferencesManager.MovementOrientation.Head;
         }
         
         private void OnOffHandToggled(bool value)
         {
-            manager.ForwardReference = UserPreferences.MovementOrientation.OffHand;
+            userPreferencesManager.ForwardReference = UserPreferencesManager.MovementOrientation.OffHand;
         }
 
         private void VignetteOffToggled(bool value)
         {
             if (value)
             {
-                manager.VignetteIntensity = UserPreferences.VignetteStrength.Off;
+                userPreferencesManager.VignetteIntensity = UserPreferencesManager.VignetteStrength.Off;
             }
         }
         private void VignetteLowToggled(bool value)
         {
             if (value)
             {
-                manager.VignetteIntensity = UserPreferences.VignetteStrength.Low;
+                userPreferencesManager.VignetteIntensity = UserPreferencesManager.VignetteStrength.Low;
             }
         }
         private void VignetteMedToggled(bool value)
         {
             if (value)
             {
-                manager.VignetteIntensity = UserPreferences.VignetteStrength.Med;
+                userPreferencesManager.VignetteIntensity = UserPreferencesManager.VignetteStrength.Med;
             }
         }
         private void VignetteHighToggled(bool value)
         {
             if (value)
             {
-                manager.VignetteIntensity = UserPreferences.VignetteStrength.High;
+                userPreferencesManager.VignetteIntensity = UserPreferencesManager.VignetteStrength.High;
             }
         }
 
         private void InitializeValues()
         {
-            leftHandToggle.isOn = manager.PreferredHand == UserPreferences.MainHand.Left;
-            rightHandToggle.isOn = manager.PreferredHand == UserPreferences.MainHand.Right;
+            leftHandToggle.isOn = userPreferencesManager.PreferredHand == UserPreferencesManager.MainHand.Left;
+            rightHandToggle.isOn = userPreferencesManager.PreferredHand == UserPreferencesManager.MainHand.Right;
 
-            smoothTurnSpeedSlider.value = manager.SmoothTurnProvider.turnSpeed;
-            smoothTurnToggle.isOn = manager.TurningStyle == UserPreferences.TurnStyle.Smooth;
+            smoothTurnSpeedSlider.value = userPreferencesManager.SmoothTurnProvider.turnSpeed;
+            smoothTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Smooth;
             smoothTurnSpeedText.text = smoothTurnSpeedSlider.value.ToString();
 
-            snapTurnIncrementSlider.value = manager.SnapTurnProvider.turnAmount;
-            snapTurnToggle.isOn = manager.TurningStyle == UserPreferences.TurnStyle.Snap;
+            snapTurnIncrementSlider.value = userPreferencesManager.SnapTurnProvider.turnAmount;
+            snapTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Snap;
             snapTurnAmountText.text = snapTurnIncrementSlider.value.ToString();
             
-            smoothTurnToggle.isOn = manager.TurningStyle == UserPreferences.TurnStyle.Smooth;
-            snapTurnToggle.isOn = manager.TurningStyle == UserPreferences.TurnStyle.Snap;
+            smoothTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Smooth;
+            snapTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Snap;
             
-            switch (manager.VignetteIntensity)
+            switch (userPreferencesManager.VignetteIntensity)
             {
-                case UserPreferences.VignetteStrength.Off:
+                case UserPreferencesManager.VignetteStrength.Off:
                     vignetteOff.isOn = true;
                     break;
-                case UserPreferences.VignetteStrength.Low:
+                case UserPreferencesManager.VignetteStrength.Low:
                     vignetteLow.isOn = true;
                     break;
-                case UserPreferences.VignetteStrength.Med:
+                case UserPreferencesManager.VignetteStrength.Med:
                     vignetteMed.isOn = true;
                     break;
-                case UserPreferences.VignetteStrength.High:
+                case UserPreferencesManager.VignetteStrength.High:
                     vignetteHigh.isOn = true;
                     break;
                 default:
-                    throw new NotSupportedException("Invalid input update mode: " + manager.VignetteIntensity);
+                    throw new NotSupportedException("Invalid input update mode: " + userPreferencesManager.VignetteIntensity);
             }
         }
     
         private void ChangeSmoothTurnSpeed(float value)
         {
-            manager.SmoothTurnProvider.turnSpeed = value;
+            userPreferencesManager.SmoothTurnProvider.turnSpeed = value;
             smoothTurnSpeedText.text = value.ToString();
         }
     
         private void ChangeSnapTurnAmount(float value)
         {
-            manager.SmoothTurnProvider.turnSpeed = value;
+            userPreferencesManager.SmoothTurnProvider.turnSpeed = value;
             snapTurnAmountText.text = value.ToString();
         }
 
@@ -162,7 +163,7 @@ namespace Src.Scripts.Preferences
         {
             if (value)
             {
-                manager.TurningStyle = UserPreferences.TurnStyle.Snap;
+                userPreferencesManager.TurningStyle = UserPreferencesManager.TurnStyle.Snap;
             }
         }
     
@@ -170,7 +171,7 @@ namespace Src.Scripts.Preferences
         {
             if (value)
             {
-                manager.TurningStyle = UserPreferences.TurnStyle.Smooth;
+                userPreferencesManager.TurningStyle = UserPreferencesManager.TurnStyle.Smooth;
             }
         }
     }

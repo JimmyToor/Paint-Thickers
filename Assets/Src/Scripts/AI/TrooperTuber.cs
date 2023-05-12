@@ -1,9 +1,10 @@
 using System.Collections;
-using AI.States;
+using Src.Scripts.AI.States;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
-namespace AI
+namespace Src.Scripts.AI
 {
     // Idle 2s -> Wander -> Repeat
     // Spot Target -> Attack
@@ -12,8 +13,8 @@ namespace AI
     //      -> rise after 2 seconds with no target
     public class TrooperTuber : AutoTrooper
     {
-        [Header("Movement")]
-        public Wander wander;
+        [FormerlySerializedAs("wander")] [Header("Movement")]
+        public WanderBehaviour wanderBehaviour;
         public float normalSpeed;
         [Tooltip("Speed when slowed by enemy paint")]
         public float slowedSpeed;
@@ -81,16 +82,16 @@ namespace AI
         void StopMovement()
         {
             navAgent.isStopped = true;
-            if (wander != null)
+            if (wanderBehaviour != null)
             {
-                wander.StopWander();
+                wanderBehaviour.StopWander();
             }
         }
 
         public IEnumerator WanderAfterDelay()
         {
             _wanderQueued = true;
-            yield return wander.wanderDelay;
+            yield return wanderBehaviour.wanderDelay;
             BaseState<TrooperStateMachine> idleState = stateMachine.CurrentRootState.GetDescendantState(StateId.Idle);
             idleState?.SwitchState(StateId.Wander);
             

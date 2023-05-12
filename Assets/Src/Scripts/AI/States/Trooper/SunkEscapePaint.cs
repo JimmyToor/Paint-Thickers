@@ -1,4 +1,4 @@
-﻿namespace AI.States.Trooper
+﻿namespace Src.Scripts.AI.States.Trooper
 {
     public class SunkEscapePaint : BaseState<TrooperStateMachine>
     {

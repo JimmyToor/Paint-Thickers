@@ -1,6 +1,9 @@
-﻿public enum HandType
+﻿namespace Src.Scripts.Hands.Support
 {
-    None,
-    Left,
-    Right,
+    public enum HandType
+    {
+        None,
+        Left,
+        Right,
+    }
 }

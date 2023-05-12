@@ -1,7 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     public class DirectionTween : MonoBehaviour
     {

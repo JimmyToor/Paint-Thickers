@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
-using Utility;
 
 // Do something when an enemy group dies
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     public class OnGroupDeath : MonoBehaviour
     {

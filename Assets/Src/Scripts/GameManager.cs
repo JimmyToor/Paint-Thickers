@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
-using ScriptableObjects;
 using Src.Scripts.Gameplay;
+using Src.Scripts.ScriptableObjects;
 using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -63,8 +64,10 @@ namespace Src.Scripts
         {
             pauseButton.action.performed += OnPauseButtonPressed;
             _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
-            DisablePause();
+            DisablePauseButton();
             ShowMenu(mainMenu);
+            player.DisableGameHands();
+            player.EnableUIHands();
             Pause();
         }
 
@@ -72,13 +75,22 @@ namespace Src.Scripts
         {
             player.DisableOverlayUI();
             player.DisableWeapon();
-            player.ToggleUIRays();
+            player.DisableGameHands();
+            player.EnableUIHands();
+            Pause();
             ShowGameOverUI();
+            _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
         }
 
         public void Win()
         {
+            player.DisableOverlayUI();
+            player.DisableWeapon();
+            player.DisableGameHands();
+            player.EnableUIHands();
+            Pause();
             ShowWinUI();
+            _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
         }
 
         private void OnPauseButtonPressed(InputAction.CallbackContext callbackContext)
@@ -88,12 +100,16 @@ namespace Src.Scripts
                 Unpause();
                 _volumeColorAdjustments.saturation.value = 0;
                 HideMenu(pauseMenu);
+                player.DisableUIHands();
+                player.ShowGameHands();
             }
             else
             {
                 Pause();
                 _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
                 ShowMenu(pauseMenu);
+                player.EnableUIHands();
+                player.HideGameHands();
             }
         }
 
@@ -106,7 +122,6 @@ namespace Src.Scripts
         { 
             Time.timeScale = 1f;
             onResume.Invoke();
-        
         }
 
         public void ShowMenu(GameObject menu)
@@ -114,26 +129,32 @@ namespace Src.Scripts
             menu.SetActive(true);
             
             // Stop the menu from moving around while it's open
-            menu.TryGetComponent(out ParentConstraint parentConstraint);
-            menu.TryGetComponent(out RotationConstraint rotationConstraint);
-            
-            StartCoroutine(DisableMenuConstraint(parentConstraint));
-            StartCoroutine(DisableMenuConstraint(rotationConstraint));
+            if (menu.TryGetComponent(out ParentConstraint parentConstraint))
+            {
+                StartCoroutine(DisableMenuConstraint(parentConstraint));
+            }
 
-            player.EnableUIHands();
+            if (menu.TryGetComponent(out RotationConstraint rotationConstraint))
+            {
+                StartCoroutine(DisableMenuConstraint(rotationConstraint));
+            }
         }
 
         public void HideMenu(GameObject menu)
         {
             menu.SetActive(false);
-            menu.TryGetComponent(out ParentConstraint parentConstraint);
-            menu.TryGetComponent(out RotationConstraint rotationConstraint);
 
-            parentConstraint.constraintActive = true;
-            rotationConstraint.constraintActive = true;
+            if (menu.TryGetComponent(out ParentConstraint parentConstraint))
+            {
+                parentConstraint.constraintActive = true;
+            }
 
+            if (menu.TryGetComponent(out RotationConstraint rotationConstraint))
+            {
+                rotationConstraint.constraintActive = true;
+            }
+            
             _volumeColorAdjustments.saturation.value = 0;
-            player.EnableGameHands();
         }
 
         /// <summary>
@@ -154,14 +175,15 @@ namespace Src.Scripts
         {
             HideMenu(mainMenu);
             Unpause();
-            player.ToggleUIRays();
-            player.EnableHands();
-            EnablePause();
+            player.DisableUIHands();
+            player.EnableGameHands();
+            EnablePauseButton();
         }
     
         private void ShowWinUI()
         {
             winUI.SetActive(true);
+            player.DisableGameHands();
             player.EnableUIHands();
         }
     
@@ -169,6 +191,7 @@ namespace Src.Scripts
         {
             gameOverUI.SetActive(true);
             gameOverUI.GetComponent<ParentConstraint>().constraintActive = false;
+            player.DisableGameHands();
             player.EnableUIHands();
         }
     
@@ -201,12 +224,12 @@ namespace Src.Scripts
             return teamColorData.teamColors[channel];
         }
 
-        public void EnablePause()
+        public void EnablePauseButton()
         {
             pauseButton.action.Enable();
         }
     
-        public void DisablePause()
+        public void DisablePauseButton()
         {
             pauseButton.action.Disable();
         }

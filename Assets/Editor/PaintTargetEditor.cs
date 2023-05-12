@@ -1,5 +1,6 @@
 ﻿using Cinemachine.Editor;
 using Src.Scripts;
+using Src.Scripts.Gameplay;
 using UnityEditor;
 using UnityEditor.ShaderGraph.Drawing.Inspector;
 using UnityEngine;

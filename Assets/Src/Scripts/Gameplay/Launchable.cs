@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Gameplay
+namespace Src.Scripts.Gameplay
 {
     public class Launchable : MonoBehaviour
     {

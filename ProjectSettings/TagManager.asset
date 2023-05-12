@@ -15,6 +15,7 @@ TagManager:
   - crate_explode
   - trooper_explode
   - item_pickup
+  - GameManager
   layers:
   - Default
   - TransparentFX

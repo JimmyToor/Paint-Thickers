@@ -3,7 +3,7 @@ using Random = UnityEngine.Random;
 
 // Got this from SO but can't find the post anymore
 
-namespace Audio
+namespace Src.Scripts.Audio
 {
     /// <summary>
     /// Will trigger SFX through the SFXPlayer when the object on which this is added trigger a collision enter event

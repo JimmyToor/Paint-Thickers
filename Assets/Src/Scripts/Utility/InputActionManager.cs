@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
-namespace UnityEngine.XR.Interaction.Toolkit.Inputs
+namespace Src.Scripts.Utility
 {
     /// <summary>
     /// Use this class to automatically enable or disable all the inputs of type <see cref="InputAction"/>

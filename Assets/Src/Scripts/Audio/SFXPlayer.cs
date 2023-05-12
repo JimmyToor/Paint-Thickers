@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Got this from SO but can't find the post anymore
 
-namespace Audio
+namespace Src.Scripts.Audio
 {
     /// <summary>
     /// Central entry point to play single use SFX (e.g. contact sound). Through a single function call, PlaySFX, allow to

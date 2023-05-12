@@ -1,13 +1,13 @@
-namespace AI.States.Trooper
+namespace Src.Scripts.AI.States.Trooper
 {
     public class Wander : BaseState<TrooperStateMachine>
     {
-        private AI.Wander _wander;
+        private WanderBehaviour _wanderBehaviour;
         private TargetScanner _scanner;
 
         public Wander(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
-            _wander = StateMachine.trooper.GetComponent<AI.Wander>();
+            _wanderBehaviour = StateMachine.trooper.GetComponent<WanderBehaviour>();
             _scanner = StateMachine.trooper.GetComponent<TargetScanner>();
         }
         
@@ -19,15 +19,15 @@ namespace AI.States.Trooper
         public override void Enter()
         {
             base.Enter();
-            _wander.StartWander();
+            _wanderBehaviour.StartWander();
         }
 
         public override void Execute()
         {
-            _wander.WanderUpdate();
-            if (!_wander.wanderQueued && _wander.IsWanderDone())
+            _wanderBehaviour.WanderUpdate();
+            if (!_wanderBehaviour.wanderQueued && _wanderBehaviour.IsWanderDone())
             {
-                _wander.StartWanderAfterDelay();
+                _wanderBehaviour.StartWanderAfterDelay();
             }
             if (_scanner.hasTarget)
             {
@@ -38,7 +38,7 @@ namespace AI.States.Trooper
         public override void Exit()
         {
             base.Exit();
-            _wander.StopWander();
+            _wanderBehaviour.StopWander();
         }
 
         public override void InitializeSubState()

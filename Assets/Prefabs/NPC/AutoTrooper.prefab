@@ -4983,8 +4983,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
+  partPainter: {fileID: 8179991029649155461}
+  paintRenderer: {fileID: 7775685860494501285}
 --- !u!1 &480795502051526664
 GameObject:
   m_ObjectHideFlags: 0
@@ -5803,7 +5803,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2507350442529926809}
   m_LocalRotation: {x: -0.00017845261, y: 0.00000028139823, z: 0.0000029024793, w: 1}
-  m_LocalPosition: {x: -0.00913102, y: 2.4156144, z: 1.2879678}
+  m_LocalPosition: {x: -0.009130256, y: 2.4156156, z: 1.2879708}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3041319822632554762}
@@ -10759,8 +10759,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
+  partPainter: {fileID: 9012383334958191707}
+  paintRenderer: {fileID: 8001782767062859895}
 --- !u!1 &2778961536315228292
 GameObject:
   m_ObjectHideFlags: 0
@@ -15984,7 +15984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
+  paintRenderer: {fileID: 522747141251734151}
 --- !u!1 &3721347387843687436
 GameObject:
   m_ObjectHideFlags: 0
@@ -16577,7 +16577,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6822432610496034552}
   m_LocalRotation: {x: -0.49983847, y: -0.5001615, z: -0.5001615, w: 0.49983847}
-  m_LocalPosition: {x: 0, y: 0.51200014, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5119997, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5400415126367530884}
@@ -21481,7 +21481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
+  paintRenderer: {fileID: 5990740571016277935}
 --- !u!1773428102 &9092248053039816787
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -21726,7 +21726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
+  paintRenderer: {fileID: 6515469216043399229}
 --- !u!1 &7804852058036705906
 GameObject:
   m_ObjectHideFlags: 0
@@ -22087,7 +22087,7 @@ MonoBehaviour:
   paintStatus: 0
   scanner: {fileID: 4822369598100376106}
   timeSunk: 2
-  attackCooldown: 1
+  attackCooldown: 0.5
   weaponPaintSpray: {fileID: 8757214118557992799}
   groundPaintSpray: {fileID: 6036474500683149204}
   centerPaintSpray: {fileID: 8129863341949979661}
@@ -22098,6 +22098,7 @@ MonoBehaviour:
   paintCheckPosition: {fileID: 5808559898974005023}
   bodyTurnSpeed: 75
   hoseAimSpeed: 100
+  alertSFX: {fileID: 8300000, guid: 7c63f9a4535768d49bad41c90497a619, type: 3}
   shootSFX: {fileID: 8300000, guid: f48b538b00559ae4f952d288f4e73f90, type: 3}
   animator: {fileID: 7683721474867376198}
   lowerColliders:
@@ -27289,7 +27290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
+  paintRenderer: {fileID: 8757214117243039787}
 --- !u!1 &8757214117580264994
 GameObject:
   m_ObjectHideFlags: 0
@@ -32166,7 +32167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
+  paintRenderer: {fileID: 8757214117580264992}
 --- !u!1 &8757214118557992805
 GameObject:
   m_ObjectHideFlags: 0
@@ -32197,7 +32198,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8757214118557992805}
   m_LocalRotation: {x: 0.020384284, y: 0.011524159, z: -0.003181444, w: 0.99972075}
-  m_LocalPosition: {x: -0.009476535, y: 2.342, z: 1.2359284}
+  m_LocalPosition: {x: -0.009, y: 2.424, z: 1.239}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8757214119225043585}
@@ -32340,8 +32341,8 @@ ParticleSystem:
         m_RotationOrder: 4
     startSpeed:
       serializedVersion: 2
-      minMaxState: 3
-      scalar: 5
+      minMaxState: 0
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -37152,12 +37153,12 @@ ParentConstraint:
   m_GameObject: {fileID: 8757214118557992805}
   m_Enabled: 1
   m_Weight: 1
-  m_TranslationAtRest: {x: -0.009476535, y: 2.342, z: 1.2359284}
+  m_TranslationAtRest: {x: -0.009, y: 2.424, z: 1.239}
   m_RotationAtRest: {x: 2.3400657, y: 1.3139813, z: -0.33782944}
   m_TranslationOffsets:
-  - {x: 0.0034360886, y: -0.0987401, z: 0.42747498}
+  - {x: 0.004032135, y: 0.0036964417, z: 0.43134308}
   m_RotationOffsets:
-  - {x: 2.3605072, y: 1.3139541, z: -0.33769092}
+  - {x: 2.3605077, y: 1.313954, z: -0.33769092}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -37181,8 +37182,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
+  partPainter: {fileID: 8757214118557992801}
+  paintRenderer: {fileID: 8757214118557992798}
 --- !u!1 &8757214119225043584
 GameObject:
   m_ObjectHideFlags: 0
@@ -42114,7 +42115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partPainter: {fileID: 0}
-  paintRenderer: {fileID: 0}
+  paintRenderer: {fileID: 8757214119225043710}
 --- !u!1 &8864813187642049974
 GameObject:
   m_ObjectHideFlags: 0
