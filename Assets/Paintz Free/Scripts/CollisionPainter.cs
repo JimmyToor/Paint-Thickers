@@ -27,11 +27,9 @@ namespace Paintz_Free.Scripts
             foreach (ContactPoint contact in collision.contacts)
             {
                 PaintTarget paintTarget = contact.otherCollider.GetComponent<PaintTarget>();
-                if (paintTarget != null)
-                {
-                    if (RandomChannel) brush.splatChannel = Random.Range(0, 4);
-                    PaintTarget.PaintObject(paintTarget, contact.point, contact.normal, brush);
-                }
+                if (paintTarget == null) continue;
+                if (RandomChannel) brush.splatChannel = Random.Range(0, 4);
+                paintTarget.PaintObject(contact.point, contact.normal, brush);
             }
         }
     }

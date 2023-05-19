@@ -26,7 +26,7 @@ namespace Paintz_Free.Scripts
         public float splatRandomRotation = 180f;
 
         public int splatChannel = 0;
-
+        
         public Vector4 getMask()
         {
             if (this.splatChannel == 0) return new Vector4(1, 0, 0, 0);

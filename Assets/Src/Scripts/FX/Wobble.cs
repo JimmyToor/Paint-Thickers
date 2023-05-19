@@ -24,13 +24,15 @@ namespace Src.Scripts.FX
         private float _fillToAdd;
         private float _pulse;
         private float _time = 0.5f;
-    
+        private static readonly int WobbleX = Shader.PropertyToID("_WobbleX");
+        private static readonly int WobbleZ = Shader.PropertyToID("_WobbleZ");
+
         // Use this for initialization
         private void Start()
         {
             _rend = GetComponent<Renderer>();
         }
-        private void Update()
+        private void FixedUpdate()
         {
             _time += Time.deltaTime;
             // decrease wobble over time
@@ -44,8 +46,8 @@ namespace Src.Scripts.FX
             //rend.material.SetFloat("_Fill", rend.material.GetFloat("_Fill") + wobbleAmountX + wobbleAmountZ);
  
             // send it to the shader
-            _rend.material.SetFloat("_WobbleX", _wobbleAmountX);
-            _rend.material.SetFloat("_WobbleZ", _wobbleAmountZ);
+            _rend.material.SetFloat(WobbleX, _wobbleAmountX);
+            _rend.material.SetFloat(WobbleZ, _wobbleAmountZ);
  
             // velocity
             _velocity = (_lastPos - driver.position) / Time.deltaTime;
