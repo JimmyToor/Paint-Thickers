@@ -1,5 +1,6 @@
 using Paintz_Free.Scripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Src.Scripts.Gameplay
 {
@@ -8,7 +9,7 @@ namespace Src.Scripts.Gameplay
     /// </summary>
     public class PaintColorManager : MonoBehaviour
     {
-        public ParticlePainter partPainter;
+        public ParticlePainter particlePainter;
         public Renderer paintRenderer;
         public int PaintChannel { get; set; }
 
@@ -18,9 +19,9 @@ namespace Src.Scripts.Gameplay
         // Start is called before the first frame update
         void Start()
         {
-            if (partPainter != null || TryGetComponent(out partPainter))
+            if (particlePainter != null || TryGetComponent(out particlePainter))
             {
-                _brush = partPainter.brush;
+                _brush = particlePainter.brush;
             }
 
             if (paintRenderer != null || TryGetComponent(out paintRenderer))

@@ -134,11 +134,10 @@ namespace Src.Scripts.Gameplay
         /// <param name="brush">The brush parameters to use.</param>
         public static void Paint(GameObject target, Vector3 point, Vector3 normal, Brush brush)
         {
-            PaintTarget paintTarget;
-            target.TryGetComponent(out paintTarget);
+            target.TryGetComponent(out PaintTarget paintTarget);
             if (paintTarget != null)
             {
-                PaintObject(paintTarget, point, normal , brush);
+                paintTarget.PaintObject(point, normal , brush);
             }
         }
 
@@ -162,37 +161,45 @@ namespace Src.Scripts.Gameplay
              }
         }
 
+        /// <summary>
+        /// Shoots a ray that paints the first, or everything, it hits.
+        /// </summary>
+        /// <param name="ray"></param>
+        /// <param name="brush"></param>
+        /// <param name="multi">Allows the raycast to hit multiple objects.</param>
         public static void PaintRaycast(Ray ray, Brush brush, bool multi = true)
         {
             RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 10000))
+            if (!Physics.Raycast(ray, out hit, 10000)) return;
+            
+            if (!multi)
             {
-                if (multi)
+                PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
+                if (!paintTarget) return;
+                paintTarget.PaintObject(hit.point, hit.normal, brush);
+                return;
+            }
+            
+            var hits = Physics.SphereCastAll(hit.point, brush.splatScale, ray.direction);
+            foreach (var rayHit in hits)
+            {
+                var paintTarget = rayHit.collider.gameObject.GetComponent<PaintTarget>();
+                if (paintTarget != null)
                 {
-                    RaycastHit[] hits = Physics.SphereCastAll(hit.point, brush.splatScale, ray.direction);
-                    for (int h=0; h < hits.Length; h++)
-                    {
-                        PaintTarget paintTarget = hits[h].collider.gameObject.GetComponent<PaintTarget>();
-                        if (paintTarget != null)
-                        {
-                            PaintObject(paintTarget, hit.point, hits[h].normal, brush);
-                        }
-                    }
-                }
-                else
-                {
-                    PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
-                    if (!paintTarget) return;
-                    PaintObject(paintTarget, hit.point, hit.normal, brush);
+                    paintTarget.PaintObject( hit.point, rayHit.normal, brush);
                 }
             }
         }
     
-
-        public static void PaintObject(PaintTarget target, Vector3 point, Vector3 normal, Brush brush)
+        /// <summary>
+        /// Place paint at the passed Vector3 position.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="normal"></param>
+        /// <param name="brush"></param>
+        public void PaintObject(Vector3 point, Vector3 normal, Brush brush)
         {
-            if (!target) return;
-            if (!target._validTarget) return;
+            if (!_validTarget) return;
 
             if (_splatObject == null)
             {
@@ -221,7 +228,7 @@ namespace Src.Scripts.Gameplay
             newPaint.scaleBias = brush.getTile();
             newPaint.brush = brush;
 
-            target.PaintSplat(newPaint);
+            PaintSplat(newPaint);
         }
 
         public static void ClearAllPaint()
@@ -438,63 +445,57 @@ namespace Src.Scripts.Gameplay
         {
             if (!_validTarget) return;
 
-            if (_paintList.Count > 0)
+            if (_paintList.Count <= 0) return;
+            
+            _bPickDirty = true;
+
+            if (!_setupComplete) SetupPaint();
+
+            if (transform.hasChanged) RenderTextures();
+
+            Matrix4x4[] paintMatrixArray = new Matrix4x4[10];
+            Vector4[] paintScaleBiasArray = new Vector4[10];
+            Vector4[] paintChannelMaskArray = new Vector4[10];
+
+            // Render up to 10 splats per frame of the same texture!
+            int numSplats = 0;
+            Texture2D paintPattern = _paintList[0].brush.paintPattern;
+
+            for (int s=0; s < _paintList.Count;)
             {
-                _bPickDirty = true;
+                if (numSplats >= 10) break;
+                if (_paintList[s].brush.paintPattern != paintPattern) continue;
+                
+                paintMatrixArray[numSplats] = _paintList[s].paintMatrix;
+                paintScaleBiasArray[numSplats] = _paintList[s].scaleBias;
+                paintChannelMaskArray[numSplats] = _paintList[s].channelMask;
+                numSplats++;
 
-                if (!_setupComplete) SetupPaint();
-
-                if (transform.hasChanged) RenderTextures();
-
-                Matrix4x4[] paintMatrixArray = new Matrix4x4[10];
-                Vector4[] paintScaleBiasArray = new Vector4[10];
-                Vector4[] paintChannelMaskArray = new Vector4[10];
-
-                // Render up to 10 splats per frame of the same texture!
-                int numSplats = 0;
-                Texture2D paintPattern = _paintList[0].brush.paintPattern;
-
-                for (int s=0; s < _paintList.Count;)
-                {
-                    if (numSplats >= 10) break;
-                    if (_paintList[s].brush.paintPattern == paintPattern)
-                    {
-                        paintMatrixArray[numSplats] = _paintList[s].paintMatrix;
-                        paintScaleBiasArray[numSplats] = _paintList[s].scaleBias;
-                        paintChannelMaskArray[numSplats] = _paintList[s].channelMask;
-                        numSplats++;
-                        _paintList.RemoveAt(s);
-                    }
-                    else
-                    {
-                        //different texture..skip for now
-                        s++;
-                    }
-                }
-
-                ComputeBuffer paintWorldToObjectBuffer = new ComputeBuffer(paintMatrixArray.Length, _paintMatrixBufferStride);
-                ComputeBuffer paintScaleBiasBuffer = new ComputeBuffer(paintScaleBiasArray.Length, _scaleBiasBufferStride);
-                ComputeBuffer paintChannelMaskBuffer = new ComputeBuffer(paintChannelMaskArray.Length, _paintColorBufferStride);
-                paintWorldToObjectBuffer.SetData(paintMatrixArray);
-                paintScaleBiasBuffer.SetData(paintScaleBiasArray);
-                paintChannelMaskBuffer.SetData(paintChannelMaskArray);
-            
-                paintComputeShader.SetTexture(_paintKernel, "world_pos_tex", _worldPosTex);
-                paintComputeShader.SetTexture(_paintKernel, "paintmap", _paintMap);
-                paintComputeShader.SetTexture(_paintKernel,"paint_pattern", paintPattern);
-                paintComputeShader.SetBuffer(_paintKernel, "paint_world_to_object", paintWorldToObjectBuffer);
-                paintComputeShader.SetBuffer(_paintKernel, "scale_bias", paintScaleBiasBuffer);
-                paintComputeShader.SetBuffer(_paintKernel, "paint_channel_mask", paintChannelMaskBuffer);
-                paintComputeShader.SetFloat("num_splats", numSplats);
-                paintComputeShader.SetFloats("resolution",_paintMap.width, _paintMap.height);
-                paintComputeShader.Dispatch(_paintKernel,
-                    Mathf.CeilToInt(_paintMap.width / (float) _xGroupSize),
-                    Mathf.CeilToInt(_paintMap.height / (float) _yGroupSize), 1);
-            
-                paintWorldToObjectBuffer.Dispose();
-                paintChannelMaskBuffer.Dispose();
-                paintScaleBiasBuffer.Dispose();
+                _paintList.RemoveAt(s);
             }
+
+            ComputeBuffer paintWorldToObjectBuffer = new ComputeBuffer(paintMatrixArray.Length, _paintMatrixBufferStride); 
+            ComputeBuffer paintScaleBiasBuffer = new ComputeBuffer(paintScaleBiasArray.Length, _scaleBiasBufferStride);
+            ComputeBuffer paintChannelMaskBuffer = new ComputeBuffer(paintChannelMaskArray.Length, _paintColorBufferStride);
+            paintWorldToObjectBuffer.SetData(paintMatrixArray);
+            paintScaleBiasBuffer.SetData(paintScaleBiasArray);
+            paintChannelMaskBuffer.SetData(paintChannelMaskArray);
+            
+            paintComputeShader.SetTexture(_paintKernel, "world_pos_tex", _worldPosTex);
+            paintComputeShader.SetTexture(_paintKernel, "paintmap", _paintMap);
+            paintComputeShader.SetTexture(_paintKernel,"paint_pattern", paintPattern);
+            paintComputeShader.SetBuffer(_paintKernel, "paint_world_to_object", paintWorldToObjectBuffer);
+            paintComputeShader.SetBuffer(_paintKernel, "scale_bias", paintScaleBiasBuffer);
+            paintComputeShader.SetBuffer(_paintKernel, "paint_channel_mask", paintChannelMaskBuffer);
+            paintComputeShader.SetFloat("num_splats", numSplats);
+            paintComputeShader.SetFloats("resolution",_paintMap.width, _paintMap.height);
+            paintComputeShader.Dispatch(_paintKernel,
+                Mathf.CeilToInt(_paintMap.width / (float) _xGroupSize),
+                Mathf.CeilToInt(_paintMap.height / (float) _yGroupSize), 1);
+            
+            paintWorldToObjectBuffer.Dispose();
+            paintChannelMaskBuffer.Dispose();
+            paintScaleBiasBuffer.Dispose();
         }
 
         private void Update()

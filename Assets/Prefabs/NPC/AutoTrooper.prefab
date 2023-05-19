@@ -4983,7 +4983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 8179991029649155461}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 7775685860494501285}
 --- !u!1 &480795502051526664
 GameObject:
@@ -10759,7 +10759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 9012383334958191707}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 8001782767062859895}
 --- !u!1 &2778961536315228292
 GameObject:
@@ -15983,7 +15983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 522747141251734151}
 --- !u!1 &3721347387843687436
 GameObject:
@@ -21480,7 +21480,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 5990740571016277935}
 --- !u!1773428102 &9092248053039816787
 ParentConstraint:
@@ -21725,7 +21725,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 6515469216043399229}
 --- !u!1 &7804852058036705906
 GameObject:
@@ -27289,7 +27289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 8757214117243039787}
 --- !u!1 &8757214117580264994
 GameObject:
@@ -32166,7 +32166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 8757214117580264992}
 --- !u!1 &8757214118557992805
 GameObject:
@@ -37182,7 +37182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 8757214118557992801}
+  particlePainter: {fileID: 8757214118557992801}
   paintRenderer: {fileID: 8757214118557992798}
 --- !u!1 &8757214119225043584
 GameObject:
@@ -42114,7 +42114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 8757214119225043710}
 --- !u!1 &8864813187642049974
 GameObject:

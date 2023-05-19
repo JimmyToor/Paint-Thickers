@@ -5489,7 +5489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 1529877294}
+  particlePainter: {fileID: 1529877294}
   paintRenderer: {fileID: 1529877295}
 --- !u!1 &1800229030
 GameObject:
@@ -10713,7 +10713,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 2145561392}
+  particlePainter: {fileID: 2145561392}
   paintRenderer: {fileID: 2036904280780318480}
 --- !u!1 &2036904280967990508
 GameObject:
@@ -15648,7 +15648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 2036904281424473600}
 --- !u!1 &2036904281454378536
 GameObject:
@@ -20613,7 +20613,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 2036904281454378538}
 --- !u!1 &2036904281756565162
 GameObject:
@@ -25546,7 +25546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 2036904281756565164}
 --- !u!1 &2427763470146190363
 GameObject:

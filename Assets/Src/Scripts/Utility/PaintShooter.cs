@@ -37,7 +37,7 @@ namespace Src.Scripts.Utility
             PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
         
             if (!paintTarget) return;
-            PaintTarget.PaintObject(paintTarget, hit.point, hit.normal, brush);
+            paintTarget.PaintObject(hit.point, hit.normal, brush);
             Debug.Log("Painted " + paintTarget.name);
         }
     }
