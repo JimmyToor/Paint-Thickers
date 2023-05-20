@@ -32,11 +32,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - Texture2D_cbec12743376445fab6791ad4ac87502:
-        m_Texture: {fileID: 2800000, guid: 6c00aa87e3a8836429c64a89fc695973, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9658d57eb6fe0924290ba39b6c8730ec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpTex:
-        m_Texture: {fileID: 2800000, guid: 01eb61f63cd76d0449cfedaa20c0b302, type: 3}
+        m_Texture: {fileID: 2800000, guid: 109ef580588dcb2458522a4df2092d9b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DebugTex:
@@ -44,7 +44,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: cf6de109d2e0889488455fba50404e18, type: 3}
+        m_Texture: {fileID: 2800000, guid: f1cb6996300495e4e87de9802d2b60c0, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _PaintMap:

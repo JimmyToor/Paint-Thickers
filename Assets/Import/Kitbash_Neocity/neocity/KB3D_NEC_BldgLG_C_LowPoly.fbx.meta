@@ -3,7 +3,42 @@ guid: ab8cfd19f6472d445afb35bc71424818
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KB3D_NEC_BannerA
+    second: {fileID: 2100000, guid: 8fe85c0b1e9df834995b770b74f38d5f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KB3D_NEC_ConcreteA
+    second: {fileID: 2100000, guid: 896c9093e62cf89468f6f79f8ba78e36, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KB3D_NEC_ConcreteAccent
+    second: {fileID: 2100000, guid: 1177c1adbf487df47baca6a597534b89, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KB3D_NEC_ConcreteB
+    second: {fileID: 2100000, guid: 9eb22cb13ad19174fa5fe36dd2650f92, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KB3D_NEC_GalvanizedSteel
+    second: {fileID: 2100000, guid: cf05fbaa8a39688438752f376adf9ee3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KB3D_NEC_PaintedMetal
+    second: {fileID: 2100000, guid: 7e2f02aaadf888942ae057f58b1c38d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: KB3D_NEC_SatinSteel
+    second: {fileID: 2100000, guid: faa14abe003369c409de0c5a09075f84, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
