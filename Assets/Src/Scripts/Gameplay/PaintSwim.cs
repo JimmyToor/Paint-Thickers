@@ -96,10 +96,6 @@ namespace Src.Scripts.Gameplay
             {
                 locomotion.SlopeHandling = false;
                 Swim();
-                if (CanSwim)
-                {
-                    _player.RefillWeaponAmmo();
-                }
             }
             else
             {
@@ -142,29 +138,21 @@ namespace Src.Scripts.Gameplay
                 InPaint = false;
             }
 
-            if (_player.isSquid && _belowHit.transform != null)
+            if (!_player.isSquid || _belowHit.transform == null) return;
+            
+            if (!normalSet) // Don't want to change the normal if it's been set by terrain ahead
             {
-                if (!normalSet) // Don't want to change the normal if it's been set by terrain ahead
-                {
-                    _orientationHandling.SetNewNormal(_belowHit, channel);
-                }
+                _orientationHandling.SetNewNormal(_belowHit, channel);
             }
         }
 
         // Look for terrain changes under frontCheck
         private void CheckGroundAhead()
         {
-            if (Physics.Raycast(frontCheck.position, -frontCheck.up, out RaycastHit frontHit, 1f, swimmableLayers))
-            {
-                if (_orientationHandling.SetNewNormal(frontHit, PaintTarget.RayChannel(frontHit)))
-                {
-                    normalSet = true;
-                }
-                else
-                {
-                    normalSet = false;
-                }
-            }
+            if (!Physics.Raycast(frontCheck.position, -frontCheck.up, out RaycastHit frontHit, 1f,
+                    swimmableLayers)) return;
+
+            normalSet = _orientationHandling.SetNewNormal(frontHit, PaintTarget.RayChannel(frontHit));
         }
 
         private void SetupEvents()
@@ -181,12 +169,11 @@ namespace Src.Scripts.Gameplay
 
         private void HandleSwim()
         {
-            if (_player.canSquid && !_player.isSquid)
-            {
-                _player.isSquid = true;
-                gameObject.layer = _squidLayer;
-                CheckTerrain();
-            }
+            if (!_player.canSquid || _player.isSquid) return;
+            
+            _player.isSquid = true;
+            gameObject.layer = _squidLayer;
+            CheckTerrain();
         }
 
         private void HandleStand()
@@ -199,12 +186,11 @@ namespace Src.Scripts.Gameplay
         
             // Rotating the character controller can result in clipping
             // Pop the player up a bit to prevent this when we reset orientation
-            if (transform.up != Vector3.up)
-            {
-                Vector3 currPos = transform.localPosition;
-                currPos.y += 0.5f;
-                transform.position = currPos;
-            }
+            if (transform.up == Vector3.up) return;
+            
+            Vector3 currPos = transform.localPosition;
+            currPos.y += 0.5f;
+            transform.position = currPos;
         }
 
         // Adjust speed while swimming
@@ -212,23 +198,23 @@ namespace Src.Scripts.Gameplay
         {
             if (CanSwim)
             {
+                CheckTerrain();
                 _orientationHandling.ToHeightWithoutOffset(OrientationHandling.SwimHeight);
                 locomotion.moveSpeed = swimSpeed;
             
                 if (!swimSound.isPlaying)
                 {
-                    if (_charController.velocity.sqrMagnitude > 1f)
-                    {
-                        swimSound.time = Random.Range(0f, swimSound.clip.length);
-                        swimSound.Play();
-                    }
+                    if (!(_charController.velocity.sqrMagnitude > 1f)) return;
+                    
+                    swimSound.time = Random.Range(0f, swimSound.clip.length);
+                    swimSound.Play();
                 }
                 else if (_charController.velocity.sqrMagnitude <= 1f)
                 {
                     swimSound.Stop();
                 }
-                //_player.EnableWeaponUI();
-                //_player.RefillWeaponAmmo();
+                _player.EnableWeaponUI();
+                _player.RefillWeaponAmmo();
             }
             else
             {
@@ -238,14 +224,8 @@ namespace Src.Scripts.Gameplay
                 {
                     swimSound.Stop();
                 }
-                if (!InPaint)
-                {
-                    locomotion.moveSpeed = squidSpeed;
-                }
-                else
-                {
-                    locomotion.moveSpeed = enemyPaintSpeed;
-                }
+                
+                locomotion.moveSpeed = !InPaint ? squidSpeed : enemyPaintSpeed;
                 _player.HideWeapon();
                 _player.DisableWeaponUI();
             }
@@ -260,12 +240,11 @@ namespace Src.Scripts.Gameplay
             currAngles.y = newAngle;
             _frontCheckAxis.localEulerAngles = currAngles;
 
-            if (_player.isSquid)
-            {
-                // Player moved, so check the terrain again
-                CheckTerrain();
-                _orientationHandling.UpdateOrientation();
-            }
+            if (!_player.isSquid) return;
+            
+            // Player moved, so check the terrain again
+            CheckTerrain();
+            _orientationHandling.UpdateOrientation();
         }
     }
 }

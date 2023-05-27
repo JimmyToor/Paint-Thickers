@@ -21,9 +21,12 @@ namespace Src.Scripts.Preferences
         public Toggle snapTurnToggle;
         public Slider smoothTurnSpeedSlider;
         public TextMeshProUGUI smoothTurnSpeedText;
+        public float smoothTurnIncrements;
         public Slider snapTurnIncrementSlider;
         public TextMeshProUGUI snapTurnAmountText;
-
+        public float snapTurnIncrements;
+        
+        
         private void Awake()
         {
             if (userPreferencesManager == null)
@@ -117,13 +120,13 @@ namespace Src.Scripts.Preferences
             leftHandToggle.isOn = userPreferencesManager.PreferredHand == UserPreferencesManager.MainHand.Left;
             rightHandToggle.isOn = userPreferencesManager.PreferredHand == UserPreferencesManager.MainHand.Right;
 
-            smoothTurnSpeedSlider.value = userPreferencesManager.SmoothTurnProvider.turnSpeed;
+            smoothTurnSpeedSlider.value = userPreferencesManager.SmoothTurnProvider.turnSpeed/smoothTurnIncrements;
             smoothTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Smooth;
-            smoothTurnSpeedText.text = smoothTurnSpeedSlider.value.ToString();
+            ChangeSmoothTurnSpeed(smoothTurnSpeedSlider.value);
 
-            snapTurnIncrementSlider.value = userPreferencesManager.SnapTurnProvider.turnAmount;
+            snapTurnIncrementSlider.value = userPreferencesManager.SnapTurnProvider.turnAmount/snapTurnIncrements;
             snapTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Snap;
-            snapTurnAmountText.text = snapTurnIncrementSlider.value.ToString();
+            ChangeSnapTurnAmount(snapTurnIncrementSlider.value);
             
             smoothTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Smooth;
             snapTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Snap;
@@ -149,14 +152,16 @@ namespace Src.Scripts.Preferences
     
         private void ChangeSmoothTurnSpeed(float value)
         {
-            userPreferencesManager.SmoothTurnProvider.turnSpeed = value;
-            smoothTurnSpeedText.text = value.ToString();
+            float speed = value * smoothTurnIncrements;
+            userPreferencesManager.SmoothTurnProvider.turnSpeed = speed;
+            smoothTurnSpeedText.text = speed.ToString();
         }
     
         private void ChangeSnapTurnAmount(float value)
         {
-            userPreferencesManager.SmoothTurnProvider.turnSpeed = value;
-            snapTurnAmountText.text = value.ToString();
+            float speed = value * snapTurnIncrements;
+            userPreferencesManager.SmoothTurnProvider.turnSpeed = speed;
+            snapTurnAmountText.text = speed.ToString();
         }
 
         private void OnSnapTurnToggled(bool value)

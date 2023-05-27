@@ -29,8 +29,8 @@ namespace Src.Scripts.Gameplay
         private Vector3 _resetPosition;
         private PaintColorMatcher _paintColorMatcher;
         private WeaponHandler _weaponHandler;
-        private XRController _leftController;
-        private XRController _rightController;
+        private ActionBasedController _leftController;
+        private ActionBasedController _rightController;
 
         public UserPreferencesManager.MainHand MainHand { get; set; }
         
@@ -55,8 +55,8 @@ namespace Src.Scripts.Gameplay
                 rightUIHand = GameObject.Find("RightHand Ray Controller");
             }
 
-            _leftController = leftHand.GetComponent<XRController>();
-            _rightController = rightHand.GetComponent<XRController>();
+            _leftController = leftHand.GetComponent<ActionBasedController>();
+            _rightController = rightHand.GetComponent<ActionBasedController>();
             
             if (xrInteractionManager == null)
             {

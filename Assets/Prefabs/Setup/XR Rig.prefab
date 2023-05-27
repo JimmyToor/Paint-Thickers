@@ -2364,6 +2364,7 @@ GameObject:
   - component: {fileID: 3849075432392634047}
   - component: {fileID: 1675898091}
   - component: {fileID: 2461705147737017340}
+  - component: {fileID: 2590997999539788894}
   m_Layer: 3
   m_Name: XR Rig
   m_TagString: Player
@@ -2728,7 +2729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 4989558147164366918}
-  m_TurnSpeed: 160
+  m_TurnSpeed: 150
   m_LeftHandTurnAction:
     m_UseReference: 1
     m_Action:
@@ -2885,6 +2886,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftInteractor: {fileID: 2166605066285271879}
   rightInteractor: {fileID: 4989558145643014248}
+--- !u!114 &2590997999539788894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558147164366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4c8a25751454863a1875187de09a5be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  matchEnvironmentColor: []
+  matchTeamColor:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1001 &447563299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3317,14 +3337,14 @@ PrefabInstance:
       objectReference: {fileID: 1592644102}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
---- !u!4 &134576064443552025 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 134576065517394266, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
-  m_PrefabInstance: {fileID: 1073907779}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &141681225116102382 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 141681224042260141, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
+  m_PrefabInstance: {fileID: 1073907779}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &134576064443552025 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 134576065517394266, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
   m_PrefabInstance: {fileID: 1073907779}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4989558145520396200
@@ -3483,13 +3503,13 @@ PrefabInstance:
       objectReference: {fileID: 4989558145643014248}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
---- !u!4 &4963077313354681072 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 134576065517394266, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
-  m_PrefabInstance: {fileID: 4989558145943688106}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4956531211393627399 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 141681224042260141, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
+  m_PrefabInstance: {fileID: 4989558145943688106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4963077313354681072 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 134576065517394266, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
   m_PrefabInstance: {fileID: 4989558145943688106}
   m_PrefabAsset: {fileID: 0}

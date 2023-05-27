@@ -9,12 +9,12 @@ namespace Src.Scripts.Gameplay
     {
         public const float SquidHeight = 0.5f;
         public const float SwimHeight = 0.3f;
-    
-        public Vector3 NewNormal { get; set; }
+
         public float rotationSpeed;
         public float sinkSpeed; // speed of squid transformation
         public ActionBasedContinuousMoveProvider locomotion;
 
+        private Vector3 NewNormal { get; set; }
         private Player _player;
         private Transform _camOffset;
         private Transform _playerHead;
@@ -53,20 +53,23 @@ namespace Src.Scripts.Gameplay
             NewNormal = Vector3.zero;
         }
 
-        // Set the new normal that the XRRig will rotate to match
+        /// <summary>
+        /// Set the new normal that the XRRig will rotate to match
+        /// </summary>
+        /// <param name="hit"></param>
+        /// <param name="channel"></param>
+        /// <returns></returns>
         public bool SetNewNormal(RaycastHit hit, int channel)
         {
-            if (hit.transform != null) // Only factor in this surface if it has friendly paint or is a small enough slope
-            {
-                float angle = Vector3.Angle(hit.normal, Vector3.up);
-                if (channel == _player.teamChannel || angle < _slopeLimit)
-                {
-                    NewNormal = hit.normal;
-                    return true;
-                }
-            }
+            if (hit.transform == null) return false; // Only factor in this surface if it has friendly paint or is a small enough slope
+            
+            float angle = Vector3.Angle(hit.normal, Vector3.up);
+            
+            if (channel != _player.teamChannel && !(angle < _slopeLimit)) return false;
+            
+            NewNormal = hit.normal;
+            return true;
 
-            return false;
         }
 
         public void ResetOrientation()
@@ -74,13 +77,14 @@ namespace Src.Scripts.Gameplay
             ToOrientation(Vector3.up);
         }
 
-        // Rotate the rig normal towards the passed normal vector
+        /// <summary>
+        /// Rotate the rig normal towards the passed normal vector
+        /// </summary>
+        /// <param name="newUp"></param>
         private void ToOrientation(Vector3 newUp)
         {
-            if (newUp == transform.up)
-            {
-                return; // Already at this orientation, nothing to do
-            }
+            if (newUp == transform.up) return; // Already at this orientation, nothing to do
+            
         
             Quaternion currRot = transform.rotation;
             var newRotation = Quaternion.FromToRotation(transform.up, newUp) * currRot;
@@ -104,18 +108,24 @@ namespace Src.Scripts.Gameplay
 
         public void ResetHeight()
         {
-            ToHeight(0); // Remove the squid height offset
+            TowardsHeight(0); // Remove the squid height offset
         }
     
-        // Set player's head height from the floor, ignoring floor offset and vertical head position
+        /// <summary>
+        /// Set player's head height from the floor, ignoring floor offset and vertical head position
+        /// </summary>
+        /// <param name="height"></param>
         public void ToHeightWithoutOffset(float height)
         {
             float newHeight = -_playerHead.localPosition.y + height; 
-            ToHeight(newHeight);
+            TowardsHeight(newHeight);
         }
 
-        // Move the camera offset's y-position towards the passed float to change the height of the player's view
-        public void ToHeight(float newHeight)
+        /// <summary>
+        /// Move the camera offset's y-position towards the passed float to change the height of the player's view
+        /// </summary>
+        /// <param name="newHeight"></param>
+        public void TowardsHeight(float newHeight)
         {
             Vector3 newPos = _camOffset.localPosition;
             newPos.y = Mathf.MoveTowards(newPos.y, newHeight, Time.deltaTime * sinkSpeed);

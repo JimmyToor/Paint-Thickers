@@ -23,7 +23,7 @@ namespace Src.Scripts
         public InputActionProperty pauseButton;
         public GameObject mainMenu;
         public TeamColorScriptableObject teamColorData;
-        public UnityEvent onResume; // Used to do things that require the game to be unpaused.
+        public UnityEvent onResume;
     
         private ColorAdjustments _volumeColorAdjustments;
         private ParentConstraint _menuParentConstraint;
@@ -73,12 +73,13 @@ namespace Src.Scripts
 
         public void PlayerDeath()
         {
+            player.playerEvents.Stand.Invoke();
             player.DisableOverlayUI();
             player.DisableWeapon();
             player.DisableGameHands();
             player.EnableUIHands();
-            Pause();
             ShowGameOverUI();
+            Pause();
             _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
         }
 
@@ -88,8 +89,8 @@ namespace Src.Scripts
             player.DisableWeapon();
             player.DisableGameHands();
             player.EnableUIHands();
-            Pause();
             ShowWinUI();
+            Pause();
             _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
         }
 
@@ -158,15 +159,15 @@ namespace Src.Scripts
         }
 
         /// <summary>
-        /// Deactivates the <paramref name="constraint"/>.
-        /// <remarks>This is done in a coroutine because if the constraint's GameObject was disabled,
-        /// the constraint must be active for one frame to actually move into position.</remarks>
+        /// Deactivates the <paramref name="constraint"/> after the next FixedUpdate.
+        /// <remarks>This waits one FixedUpdate tick because if the constraint's GameObject was disabled,
+        /// the constraint must be active for one tick to actually move into its constrained position.</remarks>
         /// </summary>
         /// <param name="constraint"></param>
         /// <returns></returns>
         private static IEnumerator DisableMenuConstraint(IConstraint constraint)
         {
-            yield return null; // Wait one frame
+            yield return new WaitForFixedUpdate(); // Wait one tick
             constraint.constraintActive = false;
         }
     
@@ -190,9 +191,12 @@ namespace Src.Scripts
         private void ShowGameOverUI()
         {
             gameOverUI.SetActive(true);
-            gameOverUI.GetComponent<ParentConstraint>().constraintActive = false;
             player.DisableGameHands();
             player.EnableUIHands();
+            if (gameOverUI.TryGetComponent(out ParentConstraint constraint))
+            {
+                StartCoroutine(DisableMenuConstraint(constraint));
+            }
         }
     
         public void RestartLevel()
