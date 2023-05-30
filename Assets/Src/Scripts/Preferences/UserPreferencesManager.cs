@@ -312,7 +312,8 @@ namespace Src.Scripts.Preferences
                     ComfortVignette.intensity = HighVignetteValue;
                     break;
                 default:
-                    throw new NotSupportedException("Invalid input update mode: " + VignetteIntensity);
+                    Debug.LogError("USERPREFERENCES: Invalid vignette value: " + strength);
+                    break;
             }
         }
     }

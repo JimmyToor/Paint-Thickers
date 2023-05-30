@@ -94,12 +94,10 @@ namespace Src.Scripts.Gameplay
         {
             if (_player.isSquid)
             {
-                locomotion.SlopeHandling = false;
                 Swim();
             }
             else
             {
-                locomotion.SlopeHandling = true;
                 _orientationHandling.ResetHeight();
                 _orientationHandling.ResetOrientation();
             }
@@ -157,27 +155,30 @@ namespace Src.Scripts.Gameplay
 
         private void SetupEvents()
         {
-            _playerEvents.Squid += HandleSwim;
+            _playerEvents.Squid += HandleSwimActivation;
             _playerEvents.Stand += HandleStand;
             _playerEvents.Move += HandleMove;
         }
 
         private void OnDisable() {
-            _playerEvents.Squid -= HandleSwim;
+            _playerEvents.Squid -= HandleSwimActivation;
             _playerEvents.Stand -= HandleStand;
         }
 
-        private void HandleSwim()
+        private void HandleSwimActivation()
         {
             if (!_player.canSquid || _player.isSquid) return;
             
+            locomotion.SlopeHandling = false;
             _player.isSquid = true;
             gameObject.layer = _squidLayer;
             CheckTerrain();
+            _orientationHandling.UpdateOrientation();
         }
 
         private void HandleStand()
         {
+            locomotion.SlopeHandling = true;
             gameObject.layer = _playerLayer;
             _player.isSquid = false;
             locomotion.moveSpeed = _player.walkSpeed;
@@ -187,10 +188,10 @@ namespace Src.Scripts.Gameplay
             // Rotating the character controller can result in clipping
             // Pop the player up a bit to prevent this when we reset orientation
             if (transform.up == Vector3.up) return;
-            
-            Vector3 currPos = transform.localPosition;
-            currPos.y += 0.5f;
-            transform.position = currPos;
+            //
+            // Vector3 currPos = transform.localPosition;
+            // currPos.y += 0.5f;
+            // transform.position = currPos;
         }
 
         // Adjust speed while swimming
@@ -198,9 +199,10 @@ namespace Src.Scripts.Gameplay
         {
             if (CanSwim)
             {
-                CheckTerrain();
                 _orientationHandling.ToHeightWithoutOffset(OrientationHandling.SwimHeight);
                 locomotion.moveSpeed = swimSpeed;
+                _player.EnableWeaponUI();
+                _player.RefillWeaponAmmo();
             
                 if (!swimSound.isPlaying)
                 {
@@ -213,8 +215,6 @@ namespace Src.Scripts.Gameplay
                 {
                     swimSound.Stop();
                 }
-                _player.EnableWeaponUI();
-                _player.RefillWeaponAmmo();
             }
             else
             {
@@ -227,7 +227,6 @@ namespace Src.Scripts.Gameplay
                 
                 locomotion.moveSpeed = !InPaint ? squidSpeed : enemyPaintSpeed;
                 _player.HideWeapon();
-                _player.DisableWeaponUI();
             }
         }
 

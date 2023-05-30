@@ -7,8 +7,8 @@ namespace Src.Scripts.Gameplay
 // Handle height and matching terrain orientation in squid form
     public class OrientationHandling : MonoBehaviour
     {
-        public const float SquidHeight = 0.5f;
-        public const float SwimHeight = 0.3f;
+        public const float SquidHeight = 0.6f;
+        public const float SwimHeight = 0.4f;
 
         public float rotationSpeed;
         public float sinkSpeed; // speed of squid transformation

@@ -1,7 +1,5 @@
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Src.Scripts.Preferences
@@ -130,7 +128,6 @@ namespace Src.Scripts.Preferences
             
             smoothTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Smooth;
             snapTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Snap;
-            
             switch (userPreferencesManager.VignetteIntensity)
             {
                 case UserPreferencesManager.VignetteStrength.Off:
@@ -146,7 +143,8 @@ namespace Src.Scripts.Preferences
                     vignetteHigh.isOn = true;
                     break;
                 default:
-                    throw new NotSupportedException("Invalid input update mode: " + userPreferencesManager.VignetteIntensity);
+                    Debug.LogError("OPTIONSMENU: Invalid vignette setting: " + userPreferencesManager.VignetteIntensity);
+                    break;
             }
         }
     
