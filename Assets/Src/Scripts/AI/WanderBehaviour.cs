@@ -12,10 +12,11 @@ namespace Src.Scripts.AI
         public WaitForSeconds wanderDelay;
         [HideInInspector]
         public bool wanderQueued;
-        
+        public float wanderTimeout = 5;
+
         private Vector3 _initialPos;
         private NavMeshAgent _navAgent;
-        private Coroutine wanderCoroutine;
+        private Coroutine _wanderCoroutine;
 
         private void Start()
         {
@@ -33,45 +34,48 @@ namespace Src.Scripts.AI
             if (SetWanderPos())
             {
                 _navAgent.isStopped = false;
+                StartCoroutine(WanderTimeout());
             }
         }
         
         public void WanderUpdate()
         {
-            if (_navAgent.pathStatus == NavMeshPathStatus.PathInvalid)
+            if (IsWanderDone())
             {
-                SetWanderPos();
+                StartWanderAfterDelay();
             }
         }
 
         public bool IsWanderDone()
         {
-            if (!_navAgent.pathPending && Mathf.Approximately(_navAgent.remainingDistance, 0f))
+            // Wander is done if there's no current, queued, or pending path or the agent is close enough to the destination
+            if (!_navAgent.hasPath && !wanderQueued && !_navAgent.pathPending
+                && _navAgent.remainingDistance <= _navAgent.stoppingDistance)
             {
+                StopCoroutine(WanderTimeout());
+                Debug.Log(gameObject.name + " has finished it's wander.");
                 return true;
             }
             return false;
         }
-        
-        public bool SetWanderPos()
+
+        private bool SetWanderPos()
         {
             Vector3 randomPos = _initialPos + Random.insideUnitSphere * wanderDistance;
 
-            if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, wanderDistance, _navAgent.areaMask))
-            {
-                _navAgent.SetDestination(hit.position);
-                return true;
-            }
-            return false;
+            if (!NavMesh.SamplePosition(randomPos, out NavMeshHit hit, wanderDistance, _navAgent.areaMask))
+                return false;
+            
+            return _navAgent.SetDestination(hit.position);
         }
 
         public void StopWander()
         {
-            if (wanderCoroutine != null)
+            if (_wanderCoroutine != null)
             {
-                StopCoroutine(wanderCoroutine);
+                StopAllCoroutines();
 
-                wanderCoroutine = null;
+                _wanderCoroutine = null;
                 wanderQueued = false;
             }
             _navAgent.ResetPath();
@@ -79,19 +83,30 @@ namespace Src.Scripts.AI
 
         public void StartWanderAfterDelay()
         {
-            if (wanderCoroutine != null)
+            if (_wanderCoroutine != null)
             { // In case there's already one running, stop it.
-                StopCoroutine(wanderCoroutine);
+                StopCoroutine(_wanderCoroutine);
             }
-            wanderCoroutine = StartCoroutine(WanderAfterDelay());
+            _wanderCoroutine = StartCoroutine(WanderAfterDelay());
+            Debug.Log(gameObject.name + " will wander after " + timeBetweenWanders + " seconds.");
         }
-        
-        public IEnumerator WanderAfterDelay()
+
+        private IEnumerator WanderAfterDelay()
         {
             wanderQueued = true;
-            yield return wanderDelay;
+            yield return new WaitForSeconds(timeBetweenWanders);
             wanderQueued = false;
             StartWander();
+        }
+        
+        private IEnumerator WanderTimeout()
+        {
+            yield return new WaitForSeconds(wanderTimeout);
+            if (_navAgent.hasPath)
+            {
+                Debug.Log(gameObject.name + " has timed out.");
+                StopWander();
+            }
         }
 
     }

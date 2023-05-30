@@ -7,7 +7,6 @@ using Src.Scripts.Audio;
 using Src.Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Src.Scripts.AI
@@ -25,12 +24,13 @@ namespace Src.Scripts.AI
         public float timeSunk;
         [Tooltip("The time in seconds before another attack can begin")]
         public float attackCooldown;
-
+        
         public ParticleSystem weaponPaintSpray;
         public ParticleSystem groundPaintSpray;
-        public ParticleSystem centerPaintSpray;
         public ParticleSystem groundPaintSplash;
-        [FormerlySerializedAs("paintColorHandler")] public PaintColorMatcher paintColorMatcher;
+        public ParticleSystem centerPaintSpray;
+        public ParticleSystem sunkPaintSpray;
+        public PaintColorMatcher paintColorMatcher;
         public MultiRotationConstraint bodyRotationConstraint;
         public MultiAimConstraint hoseAimConstraint;
         [Tooltip("The trooper will check for paint straight down from this transform.")]
@@ -71,7 +71,7 @@ namespace Src.Scripts.AI
         private Rigidbody _rigidbody;
         private Transform _hoseAimTarget;
         private Transform _bodyRotationTarget;
-
+        private ParticlePainter _sunkSprayParticlePainter;
         protected virtual void Start()
         {
             _sunkDelay = new WaitForSeconds(timeSunk);
@@ -88,8 +88,21 @@ namespace Src.Scripts.AI
                 animator.SetFloat(_offsetHash, Random.Range(0f,1f));
             }
 
-            TryGetComponent(out SfxSource);
-            TryGetComponent(out _rigidbody);
+            if (!TryGetComponent(out SfxSource))
+            {
+                Debug.LogFormat("{0} has no SfxSource", gameObject);
+            }
+            
+            if (!TryGetComponent(out _rigidbody))
+            {
+                Debug.LogWarningFormat("{0} has no RigidBody", gameObject);
+            }
+
+            if (sunkPaintSpray.TryGetComponent(out _sunkSprayParticlePainter))
+            {
+                Debug.LogWarningFormat("{0}'s {1} has no ParticlePainter", gameObject, sunkPaintSpray);
+            }
+            
             PaintTerrainLayerMask = LayerMask.GetMask("Terrain");
             
             stateMachine = new TrooperStateMachine(this, statesData.stateList);
@@ -109,7 +122,7 @@ namespace Src.Scripts.AI
 
             var up = transform.up;
             Physics.Raycast(currPos, -up, out RaycastHit hit, PaintCheckDistance, PaintTerrainLayerMask);
-            Debug.DrawRay(currPos, -up * PaintCheckDistance, Color.red);
+            //Debug.DrawRay(currPos, -up * PaintCheckDistance, Color.red);
             int channel = PaintTarget.RayChannel(hit);
 
             if (channel == -1)
@@ -274,6 +287,16 @@ namespace Src.Scripts.AI
             animator.SetTrigger(_shootGroundHash);
         }
 
+        public void StartSunkSpray()
+        {
+            sunkPaintSpray.Play();
+        }
+
+        public void StopSunkSpray()
+        {
+            sunkPaintSpray.Stop();
+        }
+        
         public void StartGroundSpray()
         {
             groundPaintSpray.Play();

@@ -25,10 +25,7 @@ namespace Src.Scripts.AI.States.Trooper
         public override void Execute()
         {
             _wanderBehaviour.WanderUpdate();
-            if (!_wanderBehaviour.wanderQueued && _wanderBehaviour.IsWanderDone())
-            {
-                _wanderBehaviour.StartWanderAfterDelay();
-            }
+            
             if (_scanner.hasTarget)
             {
                 SwitchState(StateId.TargetSighted);

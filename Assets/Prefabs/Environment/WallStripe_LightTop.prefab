@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3141203160749029849}
   - component: {fileID: 1142581186517585418}
   - component: {fileID: -1497502840551162432}
+  - component: {fileID: 809730458190475234}
   m_Layer: 0
   m_Name: WallStripe_LightTop
   m_TagString: Untagged
@@ -97,3 +98,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.02, y: 0.019999996, z: 0.020536287}
   m_Center: {x: 0, y: 1.9052848e-18, z: 0.00026814497}
+--- !u!208 &809730458190475234
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2461291383918774605}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.010000001, y: 0.010000001, z: 0.010000001}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5

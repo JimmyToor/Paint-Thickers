@@ -86,7 +86,7 @@
         }
         
         /// <summary>
-        /// Searches the state machine hierarchy for the current state down for the first state with the passed StateId.
+        /// Searches downwards in the state machine hierarchy for the first state with the passed StateId.
         /// </summary>
         /// <param name="stateId"></param>
         /// <returns>A reference to the state if found, null otherwise.</returns>
@@ -101,7 +101,7 @@
         }
 
         /// <summary>
-        /// Searches the state machine hierarchy from the current state upwards for the first state with the passed StateId.
+        /// Searches upwards in the state machine hierarchy for the first state with the passed StateId.
         /// </summary>
         /// <param name="stateId"></param>
         /// <returns>A reference to the state if found, null otherwise.</returns>

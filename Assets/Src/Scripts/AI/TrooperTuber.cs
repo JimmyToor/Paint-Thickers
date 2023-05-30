@@ -22,7 +22,6 @@ namespace Src.Scripts.AI
         
         private readonly int _moveSpeedHash = Animator.StringToHash("MoveSpeed");
         
-        private bool _wanderQueued;
         private const float GroundDistance = 1.4f;
 
         protected override void Start() 
@@ -35,12 +34,12 @@ namespace Src.Scripts.AI
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
-            animator.SetFloat(_moveSpeedHash, navAgent.speed);
             UpdateSpeed();
-            if (idleBehaviour == StateId.Wander && !_wanderQueued && stateMachine?.CurrentRootState?.
-                    GetDescendantState(StateId.Idle)?.GetId() == StateId.Idle)
+            
+            BaseState<TrooperStateMachine> idleState = stateMachine.CurrentRootState?.GetDescendantState(StateId.Idle);
+            if (idleState != null && idleBehaviour == StateId.Wander)
             {
-                StartCoroutine(WanderAfterDelay());
+                idleState.SwitchState(StateId.Wander);
             }
         }
         
@@ -86,16 +85,6 @@ namespace Src.Scripts.AI
             {
                 wanderBehaviour.StopWander();
             }
-        }
-
-        public IEnumerator WanderAfterDelay()
-        {
-            _wanderQueued = true;
-            yield return wanderBehaviour.wanderDelay;
-            BaseState<TrooperStateMachine> idleState = stateMachine.CurrentRootState.GetDescendantState(StateId.Idle);
-            idleState?.SwitchState(StateId.Wander);
-            
-            _wanderQueued = false;
         }
     }
 }

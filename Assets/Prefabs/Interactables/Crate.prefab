@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1124921492}
   - component: {fileID: 2086329791943517130}
   - component: {fileID: 1227451622}
+  - component: {fileID: 1588111679563185712}
   m_Layer: 14
   m_Name: Crate
   m_TagString: Untagged
@@ -190,6 +191,22 @@ MonoBehaviour:
   minPitch: 1.2
   maxPitch: 0.8
   cooldownTime: 0
+--- !u!208 &1588111679563185712
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2875753835798774867}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 1, y: 1, z: 1}
+  m_MoveThreshold: 0.1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &3479742289307143194
 GameObject:
   m_ObjectHideFlags: 0

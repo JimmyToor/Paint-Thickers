@@ -195,7 +195,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 774787634508576641}
   m_LocalRotation: {x: 0.02021471, y: 0.01119559, z: -0.0034992509, w: 0.9997269}
-  m_LocalPosition: {x: -0.00004763063, y: 0.018636227, z: -0.13117814}
+  m_LocalPosition: {x: -0.00005070027, y: 0.018636823, z: -0.13118339}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 608389350603944107}
@@ -5154,7 +5154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 1602208250728616211}
 --- !u!1 &1160667131795105559
 GameObject:
@@ -5449,8 +5449,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0202252, y: 0.69525963, z: 1.0343578}
-  m_Center: {x: -0.010163708, y: 0.4888428, z: 0.0066072224}
+  m_Size: {x: 0.969053, y: 0.69525963, z: 0.9444774}
+  m_Center: {x: -0.0025912637, y: 0.48884276, z: 0.026158977}
 --- !u!1 &2663776854992604738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5728,9 +5728,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3384528872739723760}
-  m_LocalRotation: {x: -0.7071068, y: 0.00000019861236, z: 0.00000019861236, w: 0.7071068}
-  m_LocalPosition: {x: -0.00007939355, y: 0.018321775, z: -1.164855e-11}
-  m_LocalScale: {x: 39.96581, y: 39.965824, z: 39.965805}
+  m_LocalRotation: {x: -0.7069847, y: 0.00000019857805, z: 0.00000019864665, w: 0.7072289}
+  m_LocalPosition: {x: -0.00007891641, y: 0.018321581, z: -0.0000029582313}
+  m_LocalScale: {x: 39.96581, y: 39.96582, z: 39.965805}
   m_Children: []
   m_Father: {fileID: 4854389500720049705}
   m_RootOrder: 9
@@ -5795,8 +5795,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.028526854, y: 0.027938275, z: 0.005157427}
-  m_Center: {x: -0.0002351251, y: -0.00023457968, z: 0.00062666106}
+  m_Size: {x: 0.02379244, y: 0.025273165, z: 0.005157427}
+  m_Center: {x: -0.00023492106, y: 0.0001940096, z: 0.00062666123}
 --- !u!1818360610 &7153222158089300301
 ScaleConstraint:
   m_ObjectHideFlags: 0
@@ -6238,7 +6238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 6786248083687487556}
 --- !u!1 &5273099450616966555
 GameObject:
@@ -11654,7 +11654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 6473791964641388963}
 --- !u!1773428102 &1882568556827083753
 ParentConstraint:
@@ -11668,9 +11668,9 @@ ParentConstraint:
   m_TranslationAtRest: {x: 0, y: -0.152, z: 0}
   m_RotationAtRest: {x: -90, y: 0, z: 0}
   m_TranslationOffsets:
-  - {x: 0, y: -0.17739306, z: 0}
+  - {x: 0, y: -0.17739296, z: 0}
   m_RotationOffsets:
-  - {x: -90, y: 0, z: 0}
+  - {x: -89.980225, y: 0, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -11742,7 +11742,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7092883789690065231}
   m_LocalRotation: {x: 0.020067347, y: 0.011746476, z: -0.0035143234, w: 0.9997235}
-  m_LocalPosition: {x: -0.018193431, y: 1.0385984, z: 1.174816}
+  m_LocalPosition: {x: -0.018193733, y: 1.0385988, z: 1.1748137}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7092883790087109803}
@@ -16722,7 +16722,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 7092883789690065227}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 7092883789690065268}
 --- !u!1 &7092883790087109802
 GameObject:
@@ -21654,7 +21654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 7092883790087109844}
 --- !u!1 &7092883790325589511
 GameObject:
@@ -26587,7 +26587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 7092883790325589505}
 --- !u!1 &7092883790659141640
 GameObject:
@@ -31464,7 +31464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 7092883790659141642}
 --- !u!1 &7399093030035663733
 GameObject:
@@ -31480,7 +31480,7 @@ GameObject:
   - component: {fileID: 843754734618459472}
   - component: {fileID: 4836306880909642676}
   m_Layer: 9
-  m_Name: Center Spray Collision Particles
+  m_Name: Sunk Spray Collision Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32443,7 +32443,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 50
+        scalar: 1
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -32493,7 +32493,7 @@ ParticleSystem:
           m_PreInfinity: 2
           m_PostInfinity: 2
           m_RotationOrder: 4
-      cycleCount: 1
+      cycleCount: 0
       repeatInterval: 1
       probability: 1
   SizeModule:
@@ -36393,16 +36393,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   brush:
-    paintPattern: {fileID: 2800000, guid: f66159b1d87ac7c42bb17699914f00a6, type: 3}
-    splatsX: 4
-    splatsY: 4
-    splatIndex: -1
-    splatScale: 5
+    paintPattern: {fileID: 2800000, guid: f9eaf6d741995a04da88af717b5398b3, type: 3}
+    splatsX: 1
+    splatsY: 1
+    splatIndex: 0
+    splatScale: 4
     splatRandomScaleMin: 1
     splatRandomScaleMax: 1
     splatRotation: 0
     splatRandomRotation: 180
-    splatChannel: 1
+    splatChannel: 0
   damage: 1
   randomChannel: 0
   collisionSfx: 0
@@ -36418,7 +36418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 843754734618459472}
   paintRenderer: {fileID: 8636605846771862225}
 --- !u!1 &7691891980511213064
 GameObject:
@@ -36541,8 +36541,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7822339647306168917}
-  m_LocalRotation: {x: -0.0001454972, y: 0.0005516485, z: -0.0000021667793, w: 0.9999999}
-  m_LocalPosition: {x: -0.01800115, y: 1.0200003, z: 1.3059994}
+  m_LocalRotation: {x: -0.0001454972, y: 0.00055155484, z: -0.000002166793, w: 0.9999999}
+  m_LocalPosition: {x: -0.017998401, y: 1.0200001, z: 1.3060024}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2288065809269605555}
@@ -41498,7 +41498,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  partPainter: {fileID: 0}
+  particlePainter: {fileID: 0}
   paintRenderer: {fileID: 0}
 --- !u!1 &7975758305875046193
 GameObject:
@@ -41574,8 +41574,9 @@ MonoBehaviour:
   attackCooldown: 1
   weaponPaintSpray: {fileID: 7092883789690065269}
   groundPaintSpray: {fileID: 1131818686964381032}
-  centerPaintSpray: {fileID: 3909945516802403461}
   groundPaintSplash: {fileID: 7327320937948109794}
+  centerPaintSpray: {fileID: 3909945516802403461}
+  sunkPaintSpray: {fileID: 3909945516802403461}
   paintColorMatcher: {fileID: 8873669058257279780}
   bodyRotationConstraint: {fileID: 2677401936103690208}
   hoseAimConstraint: {fileID: 92664583299186510}
@@ -41587,7 +41588,7 @@ MonoBehaviour:
   animator: {fileID: 8163667220085843564}
   lowerColliders:
   - {fileID: 3384528872739723772}
-  wander: {fileID: 7975758305875046205}
+  wanderBehaviour: {fileID: 7975758305875046205}
   normalSpeed: 3.5
   slowedSpeed: 1.5
   navAgent: {fileID: 7975758305875046195}
@@ -41685,7 +41686,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 7975758305875046193}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.7
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
@@ -41697,7 +41698,7 @@ NavMeshAgent:
   m_Height: 0.82
   m_BaseOffset: 0.09
   m_WalkableMask: 1
-  m_ObstacleAvoidanceType: 2
+  m_ObstacleAvoidanceType: 3
 --- !u!114 &7975758305875046205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41710,9 +41711,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2379f1e58ed4b38a3adb718a41603fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wanderDistance: 7.85
-  timeBetweenWanders: 2
+  wanderDistance: 5
+  timeBetweenWanders: 5
   wanderQueued: 0
+  wanderTimeout: 5
 --- !u!95 &8163667220085843564
 Animator:
   serializedVersion: 3
@@ -41761,7 +41763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f321105b43df4a13b6f77f419705a33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightDistance: 7.56
+  sightDistance: 9
   timeBetweenScans: 0
   searchWhenNoTarget: 0
   targetLayerMask:
@@ -41786,6 +41788,7 @@ MonoBehaviour:
   matchEnvironmentColor:
   - {fileID: 5215086132837970291}
   - {fileID: 2822309816191713571}
+  - {fileID: 4836306880909642676}
   matchTeamColor:
   - {fileID: 3340088394285416348}
   - {fileID: 5278278376721498869}
@@ -41793,7 +41796,6 @@ MonoBehaviour:
   - {fileID: 4210929049553377300}
   - {fileID: 7694072904434304390}
   - {fileID: 3559984797258598686}
-  - {fileID: 4836306880909642676}
 --- !u!114 &6555876089391402238
 MonoBehaviour:
   m_ObjectHideFlags: 0
