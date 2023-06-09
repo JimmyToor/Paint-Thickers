@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 582212146852590086}
   - component: {fileID: 4592463572908375459}
   - component: {fileID: 1756194948690938217}
-  - component: {fileID: -4586619445308418607}
+  - component: {fileID: 9118411129959158150}
+  - component: {fileID: 8030874615768303828}
   m_Layer: 0
   m_Name: BarrierObstacle
   m_TagString: Untagged
@@ -82,8 +83,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &-4586619445308418607
-BoxCollider:
+--- !u!64 &9118411129959158150
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -92,6 +93,27 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.04879982, y: 0.020000022, z: 0.021130187}
-  m_Center: {x: 6.736373e-11, y: -1.3099404e-10, z: 0.000565088}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5495902117074765545, guid: cef02971dde3d39479be19bd8f6056c5, type: 3}
+--- !u!114 &8030874615768303828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 243122295288146108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d9e9bf3a49e644b88a8db36eb56bcb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paintTextureSize: 1024
+  renderTextureSize: 1024
+  setupOnStart: 1
+  paintAllSplats: 0
+  useBaked: 0
+  paintComputeShader: {fileID: 0}
+  splatTexPick: {fileID: 0}
+  bakedTex: {fileID: 0}

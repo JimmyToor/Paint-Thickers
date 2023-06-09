@@ -37,6 +37,7 @@ namespace Src.Scripts.Gameplay
 
         private void Awake()
         {
+            _resetPosition = transform.position;
             InvokeRepeating(nameof(NewResetPosition),2f,5f);
             _locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
             _charController = GetComponent<CharacterController>();
@@ -69,11 +70,12 @@ namespace Src.Scripts.Gameplay
             {
                 Debug.LogErrorFormat("{0} has no WeaponHandler!", gameObject);
             }
+            
+            playerEvents = GetComponent<PlayerEvents>();
         }
 
         private void Start()
         {
-            playerEvents = GetComponent<PlayerEvents>();
             SetupEvents();
         }
 
@@ -224,18 +226,22 @@ namespace Src.Scripts.Gameplay
 
         private void NewResetPosition()
         {
-            if (_charController.isGrounded)
-            {
-                _resetPosition = transform.position;
-                _resetPosition.y += 0.5f;
-            }
+            if (!_charController.isGrounded) return;
+            
+            _resetPosition = transform.position;
+            _resetPosition.y += 0.5f;
         }
 
+        public void ResetPosition()
+        {
+            transform.position = _resetPosition;
+        }
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("OOBVolume"))
             {
-                transform.position = _resetPosition;
+                ResetPosition();
             }
         }
 
@@ -256,6 +262,7 @@ namespace Src.Scripts.Gameplay
         public void DisableGravity()
         {
             _locomotion.useGravity = false;
+            _locomotion.SlopeHandling = false;
         }
         
         public void EnableGravity()

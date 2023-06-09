@@ -9,9 +9,19 @@ namespace UnityEngine.XR.Interaction.Toolkit
     public abstract class ContinuousMoveProviderBase : LocomotionProvider
     {
         public Vector3 LatestRelativeInput { get; private set; }
-        public bool UseRigRelativeGravity { get; set; } // Apply gravity to local Y-axis
-        public float GravityScale { get; set; } = 1; // Only applies to global Y-axis gravity
-        public bool SlopeHandling { get; set; } = true; // Apply extra downward force to reduce jitter on slopes
+        /// <summary>
+        /// Controls whether gravity is relative to the rig or the world.
+        /// </summary>
+        public bool UseRigRelativeGravity { get; set; }
+        /// <summary>
+        /// Multiply the force gravity applies to the rig.
+        /// <remarks>Only applies to world relative gravity.</remarks>
+        /// </summary>
+        public float GravityScale { get; set; } = 1;
+        /// <summary>
+        /// Apply extra downward force to reduce jitter on slopes.
+        /// </summary>
+        public bool SlopeHandling { get; set; } = true;
         
         /// <summary>
         /// Defines when gravity will begin to take effect.
@@ -210,15 +220,17 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 {
                     m_VerticalVelocity = Vector3.zero;
                 }
-                else
+                else if (m_UseGravity)
                 {
-                    Vector3 scaledGravity = GravityScale * Physics.gravity;
-                    m_VerticalVelocity += scaledGravity * Time.deltaTime;
-                }
-                
-                if (UseRigRelativeGravity)
-                {
-                    m_VerticalVelocity += xrRig.transform.TransformVector(Physics.gravity * Time.deltaTime);
+                    if (UseRigRelativeGravity)
+                    {
+                        m_VerticalVelocity += xrRig.transform.TransformVector(Physics.gravity * Time.deltaTime);
+                    }
+                    else
+                    {
+                        Vector3 scaledGravity = GravityScale * Physics.gravity;
+                        m_VerticalVelocity += scaledGravity * Time.deltaTime;
+                    }
                 }
 
                 if (SlopeHandling)
@@ -235,14 +247,10 @@ namespace UnityEngine.XR.Interaction.Toolkit
                     EndLocomotion();
                 }
             }
-            else
+            else if (CanBeginLocomotion() && BeginLocomotion())
             {
-                if (CanBeginLocomotion() && BeginLocomotion())
-                {
-                    xrRig.rig.transform.position += motion;
-
-                    EndLocomotion();
-                }
+                xrRig.rig.transform.position += motion;
+                EndLocomotion();
             }
         }
 

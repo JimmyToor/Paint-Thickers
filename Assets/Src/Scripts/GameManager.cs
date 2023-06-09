@@ -10,13 +10,16 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts
 {
     public class GameManager : Singleton<GameManager>
     {
-        public Player player;
+        public GameObject xrRigGameObject;
         public Volume postProcessVolume;
+        public Transform spawnPoint;
         public GameObject gameOverUI;
         public GameObject winUI;
         public GameObject pauseMenu;
@@ -24,23 +27,31 @@ namespace Src.Scripts
         public GameObject mainMenu;
         public TeamColorScriptableObject teamColorData;
         public UnityEvent onResume;
-    
+
         private ColorAdjustments _volumeColorAdjustments;
         private ParentConstraint _menuParentConstraint;
-    
+        private Player _player;
+        private XRRig _xrRig;
+
         private static readonly int PaintColor1 = Shader.PropertyToID("_PaintColor1");
         private static readonly int PaintColor2 = Shader.PropertyToID("_PaintColor2");
         private static readonly int PaintColor3 = Shader.PropertyToID("_PaintColor3");
         private static readonly int PaintColor4 = Shader.PropertyToID("_PaintColor4");
         private const int PauseSaturationAdjustment = -100;
 
-        private void Start()
+        public override void Awake()
         {
-            if (player == null)
+            base.Awake();
+            
+            if (xrRigGameObject == null)
             {
-                player = GameObject.Find("XR Rig").GetComponent<Player>();
+                xrRigGameObject = GameObject.Find("XR Rig");
             }
 
+            _xrRig = xrRigGameObject.GetComponent<XRRig>();
+
+            _player = xrRigGameObject.GetComponent<Player>();
+            
             if (gameOverUI == null)
             {
                 gameOverUI = GameObject.Find("UI_GameOverMenu");
@@ -50,7 +61,10 @@ namespace Src.Scripts
             {
                 winUI = GameObject.Find("UI_WinMenu");
             }
+        }
 
+        private void Start()
+        {
             if (postProcessVolume != null)
             {
                 postProcessVolume.profile.TryGet(out _volumeColorAdjustments);
@@ -65,86 +79,108 @@ namespace Src.Scripts
             pauseButton.action.performed += OnPauseButtonPressed;
             _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
             DisablePauseButton();
+            HideMenu(winUI);
+            HideMenu(gameOverUI);
+            HideMenu(pauseMenu);
             ShowMenu(mainMenu);
-            player.DisableGameHands();
-            player.EnableUIHands();
-            Pause();
+            _player.DisableGameHands();
+            _player.EnableUIHands();
         }
 
         public void PlayerDeath()
         {
-            player.playerEvents.Stand.Invoke();
-            player.DisableOverlayUI();
-            player.DisableWeapon();
-            player.DisableGameHands();
-            player.EnableUIHands();
+            _player.playerEvents.Stand.Invoke();
+            _player.DisableOverlayUI();
+            _player.DisableWeapon();
+            _player.DisableGameHands();
+            _player.EnableUIHands();
             ShowGameOverUI();
             Pause();
-            _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
         }
 
+        public void RespawnPlayer()
+        {
+            if (_xrRig == null)
+            {
+                Debug.Log("GAME_MANAGER: Could not respawn player. XRRig was not found.");
+                return;
+            }
+            
+            if (spawnPoint == null)
+            {
+                Debug.Log("GAME_MANAGER: Could not respawn player. Spawn Point was not found.");
+                return;
+            }
+            
+            _xrRig.MoveCameraToWorldLocation(spawnPoint.position);
+        }
         public void Win()
         {
-            player.DisableOverlayUI();
-            player.DisableWeapon();
-            player.DisableGameHands();
-            player.EnableUIHands();
+            _player.DisableOverlayUI();
+            _player.DisableWeapon();
+            _player.DisableGameHands();
+            _player.EnableUIHands();
             ShowWinUI();
             Pause();
-            _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
         }
 
         private void OnPauseButtonPressed(InputAction.CallbackContext callbackContext)
         {
+            TogglePause();
+        }
+
+        [ContextMenu("Toggle Pause")]
+        private void TogglePause()
+        {
             if (Time.timeScale == 0f)
             {
-                Unpause();
-                _volumeColorAdjustments.saturation.value = 0;
                 HideMenu(pauseMenu);
-                player.DisableUIHands();
-                player.ShowGameHands();
+                Unpause();
             }
             else
             {
-                Pause();
-                _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
                 ShowMenu(pauseMenu);
-                player.EnableUIHands();
-                player.HideGameHands();
+                Pause();
             }
         }
-
+        
         public void Pause()
         {
+            _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
+            _player.EnableUIHands();
+            _player.HideGameHands();
             Time.timeScale = 0f;
         }
 
         public void Unpause()
         { 
+            _volumeColorAdjustments.saturation.value = 0;
+            _player.DisableUIHands();
+            _player.ShowGameHands();
             Time.timeScale = 1f;
             onResume.Invoke();
         }
 
         public void ShowMenu(GameObject menu)
         {
-            menu.SetActive(true);
-            
+            menu.transform.localScale = Vector3.one;
+
             // Stop the menu from moving around while it's open
             if (menu.TryGetComponent(out ParentConstraint parentConstraint))
             {
-                StartCoroutine(DisableMenuConstraint(parentConstraint));
+                parentConstraint.constraintActive = false;
             }
 
             if (menu.TryGetComponent(out RotationConstraint rotationConstraint))
             {
-                StartCoroutine(DisableMenuConstraint(rotationConstraint));
+                rotationConstraint.constraintActive = false;
             }
         }
 
         public void HideMenu(GameObject menu)
         {
-            menu.SetActive(false);
-
+            menu.transform.localScale = Vector3.zero;
+            
             if (menu.TryGetComponent(out ParentConstraint parentConstraint))
             {
                 parentConstraint.constraintActive = true;
@@ -154,48 +190,32 @@ namespace Src.Scripts
             {
                 rotationConstraint.constraintActive = true;
             }
-            
-            _volumeColorAdjustments.saturation.value = 0;
         }
 
-        /// <summary>
-        /// Deactivates the <paramref name="constraint"/> after the next FixedUpdate.
-        /// <remarks>This waits one FixedUpdate tick because if the constraint's GameObject was disabled,
-        /// the constraint must be active for one tick to actually move into its constrained position.</remarks>
-        /// </summary>
-        /// <param name="constraint"></param>
-        /// <returns></returns>
-        private static IEnumerator DisableMenuConstraint(IConstraint constraint)
-        {
-            yield return new WaitForFixedUpdate(); // Wait one tick
-            constraint.constraintActive = false;
-        }
-    
         [ContextMenu("Start Game")]
         public void StartGame()
         {
             HideMenu(mainMenu);
+            _player.EnableGameHands();
             Unpause();
-            player.DisableUIHands();
-            player.EnableGameHands();
             EnablePauseButton();
         }
     
         private void ShowWinUI()
         {
             winUI.SetActive(true);
-            player.DisableGameHands();
-            player.EnableUIHands();
+            _player.DisableGameHands();
+            _player.EnableUIHands();
         }
     
         private void ShowGameOverUI()
         {
             gameOverUI.SetActive(true);
-            player.DisableGameHands();
-            player.EnableUIHands();
+            _player.DisableGameHands();
+            _player.EnableUIHands();
             if (gameOverUI.TryGetComponent(out ParentConstraint constraint))
             {
-                StartCoroutine(DisableMenuConstraint(constraint));
+                constraint.constraintActive = false;
             }
         }
     
@@ -217,9 +237,9 @@ namespace Src.Scripts
     
         public void Quit()
         {
-#if UNITY_EDITOR
+            #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-#endif
+            #endif
             Application.Quit();
         }
     

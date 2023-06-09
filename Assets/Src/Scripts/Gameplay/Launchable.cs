@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Src.Scripts.Gameplay
 {
@@ -23,12 +24,12 @@ namespace Src.Scripts.Gameplay
         public bool canLaunch;
         public AudioClip landingAudioClip;
         public GameObject landingVFX;
-        public Transform fxPosition;
+        public Transform VFXPosition;
 
-        private PlayerEvents _playerEvents;
-        private Vector3 _startPos;
-        private float _progress;
-        private LaunchableParams _launchParams;
+        protected PlayerEvents _playerEvents;
+        protected Vector3 _startPos;
+        protected float _progress;
+        protected LaunchableParams _launchParams;
     
 
         private void OnEnable()
@@ -72,7 +73,7 @@ namespace Src.Scripts.Gameplay
         /// Launch the object in an arc by moving it in a straight line towards the target and adjusting the
         /// y-position over time.
         /// </summary>
-        private void UpdateLaunchProgress()
+        protected virtual void UpdateLaunchProgress()
         {
             // Increment our progress from 0 at the start, to 1 when we arrive.
             _progress = Mathf.Min(_progress + Time.deltaTime * _launchParams.stepScale, 1.0f);
@@ -92,7 +93,7 @@ namespace Src.Scripts.Gameplay
             }
         }
 
-        public void Launch(LaunchableParams launchParameters)
+        public virtual void Launch(LaunchableParams launchParameters)
         {
             _launchParams = launchParameters;
             _startPos = transform.position;
@@ -107,7 +108,7 @@ namespace Src.Scripts.Gameplay
         }
 
         // Wait while the launcher plays effects
-        private IEnumerator BuildUp()
+        protected IEnumerator BuildUp()
         {
             yield return new WaitForSeconds(_launchParams.buildupTime);
             isLaunched = true;
@@ -119,10 +120,9 @@ namespace Src.Scripts.Gameplay
             SpawnFXAtFeet();
         }
 
-        private void SpawnFXAtFeet()
+        protected virtual void SpawnFXAtFeet()
         {
-            Vector3 fxPos = fxPosition.position;
-            fxPos.y = transform.position.y;
+            Vector3 fxPos = VFXPosition.position;
             AudioSource.PlayClipAtPoint(landingAudioClip, fxPos);
             Instantiate(landingVFX, fxPos, Quaternion.identity);
         }

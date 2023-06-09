@@ -2350,7 +2350,7 @@ GameObject:
   - component: {fileID: 1614226181}
   - component: {fileID: 1614226183}
   - component: {fileID: 4989558145552763728}
-  - component: {fileID: 160198625}
+  - component: {fileID: 7502116420608393179}
   - component: {fileID: 7547286212558639657}
   - component: {fileID: 1675898090}
   - component: {fileID: 1675898088}
@@ -2476,11 +2476,12 @@ MonoBehaviour:
   squidSpeed: 2
   swimSpeed: 6
   enemyPaintSpeed: 1
+  speedTransitionStep: 0
   frontCheck: {fileID: 1570858205}
   normalSet: 0
   swimSound: {fileID: 1675898090}
   sinkSounds: {fileID: 1675898088}
---- !u!114 &160198625
+--- !u!114 &7502116420608393179
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2489,14 +2490,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4989558147164366925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a7fe12f82b56a14ba74301debc28d09, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ff68fd0eeb88714e8e71cedcec051b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isLaunched: 0
   canLaunch: 0
   landingAudioClip: {fileID: 8300000, guid: 3a4f5d0ea48748b4eb944fecc4f2a279, type: 3}
   landingVFX: {fileID: 2139424295741764733, guid: daf588f721c7c884fb7e4c24594d9485, type: 3}
-  fxPosition: {fileID: 4989558146584083176}
+  VFXPosition: {fileID: 4989558146584083176}
 --- !u!114 &7547286212558639657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2514,6 +2515,7 @@ MonoBehaviour:
   invulnerable: 0
   useHitDamageMaterial: 0
   destroyOnDeath: 0
+  destroyOnDeathDelay: 0
   regenerative: 1
   hitCooldown: 0
   regenCooldown: 4
