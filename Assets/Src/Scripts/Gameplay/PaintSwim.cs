@@ -1,5 +1,10 @@
+using System;
+using System.Collections;
+using System.Runtime.InteropServices;
 using Src.Scripts.Audio;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 using Random = UnityEngine.Random;
 
@@ -12,13 +17,19 @@ namespace Src.Scripts.Gameplay
         public ActionBasedContinuousMoveProvider locomotion; 
         [Tooltip("Mask for swimmable layers")]
         public LayerMask swimmableLayers;
-        public float squidSpeed; // Speed of squid out of paint
-        public float swimSpeed; // Speed of squid in paint
-        public float enemyPaintSpeed; // Speed in enemy paint as human or squid
-        public Transform frontCheck; // Used to check for terrain changes in the direction we're moving
+        [Tooltip("Speed of squid out of paint")]
+        public float squidSpeed; 
+        [Tooltip("Speed of squid in paint")]
+        public float swimSpeed;
+        [Tooltip("Speed in enemy paint as human or squid")]
+        public float enemyPaintSpeed;
+        [Tooltip("Controls how much move speed will increase or decrease over a second.")]
+        public float speedTransitionStep;
+        [Tooltip("Used to check for terrain changes in the direction we're moving")]
+        public Transform frontCheck;
         [HideInInspector]
         public bool normalSet;
-        public AudioSource swimSound; // Swimming sound determined by AudioSource's AudioClip
+        public AudioSource swimSound;
         public SFXSource sinkSounds;
 
         /// <summary>
@@ -33,7 +44,7 @@ namespace Src.Scripts.Gameplay
                 _inPaint = value;
                 if (!value)
                 {
-                    CanSwim = false; // Can't swim if not in paint
+                    _canSwim = false; // Can't swim if not in paint
                 }
             }
         }
@@ -50,9 +61,19 @@ namespace Src.Scripts.Gameplay
                 _canSwim = value;
                 if (value)
                 {
-                    InPaint = true; // Must be in paint if we can swim
+                    _inPaint = true; // Must be in paint if we can swim
                 }
             }
+        }
+
+        public float GoalSpeed
+        {
+            get => _goalSpeed;
+            set
+            {
+                _goalSpeed = value;
+                _sign = Mathf.Sign(_goalSpeed - locomotion.moveSpeed);;
+            } 
         }
 
         private Player _player;
@@ -67,21 +88,35 @@ namespace Src.Scripts.Gameplay
         private float _frontAngle;
         private OrientationHandling _orientationHandling;
         private RaycastHit _belowHit;
+        private RaycastHit _frontHit;
         private bool _inPaint;
         private bool _canSwim;
+        private bool _speedTransitioning;
         private CharacterController _charController;
+        private float _goalSpeed;
+        private float _sign;
 
-        void Start()
+        private void Awake()
         {
             _player = GetComponent<Player>();
-            locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
+            
+            if (locomotion == null)
+            {
+                locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
+            }
+            
             _orientationHandling = GetComponent<OrientationHandling>();
             _charController = GetComponent<CharacterController>();
             _squidLayer = LayerMask.NameToLayer("Squid");
             _playerLayer = LayerMask.NameToLayer("Players");
+        }
+
+        void Start()
+        {
             _camOffset = transform.GetChild(0);
             _playerHead = _camOffset.GetChild(0);
             _frontCheckAxis = frontCheck.parent;
+            GoalSpeed = locomotion.moveSpeed;
         }
 
         private void OnEnable()
@@ -90,16 +125,32 @@ namespace Src.Scripts.Gameplay
             SetupEvents();
         }
 
+        private void Update()
+        {
+            if (!Mathf.Approximately(locomotion.moveSpeed, GoalSpeed))
+            {   // Move the current speed closer to the goal speed
+                float speedRemaining = Mathf.Abs(GoalSpeed - locomotion.moveSpeed);
+                float delta = _sign * Mathf.Min(Time.deltaTime * speedTransitionStep,speedRemaining);
+                locomotion.moveSpeed += delta;
+            }
+        }
+
         private void FixedUpdate()
         {
             if (_player.isSquid)
             {
+                CheckTerrain();
+                _orientationHandling.UpdateOrientation();
+
                 Swim();
             }
-            else
+            else 
             {
                 _orientationHandling.ResetHeight();
-                _orientationHandling.ResetOrientation();
+                if (transform.up != Vector3.up)
+                {
+                    _orientationHandling.ResetOrientation();
+                }
             }
         }
 
@@ -113,7 +164,9 @@ namespace Src.Scripts.Gameplay
         // Look for terrain changes under the main camera
         private void CheckGroundBelow()
         {
-            Physics.Raycast(_playerHead.position, -_camOffset.up, out _belowHit, 1f, swimmableLayers);
+            if (!Physics.Raycast(_playerHead.position, -_camOffset.up, out _belowHit, 1f, swimmableLayers) 
+                || _belowHit.transform == null) return;
+            
             //Debug.DrawRay(_playerHead.position,-_camOffset.up,Color.red,2f);
             int channel = PaintTarget.RayChannel(_belowHit);
 
@@ -136,7 +189,7 @@ namespace Src.Scripts.Gameplay
                 InPaint = false;
             }
 
-            if (!_player.isSquid || _belowHit.transform == null) return;
+            if (!_player.isSquid) return;
             
             if (!normalSet) // Don't want to change the normal if it's been set by terrain ahead
             {
@@ -147,10 +200,10 @@ namespace Src.Scripts.Gameplay
         // Look for terrain changes under frontCheck
         private void CheckGroundAhead()
         {
-            if (!Physics.Raycast(frontCheck.position, -frontCheck.up, out RaycastHit frontHit, 1f,
-                    swimmableLayers)) return;
+            if (!Physics.Raycast(frontCheck.position, -frontCheck.up, out _frontHit, 1f, swimmableLayers)
+                || _frontHit.transform == null) return;
 
-            normalSet = _orientationHandling.SetNewNormal(frontHit, PaintTarget.RayChannel(frontHit));
+            normalSet = _orientationHandling.SetNewNormal(_frontHit, PaintTarget.RayChannel(_frontHit));
         }
 
         private void SetupEvents()
@@ -172,8 +225,6 @@ namespace Src.Scripts.Gameplay
             locomotion.SlopeHandling = false;
             _player.isSquid = true;
             gameObject.layer = _squidLayer;
-            CheckTerrain();
-            _orientationHandling.UpdateOrientation();
         }
 
         private void HandleStand()
@@ -181,17 +232,9 @@ namespace Src.Scripts.Gameplay
             locomotion.SlopeHandling = true;
             gameObject.layer = _playerLayer;
             _player.isSquid = false;
-            locomotion.moveSpeed = _player.walkSpeed;
+            GoalSpeed = _player.walkSpeed;
             swimSound.Stop();
             CanSwim = false;
-        
-            // Rotating the character controller can result in clipping
-            // Pop the player up a bit to prevent this when we reset orientation
-            if (transform.up == Vector3.up) return;
-            //
-            // Vector3 currPos = transform.localPosition;
-            // currPos.y += 0.5f;
-            // transform.position = currPos;
         }
 
         // Adjust speed while swimming
@@ -200,7 +243,9 @@ namespace Src.Scripts.Gameplay
             if (CanSwim)
             {
                 _orientationHandling.ToHeightWithoutOffset(OrientationHandling.SwimHeight);
-                locomotion.moveSpeed = swimSpeed;
+                
+                GoalSpeed = swimSpeed;
+
                 _player.EnableWeaponUI();
                 _player.RefillWeaponAmmo();
             
@@ -225,7 +270,7 @@ namespace Src.Scripts.Gameplay
                     swimSound.Stop();
                 }
                 
-                locomotion.moveSpeed = !InPaint ? squidSpeed : enemyPaintSpeed;
+                GoalSpeed = !InPaint ? squidSpeed : enemyPaintSpeed;
                 _player.HideWeapon();
             }
         }
@@ -238,12 +283,6 @@ namespace Src.Scripts.Gameplay
             Vector3 currAngles = _frontCheckAxis.localEulerAngles;
             currAngles.y = newAngle;
             _frontCheckAxis.localEulerAngles = currAngles;
-
-            if (!_player.isSquid) return;
-            
-            // Player moved, so check the terrain again
-            CheckTerrain();
-            _orientationHandling.UpdateOrientation();
         }
     }
 }

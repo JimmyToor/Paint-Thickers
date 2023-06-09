@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Gameplay
@@ -23,13 +25,16 @@ namespace Src.Scripts.Gameplay
         private float _targetHeight;
         private float _slopeLimit;
         private bool _orienting;
+        private XRRig _xrRig;
+        private float _wallGravityScale = 0.05f;
 
         void Start()
         {
+            _xrRig = GameObject.Find("XR Rig").GetComponent<XRRig>();
             _player = GetComponent<Player>();
             _camOffset = transform.GetChild(0);
             _playerHead = _camOffset.GetChild(0);
-            NewNormal = Vector3.zero;
+            NewNormal = transform.up;
         }
 
         private void Awake()
@@ -43,14 +48,7 @@ namespace Src.Scripts.Gameplay
 
         public void UpdateOrientation()
         {
-            if (NewNormal == Vector3.zero) 
-            { 
-                NewNormal = Vector3.up; // reset our orientation since there was nothing to match orientation with
-            }
-        
             ToOrientation(NewNormal.normalized);
- 
-            NewNormal = Vector3.zero;
         }
 
         /// <summary>
@@ -69,12 +67,12 @@ namespace Src.Scripts.Gameplay
             
             NewNormal = hit.normal;
             return true;
-
         }
 
         public void ResetOrientation()
         {
-            ToOrientation(Vector3.up);
+            NewNormal = Vector3.up;
+            UpdateOrientation();
         }
 
         /// <summary>
@@ -85,19 +83,38 @@ namespace Src.Scripts.Gameplay
         {
             if (newUp == transform.up) return; // Already at this orientation, nothing to do
             
-        
-            Quaternion currRot = transform.rotation;
-            var newRotation = Quaternion.FromToRotation(transform.up, newUp) * currRot;
+            // Get the tangent axis on which the rig will rotate
+            Vector3 axis = Vector3.Cross(newUp, transform.up);
+            if (axis == Vector3.zero)
+            {
+                axis = Vector3.Cross(newUp, transform.forward);
+            }
 
-            transform.rotation = Quaternion.RotateTowards(currRot, newRotation, Time.deltaTime * rotationSpeed);
+            float angle = Vector3.SignedAngle(newUp, transform.up, axis);
+            float rotationAmount;
+            
+            if (Mathf.Abs(angle) <= rotationSpeed)
+            {
+                rotationAmount = -angle;
+            }
+            else if (angle > 0)
+            {
+                rotationAmount = -rotationSpeed;
+            }
+            else
+            {
+                rotationAmount = rotationSpeed;
+            }
 
+            _xrRig.RotateAroundCameraPosition(axis, rotationAmount);
+            
             float newAngle = Vector3.Angle(newUp, Vector3.up);
         
             if (newAngle > _slopeLimit)
             {
                 // Reduce gravity for the rig enough to be able to move up the wall, but still slide down if not moving
                 locomotion.UseRigRelativeGravity = true;
-                locomotion.GravityScale = 0.05f;
+                locomotion.GravityScale = _wallGravityScale;
             }
             else
             {
