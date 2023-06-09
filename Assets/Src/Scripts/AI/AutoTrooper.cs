@@ -71,7 +71,7 @@ namespace Src.Scripts.AI
         private Rigidbody _rigidbody;
         private Transform _hoseAimTarget;
         private Transform _bodyRotationTarget;
-        private ParticlePainter _sunkSprayParticlePainter;
+        
         protected virtual void Start()
         {
             _sunkDelay = new WaitForSeconds(timeSunk);
@@ -98,11 +98,6 @@ namespace Src.Scripts.AI
                 Debug.LogWarningFormat("{0} has no RigidBody", gameObject);
             }
 
-            if (sunkPaintSpray.TryGetComponent(out _sunkSprayParticlePainter))
-            {
-                Debug.LogWarningFormat("{0}'s {1} has no ParticlePainter", gameObject, sunkPaintSpray);
-            }
-            
             PaintTerrainLayerMask = LayerMask.GetMask("Terrain");
             
             stateMachine = new TrooperStateMachine(this, statesData.stateList);

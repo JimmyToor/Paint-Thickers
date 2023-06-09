@@ -15,6 +15,7 @@ namespace Src.Scripts.Gameplay
         public bool invulnerable;
         public bool useHitDamageMaterial;
         public bool destroyOnDeath;
+        public float destroyOnDeathDelay;
         public bool regenerative; // Whether or not health regenerates
         public float hitCooldown; // How long until we can be hit again after being hit
         public float regenCooldown; // How long until health regenerates
@@ -137,7 +138,9 @@ namespace Src.Scripts.Gameplay
             onDeath?.Invoke();
 
             if (destroyOnDeath)
-                Destroy(gameObject);
+            {
+                Destroy(gameObject,destroyOnDeathDelay);
+            }
         }
 
         void OnHit(Vector3 hitPos)

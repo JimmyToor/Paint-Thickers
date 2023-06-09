@@ -10,9 +10,10 @@ namespace Src.Scripts.AI
         public float wanderDistance;
         public float timeBetweenWanders;
         public WaitForSeconds wanderDelay;
+        public WaitForSeconds wanderTimeout;
         [HideInInspector]
         public bool wanderQueued;
-        public float wanderTimeout = 5;
+        public float wanderTimeoutTime = 5;
 
         private Vector3 _initialPos;
         private NavMeshAgent _navAgent;
@@ -21,6 +22,7 @@ namespace Src.Scripts.AI
         private void Start()
         {
             wanderDelay = new WaitForSeconds(timeBetweenWanders);
+            wanderTimeout = new WaitForSeconds(wanderTimeoutTime);
         }
 
         private void OnEnable()
@@ -31,11 +33,11 @@ namespace Src.Scripts.AI
 
         public void StartWander()
         {
-            if (SetWanderPos())
-            {
-                _navAgent.isStopped = false;
-                StartCoroutine(WanderTimeout());
-            }
+            if (!SetWanderPos()) return;
+            
+            StopAllCoroutines();
+            _navAgent.isStopped = false;
+            StartCoroutine(WanderTimeout());
         }
         
         public void WanderUpdate()
@@ -53,7 +55,6 @@ namespace Src.Scripts.AI
                 && _navAgent.remainingDistance <= _navAgent.stoppingDistance)
             {
                 StopCoroutine(WanderTimeout());
-                Debug.Log(gameObject.name + " has finished it's wander.");
                 return true;
             }
             return false;
@@ -88,23 +89,21 @@ namespace Src.Scripts.AI
                 StopCoroutine(_wanderCoroutine);
             }
             _wanderCoroutine = StartCoroutine(WanderAfterDelay());
-            Debug.Log(gameObject.name + " will wander after " + timeBetweenWanders + " seconds.");
         }
 
         private IEnumerator WanderAfterDelay()
         {
             wanderQueued = true;
-            yield return new WaitForSeconds(timeBetweenWanders);
+            yield return wanderDelay;
             wanderQueued = false;
             StartWander();
         }
         
         private IEnumerator WanderTimeout()
         {
-            yield return new WaitForSeconds(wanderTimeout);
+            yield return wanderTimeout;
             if (_navAgent.hasPath)
             {
-                Debug.Log(gameObject.name + " has timed out.");
                 StopWander();
             }
         }
