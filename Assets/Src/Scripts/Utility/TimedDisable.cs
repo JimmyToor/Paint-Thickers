@@ -10,7 +10,7 @@ namespace Src.Scripts.Utility
 
         private WaitForSeconds _disableDelay;
         
-        private void Start()
+        private void Awake()
         {
             _disableDelay = new WaitForSeconds(lifetime);
         }
