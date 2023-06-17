@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Runtime.InteropServices;
 using Src.Scripts.Audio;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 using Random = UnityEngine.Random;
 
@@ -72,7 +67,7 @@ namespace Src.Scripts.Gameplay
             set
             {
                 _goalSpeed = value;
-                _sign = Mathf.Sign(_goalSpeed - locomotion.moveSpeed);;
+                _sign = Mathf.Sign(_goalSpeed - locomotion.moveSpeed);
             } 
         }
 
@@ -137,8 +132,9 @@ namespace Src.Scripts.Gameplay
 
         private void FixedUpdate()
         {
-            if (_player.isSquid)
+            if (_player.isSquid && (_charController.isGrounded || _orientationHandling.Rotating || _orientationHandling.Transforming))
             {
+                //Debug.LogFormat("MATCHING ============ STATUS: Grounded = {0}. Rotating = {1}. Transforming = {2}.", _charController.isGrounded , _orientationHandling.Rotating , _orientationHandling.Transforming);
                 CheckTerrain();
                 _orientationHandling.UpdateOrientation();
 
@@ -146,6 +142,7 @@ namespace Src.Scripts.Gameplay
             }
             else 
             {
+                //Debug.LogFormat("RESETTING ============ STATUS: Grounded = {0}. Rotating = {1}. Transforming = {2}.", _charController.isGrounded , _orientationHandling.Rotating , _orientationHandling.Transforming);
                 _orientationHandling.ResetHeight();
                 if (transform.up != Vector3.up)
                 {
@@ -193,7 +190,7 @@ namespace Src.Scripts.Gameplay
             
             if (!normalSet) // Don't want to change the normal if it's been set by terrain ahead
             {
-                _orientationHandling.SetNewNormal(_belowHit, channel);
+                _orientationHandling.SetNewGoalNormal(_belowHit, channel);
             }
         }
 
@@ -203,7 +200,7 @@ namespace Src.Scripts.Gameplay
             if (!Physics.Raycast(frontCheck.position, -frontCheck.up, out _frontHit, 1f, swimmableLayers)
                 || _frontHit.transform == null) return;
 
-            normalSet = _orientationHandling.SetNewNormal(_frontHit, PaintTarget.RayChannel(_frontHit));
+            normalSet = _orientationHandling.SetNewGoalNormal(_frontHit, PaintTarget.RayChannel(_frontHit));
         }
 
         private void SetupEvents()
@@ -223,18 +220,18 @@ namespace Src.Scripts.Gameplay
             if (!_player.canSquid || _player.isSquid) return;
             
             locomotion.SlopeHandling = false;
-            _player.isSquid = true;
             gameObject.layer = _squidLayer;
+            _orientationHandling.Transforming = true;
         }
 
         private void HandleStand()
         {
             locomotion.SlopeHandling = true;
             gameObject.layer = _playerLayer;
-            _player.isSquid = false;
             GoalSpeed = _player.walkSpeed;
             swimSound.Stop();
             CanSwim = false;
+            _orientationHandling.Transforming = true;
         }
 
         // Adjust speed while swimming

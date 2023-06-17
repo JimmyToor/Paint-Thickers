@@ -1,8 +1,5 @@
-﻿using Cinemachine.Editor;
-using Src.Scripts;
-using Src.Scripts.Gameplay;
+﻿using Src.Scripts.Gameplay;
 using UnityEditor;
-using UnityEditor.ShaderGraph.Drawing.Inspector;
 using UnityEngine;
 
 // Based on 'PaintTargetEditor.cs' from https://assetstore.unity.com/packages/tools/paintz-free-145977

@@ -99,6 +99,7 @@ namespace Src.Scripts.Weapons
         public void HumanMode()
         {
             if (Weapon == null) return;
+            Weapon.EnableColliders();
             ShowWeapon();
             Weapon.hideUIAboveThreshold = true;
             Weapon.StopReloadSfx();
@@ -107,6 +108,7 @@ namespace Src.Scripts.Weapons
         public void SquidMode()
         {
             if (Weapon == null) return;
+            Weapon.DisableColliders();
             HideWeapon();
             Weapon.hideUIAboveThreshold = false;
         }

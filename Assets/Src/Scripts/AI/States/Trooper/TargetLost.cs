@@ -5,11 +5,15 @@ namespace Src.Scripts.AI.States.Trooper
     public class TargetLost : BaseState<TrooperStateMachine>
     {
         private Animator _animator;
-        private int stateHash;
+        private int _stateHash;
+        private AutoTrooper _trooper;
+        private TargetScanner _scanner;
         public TargetLost(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
             _animator = StateMachine.trooper.animator;
-            stateHash = Animator.StringToHash("Attacking");
+            _stateHash = Animator.StringToHash("Attacking");
+            _trooper = StateMachine.trooper;
+            _scanner = _trooper.scanner;
         }
         
         public override StateId GetId() => StateId.TargetLost;
@@ -17,26 +21,27 @@ namespace Src.Scripts.AI.States.Trooper
         public override void Enter()
         {
             base.Enter();
-            StateMachine.trooper.TargetLost();
-            StateMachine.trooper.scanner.TargetLost();
+            _trooper.TargetLost();
+            _scanner.TargetLost();
         }
 
         public override void Execute()
         {
-            if (StateMachine.trooper.scanner.hasTarget)
+            if (_scanner.hasTarget)
             {
                 SwitchState(StateId.TargetSighted);
             }
-            if (_animator.GetCurrentAnimatorStateInfo(0).tagHash != stateHash)
+
+            // Let the attacking animation finish playing
+            if (_animator.GetCurrentAnimatorStateInfo(0).tagHash == _stateHash) return;
+            
+            if (GetAncestorState(StateId.Sunk) != null)
             {
-                if (GetAncestorState(StateId.Sunk) != null)
-                {
-                    SwitchState(StateId.SunkStruggle);
-                }
-                else
-                {
-                    SwitchState(StateMachine.trooper.idleBehaviour);
-                }
+                SwitchState(StateId.SunkStruggle);
+            }
+            else
+            {
+                SwitchState(_trooper.idleBehaviour);
             }
         }
 

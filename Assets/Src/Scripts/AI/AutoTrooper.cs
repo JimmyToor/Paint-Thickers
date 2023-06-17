@@ -71,7 +71,16 @@ namespace Src.Scripts.AI
         private Rigidbody _rigidbody;
         private Transform _hoseAimTarget;
         private Transform _bodyRotationTarget;
-        
+        private Tweener _weightTweener;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _weightTweener = DOTween.To(() => hoseAimConstraint.weight, x => hoseAimConstraint.weight = x, 1, 1.5f);
+            _weightTweener.Pause();
+            _weightTweener.SetAutoKill(false);
+        }
+
         protected virtual void Start()
         {
             _sunkDelay = new WaitForSeconds(timeSunk);
@@ -130,7 +139,7 @@ namespace Src.Scripts.AI
                 {
                     paintColorMatcher.UpdateEnvironmentColor(channel);
                 }
-
+                
                 paintStatus = channel == team.teamChannel ? PaintStatus.FriendlyPaint : PaintStatus.EnemyPaint;
             }
             
@@ -158,7 +167,7 @@ namespace Src.Scripts.AI
             SfxSource.TriggerPlayOneShot(transform.position, alertSFX);
             animator.SetTrigger(_targetFoundHash);
             animator.SetBool(_hasTargetHash, true);
-            DOTween.To(() => hoseAimConstraint.weight, x => hoseAimConstraint.weight = x, 1, 1.5f);
+            _weightTweener.Restart();
         }
 
         public virtual void EngageTarget()
@@ -204,17 +213,16 @@ namespace Src.Scripts.AI
             }
             else
             {
-                _hoseTweener.ChangeEndValue(targetPosition, false);
+                _hoseTweener.ChangeEndValue(targetPosition, true);
             }
         }
 
         public void ResetAim()
         {
             animator.SetTrigger(_resetAimHash);
-            
             _hoseAimTarget.DOLocalMove(_origHosePos,
                          hoseAimSpeed).SetSpeedBased(true);
-            DOTween.To(() => hoseAimConstraint.weight, x => hoseAimConstraint.weight = x, 1, 1.5f);
+            _weightTweener.Restart();
             
             _bodyRotationTarget.DOLocalRotate(_bodyRotationTarget.InverseTransformDirection(transform.forward),
                     bodyTurnSpeed).SetSpeedBased(true);

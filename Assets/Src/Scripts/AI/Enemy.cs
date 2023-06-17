@@ -18,7 +18,7 @@ namespace Src.Scripts.AI
         {
             if (team == null)
             {
-                TryGetComponent(out team);
+                team = GetComponent<TeamMember>();
             }
         }
 

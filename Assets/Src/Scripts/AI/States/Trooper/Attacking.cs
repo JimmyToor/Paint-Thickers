@@ -1,4 +1,6 @@
-﻿namespace Src.Scripts.AI.States.Trooper
+﻿using UnityEngine;
+
+namespace Src.Scripts.AI.States.Trooper
 {
     public class Attacking : BaseState<TrooperStateMachine>
     {
@@ -13,9 +15,15 @@
         
         public override StateId GetId() => StateId.Attacking;
 
+        public override void Enter()
+        {
+            base.Enter();
+            _scanner.StartCoroutine(_scanner.PeriodicLOSCheck());
+        }
+
         public override void Execute()
         {
-            if (_scanner.hasTarget && _scanner.Target.gameObject.activeSelf && _scanner.CheckLOS(_scanner.GetTargetPos()))
+            if (_scanner.hasTarget && _scanner.hasLOS)
             {
                 _trooper.EngageTarget();
             }

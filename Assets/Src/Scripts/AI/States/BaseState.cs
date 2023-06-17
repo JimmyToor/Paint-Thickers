@@ -1,4 +1,6 @@
-﻿namespace Src.Scripts.AI.States
+﻿using UnityEngine;
+
+namespace Src.Scripts.AI.States
 {
     public abstract class BaseState<T> where T : StateMachine<T>
     {
@@ -30,26 +32,17 @@
         /// </summary>
         public void UpdateStates()
         {
-            Execute();
+            Execute(); 
             
-            if (CurrentSuperState != null)
-            {   // Check if the state was switched during execution
-                if (CurrentSuperState.CurrentSubState.GetId() != GetId())
-                {
-                    // If this state was switched during execution, the new state will be the new sub-state of the super-state
-                    CurrentSuperState?.CurrentSubState?.UpdateStates();
-                }
-                else
-                {
-                    CurrentSubState?.UpdateStates();
-                }
-            }
-            else
+            if (CurrentSuperState?.CurrentSubState != null && CurrentSuperState.CurrentSubState.GetId() != GetId())
             {
-                CurrentSubState?.UpdateStates();
+                // This state was switched during execution, so the new state will be the new sub-state of the super-state
+                CurrentSuperState?.CurrentSubState?.UpdateStates();
+                return;
             }
+            CurrentSubState?.UpdateStates();
         }
-
+        
         public abstract void InitializeSubState();
 
         public void SetSuperState(BaseState<T> newSuperState)

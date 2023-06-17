@@ -10,16 +10,27 @@ namespace Src.Scripts.AI
         public bool searchWhenNoTarget;
         public LayerMask targetLayerMask;
         public LayerMask blockingLayerMask;
+        public Transform originTransform;
+        
         private WaitForSeconds _scanDelay;
         [HideInInspector]public bool hasTarget;
-
+        [HideInInspector]public bool hasLOS;
+        
         public Transform Target
         {
             get => _target;
             set
             {
                 _target = value;
-                hasTarget = value != null;
+                if (value == null)
+                {
+                    hasTarget = false;
+                    hasLOS = false;
+                }
+                else
+                {
+                    hasTarget = true;
+                }
             }
         }
         
@@ -47,14 +58,10 @@ namespace Src.Scripts.AI
 
             foreach (var targetHit in targetsHit)
             {
-                if (targetHit.enabled == false)
+                if (!IsValidTarget(targetHit))
                 {
-                    return false;
+                    continue;
                 }
-
-                // Only care about seeing the body. Ignore things like the player's hands and weapons.
-                if (!targetHit.TryGetComponent(out _targetCharController)) continue;
-                if (!CheckLOS(targetHit.transform.position)) continue;
                 
                 SetNewTarget(targetHit.transform);
                 return true;
@@ -63,15 +70,33 @@ namespace Src.Scripts.AI
             return false;
         }
 
-        void SetNewTarget(Transform newTarget)
+        private bool IsValidTarget(Collider newTarget)
+        {
+            return !(newTarget.gameObject.activeSelf == false 
+                     || !newTarget.TryGetComponent(out _targetCharController)
+                     || !CheckLOS(newTarget.transform.TransformPoint(_targetCharController.center)));
+        }
+
+        private bool SetNewTarget(Transform newTarget)
         {
             Target = newTarget;
-            Target.TryGetComponent(out _targetCharController);
+            if (_targetCharController == null)
+            {
+                Target.TryGetComponent(out _targetCharController);
+                if (_targetCharController == null)
+                {
+                    Debug.LogError("No CharacterController on target!", this);
+                    Target = null;
+                    return false;
+                }
+            }
             hasTarget = true;
+            return true;
         }
 
         public void TargetLost()
         {
+            StopCoroutine(PeriodicLOSCheck());
             Target = null;
             _targetCharController = null;
             hasTarget = false;
@@ -89,17 +114,16 @@ namespace Src.Scripts.AI
         /// <returns>True if no obstacles are between us and the target. False otherwise.</returns>
         public bool CheckLOS(Vector3 targetPos)
         {
-            // Check from closer to eye level, not object pivot
-            Vector3 fromPos = transform.position;
-            fromPos.y += 1f;
-
-            if (!Physics.Raycast(fromPos,  targetPos - fromPos,
-                    out _,Vector3.Distance(targetPos, fromPos),blockingLayerMask))
+            Vector3 fromPos = originTransform.position;
+            
+            if (!Physics.Raycast(fromPos,  targetPos - fromPos, out _,Vector3.Distance(targetPos, fromPos),blockingLayerMask))
             {
-                // Debug.DrawRay(eyePos, targetPos - eyePos, Color.blue);
+                //Debug.DrawRay(fromPos, targetPos - fromPos, Color.blue);
+                hasLOS = true;
                 return true;
             }
-            // Debug.DrawRay(eyePos, targetPos - eyePos, Color.red);
+            //Debug.DrawRay(fromPos, targetPos - fromPos, Color.red);
+            hasLOS = false;
 
             return false;
         }
@@ -130,6 +154,22 @@ namespace Src.Scripts.AI
             while (!hasTarget)
             {
                 TargetSearch();
+                yield return _scanDelay;
+            }
+        }
+        
+        public IEnumerator PeriodicLOSCheck()
+        {
+            while (hasTarget)
+            {
+                if (Target.gameObject.activeSelf == false)
+                {
+                    TargetLost();
+                }
+                else
+                {
+                    CheckLOS(GetTargetPos());
+                }
                 yield return _scanDelay;
             }
             

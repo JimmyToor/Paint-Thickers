@@ -118,16 +118,12 @@ namespace Src.Scripts.Gameplay
         {
             leftHand.transform.localScale = Vector3.one;
             rightHand.transform.localScale = Vector3.one;
-            _leftController.enableInputTracking = true;
-            _rightController.enableInputTracking = true;
         }
 
         public void HideGameHands()
         {
             leftHand.transform.localScale = Vector3.zero;
             rightHand.transform.localScale = Vector3.zero;
-            _leftController.enableInputTracking = false;
-            _rightController.enableInputTracking = false;
         }
 
         private void DisableInputMovement()
@@ -250,6 +246,7 @@ namespace Src.Scripts.Gameplay
         {
             _weaponHandler.SquidMode();
             HideGameHands();
+            isSquid = true;
         }
 
         // Make any required changes when the player turns into a Human
@@ -257,6 +254,7 @@ namespace Src.Scripts.Gameplay
         {
             ShowGameHands();
             _weaponHandler.HumanMode();
+            isSquid = false;
         }
 
         public void DisableGravity()

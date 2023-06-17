@@ -24,6 +24,7 @@ namespace Src.Scripts.AI
         
         private const float GroundDistance = 1.4f;
 
+        
         protected override void Start() 
         {
             PaintCheckDistance = GroundDistance;

@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Gameplay
@@ -14,19 +12,23 @@ namespace Src.Scripts.Gameplay
 
         public float rotationSpeed;
         public float sinkSpeed; // speed of squid transformation
+        [Tooltip("The angle at which rig-relative gravity is enabled.")]
+        public float _gravityAngleLimit;
         public ActionBasedContinuousMoveProvider locomotion;
 
-        private Vector3 NewNormal { get; set; }
+        public bool Rotating { get; set; } // Represents whether or not a rotation is in-progress
+        public bool Transforming { get; set; } // Represents whether or not a height change is in-progress
+        
+        private Vector3 _goalNormal;
         private Player _player;
         private Transform _camOffset;
         private Transform _playerHead;
         private RaycastHit _directionHit;
         private Vector3 _newOrientation;
         private float _targetHeight;
-        private float _slopeLimit;
-        private bool _orienting;
         private XRRig _xrRig;
         private float _wallGravityScale = 0.05f;
+        private CharacterController _charController;
 
         void Start()
         {
@@ -34,12 +36,12 @@ namespace Src.Scripts.Gameplay
             _player = GetComponent<Player>();
             _camOffset = transform.GetChild(0);
             _playerHead = _camOffset.GetChild(0);
-            NewNormal = transform.up;
+            _charController = _xrRig.GetComponent<CharacterController>();
+            _goalNormal = transform.up;
         }
 
         private void Awake()
         {
-            _slopeLimit = GetComponent<CharacterController>().slopeLimit;
             if (!locomotion)
             {
                 locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
@@ -48,30 +50,30 @@ namespace Src.Scripts.Gameplay
 
         public void UpdateOrientation()
         {
-            ToOrientation(NewNormal.normalized);
+            ToOrientation(_goalNormal.normalized);
         }
 
         /// <summary>
-        /// Set the new normal that the XRRig will rotate to match
+        /// Set the new normal that the XRRig will rotate to match based on the hit surface's normal.
         /// </summary>
         /// <param name="hit"></param>
         /// <param name="channel"></param>
-        /// <returns></returns>
-        public bool SetNewNormal(RaycastHit hit, int channel)
+        /// <returns>True if goal normal is successfully set, false otherwise.</returns>
+        public bool SetNewGoalNormal(RaycastHit hit, int channel)
         {
-            if (hit.transform == null) return false; // Only factor in this surface if it has friendly paint or is a small enough slope
+            if (hit.transform == null) return false;
             
+            // Only match orientation with this surface if it has friendly paint or is a small enough slope.
             float angle = Vector3.Angle(hit.normal, Vector3.up);
+            if (channel != _player.teamChannel && angle >= _gravityAngleLimit) return false;
             
-            if (channel != _player.teamChannel && !(angle < _slopeLimit)) return false;
-            
-            NewNormal = hit.normal;
+            _goalNormal = hit.normal;
             return true;
         }
 
         public void ResetOrientation()
         {
-            NewNormal = Vector3.up;
+            _goalNormal = Vector3.up;
             UpdateOrientation();
         }
 
@@ -90,37 +92,42 @@ namespace Src.Scripts.Gameplay
                 axis = Vector3.Cross(newUp, transform.forward);
             }
 
-            float angle = Vector3.SignedAngle(newUp, transform.up, axis);
+            float angle = Vector3.SignedAngle(transform.up, newUp, axis);
             float rotationAmount;
             
             if (Mathf.Abs(angle) <= rotationSpeed)
-            {
-                rotationAmount = -angle;
+            {   // Rotate only the remaining degrees to prevent over-rotation
+                rotationAmount = angle;
             }
             else if (angle > 0)
             {
-                rotationAmount = -rotationSpeed;
+                rotationAmount = rotationSpeed;
             }
             else
             {
-                rotationAmount = rotationSpeed;
+                rotationAmount = -rotationSpeed;
             }
 
             _xrRig.RotateAroundCameraPosition(axis, rotationAmount);
             
             float newAngle = Vector3.Angle(newUp, Vector3.up);
         
-            if (newAngle > _slopeLimit)
+            if (_charController.isGrounded && newAngle >= _gravityAngleLimit)
             {
                 // Reduce gravity for the rig enough to be able to move up the wall, but still slide down if not moving
-                locomotion.UseRigRelativeGravity = true;
                 locomotion.GravityScale = _wallGravityScale;
+            }
+            else if (newAngle > 0)
+            {   // Make gravity relative to the rig to make swimming smooth on slopes
+                locomotion.UseRigRelativeGravity = true;
             }
             else
             {
                 locomotion.UseRigRelativeGravity = false;
                 locomotion.GravityScale = 1f;
             }
+
+            Rotating = transform.up != _goalNormal;
         }
 
         public void ResetHeight()
@@ -136,17 +143,19 @@ namespace Src.Scripts.Gameplay
         {
             float newHeight = -_playerHead.localPosition.y + height; 
             TowardsHeight(newHeight);
+            Transforming = !Mathf.Approximately(-_playerHead.localPosition.y, newHeight);
         }
 
         /// <summary>
         /// Move the camera offset's y-position towards the passed float to change the height of the player's view
         /// </summary>
         /// <param name="newHeight"></param>
-        public void TowardsHeight(float newHeight)
+        private void TowardsHeight(float newHeight)
         {
             Vector3 newPos = _camOffset.localPosition;
             newPos.y = Mathf.MoveTowards(newPos.y, newHeight, Time.deltaTime * sinkSpeed);
             _camOffset.localPosition = newPos;
+//            Debug.LogFormat("Transforming = {0} because newPos.y = {1} and newHeight = {2}", Transforming, newPos.y, newHeight);
         }
     }
 }

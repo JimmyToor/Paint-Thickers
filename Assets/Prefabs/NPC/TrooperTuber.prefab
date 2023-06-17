@@ -11272,6 +11272,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   collisionSfx: 0
+  sfxSource: {fileID: 0}
 --- !u!114 &749624021976703926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21621,6 +21622,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   collisionSfx: 0
+  sfxSource: {fileID: 0}
 --- !u!114 &7092883789690065226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21676,7 +21678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particlePainter: {fileID: 0}
+  particlePainter: {fileID: 7092883789690065227}
   paintRenderer: {fileID: 7092883789690065268}
 --- !u!1 &7092883790087109802
 GameObject:
@@ -41360,6 +41362,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   collisionSfx: 0
+  sfxSource: {fileID: 0}
 --- !u!114 &4836306880909642676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46348,6 +46351,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   collisionSfx: 0
+  sfxSource: {fileID: 0}
 --- !u!1773428102 &6229600115034325407
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -46804,15 +46808,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sightDistance: 9
-  timeBetweenScans: 0
-  searchWhenNoTarget: 0
+  timeBetweenScans: 0.3
+  searchWhenNoTarget: 1
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 8
   blockingLayerMask:
     serializedVersion: 2
     m_Bits: 256
+  originTransform: {fileID: 2604521928876325535}
   hasTarget: 0
+  hasLOS: 0
 --- !u!114 &8873669058257279780
 MonoBehaviour:
   m_ObjectHideFlags: 0

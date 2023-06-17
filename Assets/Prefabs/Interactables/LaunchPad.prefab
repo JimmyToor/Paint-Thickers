@@ -107,7 +107,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     stepScale: 0
     arcScale: 0
-    buildupTime: 0
+    buildupTime: 2
   launchAudioClip: {fileID: 8300000, guid: 77fdb587266e990499781fb37b87e10e, type: 3}
 --- !u!135 &365426405
 SphereCollider:

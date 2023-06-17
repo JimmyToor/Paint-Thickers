@@ -812,5 +812,21 @@ namespace UnityEngine.XR.Interaction.Toolkit
         {
             interactionManager.SelectExit(selectingInteractor, this);
         }
+
+        public void DisableColliders()
+        {
+            foreach (var col in colliders)
+            {
+                col.enabled = false;
+            }
+        }
+        
+        public void EnableColliders()
+        {
+            foreach (var col in colliders)
+            {
+                col.enabled = true;
+            }
+        }
     }
 }

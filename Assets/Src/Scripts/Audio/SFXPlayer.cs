@@ -3,7 +3,6 @@ using Src.Scripts.Utility;
 using UnityEngine;
 
 // Got this from SO but can't find the post anymore
-
 namespace Src.Scripts.Audio
 {
     /// <summary>

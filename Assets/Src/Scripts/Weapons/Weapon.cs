@@ -151,5 +151,15 @@ namespace Src.Scripts.Weapons
                 ammoUI.SetColor(color);
             }
         }
+
+        public void DisableColliders()
+        {
+            _interactable.DisableColliders();
+        }
+        
+        public void EnableColliders()
+        {
+            _interactable.EnableColliders();
+        }
     }
 }

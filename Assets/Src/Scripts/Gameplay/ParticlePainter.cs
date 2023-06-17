@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Paintz_Free.Scripts;
 using Src.Scripts.AI;
+using Src.Scripts.Attributes;
 using Src.Scripts.Audio;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Src.Scripts.Gameplay
 {
@@ -14,11 +16,14 @@ namespace Src.Scripts.Gameplay
         public Brush brush;
         public float damage;
         public bool randomChannel;
-        public bool collisionSfx; // play sound effects on collision (requires SFXSource component)
+        [Tooltip("Play sound effects on collision (requires SFXSource component)")]
+        public bool collisionSfx;
+        [ShowIf(nameof(collisionSfx))]
+        public SFXSource sfxSource;
+
 
         private ParticleSystem _partSys;
         private List<ParticleCollisionEvent> _collisionEvents;
-        private SFXSource _sfxSource;
 
         private void Start()
         {
@@ -75,7 +80,7 @@ namespace Src.Scripts.Gameplay
             {
                 for (int i = 0; i < numCollisionEvents; i++)
                 {
-                    _sfxSource.TriggerPlay(_collisionEvents[i].intersection);
+                    sfxSource.TriggerPlay(_collisionEvents[i].intersection);
                 }
             }
         }

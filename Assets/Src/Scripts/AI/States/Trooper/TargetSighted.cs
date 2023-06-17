@@ -24,7 +24,7 @@ namespace Src.Scripts.AI.States.Trooper
         public override void Execute()
         {
             if (_animator.GetCurrentAnimatorStateInfo(0).tagHash == stateHash)
-            {
+            {   // Switch to attacking once the alert animation is finished
                 SwitchState(StateId.Attacking);
             }
         }
