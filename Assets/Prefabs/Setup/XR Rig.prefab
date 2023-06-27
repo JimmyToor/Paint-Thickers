@@ -2419,7 +2419,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerEvents: {fileID: 1614226181}
-  teamChannel: 2
+  overlayUICam: {fileID: 726572738}
+  xrInteractionManager: {fileID: 0}
   canSquid: 1
   isSquid: 0
   walkSpeed: 3
@@ -2427,8 +2428,6 @@ MonoBehaviour:
   rightHand: {fileID: 4989558145643014254}
   leftUIHand: {fileID: 697424777}
   rightUIHand: {fileID: 1592644098}
-  overlayUICam: {fileID: 726572738}
-  xrInteractionManager: {fileID: 0}
 --- !u!114 &1614226181
 MonoBehaviour:
   m_ObjectHideFlags: 0

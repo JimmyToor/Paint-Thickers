@@ -150,8 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73126a40677cffe4a92d2e8cb5329cfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  xrRigGameObject: {fileID: 0}
   postProcessVolume: {fileID: 0}
+  spawnPoint: {fileID: 0}
   gameOverUI: {fileID: 0}
   winUI: {fileID: 0}
   pauseMenu: {fileID: 0}
@@ -198,13 +199,13 @@ MonoBehaviour:
   objectPools:
   - pool: []
     objectToPool: {fileID: 7931773660669697391, guid: 82979635185ba1643b7bf8ad26b23ec1, type: 3}
-    poolSize: 5
+    poolSize: 20
   - pool: []
     objectToPool: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
-    poolSize: 5
+    poolSize: 20
   - pool: []
     objectToPool: {fileID: 113441720838220952, guid: b0530af8f4be6e04999bf865f046ba68, type: 3}
-    poolSize: 5
+    poolSize: 10
   - pool: []
     objectToPool: {fileID: 4959572116917519569, guid: 5b3770d9eae81994b80b6dd85c01e46f, type: 3}
     poolSize: 3

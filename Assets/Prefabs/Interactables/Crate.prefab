@@ -129,10 +129,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitpoints: 2
-  maxHitpoints: 0
+  maxHitpoints: 2
   invulnerable: 0
   useHitDamageMaterial: 1
   destroyOnDeath: 1
+  destroyOnDeathDelay: 0
   regenerative: 0
   hitCooldown: 0.25
   regenCooldown: 0

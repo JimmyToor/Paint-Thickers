@@ -24,7 +24,7 @@ namespace Src.Scripts.Weapons
 
         public void StartFire()
         {
-            if (ConsumeAmmo(initialUsage))
+            if (ConsumeAmmo(wepParams.initialUsage))
             {
                 mainParticle.Play();
                 Firing = true;

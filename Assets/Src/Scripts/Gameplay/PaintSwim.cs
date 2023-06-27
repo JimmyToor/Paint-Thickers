@@ -134,7 +134,6 @@ namespace Src.Scripts.Gameplay
         {
             if (_player.isSquid && (_charController.isGrounded || _orientationHandling.Rotating || _orientationHandling.Transforming))
             {
-                //Debug.LogFormat("MATCHING ============ STATUS: Grounded = {0}. Rotating = {1}. Transforming = {2}.", _charController.isGrounded , _orientationHandling.Rotating , _orientationHandling.Transforming);
                 CheckTerrain();
                 _orientationHandling.UpdateOrientation();
 
@@ -142,7 +141,6 @@ namespace Src.Scripts.Gameplay
             }
             else 
             {
-                //Debug.LogFormat("RESETTING ============ STATUS: Grounded = {0}. Rotating = {1}. Transforming = {2}.", _charController.isGrounded , _orientationHandling.Rotating , _orientationHandling.Transforming);
                 _orientationHandling.ResetHeight();
                 if (transform.up != Vector3.up)
                 {
@@ -168,7 +166,7 @@ namespace Src.Scripts.Gameplay
             int channel = PaintTarget.RayChannel(_belowHit);
 
             // Figure out what colour paint, if any, is underneath the player
-            if (channel == _player.teamChannel)
+            if (channel == _player.TeamChannel)
             {
                 if (!CanSwim) // Player was previously not in swimmable paint
                 {

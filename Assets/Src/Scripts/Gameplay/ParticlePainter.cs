@@ -50,7 +50,7 @@ namespace Src.Scripts.Gameplay
                     case "Player":
                         if (other.TryGetComponent(out Player player))
                         {
-                            if (brush.splatChannel != player.teamChannel)
+                            if (brush.splatChannel != player.TeamChannel)
                             {
                                 other.gameObject.GetComponent<PlayerEvents>().OnTakeHit(damage);
                             }

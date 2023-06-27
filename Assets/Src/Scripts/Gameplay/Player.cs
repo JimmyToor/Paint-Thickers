@@ -1,3 +1,4 @@
+using System.Runtime.Remoting.Messaging;
 using Src.Scripts.Preferences;
 using Src.Scripts.Utility;
 using Src.Scripts.Weapons;
@@ -10,20 +11,25 @@ namespace Src.Scripts.Gameplay
     public class Player : MonoBehaviour
     {
         public PlayerEvents playerEvents;
-        [HideInInspector]public int teamChannel;
+        public GameObject overlayUICam;
+        public XRInteractionManager xrInteractionManager;
+        [Header("Movement")]
         public bool canSquid = true;
         public bool isSquid;
         public float walkSpeed;
+        [Header("Hands")]
         public GameObject leftHand;
         public GameObject rightHand;
         public GameObject leftUIHand;
         public GameObject rightUIHand;
-        public GameObject overlayUICam;
-        public XRInteractionManager xrInteractionManager;
 
+        public int TeamChannel { get; set; }
+        
+        public UserPreferencesManager.MainHand MainHand { get; set; }
+        
         private ActionBasedContinuousMoveProvider _locomotion;
         private float _oldSpeed;
-        private Inventory _inventory = new Inventory();
+        public Inventory _inventory = new Inventory();
         private Health _health;
         private CharacterController _charController;
         private Vector3 _resetPosition;
@@ -32,7 +38,6 @@ namespace Src.Scripts.Gameplay
         private ActionBasedController _leftController;
         private ActionBasedController _rightController;
 
-        public UserPreferencesManager.MainHand MainHand { get; set; }
         
 
         private void Awake()
@@ -43,7 +48,7 @@ namespace Src.Scripts.Gameplay
             _charController = GetComponent<CharacterController>();
             
             TryGetComponent(out TeamMember member);
-            teamChannel = member.teamChannel;
+            TeamChannel = member.teamChannel;
             _locomotion.moveSpeed = walkSpeed;
             
             TryGetComponent(out _health);
@@ -166,7 +171,7 @@ namespace Src.Scripts.Gameplay
             }
 
             _weaponHandler.ShowUI();
-            _weaponHandler.SetUIColor(GameManager.Instance.GetTeamColor(teamChannel));
+            _weaponHandler.SetUIColor(GameManager.Instance.GetTeamColor(TeamChannel));
             if (_paintColorMatcher)
             {
                 _weaponHandler.MatchColors(_paintColorMatcher);

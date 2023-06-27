@@ -1,23 +1,31 @@
 using System.Collections;
 using UnityEngine;
 
-// Handy for disabling VFX when they're done playing
+// Handy for destroying VFX when they're done playing
 namespace Src.Scripts.Utility
 {
     public class TimedDestroySelf : MonoBehaviour
     {
 
         public float lifetime;
+        
+        private WaitForSeconds _destroyDelay;
+        
+        private void Awake()
+        {
+            _destroyDelay = new WaitForSeconds(lifetime);
+        }
+
         void OnEnable()
         {
-            StartCoroutine(nameof(DestroyObject));
+            StartCoroutine(nameof(DisableObject));
         }
 
-        private IEnumerator DestroyObject()
+        private IEnumerator DisableObject()
         {
-            yield return new WaitForSeconds(lifetime);
+            yield return _destroyDelay;
             Destroy(this);
         }
-
+        
     }
 }

@@ -65,7 +65,7 @@ namespace Src.Scripts.Gameplay
             
             // Only match orientation with this surface if it has friendly paint or is a small enough slope.
             float angle = Vector3.Angle(hit.normal, Vector3.up);
-            if (channel != _player.teamChannel && angle >= _gravityAngleLimit) return false;
+            if (channel != _player.TeamChannel && angle >= _gravityAngleLimit) return false;
             
             _goalNormal = hit.normal;
             return true;
@@ -141,9 +141,10 @@ namespace Src.Scripts.Gameplay
         /// <param name="height"></param>
         public void ToHeightWithoutOffset(float height)
         {
-            float newHeight = -_playerHead.localPosition.y + height; 
+            Vector3 localPosition = _playerHead.localPosition;
+            float newHeight = -localPosition.y + height; 
             TowardsHeight(newHeight);
-            Transforming = !Mathf.Approximately(-_playerHead.localPosition.y, newHeight);
+            Transforming = !Mathf.Approximately(-localPosition.y, newHeight);
         }
 
         /// <summary>
@@ -155,7 +156,6 @@ namespace Src.Scripts.Gameplay
             Vector3 newPos = _camOffset.localPosition;
             newPos.y = Mathf.MoveTowards(newPos.y, newHeight, Time.deltaTime * sinkSpeed);
             _camOffset.localPosition = newPos;
-//            Debug.LogFormat("Transforming = {0} because newPos.y = {1} and newHeight = {2}", Transforming, newPos.y, newHeight);
         }
     }
 }

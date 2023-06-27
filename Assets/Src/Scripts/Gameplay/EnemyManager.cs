@@ -34,7 +34,7 @@ namespace Src.Scripts.Gameplay
             }
             else
             {
-                Debug.LogErrorFormat("Tried to raise event for defeating enemy group {0} but there is no event.", groupId);
+                Debug.LogFormat("Tried to raise event for defeating enemy group {0} but there is no event.", groupId);
             }
         }
 

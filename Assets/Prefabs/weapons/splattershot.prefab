@@ -5477,6 +5477,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   collisionSfx: 0
+  sfxSource: {fileID: 0}
 --- !u!114 &2094236747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5575,7 +5576,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1129108614928531207}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5607,7 +5608,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3020986251265655395}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Nozzle_end
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5755,7 +5756,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036904280780318494}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0, z: 0.396}
+  m_LocalPosition: {x: 0, y: -0.019, z: 0.254}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2036904281454378537}
@@ -5773,7 +5774,7 @@ ParticleSystem:
   m_GameObject: {fileID: 2036904280780318494}
   serializedVersion: 7
   lengthInSec: 3
-  simulationSpeed: 1
+  simulationSpeed: 2
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -10701,6 +10702,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   collisionSfx: 0
+  sfxSource: {fileID: 0}
 --- !u!114 &41887489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10725,7 +10727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2036904280967990509}
   - component: {fileID: 2036904280967990510}
-  m_Layer: 9
+  m_Layer: 7
   m_Name: Splattershot Particles
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
@@ -10739,14 +10741,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036904280967990508}
-  m_LocalRotation: {x: 0.000000066204116, y: 0.7071068, z: -0.000000066204116, w: 0.7071068}
-  m_LocalPosition: {x: 0.5350019, y: 0.11699994, z: -0.043998506}
+  m_LocalRotation: {x: -0.00000013240823, y: 0.7071068, z: -0.00000013240823, w: 0.7071068}
+  m_LocalPosition: {x: 0.4093189, y: -0.026638435, z: -0.003295678}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2036904280780318495}
   m_Father: {fileID: 2869343604384424315}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 134.197, z: 0}
 --- !u!1773428102 &2036904280967990510
 ParentConstraint:
   m_ObjectHideFlags: 0
@@ -10756,22 +10758,22 @@ ParentConstraint:
   m_GameObject: {fileID: 2036904280967990508}
   m_Enabled: 1
   m_Weight: 1
-  m_TranslationAtRest: {x: 0.5350019, y: 0.11699994, z: -0.043998506}
+  m_TranslationAtRest: {x: 0.4093189, y: -0.026638435, z: -0.003295678}
   m_RotationAtRest: {x: 0, y: 90, z: 0}
   m_TranslationOffsets:
-  - {x: 0.53500175, y: 0.043251038, z: 0.1162529}
+  - {x: -25.722681, y: 21.457361, z: -80.256294}
   m_RotationOffsets:
-  - {x: 0, y: 89.99993, z: 89.999855}
-  m_AffectTranslationX: 1
-  m_AffectTranslationY: 1
-  m_AffectTranslationZ: 1
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 0
+  - {x: 0, y: 90.00003, z: 0}
+  m_AffectTranslationX: 0
+  m_AffectTranslationY: 0
+  m_AffectTranslationZ: 0
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 1
   m_IsContraintActive: 1
-  m_IsLocked: 0
+  m_IsLocked: 1
   m_Sources:
-  - sourceTransform: {fileID: 9135275369120649904}
+  - sourceTransform: {fileID: 0}
     weight: 1
 --- !u!1 &2036904281424473614
 GameObject:
@@ -15679,7 +15681,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036904281454378536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.058, y: 0, z: -0.539}
+  m_LocalPosition: {x: -0.058, y: -0, z: -0.384}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2036904280780318495}
@@ -19375,7 +19377,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     type: 1
     collisionMode: 0
@@ -25557,7 +25559,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4264605733524141649}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25590,7 +25592,7 @@ GameObject:
   - component: {fileID: 5991981653850142846}
   - component: {fileID: 386943705449447661}
   - component: {fileID: 1138589489}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Nozzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25845,7 +25847,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 138915903819497913}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Handle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25906,7 +25908,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3822978043627150278}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Nozzle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26340,9 +26342,9 @@ GameObject:
   m_Component:
   - component: {fileID: 9135275368818329943}
   - component: {fileID: 1178192433}
+  - component: {fileID: 2128515461}
   - component: {fileID: 1178192431}
   - component: {fileID: 1178192432}
-  - component: {fileID: 2128515461}
   - component: {fileID: 7387158629756650738}
   - component: {fileID: 3735530323860976749}
   m_Layer: 7
@@ -26384,6 +26386,34 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2128515461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9135275368818329942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af90997df2d7e49418c91e7d35caa061, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wepParams:
+    maxAmmo: 50
+    initialUsage: 3
+    refillRate: 20
+    usageRate: 3
+    lowAmmoThreshold: 25
+    lowRefillThreshold: 6
+    hideUIAboveThreshold: 1
+  ammoRemaining: 50
+  audioSource: {fileID: 3735530323860976749}
+  ammoFullSFX: {fileID: 8300000, guid: f48b538b00559ae4f952d288f4e73f90, type: 3}
+  ammoRefillSFX: {fileID: 8300000, guid: 927a49d5934d70548b72973a220755ff, type: 3}
+  ammoUI: {fileID: 341989169}
+  uiObject: {fileID: 0}
+  weaponAnimator: {fileID: 7387158629756650738}
+  mainParticle: {fileID: 2036904280780318481}
 --- !u!114 &1178192431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26437,7 +26467,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Src.Scripts.Player, Assembly-CSharp
+        m_TargetAssemblyTypeName: Src.Scripts.Gameplay.Player, Assembly-CSharp
         m_MethodName: SetWeapon
         m_Mode: 2
         m_Arguments:
@@ -26464,12 +26494,12 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_TargetAssemblyTypeName: Src.Scripts.Gameplay.Player, Assembly-CSharp
         m_MethodName: TryUnequipWeapon
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 2128515461}
+          m_ObjectArgumentAssemblyTypeName: Src.Scripts.Weapons.Weapon, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -26571,33 +26601,6 @@ MonoBehaviour:
   m_ThrowAngularVelocityScale: 1
   m_ForceGravityOnDetach: 0
   m_RetainTransformParent: 0
---- !u!114 &2128515461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9135275368818329942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af90997df2d7e49418c91e7d35caa061, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ammoRemaining: 50
-  maxAmmo: 50
-  initialUsage: 3
-  refillRate: 20
-  usageRate: 3
-  lowAmmoThreshold: 25
-  hideUIAboveThreshold: 1
-  ammoFullSFX: {fileID: 8300000, guid: f48b538b00559ae4f952d288f4e73f90, type: 3}
-  ammoRefillSFX: {fileID: 8300000, guid: 927a49d5934d70548b72973a220755ff, type: 3}
-  ammoUI: {fileID: 341989169}
-  UIObject: {fileID: 341989167}
-  weaponAnimator: {fileID: 7387158629756650738}
-  renderers: []
-  audioSource: {fileID: 3735530323860976749}
-  mainParticle: {fileID: 2036904280780318481}
 --- !u!95 &7387158629756650738
 Animator:
   serializedVersion: 3

@@ -101,7 +101,7 @@ namespace Src.Scripts.Weapons
             if (Weapon == null) return;
             Weapon.EnableColliders();
             ShowWeapon();
-            Weapon.hideUIAboveThreshold = true;
+            Weapon.wepParams.hideUIAboveThreshold = true;
             Weapon.StopReloadSfx();
         }
 
@@ -110,13 +110,13 @@ namespace Src.Scripts.Weapons
             if (Weapon == null) return;
             Weapon.DisableColliders();
             HideWeapon();
-            Weapon.hideUIAboveThreshold = false;
+            Weapon.wepParams.hideUIAboveThreshold = false;
         }
         
         public void MatchColors(PaintColorMatcher paintColorMatcher)
         {
             // Add the weapon's particle renderers to the color matcher list to ensure they are the correct color
-            foreach (var rend in Weapon.renderers)
+            foreach (var rend in Weapon.Renderers)
             {
                 if (rend.TryGetComponent(out PaintColorManager colorManager) &&
                     !paintColorMatcher.matchTeamColor.Contains(colorManager))
@@ -129,7 +129,7 @@ namespace Src.Scripts.Weapons
 
         public void UnmatchColors(PaintColorMatcher paintColorMatcher)
         {
-            foreach (var rend in Weapon.renderers)
+            foreach (var rend in Weapon.Renderers)
             {
                 if (rend.TryGetComponent(out PaintColorManager colorManager))
                 {
