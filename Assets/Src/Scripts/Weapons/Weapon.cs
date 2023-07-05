@@ -51,7 +51,7 @@ namespace Src.Scripts.Weapons
 
         private void Update()
         {
-            if (wepParams.lowRefillThreshold > AmmoNormalized)
+            if (wepParams.lowRefillThreshold >= ammoRemaining)
             {
                 RefillAmmo();
             }

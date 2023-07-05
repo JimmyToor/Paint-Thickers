@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Src.Scripts.FX
@@ -6,7 +9,6 @@ namespace Src.Scripts.FX
     public class Dematerialize : MonoBehaviour
     {
         public float timeToDematerialize;
-        private bool Dematerializing { get; set; }
         private Material[] _mats;
         private float _bottomPoint;
         private float _topPoint;
@@ -19,40 +21,37 @@ namespace Src.Scripts.FX
             _heightProperty = Shader.PropertyToID("_Height");
             _mats = skinnedMeshRend.materials;
             
-            Bounds bounds = skinnedMeshRend.bounds;
-            _bottomPoint = transform.InverseTransformPoint(bounds.min).y;
-            _topPoint = transform.InverseTransformPoint(bounds.max).y;
+            Bounds bounds = skinnedMeshRend.localBounds;
+            _bottomPoint = bounds.min.y;
+            _topPoint = bounds.max.y+1;
             
             foreach (var material in _mats)
             {
-                material.SetFloat(_heightProperty, _bottomPoint-1);
+                material.SetFloat(_heightProperty, _bottomPoint);
             }
         }
 
         // Update is called once per frame
-        void FixedUpdate()
+        IEnumerator DematerializeOverTime()
         {
-            if (!Dematerializing)
-                return;
-        
-            foreach (var material in _mats)
+            float maxDelta = _topPoint - _currentHeight;
+            while (_currentHeight < _topPoint)
             {
-                material.SetFloat(_heightProperty, _currentHeight);
+                foreach (var material in _mats)
+                {
+                    material.SetFloat(_heightProperty, _currentHeight);
+                }
+                _currentHeight = Mathf.MoveTowards(_currentHeight, _topPoint, (maxDelta*timeToDematerialize) * Time.deltaTime);
+                yield return null;
             }
-
-            // Effect finished so clean up the object
-            if (Mathf.Approximately(_currentHeight, _topPoint)) 
-            {
-                Destroy(this);
-            }
-            
-            _currentHeight = Mathf.Lerp(_currentHeight, _topPoint, timeToDematerialize);
+            Destroy(gameObject);
         }
 
+        [ContextMenu("Start Dematerialize")]
         public void StartDematerialize()
         {
             _currentHeight = _bottomPoint;
-            Dematerializing = true;
+            StartCoroutine(DematerializeOverTime());
         }
     }
 }

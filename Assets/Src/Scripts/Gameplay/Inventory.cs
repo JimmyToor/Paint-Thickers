@@ -6,7 +6,7 @@ namespace Src.Scripts.Gameplay
 { 
     public class Inventory
     {
-        private Dictionary<ItemType, int> _items = new Dictionary<ItemType, int>(); // Item, quantity pairs
+        private Dictionary<ItemType, int> _items = new Dictionary<ItemType, int>(); // <Item, Quantity> pairs
         
         public Inventory()
         {

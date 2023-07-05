@@ -26,10 +26,10 @@ namespace Src.Scripts.Gameplay
         public int TeamChannel { get; set; }
         
         public UserPreferencesManager.MainHand MainHand { get; set; }
+        public Inventory Inventory = new Inventory();
         
         private ActionBasedContinuousMoveProvider _locomotion;
         private float _oldSpeed;
-        public Inventory _inventory = new Inventory();
         private Health _health;
         private CharacterController _charController;
         private Vector3 _resetPosition;
@@ -147,12 +147,12 @@ namespace Src.Scripts.Gameplay
     
         public void AddItem(ItemType item)
         {
-            _inventory.AddItem(item);
+            Inventory.AddItem(item);
         } 
 
         public bool ConsumeItem(ItemType item)
         {
-            return _inventory.ConsumeItem(item);
+            return Inventory.ConsumeItem(item);
         }
     
         private void TakeHit(float damage)

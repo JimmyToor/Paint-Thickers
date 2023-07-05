@@ -17,17 +17,13 @@ namespace Src.Scripts.Gameplay
             TryGetComponent(out _animator);
         }
 
-        private void OnCollisionEnter(Collision collision)
+        private void OnTriggerEnter(Collider col)
         {
-            if (collision.gameObject.CompareTag("Player"))
-            {
-                Player player = collision.gameObject.GetComponentInParent(typeof(Player)) as Player;
-                if (player != null)
-                {
-                    player.AddItem(itemType);
-                    Pickup();
-                }
-            }
+            if (!col.gameObject.CompareTag("Player")) return;
+            if (!col.gameObject.TryGetComponent(out Player player)) return;
+            
+            player.AddItem(itemType);
+            Pickup();
         }
         
         [ContextMenu("Trigger Pickup")]
