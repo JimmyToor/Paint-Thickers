@@ -9,15 +9,17 @@ namespace UnityEngine.XR.Interaction.Toolkit
     public abstract class ContinuousMoveProviderBase : LocomotionProvider
     {
         public Vector3 LatestRelativeInput { get; private set; }
+        
         /// <summary>
         /// Controls whether gravity is relative to the rig or the world.
         /// </summary>
         public bool UseRigRelativeGravity { get; set; }
+        
         /// <summary>
         /// Multiply the force gravity applies to the rig.
-        /// <remarks>Only applies to world relative gravity.</remarks>
         /// </summary>
         public float GravityScale { get; set; } = 1;
+        
         /// <summary>
         /// Apply extra downward force to reduce jitter on slopes.
         /// </summary>
@@ -224,7 +226,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 {
                     if (UseRigRelativeGravity)
                     {
-                        m_VerticalVelocity += xrRig.transform.TransformVector(Physics.gravity * Time.deltaTime);
+                        m_VerticalVelocity += GravityScale * xrRig.transform.TransformVector(Physics.gravity * Time.deltaTime);
                     }
                     else
                     {

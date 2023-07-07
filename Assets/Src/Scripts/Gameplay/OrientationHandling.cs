@@ -117,10 +117,6 @@ namespace Src.Scripts.Gameplay
                 // Reduce gravity for the rig enough to be able to move up the wall, but still slide down if not moving
                 locomotion.GravityScale = _wallGravityScale;
             }
-            else if (newAngle > 0)
-            {   // Make gravity relative to the rig to make swimming smooth on slopes
-                locomotion.UseRigRelativeGravity = true;
-            }
             else
             {
                 locomotion.UseRigRelativeGravity = false;
@@ -154,6 +150,10 @@ namespace Src.Scripts.Gameplay
         private void TowardsHeight(float newHeight)
         {
             Vector3 newPos = _camOffset.localPosition;
+            if (Mathf.Approximately(newPos.y, newHeight))
+                return;
+            
+            Debug.Log("moving " + newPos.y + " to " + newHeight);
             newPos.y = Mathf.MoveTowards(newPos.y, newHeight, Time.deltaTime * sinkSpeed);
             _camOffset.localPosition = newPos;
         }
