@@ -1,4 +1,3 @@
-using System.Runtime.Remoting.Messaging;
 using Src.Scripts.Preferences;
 using Src.Scripts.Utility;
 using Src.Scripts.Weapons;
@@ -35,10 +34,6 @@ namespace Src.Scripts.Gameplay
         private Vector3 _resetPosition;
         private PaintColorMatcher _paintColorMatcher;
         private WeaponHandler _weaponHandler;
-        private ActionBasedController _leftController;
-        private ActionBasedController _rightController;
-
-        
 
         private void Awake()
         {
@@ -60,9 +55,6 @@ namespace Src.Scripts.Gameplay
             {
                 rightUIHand = GameObject.Find("RightHand Ray Controller");
             }
-
-            _leftController = leftHand.GetComponent<ActionBasedController>();
-            _rightController = rightHand.GetComponent<ActionBasedController>();
             
             if (xrInteractionManager == null)
             {
@@ -165,13 +157,12 @@ namespace Src.Scripts.Gameplay
 
         public void SetWeapon(Weapon newWeapon)
         {
-            if (!_weaponHandler.SetWeapon(newWeapon))
+            if (!_weaponHandler.EquipWeapon(newWeapon))
             {
                 return;
             }
 
-            _weaponHandler.ShowUI();
-            _weaponHandler.SetUIColor(GameManager.Instance.GetTeamColor(TeamChannel));
+            _weaponHandler.SetColor(GameManager.Instance.GetTeamColor(TeamChannel));
             if (_paintColorMatcher)
             {
                 _weaponHandler.MatchColors(_paintColorMatcher);
@@ -187,7 +178,6 @@ namespace Src.Scripts.Gameplay
                 _weaponHandler.UnmatchColors(_paintColorMatcher);
             }
             _weaponHandler.UnequipWeapon();
-
         }
 
         public void DisableWeapon()
@@ -197,7 +187,7 @@ namespace Src.Scripts.Gameplay
         
         public void EnableWeapon()
         {
-            _weaponHandler.EnableWeaponUI();
+            _weaponHandler.EnableWeapon();
         }
 
         public void HideWeapon()
@@ -208,16 +198,6 @@ namespace Src.Scripts.Gameplay
         private void ShowWeapon()
         {
             _weaponHandler.ShowWeapon();
-        }
-
-        public void EnableWeaponUI()
-        {
-            _weaponHandler.ShowUI();
-        }
-
-        public void DisableWeaponUI()
-        {
-            _weaponHandler.DisableWeaponUI();
         }
     
         public void RefillWeaponAmmo()
@@ -298,7 +278,7 @@ namespace Src.Scripts.Gameplay
                     ? rightHand.GetComponent<XRBaseInteractor>()
                     : leftHand.GetComponent<XRBaseInteractor>(),
                 interactable);
-            _weaponHandler.SetWeapon(weapon);
+            _weaponHandler.EquipWeapon(weapon);
         }
         
     }

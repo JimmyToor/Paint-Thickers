@@ -10,9 +10,9 @@ namespace Src.Scripts.Weapons
         
         private readonly int _firingBoolId = Animator.StringToHash("Firing");
 
-        // Update is called once per frame
-        void Update()
+        protected override void FixedUpdate()
         {
+            base.FixedUpdate();
             if (Firing && mainParticle.isPlaying)
             {
                 if (!ConsumeAmmo())
@@ -24,12 +24,11 @@ namespace Src.Scripts.Weapons
 
         public void StartFire()
         {
-            if (ConsumeAmmo(wepParams.initialUsage))
-            {
-                mainParticle.Play();
-                Firing = true;
-                weaponAnimator.SetBool(_firingBoolId, true);
-            }
+            if (!ConsumeAmmo(wepParams.initialUsage)) return;
+            
+            mainParticle.Play();
+            Firing = true;
+            weaponAnimator.SetBool(_firingBoolId, true);
         }
 
         public void EndFire()

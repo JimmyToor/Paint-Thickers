@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Src.Scripts.UI;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Weapons
@@ -16,53 +14,77 @@ namespace Src.Scripts.Weapons
         public float initialUsage;
         public float refillRate;
         public float usageRate;
-        [Tooltip("Ammo indicator is shown when ammo reaches this threshold.")]
-        public float lowAmmoThreshold;
         [Tooltip("Ammo refills automatically once below this threshold.")]
         public float lowRefillThreshold;
-        public bool hideUIAboveThreshold;
+        [Tooltip("Seconds to wait after falling below ammo threshold to refill ammo.")]
+        public float lowAmmoRegenCooldownTime;
     }
     
     public class Weapon : MonoBehaviour
     {
         public WeaponParameters wepParams;
-        public float ammoRemaining;
+        [HideInInspector]
+        public float ammoNormalized;
+        
         [Header("SFX")]
         public AudioSource audioSource;
         public AudioClip ammoFullSFX;
         public AudioClip ammoRefillSFX;
-        [Header("UI")]
-        public AmmoUI ammoUI;
-        public GameObject uiObject;
         [Header("Animation")]
         public Animator weaponAnimator;
         
-        public float AmmoNormalized => ammoRemaining / wepParams.maxAmmo;
-
+        public Action<float> onAmmoNormalizedChanged;
+        public Action<Color> onColorChanged;
+        public Action onWeaponEquipped;
+        public Action onWeaponUnequipped;
+        public Action onWeaponHidden;
+        public Action onWeaponUnhidden;
+        
         public List<Renderer> Renderers { get; set; }
         
+        [SerializeField]
+        private float ammoRemaining;
+        public float AmmoRemaining
+        {
+            get => ammoRemaining;
+            set
+            {
+                ammoRemaining = value;
+                ammoNormalized = ammoRemaining / wepParams.maxAmmo;
+                onAmmoNormalizedChanged?.Invoke(ammoNormalized);
+            }
+        }
+        
         private XRGrabInteractable _interactable;
-
+        private float _lowAmmoRegenCooldown;
+        
         private void Awake()
         {
             Renderers = GetComponentsInChildren<Renderer>().ToList();
             _interactable = GetComponent<XRGrabInteractable>();
+            _lowAmmoRegenCooldown = wepParams.lowAmmoRegenCooldownTime;
+            wepParams.maxAmmo = Mathf.Max(1, wepParams.maxAmmo);
+            AmmoRemaining = wepParams.maxAmmo;
         }
 
-        private void Update()
+        protected virtual void FixedUpdate()
         {
-            if (wepParams.lowRefillThreshold >= ammoRemaining)
+            if (_lowAmmoRegenCooldown <= 0 && wepParams.lowRefillThreshold >= AmmoRemaining)
             {
                 RefillAmmo();
+            }
+            else
+            {
+                _lowAmmoRegenCooldown -= Time.deltaTime;
             }
         }
 
         protected virtual bool ConsumeAmmo(float amount)
         {
-            if (ammoRemaining >= amount)
+            if (AmmoRemaining >= amount)
             {
-                ammoRemaining -= amount;
-                UpdateAmmoUI();
+                AmmoRemaining -= amount;
+                _lowAmmoRegenCooldown = wepParams.lowAmmoRegenCooldownTime;
                 return true;
             }
 
@@ -80,14 +102,10 @@ namespace Src.Scripts.Weapons
 
         public virtual void RefillAmmo(float amount)
         {
-            ammoRemaining += amount;
-            ammoRemaining = Mathf.Clamp(ammoRemaining, 0, wepParams.maxAmmo);
-            if (wepParams.hideUIAboveThreshold && ammoRemaining >= wepParams.lowAmmoThreshold)
-            {
-                HideUI();
-            }
+            AmmoRemaining += amount;
+            AmmoRemaining = Mathf.Clamp(AmmoRemaining, 0, wepParams.maxAmmo);
 
-            if (ammoRemaining >= wepParams.maxAmmo)
+            if (AmmoRemaining >= wepParams.maxAmmo)
             {
                 PlayFullSfx();
             }
@@ -99,7 +117,7 @@ namespace Src.Scripts.Weapons
 
         public void PlayFullSfx()
         {
-            if (ammoRemaining >= wepParams.maxAmmo)
+            if (AmmoRemaining >= wepParams.maxAmmo)
             {
                 StopReloadSfx();
                 audioSource.PlayOneShot(ammoFullSFX);
@@ -122,23 +140,10 @@ namespace Src.Scripts.Weapons
 
         public virtual void RefillAmmo()
         {
-            if (ammoRemaining >= wepParams.maxAmmo) return;
+            if (AmmoRemaining >= wepParams.maxAmmo) return;
             RefillAmmo(Time.deltaTime * wepParams.refillRate);
-            UpdateAmmoUI();
         }
-
-        private void UpdateAmmoUI()
-        {
-            if (ammoUI != null)
-            {
-                ammoUI.SetAmount(AmmoNormalized);
-                if (ammoRemaining <= wepParams.lowAmmoThreshold)
-                {
-                    ShowUI();
-                }
-            }
-        }
-
+        
         public void HideWeapon()
         {
             foreach (var rend in Renderers)
@@ -147,6 +152,7 @@ namespace Src.Scripts.Weapons
             }
 
             _interactable.activatable = false;
+            onWeaponHidden?.Invoke();
         }
 
         public void ShowWeapon()
@@ -156,24 +162,12 @@ namespace Src.Scripts.Weapons
                 rend.enabled = true;
             }
             _interactable.activatable = true;
+            onWeaponUnhidden?.Invoke();
         }
-
-        public void HideUI()
+        
+        public void SetColor(Color color)
         {
-            uiObject.SetActive(false);
-        }
-
-        public void ShowUI()
-        {
-            uiObject.SetActive(true);
-        }
-
-        public void SetUIColor(Color color)
-        {
-            if (ammoUI != null)
-            {
-                ammoUI.SetColor(color);
-            }
+            onColorChanged?.Invoke(color);
         }
 
         public void DisableColliders()

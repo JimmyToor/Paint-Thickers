@@ -21,7 +21,7 @@ namespace Src.Scripts.Weapons
                    rightInteractor.selectTarget != interactable;
         }
         
-        public bool SetWeapon(Weapon newWeapon)
+        public bool EquipWeapon(Weapon newWeapon)
         {
             if (newWeapon == null)
             {
@@ -29,23 +29,22 @@ namespace Src.Scripts.Weapons
                 return false;
             }
             Weapon = newWeapon;
+            Weapon.onWeaponEquipped?.Invoke();
             return true;
         }
 
-        public void ShowUI()
+        public void SetColor(Color color)
         {
             if (Weapon == null) return;
-            Weapon.ShowUI();
-        }
-
-        public void SetUIColor(Color color)
-        {
-            if (Weapon == null) return;
-            Weapon.SetUIColor(color);
+            Weapon.SetColor(color);
         }
         
         public void UnequipWeapon()
         {
+            if (Weapon != null)
+            {
+                Weapon.onWeaponUnequipped?.Invoke();
+            }
             Weapon = null;
         }
 
@@ -75,20 +74,6 @@ namespace Src.Scripts.Weapons
             if (Weapon == null) return;
             Weapon.ShowWeapon();
         }
-
-        public void EnableWeaponUI()
-        {
-            if (Weapon == null) return;
-            
-            Weapon.ShowUI();
-        }
-
-        public void DisableWeaponUI()
-        {
-            if (Weapon == null) return;
-            
-            Weapon.HideUI();
-        }
     
         public void RefillWeaponAmmo()
         {
@@ -101,7 +86,6 @@ namespace Src.Scripts.Weapons
             if (Weapon == null) return;
             Weapon.EnableColliders();
             ShowWeapon();
-            Weapon.wepParams.hideUIAboveThreshold = true;
             Weapon.StopReloadSfx();
         }
 
@@ -110,7 +94,6 @@ namespace Src.Scripts.Weapons
             if (Weapon == null) return;
             Weapon.DisableColliders();
             HideWeapon();
-            Weapon.wepParams.hideUIAboveThreshold = false;
         }
         
         public void MatchColors(PaintColorMatcher paintColorMatcher)
