@@ -60,7 +60,10 @@ namespace Src.Scripts.Gameplay
                 }
             }
         }
-
+        
+        /// <summary>
+        /// The target speed to be transitioned to over time.
+        /// </summary>
         public float GoalSpeed
         {
             get => _goalSpeed;
@@ -241,7 +244,6 @@ namespace Src.Scripts.Gameplay
                 
                 GoalSpeed = swimSpeed;
 
-                _player.EnableWeaponUI();
                 _player.RefillWeaponAmmo();
             
                 if (!swimSound.isPlaying)
@@ -266,7 +268,6 @@ namespace Src.Scripts.Gameplay
                 }
                 
                 GoalSpeed = !InPaint ? squidSpeed : enemyPaintSpeed;
-                _player.HideWeapon();
             }
         }
 

@@ -71,13 +71,11 @@ namespace Src.Scripts.Gameplay
         private static readonly int WorldTangentTex = Shader.PropertyToID("_WorldTangentTex");
         private static readonly int WorldBinormalTex = Shader.PropertyToID("_WorldBinormalTex");
         private static readonly int SplatTexSize = Shader.PropertyToID("_SplatTexSize");
+        
+        private const int MaxNearSplats = 5; // Maximum number of nearby targets to paint in addition to the primary target.
 
-        // Components may have changed, so make sure we have what we need
         private bool SetComponents()
         {
-            _paintRenderer = GetComponent<Renderer>();
-            if (!_paintRenderer) return false;
-
             _mc = GetComponent<MeshCollider>();
             if (!_mc) return false;
 
@@ -91,9 +89,7 @@ namespace Src.Scripts.Gameplay
         private static Color GetPixelColor(PaintTarget paintTarget, RaycastHit hit)
         {
             if (!paintTarget._validTarget) return Color.clear;
-
-            if (!paintTarget.SetComponents()) return Color.clear;
-
+            
             UpdatePickColors(paintTarget);
             Texture2D tc = paintTarget.splatTexPick;
             if (!tc)
@@ -150,15 +146,19 @@ namespace Src.Scripts.Gameplay
         /// <param name="normal">The normal of the paint.</param>
         public static void PaintSphere(Vector3 point, Vector3 normal, Brush brush)
         {
+            Collider[] colliders = new Collider[MaxNearSplats];
             // SphereCast has issues with colliders inside the sphere at the start of the cast,
             // so OverlapSphere is used instead
-             Collider[] colliders = Physics.OverlapSphere(point, brush.splatScale,
-                 LayerMask.GetMask("Terrain"));
-             
-             foreach (var collider in colliders)
-             {
-                 Paint(collider.gameObject, point, normal, brush);
-             }
+            var size = Physics.OverlapSphereNonAlloc(point, brush.splatScale, colliders, LayerMask.GetMask("Terrain"));
+
+            for (var i = 0; i < size; i++)
+            {
+                var collider = colliders[i];
+                if (collider.CompareTag("Terrain"))
+                {
+                    Paint(collider.gameObject, point, normal, brush);
+                }
+            }
         }
 
         /// <summary>
@@ -252,11 +252,6 @@ namespace Src.Scripts.Gameplay
             {
                 paintTarget.splatTexPick = new Texture2D((int)paintTarget.paintTextureSize, (int)paintTarget.paintTextureSize, TextureFormat.ARGB32, false);
             }
-
-            // Rect rectReadPicture = new Rect(0, 0, rt.width, rt.height);
-            // RenderTexture.active = rt;
-            // paintTarget.splatTexPick.ReadPixels(rectReadPicture, 0, 0);
-            // paintTarget.splatTexPick.Apply();
             
             RenderTexture.active = paintTarget._paintMap;
             paintTarget.splatTexPick = new Texture2D(paintTarget._paintMap.width, paintTarget._paintMap.height, TextureFormat.ARGB32, false,true);
@@ -328,6 +323,7 @@ namespace Src.Scripts.Gameplay
             CreateTextures();
 
             RenderTextures();
+            SetComponents();
             _setupComplete = true;
         }
 
@@ -347,10 +343,8 @@ namespace Src.Scripts.Gameplay
             };
             _paintMap.Create();
 
-            RenderTexture.active = _paintMap;
             if (useBaked)
                 Graphics.Blit(bakedTex, _paintMap);
-            RenderTexture.active = null;
 
             _worldPosTex = new RenderTexture((int)renderTextureSize, (int)renderTextureSize, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear)
             {

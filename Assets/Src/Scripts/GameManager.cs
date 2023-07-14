@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using Src.Scripts.Gameplay;
 using Src.Scripts.ScriptableObjects;
 using Src.Scripts.Utility;
@@ -10,7 +8,6 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts
@@ -39,10 +36,8 @@ namespace Src.Scripts
         private static readonly int PaintColor4 = Shader.PropertyToID("_PaintColor4");
         private const int PauseSaturationAdjustment = -100;
 
-        public override void Awake()
+        private void Start()
         {
-            base.Awake();
-            
             if (xrRigGameObject == null)
             {
                 xrRigGameObject = GameObject.Find("XR Rig");
@@ -61,10 +56,7 @@ namespace Src.Scripts
             {
                 winUI = GameObject.Find("UI_WinMenu");
             }
-        }
-
-        private void Start()
-        {
+            
             if (postProcessVolume != null)
             {
                 postProcessVolume.profile.TryGet(out _volumeColorAdjustments);
@@ -85,11 +77,12 @@ namespace Src.Scripts
             ShowMenu(mainMenu);
             _player.DisableGameHands();
             _player.EnableUIHands();
+            PreferenceManager.Instance.LoadData();
         }
 
         public void PlayerDeath()
         {
-            _player.playerEvents.Stand.Invoke();
+            _player.playerEvents.OnDeath();
             _player.DisableOverlayUI();
             _player.DisableWeapon();
             _player.DisableGameHands();
@@ -210,7 +203,7 @@ namespace Src.Scripts
     
         private void ShowGameOverUI()
         {
-            gameOverUI.SetActive(true);
+            ShowMenu(gameOverUI);
             _player.DisableGameHands();
             _player.EnableUIHands();
             if (gameOverUI.TryGetComponent(out ParentConstraint constraint))
@@ -222,6 +215,7 @@ namespace Src.Scripts
         public void RestartLevel()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Start();
         }
 
         /// <summary>

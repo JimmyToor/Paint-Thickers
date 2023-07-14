@@ -280,7 +280,7 @@ namespace Src.Scripts.AI
         public IEnumerator StartPaintEscapeAfterTimer()
         {
             yield return _sunkDelay;
-            
+
             BaseState<TrooperStateMachine> sunkState = stateMachine.CurrentRootState.GetDescendantState(StateId.SunkStruggle);
             sunkState?.SwitchState(StateId.SunkEscapePaint);
         }

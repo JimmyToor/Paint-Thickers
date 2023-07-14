@@ -1,4 +1,3 @@
-using System.Collections;
 using Src.Scripts.AI.States;
 using UnityEngine;
 using UnityEngine.AI;

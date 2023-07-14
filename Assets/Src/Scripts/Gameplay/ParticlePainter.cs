@@ -3,8 +3,8 @@ using Paintz_Free.Scripts;
 using Src.Scripts.AI;
 using Src.Scripts.Attributes;
 using Src.Scripts.Audio;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Src.Scripts.Gameplay
 {
@@ -36,18 +36,19 @@ namespace Src.Scripts.Gameplay
             int numCollisionEvents = _partSys.GetCollisionEvents(other, _collisionEvents);
             for (int i = 0; i < numCollisionEvents; i++)
             {
-                switch (other.tag)
+                switch (LayerMask.LayerToName(other.layer))
                 {
                     case "Terrain":
+                        if (!other.CompareTag("Terrain")) break;
+                        
                         PaintTarget paintTarget = other.GetComponent<PaintTarget>();
                         if (paintTarget != null)
                         {
                             if (randomChannel) brush.splatChannel = Random.Range(0, 2);
                             PaintTarget.PaintSphere(_collisionEvents[i].intersection, _collisionEvents[i].normal, brush);
-                            //PaintTarget.PaintObject(paintTarget, _collisionEvents[i].intersection, _collisionEvents[i].normal, brush);
                         }
                         break;
-                    case "Player":
+                    case "Players":
                         if (other.TryGetComponent(out Player player))
                         {
                             if (brush.splatChannel != player.TeamChannel)
@@ -56,7 +57,7 @@ namespace Src.Scripts.Gameplay
                             }
                         }
                         break;
-                    case "Enemy":
+                    case "Enemies":
                         if (other.TryGetComponent(out Enemy enemy))
                         {
                             if (brush.splatChannel != enemy.team.teamChannel && other.gameObject.TryGetComponent(out Health enemyHealth))

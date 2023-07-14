@@ -8,12 +8,12 @@ namespace Src.Scripts.Gameplay
     public class PlayerEvents : MonoBehaviour
     {
         public InputActionAsset inputs;
-        public Action Land;
-        public Action Squid;
-        public Action Stand;
-        public Action<Vector3> Move;
-        public Action Launch;
-        public Action<float> TakeHit;
+        public event Action Land;
+        public event Action Squid;
+        public event Action Stand;
+        public event Action<Vector3> Move;
+        public event Action Launch;
+        public event Action<float> TakeHit;
     
         void Start()
         {
@@ -29,17 +29,17 @@ namespace Src.Scripts.Gameplay
             inputs.FindAction("Move").performed -= OnMove;
         }
 
-        private void OnSquid(InputAction.CallbackContext ctx)
+        public void OnSquid(InputAction.CallbackContext ctx)
         {
             Squid?.Invoke();
         }
 
-        private void OnStand(InputAction.CallbackContext ctx)
+        public void OnStand(InputAction.CallbackContext ctx)
         {
             Stand?.Invoke();
         }
 
-        private void OnMove(InputAction.CallbackContext ctx)
+        public void OnMove(InputAction.CallbackContext ctx)
         {
             Move?.Invoke(new Vector3(ctx.ReadValue<Vector2>().x, 0f, ctx.ReadValue<Vector2>().y));
         }
@@ -58,6 +58,11 @@ namespace Src.Scripts.Gameplay
         public void OnTakeHit(float damage)
         {
             TakeHit?.Invoke(damage);
+        }
+
+        public void OnDeath()
+        {
+            Stand?.Invoke();
         }
     }
 }

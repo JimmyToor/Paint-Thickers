@@ -5,6 +5,7 @@ using Src.Scripts.UI;
 using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Src.Scripts.Gameplay
 {
@@ -38,7 +39,6 @@ namespace Src.Scripts.Gameplay
         private SFXSource _sfxSource;
         private float _regenTime; // Time until regeneration starts
         private bool _updateUI = true;
-
 
         private void Start()
         {

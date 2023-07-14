@@ -22,6 +22,23 @@ namespace Src.Scripts.Utility
             {
                 PaintCursor();
             }
+
+            if (Keyboard.current.numpad0Key.isPressed)
+            {
+                brush.splatChannel = 0;
+            }
+            else if (Keyboard.current.numpad1Key.isPressed)
+            {
+                brush.splatChannel = 1;
+            }
+            else if (Keyboard.current.numpad2Key.isPressed)
+            {
+                brush.splatChannel = 2;
+            }
+            else if (Keyboard.current.numpad3Key.isPressed)
+            {
+                brush.splatChannel = 3;
+            }
         }
 
         private void PaintCursor()

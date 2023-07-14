@@ -9,25 +9,26 @@ namespace Src.Scripts.Utility
 
         private static T _instance = null;
         public static T Instance {
-            get { 
-                if(_instance == null){
-                    _instance = GameObject.FindObjectOfType<T>();
-                    if(_instance == null){
-                        var singletonObj = new GameObject();
-                        singletonObj.name = typeof(T).ToString();
-                        _instance = singletonObj.AddComponent<T>();
-                    }
-                }
+            get {
+                if (_instance != null) return _instance;
+                
+                _instance = FindObjectOfType<T>();
+                if (_instance != null) return _instance;
+
+                var singletonObj = new GameObject
+                {
+                    name = typeof(T).ToString()
+                };
+                
+                _instance = singletonObj.AddComponent<T>();
                 return _instance;
             }
         }
 
-        static public bool IsInstanceAlive{
-            get { return _instance != null; }
-        }
+        public static bool IsInstanceAlive => _instance != null;
 
         public virtual void Awake(){
-            if (_instance != null){
+            if (_instance != null && _instance != this){
                 if(Verbose)
                     Debug.Log("SingleAccessPoint, Destroy duplicate instance " + name + " of " + Instance.name);
                 Destroy(gameObject);
@@ -48,7 +49,6 @@ namespace Src.Scripts.Utility
 
             if(Verbose)
                 Debug.Log("SingleAccessPoint instance found " + Instance.GetType().Name);
-
         }
 
     }

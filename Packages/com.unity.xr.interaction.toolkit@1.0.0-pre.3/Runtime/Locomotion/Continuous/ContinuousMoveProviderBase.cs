@@ -226,7 +226,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
                 {
                     if (UseRigRelativeGravity)
                     {
-                        m_VerticalVelocity += GravityScale * xrRig.transform.TransformVector(Physics.gravity * Time.deltaTime);
+                        m_VerticalVelocity += xrRig.transform.TransformVector(Physics.gravity * Time.deltaTime);
                     }
                     else
                     {
@@ -237,7 +237,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
 
                 if (SlopeHandling)
                 {
-                    m_VerticalVelocity += Vector3.down;
+                    m_VerticalVelocity += Vector3.down*2;
                 }
                 motion += m_VerticalVelocity * Time.deltaTime;
                 

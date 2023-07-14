@@ -119,7 +119,6 @@ namespace Src.Scripts.Gameplay
             }
             else
             {
-                locomotion.UseRigRelativeGravity = false;
                 locomotion.GravityScale = 1f;
             }
 
@@ -150,10 +149,7 @@ namespace Src.Scripts.Gameplay
         private void TowardsHeight(float newHeight)
         {
             Vector3 newPos = _camOffset.localPosition;
-            if (Mathf.Approximately(newPos.y, newHeight))
-                return;
             
-            Debug.Log("moving " + newPos.y + " to " + newHeight);
             newPos.y = Mathf.MoveTowards(newPos.y, newHeight, Time.deltaTime * sinkSpeed);
             _camOffset.localPosition = newPos;
         }

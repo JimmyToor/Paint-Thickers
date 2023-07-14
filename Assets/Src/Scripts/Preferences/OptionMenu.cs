@@ -25,7 +25,7 @@ namespace Src.Scripts.Preferences
         public float snapTurnIncrements;
         
         
-        private void Awake()
+        private void Start()
         {
             if (userPreferencesManager == null)
             {
@@ -143,6 +143,7 @@ namespace Src.Scripts.Preferences
                     vignetteHigh.isOn = true;
                     break;
                 default:
+                    vignetteOff.isOn = true;
                     Debug.LogError("OPTIONSMENU: Invalid vignette setting: " + userPreferencesManager.VignetteIntensity);
                     break;
             }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Src.Scripts.Gameplay;
 using Src.Scripts.UI;
 using UnityEngine;
@@ -172,6 +171,9 @@ namespace Src.Scripts.Preferences
         private void Awake()
         {
             GetInputs();
+            SetTurnStyle(TurningStyle);
+            SetMainHand(PreferredHand);
+            SetVignetteStrength(VignetteIntensity);
         }
 
         private void GetInputs()
@@ -182,14 +184,6 @@ namespace Src.Scripts.Preferences
             _leftHandedControlScheme = FindControlScheme(leftHandedControlSchemeName);
             _rightHandedControlScheme = FindControlScheme(rightHandedControlSchemeName);
             _baseControlScheme = FindControlScheme(baseControlSchemeName);
-            
-        }
-
-        void Start()
-        {
-            SetTurnStyle(TurningStyle);
-            SetMainHand(PreferredHand);
-            SetVignetteStrength(VignetteIntensity);
         }
 
         void SetTurnStyle(TurnStyle style)
