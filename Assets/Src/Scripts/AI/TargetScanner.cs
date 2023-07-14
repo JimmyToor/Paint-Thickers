@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Src.Scripts.AI
 {
@@ -11,6 +13,8 @@ namespace Src.Scripts.AI
         public LayerMask targetLayerMask;
         public LayerMask blockingLayerMask;
         public Transform originTransform;
+        public UnityEvent<Transform> onTargetSighted;
+        public UnityEvent onTargetLost;
         
         private WaitForSeconds _scanDelay;
         [HideInInspector]public bool hasTarget;
@@ -43,7 +47,7 @@ namespace Src.Scripts.AI
         }
 
         /// <summary>
-        /// Searches for and targets the nearest player within line of sight
+        /// Searches for and targets the nearest valid target within line of sight.
         /// </summary>
         /// <returns></returns>
         public bool TargetSearch()
@@ -72,26 +76,37 @@ namespace Src.Scripts.AI
 
         private bool IsValidTarget(Collider newTarget)
         {
-            return !(newTarget.gameObject.activeSelf == false 
-                     || !newTarget.TryGetComponent(out _targetCharController)
-                     || !CheckLOS(newTarget.transform.TransformPoint(_targetCharController.center)));
+            if (!newTarget.gameObject.activeSelf)
+            {
+                Debug.Log("Target is not active: " + newTarget.gameObject, this);
+            }
+            else if (!newTarget.TryGetComponent(out _targetCharController))
+            {
+                Debug.Log("No CharacterController on target: " + newTarget.gameObject, this);
+            }
+            else if (!CheckLOS(newTarget.transform.TransformPoint(_targetCharController.center)))
+            {
+                Debug.Log("No line-of-sight on target: " + newTarget.gameObject);
+            }
+            else
+            {
+                return true;
+            }
+            
+            return false;
         }
-
-        private bool SetNewTarget(Transform newTarget)
+        
+        private void SetNewTarget(Transform newTarget)
         {
             Target = newTarget;
             if (_targetCharController == null)
             {
                 Target.TryGetComponent(out _targetCharController);
-                if (_targetCharController == null)
-                {
-                    Debug.LogError("No CharacterController on target!", this);
-                    Target = null;
-                    return false;
-                }
             }
+           
             hasTarget = true;
-            return true;
+            
+            onTargetSighted.Invoke(Target);
         }
 
         public void TargetLost()
@@ -104,6 +119,7 @@ namespace Src.Scripts.AI
             {
                 StartCoroutine(PeriodicSearch());
             }
+            onTargetLost.Invoke();
         }
         
         
