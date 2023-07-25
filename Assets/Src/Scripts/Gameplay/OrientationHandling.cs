@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Gameplay
@@ -13,13 +15,13 @@ namespace Src.Scripts.Gameplay
         public float rotationSpeed;
         public float sinkSpeed; // speed of squid transformation
         [Tooltip("The angle at which rig-relative gravity is enabled.")]
-        public float _gravityAngleLimit;
+        public float gravityAngleLimit;
         public ActionBasedContinuousMoveProvider locomotion;
 
-        public bool Rotating { get; set; } // Represents whether or not a rotation is in-progress
-        public bool Transforming { get; set; } // Represents whether or not a height change is in-progress
+        public bool rotating { get; set; } // Represents whether or not a rotation is in-progress
+        public bool transforming { get; set; } // Represents whether or not a height change is in-progress
         
-        private Vector3 _goalNormal;
+        private Vector3 _targetNormal;
         private Player _player;
         private Transform _camOffset;
         private Transform _playerHead;
@@ -28,18 +30,8 @@ namespace Src.Scripts.Gameplay
         private float _targetHeight;
         private XRRig _xrRig;
         private float _wallGravityScale = 0.05f;
-        private CharacterController _charController;
-
-        void Start()
-        {
-            _xrRig = GameObject.Find("XR Rig").GetComponent<XRRig>();
-            _player = GetComponent<Player>();
-            _camOffset = transform.GetChild(0);
-            _playerHead = _camOffset.GetChild(0);
-            _charController = _xrRig.GetComponent<CharacterController>();
-            _goalNormal = transform.up;
-        }
-
+        private bool _useFloorOffset = true;
+        
         private void Awake()
         {
             if (!locomotion)
@@ -47,10 +39,14 @@ namespace Src.Scripts.Gameplay
                 locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
             }
         }
-
-        public void UpdateOrientation()
+        
+        void Start()
         {
-            ToOrientation(_goalNormal.normalized);
+            _xrRig = GameObject.Find("XR Rig").GetComponent<XRRig>();
+            _player = GetComponent<Player>();
+            _camOffset = transform.GetChild(0);
+            _playerHead = _camOffset.GetChild(0);
+            _targetNormal = transform.up;
         }
 
         /// <summary>
@@ -59,22 +55,63 @@ namespace Src.Scripts.Gameplay
         /// <param name="hit"></param>
         /// <param name="channel"></param>
         /// <returns>True if goal normal is successfully set, false otherwise.</returns>
-        public bool SetNewGoalNormal(RaycastHit hit, int channel)
+        public bool SetNewTargetNormal(RaycastHit hit, int channel)
         {
             if (hit.transform == null) return false;
             
-            // Only match orientation with this surface if it has friendly paint or is a small enough slope.
+            // Only match orientation with this surface if it has friendly paint or is a shallow enough slope.
             float angle = Vector3.Angle(hit.normal, Vector3.up);
-            if (channel != _player.TeamChannel && angle >= _gravityAngleLimit) return false;
+            if (channel != _player.TeamChannel && angle >= gravityAngleLimit) return false;
             
-            _goalNormal = hit.normal;
+            _targetNormal = hit.normal;
+            return true;
+        }
+        
+        /// <summary>
+        /// Set the new height that the main camera will be moved towards.
+        /// </summary>
+        /// <param name="height">The target height.</param>
+        /// <param name="useOffset">Determines if the height passed is relative to the floor offset or not.</param>
+        /// <returns>True if goal height is successfully set, false otherwise.</returns>
+        public bool SetNewTargetHeight(float height, bool useOffset = true)
+        {
+            _targetHeight = height;
+            _useFloorOffset = useOffset;
             return true;
         }
 
+        private void FixedUpdate()
+        {
+            UpdateOrientation();
+            UpdateHeight();
+        }
+
+        public void ResetHeight()
+        {
+            SetNewTargetHeight(0f); // Remove the squid height offset
+        }
+        
         public void ResetOrientation()
         {
-            _goalNormal = Vector3.up;
-            UpdateOrientation();
+            _targetNormal = Vector3.up;
+            locomotion.GravityScale = 1f;
+        }
+
+        private void UpdateOrientation()
+        {
+            ToOrientation(_targetNormal.normalized);
+        }
+
+        private void UpdateHeight()
+        {
+            if (_useFloorOffset)
+            {
+                ToHeight(_targetHeight);
+            }
+            else
+            {
+                ToHeightWithoutOffset(_targetHeight);
+            }
         }
 
         /// <summary>
@@ -111,47 +148,34 @@ namespace Src.Scripts.Gameplay
             _xrRig.RotateAroundCameraPosition(axis, rotationAmount);
             
             float newAngle = Vector3.Angle(newUp, Vector3.up);
-        
-            if (_charController.isGrounded && newAngle >= _gravityAngleLimit)
-            {
-                // Reduce gravity for the rig enough to be able to move up the wall, but still slide down if not moving
-                locomotion.GravityScale = _wallGravityScale;
-            }
-            else
-            {
-                locomotion.GravityScale = 1f;
-            }
-
-            Rotating = transform.up != _goalNormal;
-        }
-
-        public void ResetHeight()
-        {
-            TowardsHeight(0); // Remove the squid height offset
+            
+            // Reduce gravity for the rig enough to be able to move up the wall, but still slide down if not moving
+            locomotion.GravityScale = newAngle >= gravityAngleLimit ? _wallGravityScale : 1f;
+            rotating = transform.up != _targetNormal;
         }
     
         /// <summary>
-        /// Set player's head height from the floor, ignoring floor offset and vertical head position
+        /// Set player's head height from the floor, ignoring floor offset and vertical head position.
         /// </summary>
         /// <param name="height"></param>
         public void ToHeightWithoutOffset(float height)
         {
             Vector3 localPosition = _playerHead.localPosition;
             float newHeight = -localPosition.y + height; 
-            TowardsHeight(newHeight);
-            Transforming = !Mathf.Approximately(-localPosition.y, newHeight);
+            ToHeight(newHeight);
         }
 
         /// <summary>
         /// Move the camera offset's y-position towards the passed float to change the height of the player's view
         /// </summary>
         /// <param name="newHeight"></param>
-        private void TowardsHeight(float newHeight)
+        private void ToHeight(float newHeight)
         {
             Vector3 newPos = _camOffset.localPosition;
             
             newPos.y = Mathf.MoveTowards(newPos.y, newHeight, Time.deltaTime * sinkSpeed);
             _camOffset.localPosition = newPos;
+            transforming = !Mathf.Approximately(newPos.y, newHeight);
         }
     }
 }

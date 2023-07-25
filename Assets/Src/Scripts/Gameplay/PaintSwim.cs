@@ -1,3 +1,5 @@
+using System;
+using Src.Scripts.AI;
 using Src.Scripts.Audio;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -94,13 +96,18 @@ namespace Src.Scripts.Gameplay
         private float _goalSpeed;
         private float _sign;
 
-        private void Awake()
+        private void OnEnable()
         {
             _player = GetComponent<Player>();
-            
-            if (locomotion == null)
+            _playerEvents = GetComponent<PlayerEvents>();
+            SetupEvents();
+        }
+
+        private void Awake()
+        {
+            if (locomotion == null && TryGetComponent<ActionBasedContinuousMoveProvider>(out locomotion))
             {
-                locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
+                Debug.LogError("No Locomotion Provider on PaintSwim!", this);
             }
             
             _orientationHandling = GetComponent<OrientationHandling>();
@@ -117,12 +124,6 @@ namespace Src.Scripts.Gameplay
             GoalSpeed = locomotion.moveSpeed;
         }
 
-        private void OnEnable()
-        {
-            _playerEvents = GetComponent<PlayerEvents>();
-            SetupEvents();
-        }
-
         private void Update()
         {
             if (!Mathf.Approximately(locomotion.moveSpeed, GoalSpeed))
@@ -135,37 +136,34 @@ namespace Src.Scripts.Gameplay
 
         private void FixedUpdate()
         {
-            if (_player.isSquid && (_charController.isGrounded || _orientationHandling.Rotating || _orientationHandling.Transforming))
+            if (!_player.isSquid)
             {
-                CheckTerrain();
-                _orientationHandling.UpdateOrientation();
-
-                Swim();
+                return;
             }
-            else 
-            {
-                _orientationHandling.ResetHeight();
-                if (transform.up != Vector3.up)
-                {
-                    _orientationHandling.ResetOrientation();
-                }
-            }
+            
+            CheckTerrain();
+            Swim();
         }
 
         private void CheckTerrain()
         {
             // Check ahead first so we can adjust to slopes and walls
-            CheckGroundAhead();
-            CheckGroundBelow();
+            if (!CheckGroundAhead() & !CheckGroundBelow())
+            {
+                _orientationHandling.ResetOrientation();
+            }
         }
 
-        // Look for terrain changes under the main camera
-        private void CheckGroundBelow()
+        /// <summary>
+        /// Look for terrain changes under the main camera
+        /// </summary>
+        /// <returns>True if something is below us, false otherwise</returns>
+        private bool CheckGroundBelow()
         {
+            //Debug.DrawRay(_playerHead.position,-_camOffset.up,Color.blue,2f);
             if (!Physics.Raycast(_playerHead.position, -_camOffset.up, out _belowHit, 1f, swimmableLayers) 
-                || _belowHit.transform == null) return;
+                || _belowHit.transform == null) return false;
             
-            //Debug.DrawRay(_playerHead.position,-_camOffset.up,Color.red,2f);
             int channel = PaintTarget.RayChannel(_belowHit);
 
             // Figure out what colour paint, if any, is underneath the player
@@ -186,22 +184,32 @@ namespace Src.Scripts.Gameplay
             {
                 InPaint = false;
             }
-
-            if (!_player.isSquid) return;
             
             if (!normalSet) // Don't want to change the normal if it's been set by terrain ahead
             {
-                _orientationHandling.SetNewGoalNormal(_belowHit, channel);
+                _orientationHandling.SetNewTargetNormal(_belowHit, channel);
             }
+
+            return true;
         }
 
-        // Look for terrain changes under frontCheck
-        private void CheckGroundAhead()
+        /// <summary>
+        /// Look for terrain changes under frontCheck
+        /// </summary>
+        /// <returns>True if something is ahead of us, false otherwise</returns>
+        private bool CheckGroundAhead()
         {
-            if (!Physics.Raycast(frontCheck.position, -frontCheck.up, out _frontHit, 1f, swimmableLayers)
-                || _frontHit.transform == null) return;
+            //Debug.DrawRay(_frontCheckAxis.position,-frontCheck.up,Color.green,1f);
 
-            normalSet = _orientationHandling.SetNewGoalNormal(_frontHit, PaintTarget.RayChannel(_frontHit));
+            if (!Physics.Raycast(frontCheck.position, -frontCheck.up, out _frontHit, 1f, swimmableLayers)
+                || _frontHit.transform == null)
+            {
+                normalSet = false;
+                return false;
+            }
+
+            normalSet = _orientationHandling.SetNewTargetNormal(_frontHit, PaintTarget.RayChannel(_frontHit));
+            return true;
         }
 
         private void SetupEvents()
@@ -222,7 +230,6 @@ namespace Src.Scripts.Gameplay
             
             locomotion.SlopeHandling = false;
             gameObject.layer = _squidLayer;
-            _orientationHandling.Transforming = true;
         }
 
         private void HandleStand()
@@ -232,16 +239,16 @@ namespace Src.Scripts.Gameplay
             GoalSpeed = _player.walkSpeed;
             swimSound.Stop();
             CanSwim = false;
-            _orientationHandling.Transforming = true;
+            _orientationHandling.ResetOrientation();
+            _orientationHandling.ResetHeight();
         }
 
-        // Adjust speed while swimming
+        // Adjust speed, height, and SFX while swimming
         private void Swim()
         {
-            if (CanSwim)
+            if (CanSwim) // Indicates we are swimming in friendly paint
             {
-                _orientationHandling.ToHeightWithoutOffset(OrientationHandling.SwimHeight);
-                
+                _orientationHandling.SetNewTargetHeight(OrientationHandling.SwimHeight, false);
                 GoalSpeed = swimSpeed;
 
                 _player.RefillWeaponAmmo();
@@ -260,7 +267,7 @@ namespace Src.Scripts.Gameplay
             }
             else
             {
-                _orientationHandling.ToHeightWithoutOffset(OrientationHandling.SquidHeight);
+                _orientationHandling.SetNewTargetHeight(OrientationHandling.SquidHeight, false);
 
                 if (swimSound.isPlaying)
                 {
