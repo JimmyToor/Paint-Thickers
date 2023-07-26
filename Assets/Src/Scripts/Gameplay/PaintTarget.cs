@@ -1,7 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Paintz_Free.Scripts;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 // Based on 'PaintTarget.cs' from https://assetstore.unity.com/packages/tools/paintz-free-145977
@@ -19,9 +22,9 @@ namespace Src.Scripts.Gameplay
     }
     public class PaintTarget : MonoBehaviour
     {
-        [Tooltip("Affects paint resolution. Higher values result in less choppy edges.")]
+        // Affects paint resolution. Higher values result in less choppy edges.
         public TextureSize paintTextureSize = TextureSize.Texture256x256;
-        [Tooltip("Affects paint border quality. Higher values result in better visual depth.")]
+        // Affects paint border quality. Higher values result in better visual depth.
         public TextureSize renderTextureSize = TextureSize.Texture256x256;
 
         public bool setupOnStart = true;
@@ -32,10 +35,14 @@ namespace Src.Scripts.Gameplay
 
         public Texture2D splatTexPick;
         public Texture2D bakedTex;
+        
+        public int maxNearSplats = 16; // Maximum number of nearby targets to paint in addition to the primary target.
 
         private bool _bPickDirty = true;
         private bool _validTarget;
         private bool _bHasMeshCollider;
+
+        private Collider[] _colliders;
 
         private RenderTexture _paintMap;
         private RenderTexture _worldPosTex;
@@ -60,19 +67,42 @@ namespace Src.Scripts.Gameplay
         private ComputeBuffer _paintComputeBuffer;
         private static uint _xGroupSize, _yGroupSize;
         private static int _paintKernel;
-        private static int _paintMatrixBufferStride;
-        private static int _scaleBiasBufferStride;
-        private static int _paintColorBufferStride;
-
-        private static GameObject _splatObject;
-        private Camera _renderCamera;
+        private const int PaintMatrixBufferStride = sizeof(float) * 16;
+        private const int ScaleBiasBufferStride = sizeof(float) * 4;
+        private const int PaintColorBufferStride = sizeof(float) * 4;
         private static readonly int PaintMap = Shader.PropertyToID("_PaintMap");
         private static readonly int WorldPosTex = Shader.PropertyToID("_WorldPosTex");
         private static readonly int WorldTangentTex = Shader.PropertyToID("_WorldTangentTex");
         private static readonly int WorldBinormalTex = Shader.PropertyToID("_WorldBinormalTex");
         private static readonly int SplatTexSize = Shader.PropertyToID("_SplatTexSize");
+        private static readonly int ScaleBias = Shader.PropertyToID("scale_bias");
+        private static readonly int PaintWorldToObject = Shader.PropertyToID("paint_world_to_object");
+        private static readonly int PaintPattern = Shader.PropertyToID("paint_pattern");
+        private static readonly int Paintmap = Shader.PropertyToID("paintmap");
+        private static readonly int WorldPosTEX = Shader.PropertyToID("world_pos_tex");
+        private static readonly int PaintChannelMask = Shader.PropertyToID("paint_channel_mask");
+        private static readonly int NumSplats = Shader.PropertyToID("num_splats");
+        private static readonly int Resolution = Shader.PropertyToID("resolution");
+
+        private static GameObject _splatObject;
+        private Camera _renderCamera;
         
-        private const int MaxNearSplats = 5; // Maximum number of nearby targets to paint in addition to the primary target.
+
+        private void Awake()
+        {
+            _colliders = new Collider[maxNearSplats];
+        }
+
+        private void Start()
+        {
+            CheckValid();
+            if (setupOnStart) SetupPaint();
+            
+            paintComputeShader = (ComputeShader) Resources.Load("PaintCompute");
+            _paintKernel = paintComputeShader.FindKernel("BrushPaint");
+            paintComputeShader.GetKernelThreadGroupSizes(_paintKernel,
+                out _xGroupSize, out _yGroupSize, out _);
+        }
 
         private bool SetComponents()
         {
@@ -144,51 +174,41 @@ namespace Src.Scripts.Gameplay
         /// <param name="point">The spot to paint.</param>
         /// <param name="brush">The brush parameters to use.</param>
         /// <param name="normal">The normal of the paint.</param>
-        public static void PaintSphere(Vector3 point, Vector3 normal, Brush brush)
+        public void PaintSphere(Vector3 point, Vector3 normal, Brush brush)
         {
-            Collider[] colliders = new Collider[MaxNearSplats];
             // SphereCast has issues with colliders inside the sphere at the start of the cast,
             // so OverlapSphere is used instead
-            var size = Physics.OverlapSphereNonAlloc(point, brush.splatScale, colliders, LayerMask.GetMask("Terrain"));
-
+            int size = Physics.OverlapSphereNonAlloc(point, brush.splatScale/2, _colliders, LayerMask.GetMask("Terrain"));
             for (var i = 0; i < size; i++)
             {
-                var collider = colliders[i];
-                if (collider.CompareTag("Terrain"))
+                if (_colliders[i].CompareTag("Terrain"))
                 {
-                    Paint(collider.gameObject, point, normal, brush);
+                    Paint(_colliders[i].gameObject, point, normal, brush);
                 }
             }
         }
 
         /// <summary>
-        /// Shoots a ray that paints the first, or everything, it hits.
+        /// Shoots a ray that paints the first object it hits.
         /// </summary>
         /// <param name="ray"></param>
         /// <param name="brush"></param>
-        /// <param name="multi">Allows the raycast to hit multiple objects.</param>
+        /// <param name="multi">Allows resulting splat to spread across multiple objects.</param>
         public static void PaintRaycast(Ray ray, Brush brush, bool multi = true)
         {
-            RaycastHit hit;
-            if (!Physics.Raycast(ray, out hit, 10000)) return;
+            if (!Physics.Raycast(ray, out RaycastHit hit, 10000)) return;
             
+            PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
+
+            if (!paintTarget) return;
+
             if (!multi)
             {
-                PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
-                if (!paintTarget) return;
                 paintTarget.PaintObject(hit.point, hit.normal, brush);
                 return;
             }
             
-            var hits = Physics.SphereCastAll(hit.point, brush.splatScale, ray.direction);
-            foreach (var rayHit in hits)
-            {
-                var paintTarget = rayHit.collider.gameObject.GetComponent<PaintTarget>();
-                if (paintTarget != null)
-                {
-                    paintTarget.PaintObject( hit.point, rayHit.normal, brush);
-                }
-            }
+            paintTarget.PaintSphere(hit.point, hit.normal, brush);
         }
     
         /// <summary>
@@ -290,7 +310,7 @@ namespace Src.Scripts.Gameplay
             _renderCamera.cullingMask = 1 << LayerMask.NameToLayer("Nothing");
         }
 
-        void CheckValid()
+        private void CheckValid()
         {
             _paintRenderer = GetComponent<Renderer>();
             if (!_paintRenderer) return;
@@ -299,20 +319,6 @@ namespace Src.Scripts.Gameplay
             if (mc != null) _bHasMeshCollider = true;
 
             _validTarget = true;
-        }
-
-        private void Start()
-        {
-            CheckValid();
-            if (setupOnStart) SetupPaint();
-
-            paintComputeShader = (ComputeShader) Resources.Load("PaintCompute");
-            _paintKernel = paintComputeShader.FindKernel("BrushPaint");
-            paintComputeShader.GetKernelThreadGroupSizes(_paintKernel,
-                out _xGroupSize, out _yGroupSize, out _);
-            _paintMatrixBufferStride = sizeof(float) * 16;
-            _scaleBiasBufferStride = sizeof(float) * 4;
-            _paintColorBufferStride = sizeof(float) * 4;
         }
 
         private void SetupPaint()
@@ -468,21 +474,21 @@ namespace Src.Scripts.Gameplay
                 _paintList.RemoveAt(s);
             }
 
-            ComputeBuffer paintWorldToObjectBuffer = new ComputeBuffer(paintMatrixArray.Length, _paintMatrixBufferStride); 
-            ComputeBuffer paintScaleBiasBuffer = new ComputeBuffer(paintScaleBiasArray.Length, _scaleBiasBufferStride);
-            ComputeBuffer paintChannelMaskBuffer = new ComputeBuffer(paintChannelMaskArray.Length, _paintColorBufferStride);
+            ComputeBuffer paintWorldToObjectBuffer = new ComputeBuffer(paintMatrixArray.Length, PaintMatrixBufferStride); 
+            ComputeBuffer paintScaleBiasBuffer = new ComputeBuffer(paintScaleBiasArray.Length, ScaleBiasBufferStride);
+            ComputeBuffer paintChannelMaskBuffer = new ComputeBuffer(paintChannelMaskArray.Length, PaintColorBufferStride);
             paintWorldToObjectBuffer.SetData(paintMatrixArray);
             paintScaleBiasBuffer.SetData(paintScaleBiasArray);
             paintChannelMaskBuffer.SetData(paintChannelMaskArray);
             
-            paintComputeShader.SetTexture(_paintKernel, "world_pos_tex", _worldPosTex);
-            paintComputeShader.SetTexture(_paintKernel, "paintmap", _paintMap);
-            paintComputeShader.SetTexture(_paintKernel,"paint_pattern", paintPattern);
-            paintComputeShader.SetBuffer(_paintKernel, "paint_world_to_object", paintWorldToObjectBuffer);
-            paintComputeShader.SetBuffer(_paintKernel, "scale_bias", paintScaleBiasBuffer);
-            paintComputeShader.SetBuffer(_paintKernel, "paint_channel_mask", paintChannelMaskBuffer);
-            paintComputeShader.SetFloat("num_splats", numSplats);
-            paintComputeShader.SetFloats("resolution",_paintMap.width, _paintMap.height);
+            paintComputeShader.SetTexture(_paintKernel, WorldPosTEX, _worldPosTex);
+            paintComputeShader.SetTexture(_paintKernel, Paintmap, _paintMap);
+            paintComputeShader.SetTexture(_paintKernel,PaintPattern, paintPattern);
+            paintComputeShader.SetBuffer(_paintKernel, PaintWorldToObject, paintWorldToObjectBuffer);
+            paintComputeShader.SetBuffer(_paintKernel, ScaleBias, paintScaleBiasBuffer);
+            paintComputeShader.SetBuffer(_paintKernel, PaintChannelMask, paintChannelMaskBuffer);
+            paintComputeShader.SetFloat(NumSplats, numSplats);
+            paintComputeShader.SetFloats(Resolution,_paintMap.width, _paintMap.height);
             paintComputeShader.Dispatch(_paintKernel,
                 Mathf.CeilToInt(_paintMap.width / (float) _xGroupSize),
                 Mathf.CeilToInt(_paintMap.height / (float) _yGroupSize), 1);
