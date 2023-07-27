@@ -25,13 +25,11 @@ namespace Src.Scripts.Gameplay
             nextPos.y += (_launchParams.launchArc.Evaluate(_progress) * _launchParams.arcScale) + _charController.height;
             _xrRig.MoveCameraToWorldLocation(nextPos);
 
-            if (_progress >= 1) // We've landed, resume normal movement
-            {
-                if (_playerEvents != null)
-                {
-                    _playerEvents.OnLand();
-                }
-            }
+            if (!(_progress >= 1) || _playerEvents == null) return;
+            
+            // We've landed, resume normal movement
+            isLaunched = false;
+            _playerEvents.OnLand();
         }
 
         public override void Launch(LaunchableParams launchParameters)

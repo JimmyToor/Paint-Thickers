@@ -1,3 +1,4 @@
+using System;
 using Src.Scripts.Preferences;
 using Src.Scripts.Utility;
 using Src.Scripts.Weapons;
@@ -35,6 +36,22 @@ namespace Src.Scripts.Gameplay
         private PaintColorMatcher _paintColorMatcher;
         private WeaponHandler _weaponHandler;
 
+        // These are used to ensure we don't enable movement while we're launched
+        private Action _disableResumeMovementOnUnpause;
+        private Action _enableResumeMovementOnUnpause;
+        
+        private void OnEnable()
+        {
+            _disableResumeMovementOnUnpause = () => GameManager.Instance.onResume.RemoveListener(EnableInputMovement);
+            _enableResumeMovementOnUnpause = () => GameManager.Instance.onResume.AddListener(EnableInputMovement);
+            SetupEvents();
+        }
+
+        private void OnDisable()
+        {
+            UnsubEvents();
+        }
+
         private void Awake()
         {
             _resetPosition = transform.position;
@@ -42,8 +59,7 @@ namespace Src.Scripts.Gameplay
             _locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
             _charController = GetComponent<CharacterController>();
             
-            TryGetComponent(out TeamMember member);
-            TeamChannel = member.teamChannel;
+            
             _locomotion.moveSpeed = walkSpeed;
             
             TryGetComponent(out _health);
@@ -73,19 +89,46 @@ namespace Src.Scripts.Gameplay
 
         private void Start()
         {
-            SetupEvents();
+
+            if (!TryGetComponent(out TeamMember member))
+            {
+                Debug.LogError("No team assigned to " + this + " because it has no TeamMember component!", this);
+            }
+            else
+            {
+                TeamChannel = member.teamChannel;
+            }
         }
 
         private void SetupEvents()
         {
+            GameManager.Instance.onPause.AddListener(DisableInputMovement);
+            GameManager.Instance.onResume.AddListener(EnableInputMovement);
             playerEvents.TakeHit += TakeHit;
+            playerEvents.Launch += _disableResumeMovementOnUnpause;
             playerEvents.Launch += DisableInputMovement;
             playerEvents.Launch += DisableGravity;
+            playerEvents.Land += _enableResumeMovementOnUnpause;
             playerEvents.Land += EnableInputMovement;
             playerEvents.Land += EnableGravity;
             playerEvents.Squid += SquidMode;
             playerEvents.Stand += HumanMode;
         }
+
+        private void UnsubEvents()
+        {
+            GameManager.Instance.onPause?.RemoveListener(DisableInputMovement);
+            GameManager.Instance.onResume?.RemoveListener(EnableInputMovement);
+            playerEvents.TakeHit -= TakeHit;
+            playerEvents.Launch -= _disableResumeMovementOnUnpause;
+            playerEvents.Launch -= DisableInputMovement;
+            playerEvents.Launch -= DisableGravity;
+            playerEvents.Land -= _enableResumeMovementOnUnpause;
+            playerEvents.Land -= EnableInputMovement;
+            playerEvents.Land -= EnableGravity;
+            playerEvents.Squid -= SquidMode;
+            playerEvents.Stand -= HumanMode;
+        }        
         
         public void EnableUIHands()
         {

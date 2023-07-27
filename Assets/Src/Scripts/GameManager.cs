@@ -23,6 +23,7 @@ namespace Src.Scripts
         public InputActionProperty pauseButton;
         public GameObject mainMenu;
         public TeamColorScriptableObject teamColorData;
+        public UnityEvent onPause;
         public UnityEvent onResume;
 
         private ColorAdjustments _volumeColorAdjustments;
@@ -139,6 +140,7 @@ namespace Src.Scripts
         
         public void Pause()
         {
+            onPause.Invoke();
             _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
             _player.EnableUIHands();
             _player.HideGameHands();
