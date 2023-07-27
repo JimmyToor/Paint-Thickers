@@ -70,7 +70,6 @@ namespace Src.Scripts.AI
                 SetNewTarget(targetHit.transform);
                 return true;
             }
-
             return false;
         }
 
@@ -124,10 +123,11 @@ namespace Src.Scripts.AI
         
         
         /// <summary>
-        /// Checks for line of sight between this object and the passed position.
+        /// Checks for line of sight between this object's transform and the passed position.
         /// </summary>
         /// <param name="targetPos"></param>
-        /// <returns>True if no obstacles are between us and the target. False otherwise.</returns>
+        /// <remarks>Modifies <paramref name="hasLOS">hasLOS.</paramref></remarks>
+        /// <returns>True if no obstacles are between our transform position and the target. False otherwise.</returns>
         public bool CheckLOS(Vector3 targetPos)
         {
             Vector3 fromPos = originTransform.position;
@@ -180,7 +180,7 @@ namespace Src.Scripts.AI
             {
                 if (Target.gameObject.activeSelf == false)
                 {
-                    TargetLost();
+                    hasLOS = false;
                 }
                 else
                 {
