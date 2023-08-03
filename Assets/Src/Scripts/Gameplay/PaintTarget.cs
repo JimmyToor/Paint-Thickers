@@ -461,10 +461,13 @@ namespace Src.Scripts.Gameplay
             int numSplats = 0;
             Texture2D paintPattern = _paintList[0].brush.paintPattern;
 
-            for (int s=0; s < _paintList.Count;)
+            for (int s=0; s < _paintList.Count; s++)
             {
                 if (numSplats >= 10) break;
-                if (_paintList[s].brush.paintPattern != paintPattern) continue;
+                if (_paintList[s].brush.paintPattern != paintPattern)
+                {
+                    continue;
+                }
                 
                 paintMatrixArray[numSplats] = _paintList[s].paintMatrix;
                 paintScaleBiasArray[numSplats] = _paintList[s].scaleBias;
