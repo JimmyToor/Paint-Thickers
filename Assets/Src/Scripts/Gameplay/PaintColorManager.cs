@@ -13,16 +13,10 @@ namespace Src.Scripts.Gameplay
         public int PaintChannel { get; set; }
 
         private Material[] _paintMats;
-
-        private Brush _brush;
+        
         // Start is called before the first frame update
-        void Start()
+        void OnEnable()
         {
-            if (particlePainter != null || TryGetComponent(out particlePainter))
-            {
-                _brush = particlePainter.brush;
-            }
-
             if (paintRenderer != null || TryGetComponent(out paintRenderer))
             {
                 _paintMats = paintRenderer.materials;
@@ -33,6 +27,7 @@ namespace Src.Scripts.Gameplay
         {
             PaintChannel = newChannel;
             Color newColor = GameManager.Instance.GetTeamColor(PaintChannel);
+            
             if (_paintMats != null && _paintMats.Length > 0)
             {
                 foreach (var mat in _paintMats)
@@ -41,9 +36,9 @@ namespace Src.Scripts.Gameplay
                 }
             }
 
-            if (_brush != null)
+            if (particlePainter != null)
             {
-                _brush.splatChannel = PaintChannel;
+                particlePainter.brush.splatChannel = PaintChannel;
             }
         }
     }

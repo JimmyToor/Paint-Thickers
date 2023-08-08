@@ -244,8 +244,8 @@ namespace Src.Scripts.Gameplay
 
             Paint newPaint = new Paint();
             newPaint.paintMatrix = splatTransform.worldToLocalMatrix;
-            newPaint.channelMask = brush.getMask();
-            newPaint.scaleBias = brush.getTile();
+            newPaint.channelMask = brush.GetMask();
+            newPaint.scaleBias = brush.GetTile();
             newPaint.brush = brush;
 
             PaintSplat(newPaint);
