@@ -25,40 +25,12 @@ namespace Src.Scripts.Gameplay
         public GameObject landingVFX;
         public Transform VFXPosition;
 
-        protected PlayerEvents _playerEvents;
         protected Vector3 _startPos;
         protected float _progress;
         protected LaunchableParams _launchParams;
     
 
-        private void OnEnable()
-        {
-            if (TryGetComponent(out _playerEvents))
-                SetupEvents();
-        }
-
-        private void SetupEvents()
-        {
-            _playerEvents.Land += Land;
-            _playerEvents.Squid += () => canLaunch = true;
-            _playerEvents.Stand += () => canLaunch = false;
-        }
-
-        private void OnDisable()
-        {
-            if (_playerEvents != null)
-            {
-                DisableEvents();
-            }
-        }
-
-        private void DisableEvents()
-        {
-            if (_playerEvents != null)
-            {
-                _playerEvents.Land -= Land;
-            }
-        }
+       
         
         private void FixedUpdate()
         {
@@ -85,10 +57,7 @@ namespace Src.Scripts.Gameplay
 
             if (_progress >= 1) // We've landed, resume normal movement
             {
-                if (_playerEvents != null)
-                {
-                    _playerEvents.OnLand();
-                }
+                Land();
             }
         }
 
@@ -98,16 +67,15 @@ namespace Src.Scripts.Gameplay
             _startPos = transform.position;
             _progress = 0;
             canLaunch = false;
-
-            if (_playerEvents != null)
-            {
-                _playerEvents.OnLaunch();
-            }
+            
             StartCoroutine(BuildUp());
         }
 
-        // Wait while the launcher plays effects
-        protected IEnumerator BuildUp()
+        /// <summary>
+        /// Wait while the launcher plays effects
+        /// </summary>
+        /// <returns></returns>
+        protected virtual IEnumerator BuildUp()
         {
             yield return new WaitForSeconds(_launchParams.buildupTime);
             isLaunched = true;

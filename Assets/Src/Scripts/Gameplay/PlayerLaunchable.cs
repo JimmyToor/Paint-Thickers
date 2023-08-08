@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -6,12 +8,48 @@ namespace Src.Scripts.Gameplay
     [RequireComponent(typeof(XRRig), typeof(CharacterController))]
     public class PlayerLaunchable : Launchable
     {
+        private PlayerEvents _playerEvents;
+
         private XRRig _xrRig;
         private CharacterController _charController;
+        private Action _makeLaunchable;
+        private Action _makeUnlaunchable;
+        
         private void Awake()
         {
             _xrRig = GetComponent<XRRig>();
             _charController = _xrRig.gameObject.GetComponent<CharacterController>();
+            _makeLaunchable = () => canLaunch = true;
+            _makeUnlaunchable = () => canLaunch = false;
+        }
+        
+        private void OnEnable()
+        {
+            if (TryGetComponent(out _playerEvents))
+                SetupEvents();
+        }
+
+        private void SetupEvents()
+        {
+            _playerEvents.Land += Land;
+            _playerEvents.Squid += _makeLaunchable;
+            _playerEvents.Stand += _makeUnlaunchable;
+        }
+
+        private void OnDisable()
+        {
+            if (_playerEvents != null)
+            {
+                DisableEvents();
+            }
+        }
+
+        private void DisableEvents()
+        {
+            if (_playerEvents != null)
+            {
+                _playerEvents.Land -= Land;
+            }
         }
 
         protected override void UpdateLaunchProgress()
@@ -41,12 +79,20 @@ namespace Src.Scripts.Gameplay
 
             if (_playerEvents != null)
             {
-                _playerEvents.OnLaunch();
+                _playerEvents.OnLauncherActivated();
             }
             StartCoroutine(BuildUp());
-            
         }
 
+        protected override IEnumerator BuildUp()
+        {
+            yield return base.BuildUp();
+            if (_playerEvents != null)
+            {
+                _playerEvents.OnLaunch();
+            }
+        }
+        
         protected override void SpawnFXAtFeet()
         {
             Vector3 fxPos = VFXPosition.position;
