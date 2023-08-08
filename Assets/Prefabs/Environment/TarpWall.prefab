@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8459567123227972144}
   - component: {fileID: 7354087781284453316}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TarpWall
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295

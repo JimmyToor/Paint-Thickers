@@ -44,7 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b28ff4e7c05d49b4883d88e4a747e532, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weapon: {fileID: 2128515461}
   fillImage: {fileID: 1500159049}
+  canvas: {fileID: 1459424815}
 --- !u!1 &1459424810
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +158,8 @@ RectTransform:
   m_LocalRotation: {x: 0.000000010536735, y: 0.00000020861629, z: -0.000000010536696, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.000936538}
   m_LocalScale: {x: 0.030608775, y: 0.096578136, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 7331928647350203262}
   m_Father: {fileID: 1459424811}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5727,6 +5730,81 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.40845734, y: 0.03426361, z: 0.12988286}
   m_Center: {x: -0.17825414, y: 0.0006359196, z: 0.17617248}
+--- !u!1 &1834384324131703143
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7331928647350203262}
+  - component: {fileID: 2216632813285104642}
+  - component: {fileID: 5585401717432473033}
+  m_Layer: 5
+  m_Name: Fill_Cap
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7331928647350203262
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834384324131703143}
+  m_LocalRotation: {x: -8.8817825e-15, y: -0.00000008940703, z: 5.1146438e-14, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.068686925}
+  m_LocalScale: {x: 1.0334, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1500159048}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 1.3444884}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2216632813285104642
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834384324131703143}
+  m_CullTransparentMesh: 1
+--- !u!114 &5585401717432473033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1834384324131703143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: f883aa94d6fb4cc49b11b50d2be5b7ba, type: 2}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 1
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2036904280780318494
 GameObject:
   m_ObjectHideFlags: 0
@@ -10741,7 +10819,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2036904280967990508}
-  m_LocalRotation: {x: -0.00000013240823, y: 0.7071068, z: -0.00000013240823, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.4093189, y: -0.026638435, z: -0.003295678}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -26403,16 +26481,14 @@ MonoBehaviour:
     initialUsage: 3
     refillRate: 20
     usageRate: 3
-    lowAmmoThreshold: 25
-    lowRefillThreshold: 6
-    hideUIAboveThreshold: 1
-  ammoRemaining: 50
+    lowRefillThreshold: 15
+    lowAmmoRegenCooldownTime: 2
+  ammoNormalized: 0
   audioSource: {fileID: 3735530323860976749}
   ammoFullSFX: {fileID: 8300000, guid: f48b538b00559ae4f952d288f4e73f90, type: 3}
   ammoRefillSFX: {fileID: 8300000, guid: 927a49d5934d70548b72973a220755ff, type: 3}
-  ammoUI: {fileID: 341989169}
-  uiObject: {fileID: 0}
-  weaponAnimator: {fileID: 7387158629756650738}
+  weaponAnimator: {fileID: 1138589486}
+  ammoRemaining: 0
   mainParticle: {fileID: 2036904280780318481}
 --- !u!114 &1178192431
 MonoBehaviour:

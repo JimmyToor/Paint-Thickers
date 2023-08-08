@@ -3,7 +3,6 @@
  * License: https://github.com/sketchfab/UnityGLTF/blob/master/LICENSE
  */
 #if UNITY_EDITOR
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Specialized;

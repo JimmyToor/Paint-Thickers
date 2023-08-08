@@ -4,8 +4,14 @@ namespace Paintz_Free.Scripts
 {
     public class Paint
     {
+        /// <summary>
+        /// World-to-local transformation matrix
+        /// </summary>
         public Matrix4x4 paintMatrix;
         public Vector4 channelMask;
+        /// <summary>
+        /// Identifies the location of the paint in the paint pattern grid
+        /// </summary>
         public Vector4 scaleBias;
         public Brush brush;
     }
@@ -27,16 +33,19 @@ namespace Paintz_Free.Scripts
 
         public int splatChannel = 0;
         
-        public Vector4 getMask()
+        public Vector4 GetMask()
         {
-            if (this.splatChannel == 0) return new Vector4(1, 0, 0, 0);
-            if (this.splatChannel == 1) return new Vector4(0, 1, 0, 0);
-            if (this.splatChannel == 2) return new Vector4(0, 0, 1, 0);
-            if (this.splatChannel == 3) return new Vector4(0, 0, 0, 1);
-            return new Vector4(0, 0, 0, 0);
+            return splatChannel switch
+            {
+                0 => new Vector4(1, 0, 0, 0),
+                1 => new Vector4(0, 1, 0, 0),
+                2 => new Vector4(0, 0, 1, 0),
+                3 => new Vector4(0, 0, 0, 1),
+                _ => new Vector4(0, 0, 0, 0)
+            };
         }
 
-        public Vector4 getTile()
+        public Vector4 GetTile()
         {
             float splatscaleX = 1.0f / splatsX;
             float splatscaleY = 1.0f / splatsY;

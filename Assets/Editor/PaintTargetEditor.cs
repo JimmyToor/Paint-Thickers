@@ -1,4 +1,5 @@
-﻿using Src.Scripts.Gameplay;
+﻿using System;
+using Src.Scripts.Gameplay;
 using UnityEditor;
 using UnityEngine;
 
@@ -6,16 +7,36 @@ using UnityEngine;
 namespace Editor
 {
     [CustomEditor(typeof(PaintTarget))]
+    [CanEditMultipleObjects]
     public class PaintTargetEditor : UnityEditor.Editor
     {
         private static Texture2D logo;
         private GUIStyle guiStyle = new GUIStyle(); //create a new variable
+
+        private const int MaxNearSplatValue = 50;
+        private SerializedProperty nearSplats;
+        private SerializedProperty paintTextureSize;
+        private SerializedProperty renderTextureSize;
+        private SerializedProperty setupOnStart;
+        private SerializedProperty paintAllSplats;
+        private SerializedProperty useBaked;
+
+        private void OnEnable()
+        {
+            nearSplats = serializedObject.FindProperty("maxNearSplats");
+            paintTextureSize = serializedObject.FindProperty("paintTextureSize");
+            renderTextureSize = serializedObject.FindProperty("renderTextureSize");
+            setupOnStart = serializedObject.FindProperty("setupOnStart");
+            paintAllSplats = serializedObject.FindProperty("paintAllSplats");
+            useBaked = serializedObject.FindProperty("useBaked");
+        }
 
         public override void OnInspectorGUI()
         {
             PaintTarget script = (PaintTarget)target;
             GameObject go = (GameObject)script.gameObject;
             Renderer render = go.GetComponent<Renderer>();
+            serializedObject.Update();
 
             if (Application.isPlaying)
             {
@@ -42,13 +63,23 @@ namespace Editor
             {
                 GUILayout.BeginVertical(GUI.skin.box);
 
-                script.paintTextureSize = (TextureSize)EditorGUILayout.EnumPopup("Paint Texture", script.paintTextureSize);
-                script.renderTextureSize = (TextureSize)EditorGUILayout.EnumPopup("Render Texture", script.renderTextureSize);
-                script.setupOnStart = GUILayout.Toggle(script.setupOnStart, "Setup On Start");
-                script.paintAllSplats = GUILayout.Toggle(script.paintAllSplats, "Paint All Splats");
-                script.useBaked = GUILayout.Toggle(script.useBaked, "Use Baked Texture");
-                if (script.useBaked)
-                    script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex, typeof(Texture2D), true);
+                EditorGUILayout.PropertyField(paintTextureSize, new GUIContent("Paint Texture",
+                    "Affects paint resolution. Higher values result in less choppy edges."));
+                
+                EditorGUILayout.PropertyField(renderTextureSize, new GUIContent("Render Texture",
+                    "Affects paint border quality. Higher values result in better visual depth."));
+                
+                nearSplats.intValue = EditorGUILayout.IntSlider(new GUIContent("Max Near Splats",
+                    "Maximum number of nearby targets to paint in addition to the primary target."),
+                    nearSplats.intValue, 0, MaxNearSplatValue);
+                EditorGUILayout.Space(10);
+                
+                EditorGUILayout.PropertyField(setupOnStart, new GUIContent("Setup On Start"));
+                EditorGUILayout.PropertyField(paintAllSplats, new GUIContent("Paint All Splats"));
+                EditorGUILayout.PropertyField(useBaked, new GUIContent("Use Baked Texture"));
+                if (useBaked.boolValue)
+                    script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex,
+                        typeof(Texture2D), true);
                 else
                     script.bakedTex = null;
        
@@ -93,6 +124,8 @@ namespace Editor
                 {
                     EditorUtility.SetDirty(target);
                 }
+                
+                serializedObject.ApplyModifiedProperties();
             }
         }
     }

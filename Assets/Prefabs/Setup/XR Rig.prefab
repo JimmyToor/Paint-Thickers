@@ -2014,7 +2014,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1920fba3a163184ca0e3fd23abad80b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedThreshold: 8
+  speedThreshold: 5
   linesVFX: {fileID: 2049899795}
 --- !u!81 &4989558146584083178
 AudioListener:
@@ -2401,7 +2401,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 1
   m_Radius: 0.15
-  m_SlopeLimit: 30
+  m_SlopeLimit: 46
   m_StepOffset: 0.3
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0
@@ -2455,7 +2455,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 60
   sinkSpeed: 100
-  _gravityAngleLimit: 90
+  gravityAngleLimit: 75
   locomotion: {fileID: 3953089385813430785}
 --- !u!114 &4989558145552763728
 MonoBehaviour:
@@ -2874,6 +2874,9 @@ MonoBehaviour:
   baseControlSchemeName: Generic XR Controller
   leftHandedControlSchemeName: Left-Handed
   rightHandedControlSchemeName: Right-Handed
+  onHandChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2461705147737017340
 MonoBehaviour:
   m_ObjectHideFlags: 0

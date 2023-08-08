@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 1590631062501675683}
   - component: {fileID: 1590631062501675681}
   - component: {fileID: 1590631062501675692}
-  m_Layer: 0
+  - component: {fileID: 814734251}
+  m_Layer: 8
   m_Name: Lock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1590631062501675686
 Transform:
@@ -55,7 +56,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemType: 0
-  unityEvent:
+  onConsumeItem:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 468144839}
@@ -86,6 +87,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!65 &814734251
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590631062501675687}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.699955, y: 1.8582735, z: 2.0823288}
+  m_Center: {x: -0.035108566, y: 1.0931706, z: -0.1744194}
 --- !u!1001 &5172880094849046406
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -93,6 +107,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1590631062501675686}
     m_Modifications:
+    - target: {fileID: -9221307298883156101, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -115,11 +133,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.468
+      value: 1.4680004
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.036
+      value: -0.036003113
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -150,8 +168,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7419518835687850669, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7419518835687850669, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7419518835687850669, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7419518835687850669, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -89.98021
+      objectReference: {fileID: 0}
+    - target: {fileID: -6204757541653078735, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 398216836826834846, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
       propertyPath: m_Name
@@ -159,6 +197,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1505763512624001315, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1808783037513043345, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4866992111157492745, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 5833397151588329239, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5833397151588329239, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5833397151588329239, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
+      propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9087855523264401485, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}
@@ -229,9 +295,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c6ef33335e8dd49a9457021500ab9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeToDematerialize: 0
---- !u!65 &8989870949754450665
-BoxCollider:
+  timeToDematerialize: 1
+--- !u!64 &2619361494235749003
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -240,6 +306,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.033670455, y: 0.033354998, z: 0.029999986}
-  m_Center: {x: 0.000054419157, y: 0.00086374616, z: 0.00053884834}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1092914753152029408, guid: 8d832a461dfe79e469cc6efc5b5bb97c, type: 3}

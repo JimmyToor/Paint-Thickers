@@ -195,7 +195,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 774787634508576641}
   m_LocalRotation: {x: 0.02021471, y: 0.01119559, z: -0.0034992509, w: 0.9997269}
-  m_LocalPosition: {x: -0.00005070027, y: 0.018636465, z: -0.13118339}
+  m_LocalPosition: {x: -0.000050703064, y: 0.018636465, z: -0.1311773}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 608389350603944107}
@@ -5165,6 +5165,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4254729046398070379}
+  - component: {fileID: 4352517975263158125}
+  - component: {fileID: 8107261557499456157}
   m_Layer: 10
   m_Name: eye_R
   m_TagString: Enemy
@@ -5187,6 +5189,36 @@ Transform:
   m_Father: {fileID: 2604521928876325535}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1183024399 &4352517975263158125
+LookAtConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160667131795105559}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_Roll: 0
+  m_WorldUpObject: {fileID: 0}
+  m_UseUpObject: 0
+  m_IsContraintActive: 0
+  m_IsLocked: 0
+  m_Sources: []
+--- !u!114 &8107261557499456157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1160667131795105559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1562d3c4d7031ee469fc21448ae2353d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAtConstraint: {fileID: 4352517975263158125}
 --- !u!1 &1512968945805885917
 GameObject:
   m_ObjectHideFlags: 0
@@ -5196,6 +5228,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2604521928876325535}
+  - component: {fileID: 8269941804382339793}
+  - component: {fileID: 6620614211284297269}
   m_Layer: 10
   m_Name: root_eye
   m_TagString: Enemy
@@ -5219,6 +5253,36 @@ Transform:
   m_Father: {fileID: 5548715654995801114}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1183024399 &8269941804382339793
+LookAtConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512968945805885917}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_Roll: 0
+  m_WorldUpObject: {fileID: 0}
+  m_UseUpObject: 0
+  m_IsContraintActive: 0
+  m_IsLocked: 0
+  m_Sources: []
+--- !u!114 &6620614211284297269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512968945805885917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1562d3c4d7031ee469fc21448ae2353d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAtConstraint: {fileID: 8269941804382339793}
 --- !u!1 &1571659570057164921
 GameObject:
   m_ObjectHideFlags: 0
@@ -5728,9 +5792,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3384528872739723760}
-  m_LocalRotation: {x: -0.7069847, y: 0.00000019857805, z: 0.00000019864665, w: 0.7072289}
-  m_LocalPosition: {x: -0.00007939353, y: 0.018321581, z: -0.0000029105192}
-  m_LocalScale: {x: 39.96581, y: 39.96582, z: 39.965805}
+  m_LocalRotation: {x: -0.7071068, y: 0.00000019861236, z: 0.00000019861236, w: 0.7071068}
+  m_LocalPosition: {x: -0.000079393525, y: 0.018321581, z: -6.151889e-11}
+  m_LocalScale: {x: 39.965805, y: 39.965824, z: 39.965794}
   m_Children: []
   m_Father: {fileID: 4854389500720049705}
   m_RootOrder: 9
@@ -6279,6 +6343,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7155642255279880324}
+  - component: {fileID: 2676905046905314646}
+  - component: {fileID: 1233026949578877012}
   m_Layer: 10
   m_Name: eye_L
   m_TagString: Enemy
@@ -6301,6 +6367,36 @@ Transform:
   m_Father: {fileID: 2604521928876325535}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1183024399 &2676905046905314646
+LookAtConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279599328776577274}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_Roll: 0
+  m_WorldUpObject: {fileID: 0}
+  m_UseUpObject: 0
+  m_IsContraintActive: 0
+  m_IsLocked: 0
+  m_Sources: []
+--- !u!114 &1233026949578877012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279599328776577274}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1562d3c4d7031ee469fc21448ae2353d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lookAtConstraint: {fileID: 2676905046905314646}
 --- !u!1 &5656298922860570777
 GameObject:
   m_ObjectHideFlags: 0
@@ -16625,7 +16721,7 @@ ParentConstraint:
   m_TranslationOffsets:
   - {x: 0, y: -0.17739296, z: 0}
   m_RotationOffsets:
-  - {x: -89.980225, y: 0, z: 0}
+  - {x: -90, y: 0, z: 0}
   m_AffectTranslationX: 1
   m_AffectTranslationY: 1
   m_AffectTranslationZ: 1
@@ -16696,8 +16792,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7092883789690065231}
-  m_LocalRotation: {x: 0.020067347, y: 0.011746476, z: -0.0035143234, w: 0.9997235}
-  m_LocalPosition: {x: -0.01819421, y: 1.0385984, z: 1.1748139}
+  m_LocalRotation: {x: 0.020067351, y: 0.011746384, z: -0.0035143215, w: 0.9997235}
+  m_LocalPosition: {x: -0.018200349, y: 1.0385984, z: 1.1748165}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7092883790087109803}
@@ -21618,7 +21714,7 @@ MonoBehaviour:
     splatRandomScaleMax: 1
     splatRotation: 0
     splatRandomRotation: 180
-    splatChannel: 1
+    splatChannel: 0
   damage: 1
   randomChannel: 0
   collisionSfx: 0
@@ -41499,7 +41595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7822339647306168917}
   m_LocalRotation: {x: -0.0001454972, y: 0.00055155484, z: -0.000002166793, w: 0.9999999}
-  m_LocalPosition: {x: -0.017998878, y: 1.0200001, z: 1.3060025}
+  m_LocalPosition: {x: -0.01800502, y: 1.0200001, z: 1.305999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2288065809269605555}
@@ -46476,9 +46572,9 @@ GameObject:
   - component: {fileID: 2212201416134614884}
   - component: {fileID: 7975758305875046204}
   - component: {fileID: 8873669058257279780}
+  - component: {fileID: 4036768657405813249}
   - component: {fileID: 6555876089391402238}
   - component: {fileID: 4399186479569082314}
-  - component: {fileID: 4036768657405813249}
   m_Layer: 10
   m_Name: TrooperTuber
   m_TagString: Enemy
@@ -46815,8 +46911,62 @@ MonoBehaviour:
     m_Bits: 8
   blockingLayerMask:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 16640
   originTransform: {fileID: 2604521928876325535}
+  onTargetSighted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1233026949578877012}
+        m_TargetAssemblyTypeName: Src.Scripts.AI.LookAtTarget, Assembly-CSharp
+        m_MethodName: StartLookingAtTarget
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8107261557499456157}
+        m_TargetAssemblyTypeName: Src.Scripts.AI.LookAtTarget, Assembly-CSharp
+        m_MethodName: StartLookingAtTarget
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onTargetLost:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1233026949578877012}
+        m_TargetAssemblyTypeName: Src.Scripts.AI.LookAtTarget, Assembly-CSharp
+        m_MethodName: StopLookingAtTarget
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8107261557499456157}
+        m_TargetAssemblyTypeName: Src.Scripts.AI.LookAtTarget, Assembly-CSharp
+        m_MethodName: StopLookingAtTarget
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   hasTarget: 0
   hasLOS: 0
 --- !u!114 &8873669058257279780
@@ -46840,8 +46990,22 @@ MonoBehaviour:
   - {fileID: 5278278376721498869}
   - {fileID: 2342316133625146990}
   - {fileID: 4210929049553377300}
+  - {fileID: 749624021976703926}
   - {fileID: 7694072904434304390}
   - {fileID: 3559984797258598686}
+--- !u!114 &4036768657405813249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7975758305875046193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0898ca8db51a5b445813501f2081c89b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teamChannel: 0
 --- !u!114 &6555876089391402238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46898,19 +47062,6 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
---- !u!114 &4036768657405813249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7975758305875046193}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0898ca8db51a5b445813501f2081c89b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  teamChannel: 0
 --- !u!1 &8347343486583864622
 GameObject:
   m_ObjectHideFlags: 0

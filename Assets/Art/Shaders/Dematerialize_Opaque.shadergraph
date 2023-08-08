@@ -1725,8 +1725,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -180.9999542236328,
-            "y": 543.0,
+            "x": -181.0,
+            "y": 496.0000305175781,
             "width": 130.0,
             "height": 34.0
         }
@@ -5396,7 +5396,7 @@
         "b": 1.0,
         "a": 0.0
     },
-    "m_ColorMode": 0
+    "m_ColorMode": 1
 }
 
 {

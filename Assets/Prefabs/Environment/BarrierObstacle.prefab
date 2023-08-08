@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1756194948690938217}
   - component: {fileID: 9118411129959158150}
   - component: {fileID: 8030874615768303828}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BarrierObstacle
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

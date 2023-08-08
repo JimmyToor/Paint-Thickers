@@ -7,10 +7,8 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
-using System;
 using UnityEditor.SceneManagement;
 using UnityGLTF;
-using SimpleJSON;
 using UnityEngine.Networking;
 
 namespace Sketchfab

@@ -16,7 +16,6 @@ namespace Src.Scripts.AI.States.Trooper
         {
             base.Enter();
             _trooper.Sink();
-            Debug.Log("entered sunk");
         }
 
         public override void Execute()
