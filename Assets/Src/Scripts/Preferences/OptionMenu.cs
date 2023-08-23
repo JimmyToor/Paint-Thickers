@@ -1,3 +1,4 @@
+using Src.Scripts.Utility;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,11 +32,11 @@ namespace Src.Scripts.Preferences
             {
                 Debug.LogError("Manager missing from option menu!");
             }
-            InitializeValues();
         }
 
         private void OnEnable()
         {
+            InitializeValues();
             leftHandToggle.onValueChanged.AddListener(OnLeftHandToggled);
             rightHandToggle.onValueChanged.AddListener(OnRightHandToggled);
             headToggle.onValueChanged.AddListener(OnHeadToggled);
@@ -66,6 +67,7 @@ namespace Src.Scripts.Preferences
 
         private void OnLeftHandToggled(bool value)
         {
+            Debug.Log("lefthand toggled");
             userPreferencesManager.PreferredHand = UserPreferencesManager.MainHand.Left;
         }
         
@@ -81,6 +83,7 @@ namespace Src.Scripts.Preferences
         
         private void OnOffHandToggled(bool value)
         {
+            Debug.Log("offhand");
             userPreferencesManager.ForwardReference = UserPreferencesManager.MovementOrientation.OffHand;
         }
 
@@ -118,11 +121,11 @@ namespace Src.Scripts.Preferences
             leftHandToggle.isOn = userPreferencesManager.PreferredHand == UserPreferencesManager.MainHand.Left;
             rightHandToggle.isOn = userPreferencesManager.PreferredHand == UserPreferencesManager.MainHand.Right;
 
-            smoothTurnSpeedSlider.value = userPreferencesManager.SmoothTurnProvider.turnSpeed/smoothTurnIncrements;
+            smoothTurnSpeedSlider.value = userPreferencesManager.SmoothTurnSpeed/smoothTurnIncrements;
             smoothTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Smooth;
             ChangeSmoothTurnSpeed(smoothTurnSpeedSlider.value);
 
-            snapTurnIncrementSlider.value = userPreferencesManager.SnapTurnProvider.turnAmount/snapTurnIncrements;
+            snapTurnIncrementSlider.value = userPreferencesManager.SnapTurnAmount/snapTurnIncrements;
             snapTurnToggle.isOn = userPreferencesManager.TurningStyle == UserPreferencesManager.TurnStyle.Snap;
             ChangeSnapTurnAmount(snapTurnIncrementSlider.value);
             
@@ -152,14 +155,14 @@ namespace Src.Scripts.Preferences
         private void ChangeSmoothTurnSpeed(float value)
         {
             float speed = value * smoothTurnIncrements;
-            userPreferencesManager.SmoothTurnProvider.turnSpeed = speed;
+            userPreferencesManager.SmoothTurnSpeed = speed;
             smoothTurnSpeedText.text = speed.ToString();
         }
     
         private void ChangeSnapTurnAmount(float value)
         {
             float speed = value * snapTurnIncrements;
-            userPreferencesManager.SmoothTurnProvider.turnSpeed = speed;
+            userPreferencesManager.SnapTurnAmount = speed;
             snapTurnAmountText.text = speed.ToString();
         }
 

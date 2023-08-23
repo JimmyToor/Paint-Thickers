@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using Src.Scripts.Gameplay;
 using Src.Scripts.UI;
+using Src.Scripts.Utility;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
@@ -57,6 +59,7 @@ namespace Src.Scripts.Preferences
             {
                 SetTurnStyle(value);
                 turningStyle = value;
+                PreferenceDataManager.Instance.MarkDirty();
             }
         }
         
@@ -69,6 +72,7 @@ namespace Src.Scripts.Preferences
             {
                 SetMainHand(value);
                 preferredHand = value;
+                PreferenceDataManager.Instance.MarkDirty();
             }
         }
         
@@ -81,6 +85,7 @@ namespace Src.Scripts.Preferences
             {
                 SetForwardReference(value);
                 forwardReference = value;
+                PreferenceDataManager.Instance.MarkDirty();
             }
         }
 
@@ -93,6 +98,7 @@ namespace Src.Scripts.Preferences
             {
                 SetVignetteStrength(value);
                 vignetteIntensity = value;
+                PreferenceDataManager.Instance.MarkDirty();
             }
         }
 
@@ -101,15 +107,38 @@ namespace Src.Scripts.Preferences
         public ActionBasedContinuousMoveProvider SmoothMoveProvider
         {
             get => smoothMoveProvider;
-            set => smoothMoveProvider = value;
+            set
+            {
+                smoothMoveProvider = value;
+                PreferenceDataManager.Instance.MarkDirty();
+            }
         }
         
         [SerializeField]
         private ActionBasedContinuousTurnProvider smoothTurnProvider;
+
         public ActionBasedContinuousTurnProvider SmoothTurnProvider
         {
             get => smoothTurnProvider;
-            set => smoothTurnProvider = value;
+            set 
+            {
+                smoothTurnProvider = value;
+                PreferenceDataManager.Instance.MarkDirty();
+            }
+        }
+        
+        [SerializeField]
+        private float smoothTurnSpeed;
+
+        public float SmoothTurnSpeed
+        {
+            get => smoothTurnSpeed;
+            set 
+            {
+                smoothTurnSpeed = value;
+                smoothTurnProvider.turnSpeed = value;
+                PreferenceDataManager.Instance.MarkDirty();
+            }
         }
         
         [SerializeField]
@@ -117,7 +146,24 @@ namespace Src.Scripts.Preferences
         public ActionBasedSnapTurnProvider SnapTurnProvider
         {
             get => snapTurnProvider;
-            set => snapTurnProvider = value;
+            set
+            {
+                snapTurnProvider = value;
+                PreferenceDataManager.Instance.MarkDirty();
+            }
+        }
+        
+        [SerializeField]
+        private float snapTurnAmount;
+        public float SnapTurnAmount
+        {
+            get => snapTurnAmount;
+            set
+            {
+                snapTurnAmount = value;
+                snapTurnProvider.turnAmount = value;
+                PreferenceDataManager.Instance.MarkDirty();
+            }
         }
         
         [SerializeField] 
@@ -125,7 +171,11 @@ namespace Src.Scripts.Preferences
         public ComfortVignette ComfortVignette
         {
             get => comfortVignette;
-            set => comfortVignette = value;
+            set
+            {
+                comfortVignette = value; 
+                PreferenceDataManager.Instance.MarkDirty();
+            }
         }
 
         [SerializeField]
@@ -133,7 +183,11 @@ namespace Src.Scripts.Preferences
         public Player Player
         {
             get => player;
-            set => player = value;
+            set
+            { 
+                player = value;                
+                PreferenceDataManager.Instance.MarkDirty();
+            }
         }
 
         [SerializeField]
@@ -141,7 +195,11 @@ namespace Src.Scripts.Preferences
         public InputActionAsset Inputs
         {
             get => inputs;
-            set => inputs = value;
+            set 
+            {
+                inputs = value;
+                PreferenceDataManager.Instance.MarkDirty();
+            }
         }
 
         [SerializeField]
@@ -149,7 +207,11 @@ namespace Src.Scripts.Preferences
         public string BaseControlSchemeName
         {
             get => baseControlSchemeName;
-            set => baseControlSchemeName = value;
+            set 
+            {
+                baseControlSchemeName = value;
+                PreferenceDataManager.Instance.MarkDirty();
+            }
         }
 
         [SerializeField]
@@ -157,7 +219,12 @@ namespace Src.Scripts.Preferences
         public string LeftHandedControlSchemeName
         {
             get => leftHandedControlSchemeName;
-            set => leftHandedControlSchemeName = value;
+            set 
+            {
+                leftHandedControlSchemeName = value;
+                PreferenceDataManager.Instance.MarkDirty();
+
+            }
         }
         
         [SerializeField]
@@ -165,17 +232,35 @@ namespace Src.Scripts.Preferences
         public string RightHandedControlSchemeName
         {
             get => rightHandedControlSchemeName;
-            set => rightHandedControlSchemeName = value;
+            set 
+            {
+                rightHandedControlSchemeName = value;
+                PreferenceDataManager.Instance.MarkDirty();
+            }
         }
-        
+
+
+        public UnityEvent<MainHand> onHandChange;
         private void Awake()
         {
             GetInputs();
-            SetTurnStyle(TurningStyle);
-            SetMainHand(PreferredHand);
-            SetVignetteStrength(VignetteIntensity);
+            Initialize();
         }
 
+        /// <summary>
+        /// Load default or saved preference values
+        /// </summary>
+        private void Initialize()
+        {
+            PreferenceDataManager.Instance.LoadData();
+            SetMainHand(PreferredHand);
+            SetForwardReference(ForwardReference);
+            SetTurnStyle(TurningStyle);
+            SetVignetteStrength(VignetteIntensity);
+            SetSmoothTurnSpeed(SmoothTurnSpeed);
+            SetSnapTurnAmount(SnapTurnAmount);
+        }
+        
         private void GetInputs()
         {
             _leftHandActionMap = inputs.FindActionMap("XRI LeftHand");
@@ -245,8 +330,10 @@ namespace Src.Scripts.Preferences
                     throw new InvalidEnumArgumentException(nameof(hand), (int)hand, typeof(MainHand));
             }
             
+            onHandChange.Invoke(hand);
+            
             // Set the forward reference again since the offhand might have changed
-            if (forwardReference == MovementOrientation.OffHand)
+            if (ForwardReference == MovementOrientation.OffHand)
             {
                 SetForwardReference(MovementOrientation.OffHand);
             }
@@ -309,6 +396,38 @@ namespace Src.Scripts.Preferences
                     Debug.LogError("USERPREFERENCES: Invalid vignette value: " + strength);
                     break;
             }
+        }
+
+        /// <summary>
+        /// Set smooth turn speed without marking as dirty.
+        /// </summary>
+        /// <param name="amount"></param>
+        private void SetSmoothTurnSpeed(float amount)
+        {
+            SmoothTurnSpeed = amount;
+            
+            if (smoothTurnProvider == null)
+            {
+                return;
+            }
+
+            smoothTurnProvider.turnSpeed = amount;
+        }
+        
+        /// <summary>
+        /// Set snap turn amount without marking as dirty
+        /// </summary>
+        /// <param name="amount"></param>
+        private void SetSnapTurnAmount(float amount)
+        {
+            snapTurnAmount = amount;
+            
+            if (snapTurnProvider == null)
+            {
+                return;
+            }
+            
+            snapTurnProvider.turnAmount = amount;
         }
     }
 }
