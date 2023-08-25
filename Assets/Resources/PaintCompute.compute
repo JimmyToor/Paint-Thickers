@@ -8,7 +8,8 @@
 Texture2D paint_pattern;
 SamplerState linear_clamp_sampler;
 RWTexture2D<float4> paintmap;
-RWTexture2D<float4> world_pos_tex; //World position mapped to uv1(lightmap) coordinates
+//World position mapped to uv1(lightmap) coordinates
+RWTexture2D<float4> world_pos_tex; 
 // Matrix to transform the paint target's world space coordinate to local splat object space
 RWStructuredBuffer<MATRIX> paint_world_to_object; 
 // Used to scale(xy) and offset(zw) splat pattern uv coordinates, effectively zooming into the desired pattern from the grid
@@ -34,7 +35,7 @@ void BrushPaint (uint3 id : SV_DispatchThreadID)
     for (int i = 0; i < num_splats; i++)
     {
         // Convert world space pos to object space
-        float3 obj_pos = mul(paint_world_to_object[i], float4(world_pos.xyz,1)).xyz;
+        float3 obj_pos = mul(paint_world_to_object[i], world_pos).xyz;
 
         if(obj_pos.x > -0.5 && obj_pos.x < 0.5 && obj_pos.y > -0.5 && obj_pos.y < 0.5 && obj_pos.z > -0.5 && obj_pos.z < 0.5 )
         {

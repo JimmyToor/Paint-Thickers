@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon: {fileID: 2128515461}
   fillImage: {fileID: 1500159049}
+  fillCap: {fileID: 5585401717432473033}
   canvas: {fileID: 1459424815}
 --- !u!1 &1459424810
 GameObject:

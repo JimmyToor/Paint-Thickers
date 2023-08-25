@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Pose.PoseHelper
@@ -46,11 +46,9 @@ namespace Src.Scripts.Pose.PoseHelper
         private bool IsDifferentInteractable(XRBaseInteractable currentInteractable, XRBaseInteractable newInteractable)
         {
             // Assume it's the same
-            bool isDifferent = false;
+            bool isDifferent = !currentInteractable;
 
             // If we're selecting on object for the first time, it's true
-            if (!currentInteractable)
-                isDifferent = true;
 
             // If we have a stored object, and we select a new one
             if (currentInteractable && newInteractable)
@@ -100,7 +98,7 @@ namespace Src.Scripts.Pose.PoseHelper
         private void MarkActiveSceneAsDirty()
         {
 #if UNITY_EDITOR
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
 #endif
         }
     }

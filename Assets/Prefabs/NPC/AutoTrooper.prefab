@@ -27179,7 +27179,7 @@ MonoBehaviour:
   destroyOnDeath: 1
   destroyOnDeathDelay: 5
   regenerative: 0
-  hitCooldown: 0.75
+  hitCooldown: 0.45
   regenCooldown: 0
   regenRate: 0
   damageMaterial: {fileID: 0}

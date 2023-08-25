@@ -75,24 +75,9 @@ namespace Src.Scripts.AI
 
         private bool IsValidTarget(Collider newTarget)
         {
-            if (!newTarget.gameObject.activeSelf)
-            {
-                Debug.Log("Target is not active: " + newTarget.gameObject, this);
-            }
-            else if (!newTarget.TryGetComponent(out _targetCharController))
-            {
-                Debug.Log("No CharacterController on target: " + newTarget.gameObject, this);
-            }
-            else if (!CheckLOS(newTarget.transform.TransformPoint(_targetCharController.center)))
-            {
-                Debug.Log("No line-of-sight on target: " + newTarget.gameObject);
-            }
-            else
-            {
-                return true;
-            }
-            
-            return false;
+            return newTarget.gameObject.activeSelf
+                   && newTarget.TryGetComponent(out _targetCharController)
+                   && CheckLOS(newTarget.transform.TransformPoint(_targetCharController.center));
         }
         
         private void SetNewTarget(Transform newTarget)

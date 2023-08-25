@@ -5,7 +5,7 @@ namespace Src.Scripts.Utility
     public class Singleton<T> : MonoBehaviour where T: MonoBehaviour{
     
         public static bool Verbose = false;
-        public static bool KeepAlive = true;
+        public static bool KeepAlive = false;
 
         private static T _instance = null;
         public static T Instance {

@@ -44,8 +44,8 @@ namespace Src.Scripts.Gameplay
         {
             _xrRig = GameObject.Find("XR Rig").GetComponent<XRRig>();
             _player = GetComponent<Player>();
-            _camOffset = transform.GetChild(0);
-            _playerHead = _camOffset.GetChild(0);
+            _camOffset = GameObject.Find("Camera Offset").transform;
+            _playerHead = GameObject.Find("Main Camera").transform;
             _targetNormal = transform.up;
         }
 

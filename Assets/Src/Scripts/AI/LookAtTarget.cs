@@ -9,10 +9,12 @@ namespace Src.Scripts.AI
 
         public void StartLookingAtTarget(Transform trans)
         {
+            if (lookAtConstraint == null) return;
+            
             // Look at the player's head instead of their feet
             if (trans.CompareTag("Player"))
             {
-                Transform headTrans = trans.GetChild(0).Find("Main Camera")?.transform;
+                Transform headTrans = trans.Find("Camera Offset")?.Find("Main Camera")?.transform;
                 if (headTrans != null)
                 {
                     trans = headTrans;
@@ -32,6 +34,7 @@ namespace Src.Scripts.AI
         /// </summary>
         public void StopLookingAtTarget()
         {
+            if (lookAtConstraint == null) return;
             if (lookAtConstraint.sourceCount <= 0) return;
         
             lookAtConstraint.constraintActive = false;

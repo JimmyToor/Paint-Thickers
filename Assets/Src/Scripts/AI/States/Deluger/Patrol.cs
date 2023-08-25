@@ -14,7 +14,7 @@ namespace Src.Scripts.AI.States.Deluger
         public override void Enter()
         {
             base.Enter();
-            _deluger.MovePrep();
+            _deluger.StartPatrol();
         }
 
         public override void Execute()

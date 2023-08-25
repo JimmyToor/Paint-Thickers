@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using Src.Scripts.Gameplay;
 using Src.Scripts.ScriptableObjects;
 using Src.Scripts.Utility;
@@ -78,7 +80,6 @@ namespace Src.Scripts
             ShowMenu(mainMenu);
             _player.DisableGameHands();
             _player.EnableUIHands();
-            PreferenceManager.Instance.LoadData();
         }
 
         public void PlayerDeath()
@@ -124,7 +125,7 @@ namespace Src.Scripts
         }
 
         [ContextMenu("Toggle Pause")]
-        private void TogglePause()
+        public void TogglePause()
         {
             if (Time.timeScale == 0f)
             {
@@ -137,7 +138,7 @@ namespace Src.Scripts
                 Pause();
             }
         }
-        
+
         public void Pause()
         {
             onPause.Invoke();
@@ -156,35 +157,42 @@ namespace Src.Scripts
             onResume.Invoke();
         }
 
-        public void ShowMenu(GameObject menu)
+        public static void ShowMenu(GameObject menu)
         {
             menu.transform.localScale = Vector3.one;
-
+            
             // Stop the menu from moving around while it's open
-            if (menu.TryGetComponent(out ParentConstraint parentConstraint))
-            {
-                parentConstraint.constraintActive = false;
-            }
+            DisableConstraints(menu);
+        }
 
-            if (menu.TryGetComponent(out RotationConstraint rotationConstraint))
+        private static void EnableConstraints(GameObject gameObj)
+        {
+            var menuConstraints = gameObj.GetComponents<IConstraint>()?.ToList();
+            if (menuConstraints == null) return;
+
+            foreach (var constraint in menuConstraints)
             {
-                rotationConstraint.constraintActive = false;
+                constraint.constraintActive = true;
+            }
+        }
+        
+        private static void DisableConstraints(GameObject gameObj)
+        {
+            var menuConstraints = gameObj.GetComponents<IConstraint>()?.ToList();
+            if (menuConstraints == null) return;
+
+            foreach (var constraint in menuConstraints)
+            {
+                constraint.constraintActive = false;
             }
         }
 
-        public void HideMenu(GameObject menu)
+        public static void HideMenu(GameObject menu)
         {
             menu.transform.localScale = Vector3.zero;
             
-            if (menu.TryGetComponent(out ParentConstraint parentConstraint))
-            {
-                parentConstraint.constraintActive = true;
-            }
-
-            if (menu.TryGetComponent(out RotationConstraint rotationConstraint))
-            {
-                rotationConstraint.constraintActive = true;
-            }
+            // Allow the menu to move around while it's hidden
+            EnableConstraints(menu);
         }
 
         [ContextMenu("Start Game")]
@@ -198,7 +206,7 @@ namespace Src.Scripts
     
         private void ShowWinUI()
         {
-            winUI.SetActive(true);
+            ShowMenu(winUI);
             _player.DisableGameHands();
             _player.EnableUIHands();
         }
@@ -208,12 +216,10 @@ namespace Src.Scripts
             ShowMenu(gameOverUI);
             _player.DisableGameHands();
             _player.EnableUIHands();
-            if (gameOverUI.TryGetComponent(out ParentConstraint constraint))
-            {
-                constraint.constraintActive = false;
-            }
+            DisableConstraints(gameOverUI);
         }
     
+        [ContextMenu("Restart Level")]
         public void RestartLevel()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);

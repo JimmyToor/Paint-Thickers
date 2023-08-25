@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 // Handle swimming in paint and squid related movement
 namespace Src.Scripts.Gameplay
 {
-    [RequireComponent(typeof(Player),typeof(OrientationHandling))]
+    [RequireComponent(typeof(OrientationHandling))]
     public class PaintSwim : MonoBehaviour
     {
         public ActionBasedContinuousMoveProvider locomotion; 
@@ -118,8 +118,8 @@ namespace Src.Scripts.Gameplay
 
         void Start()
         {
-            _camOffset = transform.GetChild(0);
-            _playerHead = _camOffset.GetChild(0);
+            _camOffset = GameObject.Find("Camera Offset").transform;
+            _playerHead = GameObject.Find("Main Camera").transform;
             _frontCheckAxis = frontCheck.parent;
             GoalSpeed = locomotion.moveSpeed;
         }

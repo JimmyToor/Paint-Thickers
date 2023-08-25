@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Src.Scripts.Gameplay
 {
@@ -8,7 +9,8 @@ namespace Src.Scripts.Gameplay
     public class SpawnVolume : MonoBehaviour
     {
         public int enemyGroupId;
-
+        public UnityEvent spawnEvents;
+        
         private EnemyManager _enemyManager;
         private Vector3 _pos;
         void Start()

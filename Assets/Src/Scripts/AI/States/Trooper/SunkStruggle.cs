@@ -16,7 +16,6 @@ namespace Src.Scripts.AI.States.Trooper
 
         public override void Enter()
         {
-            Debug.Log("entered sunk struggle");
             base.Enter();
             escapeTimerCoroutine = _trooper.StartCoroutine(_trooper.StartPaintEscapeAfterTimer());
         }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Src.Scripts.AI.States;
@@ -9,8 +10,6 @@ namespace Src.Scripts.AI
     {
         public float moveSpeed;
         public float turnSpeed;
-        [SerializeField] 
-        ParticleSystem paintSpray;
         Animator _animator;
         List<Transform> _patrolNodes = new List<Transform>();
         public Transform patrolNodeGroup;
@@ -59,25 +58,21 @@ namespace Src.Scripts.AI
             base.Awake();
         }
 
-        public void DisableSpray()
+        private void OnDisable()
         {
-            paintSpray.Stop();
-        }
-
-        public void EnableSpray()
-        {
-            paintSpray.Play();
+            feet.DOKill();
+            head.DOKill();
+            transform.DOKill();
         }
 
         public void StartPatrol()
         { 
-            EnableSpray();
             if (_patrolNodes.Count < 1)
             {
                 Debug.Log(transform.name + " has nowhere to patrol to.");
                 return;
             }
-            Move();
+            MovePrep();
         }
         
         // Deluger movement is restricted to a set path of preset nodes

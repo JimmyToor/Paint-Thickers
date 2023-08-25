@@ -27,13 +27,9 @@ namespace Src.Scripts.Gameplay
         }
         
         [ContextMenu("Trigger Pickup")]
-        public void DebugPickup()
-        {
-            Pickup();
-        }
-
         private void Pickup()
         {
+            pickupEvents.Invoke();
             if (_animator == null)
             {
                 Destroy(gameObject);

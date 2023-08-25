@@ -22,7 +22,7 @@ namespace Src.Scripts.Gameplay
                 _onGroupDefeatedEvents.Add(groupId,groupDefeatedEvent);
             }
             groupDefeatedEvent.AddListener(newAction);
-            Debug.LogFormat("GroupDefeatedEvent for group {0} has new action.", groupId);
+            // Debug.LogFormat("GroupDefeatedEvent for group {0} has new action.", groupId);
         }
     
         public void RaiseGroupDefeatedEvent(int groupId)
@@ -30,12 +30,12 @@ namespace Src.Scripts.Gameplay
             if (_onGroupDefeatedEvents.TryGetValue(groupId, out var groupDefeatedEvent))
             {
                 groupDefeatedEvent.Invoke();
-                Debug.LogFormat("GroupDefeatedEvent for group {0} has been raised.", groupId);
+                // Debug.LogFormat("GroupDefeatedEvent for group {0} has been raised.", groupId);
             }
-            else
-            {
-                Debug.LogFormat("Tried to raise event for defeating enemy group {0} but there is no event.", groupId);
-            }
+            // else
+            // {
+            //     Debug.LogFormat("Tried to raise event for defeating enemy group {0} but there is no event.", groupId);
+            // }
         }
 
         public void AddEnemy(int groupId, Enemy enemy)

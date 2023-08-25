@@ -47,5 +47,15 @@ namespace Src.Scripts.Audio
                 SourceID = _mID
             }, cooldownTime);
         }
+        
+        public void TriggerPlayOneShotHere(AudioClip clip)
+        {
+            SFXPlayer.Instance.PlaySfx(clip, transform.position, new SFXPlayer.PlayParameters()
+            {
+                Volume = volume,
+                Pitch = Random.Range(minPitch, maxPitch),
+                SourceID = _mID
+            }, cooldownTime);
+        }
     }
 }

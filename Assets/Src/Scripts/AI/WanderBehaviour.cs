@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -29,6 +30,11 @@ namespace Src.Scripts.AI
         {
             _initialPos = transform.position;
             _navAgent = GetComponent<NavMeshAgent>();
+        }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
         }
 
         public void StartWander()
