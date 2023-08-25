@@ -3,11 +3,12 @@ using Src.Scripts.Preferences;
 using Src.Scripts.Utility;
 using Src.Scripts.Weapons;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Gameplay
 {
-    [RequireComponent(typeof(PlayerEvents),typeof(CharacterController),typeof(PaintSwim))]
+    [RequireComponent(typeof(PlayerEvents),typeof(CharacterController))]
     public class Player : MonoBehaviour
     {
         public PlayerEvents playerEvents;
@@ -42,8 +43,6 @@ namespace Src.Scripts.Gameplay
         
         private void OnEnable()
         {
-            _disableResumeMovementOnUnpause = () => GameManager.Instance.onResume.RemoveListener(EnableInputMovement);
-            _enableResumeMovementOnUnpause = () => GameManager.Instance.onResume.AddListener(EnableInputMovement);
             SetupEvents();
         }
 
@@ -54,6 +53,8 @@ namespace Src.Scripts.Gameplay
 
         private void Awake()
         {
+            _disableResumeMovementOnUnpause = () => GameManager.Instance.onResume.RemoveListener(playerEvents.EnableInputMovement);
+            _enableResumeMovementOnUnpause = () => GameManager.Instance.onResume.AddListener(playerEvents.EnableInputMovement);
             _resetPosition = transform.position;
             InvokeRepeating(nameof(NewResetPosition),2f,5f);
             _locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
@@ -89,7 +90,6 @@ namespace Src.Scripts.Gameplay
 
         private void Start()
         {
-
             if (!TryGetComponent(out TeamMember member))
             {
                 Debug.LogError("No team assigned to " + this + " because it has no TeamMember component!", this);
@@ -102,14 +102,18 @@ namespace Src.Scripts.Gameplay
 
         private void SetupEvents()
         {
-            GameManager.Instance.onPause.AddListener(DisableInputMovement);
-            GameManager.Instance.onResume.AddListener(EnableInputMovement);
+            GameManager.Instance.onPause?.AddListener(playerEvents.DisableInputMovement);
+            GameManager.Instance.onPause?.AddListener(playerEvents.DisableSquid);
+            GameManager.Instance.onResume?.AddListener(playerEvents.EnableInputMovement);
+            GameManager.Instance.onResume?.AddListener(playerEvents.EnableSquid);
             playerEvents.TakeHit += TakeHit;
+            playerEvents.LauncherActivated += playerEvents.DisableStand;
+            playerEvents.LauncherActivated += playerEvents.DisableInputMovement;
+            playerEvents.LauncherActivated += DisableGravity;
             playerEvents.Launch += _disableResumeMovementOnUnpause;
-            playerEvents.Launch += DisableInputMovement;
-            playerEvents.Launch += DisableGravity;
             playerEvents.Land += _enableResumeMovementOnUnpause;
-            playerEvents.Land += EnableInputMovement;
+            playerEvents.Land += playerEvents.EnableStand;
+            playerEvents.Land += playerEvents.EnableInputMovement;
             playerEvents.Land += EnableGravity;
             playerEvents.Squid += SquidMode;
             playerEvents.Stand += HumanMode;
@@ -117,14 +121,18 @@ namespace Src.Scripts.Gameplay
 
         private void UnsubEvents()
         {
-            GameManager.Instance.onPause?.RemoveListener(DisableInputMovement);
-            GameManager.Instance.onResume?.RemoveListener(EnableInputMovement);
+            GameManager.Instance.onPause?.RemoveListener(playerEvents.DisableInputMovement);
+            GameManager.Instance.onPause?.RemoveListener(playerEvents.DisableSquid);
+            GameManager.Instance.onResume?.RemoveListener(playerEvents.EnableInputMovement);
+            GameManager.Instance.onResume?.RemoveListener(playerEvents.EnableSquid);
             playerEvents.TakeHit -= TakeHit;
+            playerEvents.LauncherActivated -= playerEvents.DisableStand;
+            playerEvents.LauncherActivated -= playerEvents.DisableInputMovement;
+            playerEvents.LauncherActivated -= DisableGravity;
             playerEvents.Launch -= _disableResumeMovementOnUnpause;
-            playerEvents.Launch -= DisableInputMovement;
-            playerEvents.Launch -= DisableGravity;
             playerEvents.Land -= _enableResumeMovementOnUnpause;
-            playerEvents.Land -= EnableInputMovement;
+            playerEvents.Land -= playerEvents.EnableStand;
+            playerEvents.Land -= playerEvents.EnableInputMovement;
             playerEvents.Land -= EnableGravity;
             playerEvents.Squid -= SquidMode;
             playerEvents.Stand -= HumanMode;
@@ -164,20 +172,6 @@ namespace Src.Scripts.Gameplay
         {
             leftHand.transform.localScale = Vector3.zero;
             rightHand.transform.localScale = Vector3.zero;
-        }
-
-        private void DisableInputMovement()
-        {
-            playerEvents.inputs.FindAction("Squid").Disable();
-            playerEvents.inputs.FindAction("Move").Disable();
-            playerEvents.inputs.FindAction("Turn").Disable();
-        }
-
-        private void EnableInputMovement()
-        {
-            playerEvents.inputs.FindAction("Squid").Enable();
-            playerEvents.inputs.FindAction("Move").Enable();
-            playerEvents.inputs.FindAction("Turn").Enable();
         }
     
         public void AddItem(ItemType item)
