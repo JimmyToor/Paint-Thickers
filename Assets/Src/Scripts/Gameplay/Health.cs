@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Src.Scripts.Audio;
@@ -5,13 +6,14 @@ using Src.Scripts.UI;
 using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Src.Scripts.Gameplay
 {
     public class Health : MonoBehaviour
     {
-        public float hitpoints;
+        [SerializeField] private float hitpoints;
         public float maxHitpoints;
         public bool invulnerable;
         public bool useHitDamageMaterial;
@@ -24,21 +26,34 @@ namespace Src.Scripts.Gameplay
         public Material damageMaterial;
         public DamageUIController damageUIController;
         public GameObject hitFX;
-        public List<AudioClip> hitSfx; // Requires an SFXSource component
+        [Tooltip("Sound clips to play when this object is hit. Requires an SFXSource component.")]
+        public List<AudioClip> hitSfx;
         public GameObject deathFX;
+        [Tooltip("Sound clips to play when this object dies. Requires an SFXSource component.")]
         public List<AudioClip> deathSfx; // Requires an SFXSource component
         public UnityEvent onDeath;
         public UnityEvent onHit;
 
-        public float HealthNormalized => hitpoints / maxHitpoints;
+        public event Action<float> onHealthChanged;
+
+        public float HealthNormalized => Hitpoints / maxHitpoints;
+
+        public float Hitpoints
+        {
+            get => hitpoints;
+            set
+            {
+                hitpoints = value;
+                onHealthChanged?.Invoke(HealthNormalized);
+            }
+        }
 
         private Renderer _renderer;
         private bool _onCooldown;
         private Animator _animator;
-        private int _takeHitHash = Animator.StringToHash("Take Hit");
+        private readonly int _takeHitHash = Animator.StringToHash("Take Hit");
         private SFXSource _sfxSource;
         private float _regenTime; // Time until regeneration starts
-        private bool _updateUI = true;
 
         private void Start()
         {
@@ -49,9 +64,9 @@ namespace Src.Scripts.Gameplay
 
         private void FixedUpdate()
         {
-            if (!regenerative || !(hitpoints < maxHitpoints)) return;
+            if (!regenerative || !(Hitpoints < maxHitpoints)) return;
             
-            if (hitpoints > 0 && _regenTime <= 0)
+            if (Hitpoints > 0 && _regenTime <= 0)
             {
                 RegenerateHealth();
             }
@@ -61,23 +76,13 @@ namespace Src.Scripts.Gameplay
             }
         }
 
-        private void LateUpdate()
-        {
-            if (damageUIController != null && _updateUI)
-            {
-                damageUIController.UpdateDamageUI(HealthNormalized);
-                _updateUI = false;
-            }
-        }
-
         private void RegenerateHealth()
         {
-            hitpoints += regenRate;
-            if (hitpoints > maxHitpoints)
+            Hitpoints += regenRate;
+            if (Hitpoints > maxHitpoints)
             {
-                hitpoints = maxHitpoints;
+                Hitpoints = maxHitpoints;
             }
-            _updateUI = true;
         }
 
         public void TakeHit(float damage = 1, Vector3 hitPos = default)
@@ -85,7 +90,7 @@ namespace Src.Scripts.Gameplay
             if (_onCooldown)
                 return;
 
-            if (hitpoints <= 0)
+            if (Hitpoints <= 0)
             {
                 // Already dead
                 return;
@@ -99,7 +104,7 @@ namespace Src.Scripts.Gameplay
             ReduceHP(damage);
             OnHit(hitPos);
         
-            if (hitpoints <= 0)
+            if (Hitpoints <= 0)
             {
                 OnDeath();
             }
@@ -168,7 +173,7 @@ namespace Src.Scripts.Gameplay
             if (_sfxSource != null && hitSfx.Count > 0)
             {
                 int randClip = Random.Range(0, hitSfx.Count);
-                _sfxSource.TriggerPlayOneShot(transform.position,hitSfx[randClip]);
+                _sfxSource.TriggerPlayOneShotHere(hitSfx[randClip]);
             }
         
             onHit.Invoke();
@@ -178,8 +183,7 @@ namespace Src.Scripts.Gameplay
         {
             if (!invulnerable)
             {
-                hitpoints -= damage;
-                _updateUI = true;
+                Hitpoints -= damage;
             }
         }
 

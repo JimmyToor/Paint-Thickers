@@ -1,3 +1,5 @@
+using System;
+using Src.Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -6,22 +8,34 @@ namespace Src.Scripts.UI
 {
     public class DamageUIController : MonoBehaviour
     {
-        [FormerlySerializedAs("noHealthSize")] [Range(0f,1f)]
+        [Range(0f,1f)]
         public float noHealthIntensity = 0f;
-        [FormerlySerializedAs("maxHealthSize")] [Range(0f,1f)]
+        [Range(0f,1f)]
         public float maxHealthIntensity = 1f;
+
+        public Health health;
 
         public Material material;
         private static readonly int CenterSize = Shader.PropertyToID("_Intensity");
 
-        void Start()
+        private void Awake()
         {
             material = GetComponent<Image>().material;
         }
 
-        public void UpdateDamageUI(float health)
+        void Start()
         {
-            float newSize = Mathf.Lerp(noHealthIntensity, maxHealthIntensity, health);
+            UpdateDamageUI(health.HealthNormalized);
+        }
+
+        private void OnEnable()
+        {
+            health.onHealthChanged += UpdateDamageUI;
+        }
+
+        public void UpdateDamageUI(float newHealth)
+        {
+            float newSize = Mathf.Lerp(noHealthIntensity, maxHealthIntensity, newHealth);
             SetIndicatorIntensity(newSize);
         }
 
