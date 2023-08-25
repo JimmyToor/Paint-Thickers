@@ -1,10 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Paintz_Free.Scripts;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 // Based on 'PaintTarget.cs' from https://assetstore.unity.com/packages/tools/paintz-free-145977
@@ -20,6 +17,7 @@ namespace Src.Scripts.Gameplay
         Texture2048x2048 = 2048,
         Texture4096x4096 = 4096
     }
+    
     public class PaintTarget : MonoBehaviour
     {
         // Affects paint resolution. Higher values result in less choppy edges.
@@ -29,12 +27,12 @@ namespace Src.Scripts.Gameplay
 
         public bool setupOnStart = true;
         public bool paintAllSplats;
-        public bool useBaked;
+        public bool useBakedPaintMap;
         
         public ComputeShader paintComputeShader;
 
         public Texture2D splatTexPick;
-        public Texture2D bakedTex;
+        public Texture2D bakedPaintMap;
         
         public int maxNearSplats = 16; // Maximum number of nearby targets to paint in addition to the primary target.
 
@@ -49,7 +47,7 @@ namespace Src.Scripts.Gameplay
         private RenderTexture _worldPosTexTemp;
         private RenderTexture _worldTangentTex;
         private RenderTexture _worldBinormalTex;
-
+        
         private List<Paint> _paintList = new List<Paint>();
         private bool _setupComplete;
 
@@ -79,7 +77,7 @@ namespace Src.Scripts.Gameplay
         private static readonly int PaintWorldToObject = Shader.PropertyToID("paint_world_to_object");
         private static readonly int PaintPattern = Shader.PropertyToID("paint_pattern");
         private static readonly int Paintmap = Shader.PropertyToID("paintmap");
-        private static readonly int WorldPosTEX = Shader.PropertyToID("world_pos_tex");
+        private static readonly int WorldPosTexCompute = Shader.PropertyToID("world_pos_tex");
         private static readonly int PaintChannelMask = Shader.PropertyToID("paint_channel_mask");
         private static readonly int NumSplats = Shader.PropertyToID("num_splats");
         private static readonly int Resolution = Shader.PropertyToID("resolution");
@@ -124,7 +122,6 @@ namespace Src.Scripts.Gameplay
             Texture2D tc = paintTarget.splatTexPick;
             if (!tc)
             {
-                Debug.Log("no tc");
                 return Color.clear;
             }
             int x = (int)(hit.lightmapCoord.x * tc.width);
@@ -225,7 +222,7 @@ namespace Src.Scripts.Gameplay
             {
                 _splatObject = new GameObject();
                 _splatObject.name = "splatObject";
-                //splatObject.hideFlags = HideFlags.HideInHierarchy;
+                _splatObject.hideFlags = HideFlags.HideInHierarchy;
             }
 
             Transform splatTransform = _splatObject.transform;
@@ -247,7 +244,7 @@ namespace Src.Scripts.Gameplay
             newPaint.channelMask = brush.GetMask();
             newPaint.scaleBias = brush.GetTile();
             newPaint.brush = brush;
-
+    
             PaintSplat(newPaint);
         }
 
@@ -282,26 +279,29 @@ namespace Src.Scripts.Gameplay
             paintTarget._bPickDirty = false;
         }
 
+        /// <summary>
+        /// Creates and configures a camera to be able to render out the required textures
+        /// </summary>
         private void CreateCamera()
         {
+            // Need to use an existing camera with Target Eye set to None because the stereoTargetEye property
+            // does not actually change when modified via script
             GameObject cam = GameObject.Find("PaintCamera");
-            if (cam != null)
+            if (cam == null)
             {
-                _renderCamera = cam.GetComponent<Camera>();
+                Debug.LogError("PaintCamera was not found!");
                 return;
             }
-            GameObject rtCameraObject = new GameObject();
-            rtCameraObject.name = "PaintCamera";
-            rtCameraObject.transform.position = Vector3.zero;
-            rtCameraObject.transform.rotation = Quaternion.identity;
-            rtCameraObject.transform.localScale = Vector3.one;
-            rtCameraObject.hideFlags = HideFlags.HideInHierarchy;
-            _renderCamera = rtCameraObject.AddComponent<Camera>();
-            _renderCamera.stereoTargetEye = StereoTargetEyeMask.None;
+            cam.TryGetComponent(out _renderCamera);
+            if (_renderCamera == null)
+            {
+                Debug.LogError("PaintCamera has no Camera component!");
+                return;
+            }
             _renderCamera.clearFlags = CameraClearFlags.SolidColor;
             _renderCamera.backgroundColor = new Color(0, 0, 0, 0);
             _renderCamera.orthographic = true;
-            _renderCamera.nearClipPlane = 0.0f;
+            _renderCamera.nearClipPlane = 0.01f;
             _renderCamera.farClipPlane = 1.0f;
             _renderCamera.orthographicSize = 1.0f;
             _renderCamera.aspect = 1.0f;
@@ -349,14 +349,16 @@ namespace Src.Scripts.Gameplay
             };
             _paintMap.Create();
 
-            if (useBaked)
-                Graphics.Blit(bakedTex, _paintMap);
+            if (useBakedPaintMap)
+                Graphics.Blit(bakedPaintMap, _paintMap);
+            
 
             _worldPosTex = new RenderTexture((int)renderTextureSize, (int)renderTextureSize, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear)
             {
                 enableRandomWrite = true
             };
             _worldPosTex.Create();
+            
             _worldPosTexTemp = new RenderTexture((int)renderTextureSize, (int)renderTextureSize, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear)
             {
                 enableRandomWrite = true
@@ -424,9 +426,12 @@ namespace Src.Scripts.Gameplay
                 Graphics.Blit(_paintMap, _paintMap, _paintBlitMaterial, 1);
             }
         }
-
-        // Returns the current splat texture as a Texture2D
-        public Texture2D CreateBakedTex()
+        
+        /// <summary>
+        /// Returns the current splat texture as a Texture2D
+        /// </summary>
+        /// <returns></returns>
+        public Texture2D CreateBakedPaintMap()
         {        
             RenderTexture.active = _paintMap;
             Texture2D bakedTexture = new Texture2D(_paintMap.width, _paintMap.height, TextureFormat.ARGB32, false,true);
@@ -484,7 +489,7 @@ namespace Src.Scripts.Gameplay
             paintScaleBiasBuffer.SetData(paintScaleBiasArray);
             paintChannelMaskBuffer.SetData(paintChannelMaskArray);
             
-            paintComputeShader.SetTexture(_paintKernel, WorldPosTEX, _worldPosTex);
+            paintComputeShader.SetTexture(_paintKernel, WorldPosTexCompute, _worldPosTex);
             paintComputeShader.SetTexture(_paintKernel, Paintmap, _paintMap);
             paintComputeShader.SetTexture(_paintKernel,PaintPattern, paintPattern);
             paintComputeShader.SetBuffer(_paintKernel, PaintWorldToObject, paintWorldToObjectBuffer);
