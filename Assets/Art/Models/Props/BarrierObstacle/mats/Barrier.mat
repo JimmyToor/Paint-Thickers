@@ -126,7 +126,7 @@ Material:
     - Vector1_5a326e06841d4726b0180932a6e2c845: 0
     - Vector1_739c881f19544a54bf77522dccee09d8: 0.63
     - Vector1_7a53ba3e07604b56bf5bc59497fedc16: 1
-    - Vector1_7bf270fe91494824b4209d2dc1faae23: 0
+    - Vector1_7bf270fe91494824b4209d2dc1faae23: 0.9
     - Vector1_97e44d7d184d4719b865fe9c1da46e6c: 0
     - Vector1_b160a6374fb04a77b114bb611b8c55e4: 0
     - Vector1_f6677799b193415b8be7686b658a6e85: 10
@@ -154,8 +154,8 @@ Material:
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
-    - _SplatEdgeBump: 1
-    - _SplatEdgeBumpWidth: 1
+    - _SplatEdgeBump: 1.75
+    - _SplatEdgeBumpWidth: 2
     - _SrcBlend: 1
     - _Surface: 0
     - _UVSec: 0

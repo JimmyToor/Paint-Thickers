@@ -698,4 +698,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0
+    functionName: TriggerPlayOneShotHere
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: b9d3948d04312a948832ddcb43de1813, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.25
+    functionName: TriggerPlayOneShotHere
+    data: 
+    objectReferenceParameter: {fileID: 8300000, guid: 397e7ad34a46cff43bbae0d16a2c3abd, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

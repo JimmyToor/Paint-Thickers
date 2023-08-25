@@ -11,15 +11,13 @@ namespace Editor
     public class PaintTargetEditor : UnityEditor.Editor
     {
         private static Texture2D logo;
-        private GUIStyle guiStyle = new GUIStyle(); //create a new variable
-
         private const int MaxNearSplatValue = 50;
         private SerializedProperty nearSplats;
         private SerializedProperty paintTextureSize;
         private SerializedProperty renderTextureSize;
         private SerializedProperty setupOnStart;
         private SerializedProperty paintAllSplats;
-        private SerializedProperty useBaked;
+        private SerializedProperty useBakedPaintMap;
 
         private void OnEnable()
         {
@@ -28,7 +26,7 @@ namespace Editor
             renderTextureSize = serializedObject.FindProperty("renderTextureSize");
             setupOnStart = serializedObject.FindProperty("setupOnStart");
             paintAllSplats = serializedObject.FindProperty("paintAllSplats");
-            useBaked = serializedObject.FindProperty("useBaked");
+            useBakedPaintMap = serializedObject.FindProperty("useBakedPaintMap");
         }
 
         public override void OnInspectorGUI()
@@ -52,10 +50,9 @@ namespace Editor
                 {
                     PaintTarget.ClearAllPaint();
                 }
-                if (script.useBaked)
-                    script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture",
-                        script.bakedTex, typeof(Texture2D), true);
-
+                if (script.useBakedPaintMap)
+                    script.bakedPaintMap = (Texture2D)EditorGUILayout.ObjectField("Baked PaintMap",
+                        script.bakedPaintMap, typeof(Texture2D), true);
                 
                 GUILayout.EndVertical();
             }
@@ -76,14 +73,18 @@ namespace Editor
                 
                 EditorGUILayout.PropertyField(setupOnStart, new GUIContent("Setup On Start"));
                 EditorGUILayout.PropertyField(paintAllSplats, new GUIContent("Paint All Splats"));
-                EditorGUILayout.PropertyField(useBaked, new GUIContent("Use Baked Texture"));
-                if (useBaked.boolValue)
-                    script.bakedTex = (Texture2D)EditorGUILayout.ObjectField("Baked Texture", script.bakedTex,
+                EditorGUILayout.PropertyField(useBakedPaintMap, new GUIContent("Use Baked PaintMap"));
+                if (useBakedPaintMap.boolValue)
+                {
+                    script.bakedPaintMap = (Texture2D) EditorGUILayout.ObjectField("Baked PaintMap",
+                        script.bakedPaintMap,
                         typeof(Texture2D), true);
+                }
                 else
-                    script.bakedTex = null;
-       
-       
+                {
+                    script.bakedPaintMap = null;
+                }
+                
                 GUILayout.EndVertical();
 
                 if (render == null)
