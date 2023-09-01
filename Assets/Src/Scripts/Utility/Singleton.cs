@@ -14,12 +14,14 @@ namespace Src.Scripts.Utility
                 
                 _instance = FindObjectOfType<T>();
                 if (_instance != null) return _instance;
+                if (Verbose)
+                    Debug.Log("No instance of " + typeof(T) + " exists so one will be created.");
 
                 var singletonObj = new GameObject
                 {
                     name = typeof(T).ToString()
                 };
-                
+
                 _instance = singletonObj.AddComponent<T>();
                 return _instance;
             }
@@ -30,7 +32,7 @@ namespace Src.Scripts.Utility
         public virtual void Awake(){
             if (_instance != null && _instance != this){
                 if(Verbose)
-                    Debug.Log("SingleAccessPoint, Destroy duplicate instance " + name + " of " + Instance.name);
+                    Debug.Log("SingleAccessPoint, Destroy duplicate instance " + name + " of " + Instance.name, this);
                 Destroy(gameObject);
                 return;
             }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using Src.Scripts.Gameplay;
 using Src.Scripts.ScriptableObjects;
 using Src.Scripts.Utility;
@@ -222,8 +223,8 @@ namespace Src.Scripts
         [ContextMenu("Restart Level")]
         public void RestartLevel()
         {
+            DOTween.KillAll();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            Start();
         }
 
         /// <summary>

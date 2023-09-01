@@ -10390,9 +10390,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -10400,23 +10400,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.01
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.562539
+      outSlope: -3.562539
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0.058698386
     - serializedVersion: 3
-      time: 1
+      time: 0.338089
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -1.010101
+      outSlope: -1.010101
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -10425,7 +10425,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -17215,7 +17215,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e8a98b64ae09d644f9c46594f5ee87ea, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.6
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -17224,9 +17224,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -17234,23 +17234,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.01
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -8.270563
+      outSlope: -8.270563
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0.035472214
     - serializedVersion: 3
-      time: 1
+      time: 0.38778687
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.2784902
+      outSlope: -0.2784902
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.283164
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -17846,20 +17846,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: ece56fcdb8e0deb48b57a76bf3695726, type: 3}
   m_PrefabInstance: {fileID: 3007999966626521673}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &814717193
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2702153014854295320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  particlePainter: {fileID: 0}
-  paintRenderer: {fileID: 4503324378041925325}
 --- !u!64 &6885481643678967774
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -17874,6 +17860,20 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2534964839176971238, guid: ece56fcdb8e0deb48b57a76bf3695726, type: 3}
+--- !u!114 &814717193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702153014854295320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29d2f8030240f2f4bb5dd4d1d455b29e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particlePainter: {fileID: 0}
+  paintRenderer: {fileID: 4503324378041925325}
 --- !u!114 &278472321806946118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17886,3 +17886,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a776de680c5f7884d93d27f24f727f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 1
+  hitCooldown: 0.2
+  teamMember: {fileID: 0}

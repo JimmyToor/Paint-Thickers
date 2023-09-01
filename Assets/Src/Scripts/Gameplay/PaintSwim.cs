@@ -226,7 +226,7 @@ namespace Src.Scripts.Gameplay
 
         private void HandleSwimActivation()
         {
-            if (!_player.canSquid || _player.isSquid) return;
+            if (!_player.canSquid || !_player.isSquid) return;
             
             locomotion.SlopeHandling = false;
             gameObject.layer = _squidLayer;

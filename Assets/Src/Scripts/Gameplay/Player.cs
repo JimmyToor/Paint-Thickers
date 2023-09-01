@@ -48,6 +48,7 @@ namespace Src.Scripts.Gameplay
 
         private void OnDisable()
         {
+            if(!gameObject.scene.isLoaded) return;
             UnsubEvents();
         }
 
