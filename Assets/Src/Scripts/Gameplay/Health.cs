@@ -19,18 +19,23 @@ namespace Src.Scripts.Gameplay
         public bool useHitDamageMaterial;
         public bool destroyOnDeath;
         public float destroyOnDeathDelay;
-        public bool regenerative; // Whether or not health regenerates
-        public float hitCooldown; // How long until we can be hit again after being hit
-        public float regenCooldown; // How long until health regenerates
-        public float regenRate; // How many hitpoints are regenerated per LateUpdate
+        [Tooltip("Whether or not health regenerates")]
+        public bool regenerative; 
+        [Tooltip("How long until we can be hit again after being hit")]
+        public float hitCooldown; 
+        [Tooltip("How long until health regenerates")]
+        public float regenCooldown;
+        [Tooltip("How many hitpoints are regenerated per LateUpdate")]
+        public float regenRate;
+        public Renderer meshRenderer;
+        public Animator animator;
         public Material damageMaterial;
-        public DamageUIController damageUIController;
         public GameObject hitFX;
-        [Tooltip("Sound clips to play when this object is hit. Requires an SFXSource component.")]
+        [Tooltip("One random sound clip will play when this object is hit. Requires an SFXSource component.")]
         public List<AudioClip> hitSfx;
         public GameObject deathFX;
-        [Tooltip("Sound clips to play when this object dies. Requires an SFXSource component.")]
-        public List<AudioClip> deathSfx; // Requires an SFXSource component
+        [Tooltip("One random sound clip will play when this object dies. Requires an SFXSource component.")]
+        public List<AudioClip> deathSfx;
         public UnityEvent onDeath;
         public UnityEvent onHit;
 
@@ -47,18 +52,24 @@ namespace Src.Scripts.Gameplay
                 onHealthChanged?.Invoke(HealthNormalized);
             }
         }
-
-        private Renderer _renderer;
+        
         private bool _onCooldown;
-        private Animator _animator;
-        private readonly int _takeHitHash = Animator.StringToHash("Take Hit");
+        private readonly int _takeHitHash = Animator.StringToHash("TakeHit");
         private SFXSource _sfxSource;
         private float _regenTime; // Time until regeneration starts
 
         private void Start()
         {
-            _renderer = GetComponent<Renderer>();
-            TryGetComponent(out _animator);
+            if (meshRenderer == null && !TryGetComponent(out meshRenderer))
+            {
+                Debug.Log("No mesh renderer on " + name, this);
+            }
+
+            if (animator == null && !TryGetComponent(out animator))
+            {
+                Debug.Log("No animator on " + name, this);
+            }
+            
             TryGetComponent(out _sfxSource);
         }
 
@@ -109,8 +120,8 @@ namespace Src.Scripts.Gameplay
                 OnDeath();
             }
         
-            if (useHitDamageMaterial && _renderer.material != damageMaterial)
-                _renderer.material = damageMaterial;
+            if (useHitDamageMaterial && meshRenderer.material != damageMaterial)
+                meshRenderer.material = damageMaterial;
         
             if (hitCooldown != 0)
                 StartCoroutine(StartCooldown());
@@ -124,7 +135,7 @@ namespace Src.Scripts.Gameplay
         }
 
         [ContextMenu("Trigger Death")]
-        void OnDeath()
+        private void OnDeath()
         {
             if (deathFX != null)
             {
@@ -148,11 +159,11 @@ namespace Src.Scripts.Gameplay
             }
         }
 
-        void OnHit(Vector3 hitPos)
+        private void OnHit(Vector3 hitPos)
         {
             _regenTime = regenCooldown;
-            if (_animator != null)
-                _animator.SetTrigger(_takeHitHash);
+            if (animator != null)
+                animator.SetTrigger(_takeHitHash);
 
             if (hitFX != null)
             {
@@ -178,8 +189,8 @@ namespace Src.Scripts.Gameplay
         
             onHit.Invoke();
         }
-    
-        public void ReduceHP(float damage)
+
+        private void ReduceHP(float damage)
         {
             if (!invulnerable)
             {

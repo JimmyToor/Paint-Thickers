@@ -81,6 +81,8 @@ namespace Src.Scripts
             ShowMenu(mainMenu);
             _player.DisableGameHands();
             _player.EnableUIHands();
+            _xrRig.MoveCameraToWorldLocation(_xrRig.transform.position);
+            Shader.WarmupAllShaders();
         }
 
         public void PlayerDeath()
@@ -117,7 +119,6 @@ namespace Src.Scripts
             _player.DisableGameHands();
             _player.EnableUIHands();
             ShowWinUI();
-            Pause();
         }
 
         private void OnPauseButtonPressed(InputAction.CallbackContext callbackContext)

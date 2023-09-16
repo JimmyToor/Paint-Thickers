@@ -177,6 +177,7 @@ namespace Src.Scripts.Gameplay
             }
             else if (channel != -1)
             {
+                
                 InPaint = true;
                 CanSwim = false;
             }
@@ -267,6 +268,7 @@ namespace Src.Scripts.Gameplay
             }
             else
             {
+                _player.StopManualReload();
                 _orientationHandling.SetNewTargetHeight(OrientationHandling.SquidHeight, false);
 
                 if (swimSound.isPlaying)

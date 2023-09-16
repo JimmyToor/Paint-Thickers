@@ -115,6 +115,14 @@ namespace Src.Scripts.Weapons
             }
         }
 
+        public void StopManualReload()
+        {
+            if (_lowAmmoRegenCooldown <= 0)
+            {
+                StopReloadSfx();
+            }
+        }
+
         public void PlayFullSfx()
         {
             if (AmmoRemaining >= wepParams.maxAmmo)
@@ -126,11 +134,10 @@ namespace Src.Scripts.Weapons
 
         public void PlayReloadSfx()
         {
-            if (!audioSource.isPlaying)
-            {
-                audioSource.clip = ammoRefillSFX;
-                audioSource.Play();
-            }
+            if (audioSource.isPlaying) return;
+            
+            audioSource.clip = ammoRefillSFX;
+            audioSource.Play();
         }
 
         public void StopReloadSfx()

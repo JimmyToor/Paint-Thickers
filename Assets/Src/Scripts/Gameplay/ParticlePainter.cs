@@ -71,7 +71,8 @@ namespace Src.Scripts.Gameplay
                             health.TakeHit(damage,_collisionEvents[i].intersection);
                         }
                         // else
-                        //     Debug.LogFormat("Object {0} hit by particle (fired by {1}) but has no way to react.", other.name, gameObject.name);
+                        //     Debug.LogFormat("Object {0} hit by particle (fired by {1}) but has no way to react on layer {2}.",
+                        //         other.gameObject, other.layer, gameObject.name);
                         break;
                 }
             }

@@ -81,6 +81,12 @@ namespace Src.Scripts.Weapons
             Weapon.RefillAmmo();
         }
 
+        public void StopManualReload()
+        {
+            if (Weapon == null) return;
+            Weapon.StopManualReload();
+        }
+
         public void HumanMode()
         {
             if (Weapon == null) return;

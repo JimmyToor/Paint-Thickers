@@ -2596,8 +2596,9 @@ MonoBehaviour:
   hitCooldown: 0
   regenCooldown: 4
   regenRate: 0.5
+  meshRenderer: {fileID: 0}
+  animator: {fileID: 0}
   damageMaterial: {fileID: 0}
-  damageUIController: {fileID: 4132809242263399738}
   hitFX: {fileID: 0}
   hitSfx: []
   deathFX: {fileID: 0}

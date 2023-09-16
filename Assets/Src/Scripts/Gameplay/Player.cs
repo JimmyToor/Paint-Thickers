@@ -243,6 +243,11 @@ namespace Src.Scripts.Gameplay
             _weaponHandler.RefillWeaponAmmo();
         }
 
+        public void StopManualReload()
+        {
+            _weaponHandler.StopManualReload();
+        }
+        
         private void NewResetPosition()
         {
             if (!_charController.isGrounded) return;

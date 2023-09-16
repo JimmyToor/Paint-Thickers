@@ -16,12 +16,12 @@ namespace Src.Scripts.Utility
         
         private void OnEnable()
         {
-            //GameManager.Instance.onResume.AddListener(SaveData);
+            GameManager.Instance.onResume.AddListener(SaveData);
         }
 
         private void OnDisable()
         {
-            //GameManager.Instance.onResume.RemoveListener(SaveData);
+            GameManager.Instance.onResume.RemoveListener(SaveData);
         }
 
         public override void Awake()
