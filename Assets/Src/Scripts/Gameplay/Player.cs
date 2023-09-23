@@ -285,13 +285,13 @@ namespace Src.Scripts.Gameplay
             isSquid = false;
         }
 
-        public void DisableGravity()
+        private void DisableGravity()
         {
             _locomotion.useGravity = false;
             _locomotion.SlopeHandling = false;
         }
-        
-        public void EnableGravity()
+
+        private void EnableGravity()
         {
             _locomotion.useGravity = true;
         }
@@ -322,6 +322,25 @@ namespace Src.Scripts.Gameplay
                     : leftHand.GetComponent<XRBaseInteractor>(),
                 interactable);
             _weaponHandler.EquipWeapon(weapon);
+        }
+        
+        /// <summary>
+        /// Restores player health and moves them to last checkpoint position. State of objects and enemies is untouched.
+        /// </summary>
+        [ContextMenu("Restart Checkpoint")]
+        public void RestartFromCheckpoint()
+        {
+            Checkpoint checkpoint = GameManager.Instance.CurrCheckpoint;
+            if (checkpoint == null)
+            {
+                GameManager.Instance.RestartLevel();
+                return;
+            }
+            
+            _health.Hitpoints = _health.maxHitpoints;
+            Transform chkptPos = checkpoint.transform;
+            transform.position = chkptPos.position;
+            transform.rotation = chkptPos.rotation;
         }
         
     }

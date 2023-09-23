@@ -2600,7 +2600,8 @@ MonoBehaviour:
   animator: {fileID: 0}
   damageMaterial: {fileID: 0}
   hitFX: {fileID: 0}
-  hitSfx: []
+  hitSfx:
+  - {fileID: 8300000, guid: a4ba533cbf645f64e8dc25563d372f65, type: 3}
   deathFX: {fileID: 0}
   deathSfx: []
   onDeath:

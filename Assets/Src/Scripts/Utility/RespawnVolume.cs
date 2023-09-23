@@ -8,7 +8,7 @@ namespace Src.Scripts.Utility
         {
             if (other.CompareTag("Player"))
             {
-                GameManager.Instance.RespawnPlayer();
+                GameManager.Instance.ResetPlayerPosition();
             }
         }
 
@@ -16,7 +16,7 @@ namespace Src.Scripts.Utility
         {
             if (other.CompareTag("Player"))
             {
-                GameManager.Instance.RespawnPlayer();
+                GameManager.Instance.ResetPlayerPosition();
             }
         }
     }

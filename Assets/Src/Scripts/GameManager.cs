@@ -28,6 +28,7 @@ namespace Src.Scripts
         public TeamColorScriptableObject teamColorData;
         public UnityEvent onPause;
         public UnityEvent onResume;
+        public Checkpoint CurrCheckpoint { get; set; }
 
         private ColorAdjustments _volumeColorAdjustments;
         private ParentConstraint _menuParentConstraint;
@@ -39,6 +40,7 @@ namespace Src.Scripts
         private static readonly int PaintColor3 = Shader.PropertyToID("_PaintColor3");
         private static readonly int PaintColor4 = Shader.PropertyToID("_PaintColor4");
         private const int PauseSaturationAdjustment = -100;
+
 
         private void Start()
         {
@@ -98,6 +100,16 @@ namespace Src.Scripts
 
         public void RespawnPlayer()
         {
+            _player.EnableOverlayUI();
+            _player.EnableWeapon();
+            _player.EnableGameHands();
+            _player.DisableUIHands();
+            HideMenu(gameOverUI);
+            Unpause();
+        }
+
+        public void ResetPlayerPosition()
+        {
             if (_xrRig == null)
             {
                 Debug.Log("GAME_MANAGER: Could not respawn player. XRRig was not found.");
@@ -112,6 +124,7 @@ namespace Src.Scripts
             
             _xrRig.MoveCameraToWorldLocation(spawnPoint.position);
         }
+        
         public void Win()
         {
             _player.DisableOverlayUI();
@@ -260,6 +273,11 @@ namespace Src.Scripts
         public void DisablePauseButton()
         {
             pauseButton.action.Disable();
+        }
+
+        public void SetCheckpoint(Checkpoint newCheckpoint)
+        {
+            CurrCheckpoint = newCheckpoint;
         }
     }
 }

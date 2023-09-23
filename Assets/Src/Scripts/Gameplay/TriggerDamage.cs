@@ -37,15 +37,15 @@ namespace Src.Scripts.Gameplay
                 return;
             }
             
-            health.TakeHit(damage*Time.deltaTime);
+            health.TakeHit(damage);
             _currHitCooldown = hitCooldownTime;
         }
 
         private bool IsValidTarget(Component target)
         {
             return teamMember != null
-                    && target.gameObject.TryGetComponent(out TeamMember team)
-                    && team.teamChannel == teamMember.teamChannel;
+                    && target.gameObject.TryGetComponent(out TeamMember targetTeam)
+                    && targetTeam.teamChannel != teamMember.teamChannel;
         }
     }
 }
