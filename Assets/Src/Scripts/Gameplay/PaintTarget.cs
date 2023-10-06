@@ -68,6 +68,7 @@ namespace Src.Scripts.Gameplay
         private const int PaintMatrixBufferStride = sizeof(float) * 16;
         private const int ScaleBiasBufferStride = sizeof(float) * 4;
         private const int PaintColorBufferStride = sizeof(float) * 4;
+        private const int StepsBufferStride = sizeof(int);
         private static readonly int PaintMap = Shader.PropertyToID("_PaintMap");
         private static readonly int WorldPosTex = Shader.PropertyToID("_WorldPosTex");
         private static readonly int WorldTangentTex = Shader.PropertyToID("_WorldTangentTex");
@@ -81,6 +82,7 @@ namespace Src.Scripts.Gameplay
         private static readonly int PaintChannelMask = Shader.PropertyToID("paint_channel_mask");
         private static readonly int NumSplats = Shader.PropertyToID("num_splats");
         private static readonly int Resolution = Shader.PropertyToID("resolution");
+        private static readonly int Steps = Shader.PropertyToID("steps");
 
         private static GameObject _splatObject;
         private Camera _renderCamera;
@@ -244,6 +246,7 @@ namespace Src.Scripts.Gameplay
             newPaint.channelMask = brush.GetMask();
             newPaint.scaleBias = brush.GetTile();
             newPaint.brush = brush;
+            newPaint.stepsRemaining = brush.steps; // Don't want to change the brush's step amount when painting
     
             PaintSplat(newPaint);
         }
@@ -461,6 +464,7 @@ namespace Src.Scripts.Gameplay
             Matrix4x4[] paintMatrixArray = new Matrix4x4[10];
             Vector4[] paintScaleBiasArray = new Vector4[10];
             Vector4[] paintChannelMaskArray = new Vector4[10];
+            int[] stepsArray = new int[10];
 
             // Render up to 10 splats per frame of the same texture!
             int numSplats = 0;
@@ -477,17 +481,23 @@ namespace Src.Scripts.Gameplay
                 paintMatrixArray[numSplats] = _paintList[s].paintMatrix;
                 paintScaleBiasArray[numSplats] = _paintList[s].scaleBias;
                 paintChannelMaskArray[numSplats] = _paintList[s].channelMask;
+                stepsArray[numSplats] = _paintList[s].stepsRemaining;
                 numSplats++;
 
-                _paintList.RemoveAt(s);
+                if (--_paintList[s].stepsRemaining < 0)
+                {
+                    _paintList.RemoveAt(s);
+                }
             }
 
             ComputeBuffer paintWorldToObjectBuffer = new ComputeBuffer(paintMatrixArray.Length, PaintMatrixBufferStride); 
             ComputeBuffer paintScaleBiasBuffer = new ComputeBuffer(paintScaleBiasArray.Length, ScaleBiasBufferStride);
             ComputeBuffer paintChannelMaskBuffer = new ComputeBuffer(paintChannelMaskArray.Length, PaintColorBufferStride);
+            ComputeBuffer stepsBuffer = new ComputeBuffer(stepsArray.Length, StepsBufferStride);
             paintWorldToObjectBuffer.SetData(paintMatrixArray);
             paintScaleBiasBuffer.SetData(paintScaleBiasArray);
             paintChannelMaskBuffer.SetData(paintChannelMaskArray);
+            stepsBuffer.SetData(stepsArray);
             
             paintComputeShader.SetTexture(_paintKernel, WorldPosTexCompute, _worldPosTex);
             paintComputeShader.SetTexture(_paintKernel, Paintmap, _paintMap);
@@ -495,6 +505,7 @@ namespace Src.Scripts.Gameplay
             paintComputeShader.SetBuffer(_paintKernel, PaintWorldToObject, paintWorldToObjectBuffer);
             paintComputeShader.SetBuffer(_paintKernel, ScaleBias, paintScaleBiasBuffer);
             paintComputeShader.SetBuffer(_paintKernel, PaintChannelMask, paintChannelMaskBuffer);
+            paintComputeShader.SetBuffer(_paintKernel, Steps, stepsBuffer);
             paintComputeShader.SetFloat(NumSplats, numSplats);
             paintComputeShader.SetFloats(Resolution,_paintMap.width, _paintMap.height);
             paintComputeShader.Dispatch(_paintKernel,
@@ -504,6 +515,7 @@ namespace Src.Scripts.Gameplay
             paintWorldToObjectBuffer.Dispose();
             paintChannelMaskBuffer.Dispose();
             paintScaleBiasBuffer.Dispose();
+            stepsBuffer.Dispose();
         }
 
         private void Update()

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Paintz_Free.Scripts
 {
@@ -14,6 +15,7 @@ namespace Paintz_Free.Scripts
         /// </summary>
         public Vector4 scaleBias;
         public Brush brush;
+        public int stepsRemaining;
     }
 
     [System.Serializable]
@@ -32,6 +34,8 @@ namespace Paintz_Free.Scripts
         public float splatRandomRotation = 180f;
 
         public int splatChannel = 0;
+        [Tooltip("Number of steps over which the splat will be incrementally painted")]
+        public int steps = 2; 
         
         public Vector4 GetMask()
         {

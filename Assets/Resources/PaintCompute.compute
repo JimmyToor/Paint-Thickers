@@ -15,7 +15,7 @@ RWStructuredBuffer<MATRIX> paint_world_to_object;
 // Used to scale(xy) and offset(zw) splat pattern uv coordinates, effectively zooming into the desired pattern from the grid
 RWStructuredBuffer<float4> scale_bias;
 RWStructuredBuffer<float4> paint_channel_mask;
-RWStructuredBuffer<float> steps;
+RWStructuredBuffer<int> steps;
 // pass in uv coordinates and worldpos in buffer probably
 float2 target_uv; // Target point 
 float2 resolution; // Splatmap res
@@ -47,6 +47,8 @@ void BrushPaint (uint3 id : SV_DispatchThreadID)
             
             // sample the pattern
             float pattern = paint_pattern.SampleLevel(linear_clamp_sampler, uv, 0).x;
+            pattern = pattern - 0.03 * steps[i];
+            
             pattern = saturate(pattern - pow( abs( obj_pos.y ),2 )); // falloff around edges
             
             paintmap[curr_pixel] = min( paintmap[curr_pixel], 1.0 - pattern * ( 1.0 - paint_channel_mask[i] ) );
