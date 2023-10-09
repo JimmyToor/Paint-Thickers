@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9be2bb26a4c83154f89589f252e0763b, type: 3}
+  m_Name: SplattershotParameters
+  m_EditorClassIdentifier: 
+  maxAmmo: 50
+  initialUsage: 3
+  refillRate: 20
+  usageRate: 3
+  lowRefillThreshold: 15
+  lowAmmoRegenCooldownTime: 2
+  weaponPrefab: {fileID: 9135275368818329942, guid: c53c6fa982663aa40b74433d4a0e32ca, type: 3}

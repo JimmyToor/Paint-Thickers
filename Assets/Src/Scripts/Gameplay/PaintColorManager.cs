@@ -1,4 +1,5 @@
 using Paintz_Free.Scripts;
+using Src.Scripts.ScriptableObjects;
 using UnityEngine;
 
 namespace Src.Scripts.Gameplay
@@ -26,7 +27,7 @@ namespace Src.Scripts.Gameplay
         public void UpdateColorChannel(int newChannel)
         {
             PaintChannel = newChannel;
-            Color newColor = GameManager.Instance.GetTeamColor(PaintChannel);
+            Color newColor = GameManager.Instance.teamColorData.GetTeamColor(PaintChannel);
             
             if (_paintMats != null && _paintMats.Length > 0)
             {
