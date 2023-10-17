@@ -8,9 +8,9 @@ namespace Src.Scripts.Gameplay
     /// </summary>
     public class ToggleMaterial : MonoBehaviour
     {
-        [FormerlySerializedAs("MaterialA")] [Tooltip("The initial material.")]
+        [Tooltip("The initial material.")]
         public Material materialA;
-        [FormerlySerializedAs("MaterialB")] [Tooltip("The material that will be enabled on toggle.")]
+        [Tooltip("The material that will be enabled on toggle.")]
         public Material materialB;
 
         private Renderer _renderer;
@@ -22,9 +22,10 @@ namespace Src.Scripts.Gameplay
         }
         
 
+        [ContextMenu("Toggle Material")]
         public void Toggle()
         {
-            _renderer.material = _renderer.material == materialA ? materialB : materialA;
+            _renderer.sharedMaterial = _renderer.sharedMaterial == materialA ? materialB : materialA;
         }
     }
 }
