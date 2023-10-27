@@ -58,7 +58,7 @@ MonoBehaviour:
   hitCooldown: 0.25
   regenCooldown: 0
   regenRate: 0
-  meshRenderer: {fileID: 1439803139}
+  damageMeshRenderer: {fileID: 1439803139}
   animator: {fileID: 1957672845038423826}
   damageMaterial: {fileID: 2100000, guid: 02f651351c871e444b239264d2e86dbc, type: 2}
   hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
@@ -105,7 +105,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &1774807948
 BoxCollider:

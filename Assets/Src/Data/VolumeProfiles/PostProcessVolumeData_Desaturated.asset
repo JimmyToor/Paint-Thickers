@@ -340,7 +340,7 @@ MonoBehaviour:
     max: 180
   saturation:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: -100
     min: -100
     max: 100
 --- !u!114 &11400000
@@ -353,7 +353,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: PostProcessVolumeData
+  m_Name: PostProcessVolumeData_Desaturated
   m_EditorClassIdentifier: 
   components:
   - {fileID: 849379129802519247}

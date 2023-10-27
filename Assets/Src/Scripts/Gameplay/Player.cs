@@ -1,9 +1,9 @@
 using System;
 using Src.Scripts.Preferences;
+using Src.Scripts.ScriptableObjects;
 using Src.Scripts.Utility;
 using Src.Scripts.Weapons;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Gameplay
@@ -12,6 +12,10 @@ namespace Src.Scripts.Gameplay
     public class Player : MonoBehaviour
     {
         public PlayerEvents playerEvents;
+        public PauseHandler pauseHandler;
+        public WeaponHandler weaponHandler;
+        public TeamColorScriptableObject teamColorData;
+        public XRRig xrRig;
         public GameObject overlayUICam;
         public XRInteractionManager xrInteractionManager;
         [Header("Movement")]
@@ -23,20 +27,22 @@ namespace Src.Scripts.Gameplay
         public GameObject rightHand;
         public GameObject leftUIHand;
         public GameObject rightUIHand;
-
-        public int TeamChannel { get; set; }
         
+        public int TeamChannel { get; set; }
         public UserPreferencesManager.MainHand MainHand { get; set; }
         public Inventory Inventory = new Inventory();
         
         private ActionBasedContinuousMoveProvider _locomotion;
+        private ActionBasedSnapTurnProvider _snapTurnProvider;
         private float _oldSpeed;
         private Health _health;
         private CharacterController _charController;
         private Vector3 _resetPosition;
         private PaintColorMatcher _paintColorMatcher;
-        private WeaponHandler _weaponHandler;
-
+        private const float NormalDebounceTime = 0.2f;
+        private const float PauseDebounceTime = 0f;
+        
+        
         // These are used to ensure we don't enable movement while we're launched
         private Action _disableResumeMovementOnUnpause;
         private Action _enableResumeMovementOnUnpause;
@@ -54,16 +60,16 @@ namespace Src.Scripts.Gameplay
 
         private void Awake()
         {
-            _disableResumeMovementOnUnpause = () => GameManager.Instance.onResume.RemoveListener(playerEvents.EnableInputMovement);
-            _enableResumeMovementOnUnpause = () => GameManager.Instance.onResume.AddListener(playerEvents.EnableInputMovement);
-            _resetPosition = transform.position;
-            InvokeRepeating(nameof(NewResetPosition),2f,5f);
+            _disableResumeMovementOnUnpause = () => pauseHandler.onResume.RemoveListener(playerEvents.EnableInputMovement);
+            _enableResumeMovementOnUnpause = () => pauseHandler.onResume.AddListener(playerEvents.EnableInputMovement);
+            
             _locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
             _charController = GetComponent<CharacterController>();
             
-            
             _locomotion.moveSpeed = walkSpeed;
             
+            
+            _snapTurnProvider = GetComponent<ActionBasedSnapTurnProvider>();
             TryGetComponent(out _health);
             if (leftUIHand == null)
             {
@@ -74,19 +80,22 @@ namespace Src.Scripts.Gameplay
                 rightUIHand = GameObject.Find("RightHand Ray Controller");
             }
             
+            if (xrRig == null)
+            {
+                xrRig = GetComponent<XRRig>();
+            }
+            
             if (xrInteractionManager == null)
             {
-                xrInteractionManager = GameObject.Find("XR Interaction Manager").GetComponent<XRInteractionManager>();
+                xrInteractionManager = FindObjectOfType<XRInteractionManager>();
             }
 
             TryGetComponent(out _paintColorMatcher);
 
-            if (!TryGetComponent(out _weaponHandler))
+            if (weaponHandler == null && !TryGetComponent(out weaponHandler))
             {
                 Debug.LogErrorFormat("{0} has no WeaponHandler!", gameObject);
             }
-            
-            playerEvents = GetComponent<PlayerEvents>();
         }
 
         private void Start()
@@ -99,14 +108,14 @@ namespace Src.Scripts.Gameplay
             {
                 TeamChannel = member.teamChannel;
             }
+            
+            _resetPosition = SpawnPoint.Instance.transform.position;
+            InvokeRepeating(nameof(NewResetPosition),2f,5f);
+            Invoke(nameof(MoveToSpawn), 0.5f);
         }
 
         private void SetupEvents()
         {
-            GameManager.Instance.onPause?.AddListener(playerEvents.DisableInputMovement);
-            GameManager.Instance.onPause?.AddListener(playerEvents.DisableSquid);
-            GameManager.Instance.onResume?.AddListener(playerEvents.EnableInputMovement);
-            GameManager.Instance.onResume?.AddListener(playerEvents.EnableSquid);
             playerEvents.TakeHit += TakeHit;
             playerEvents.LauncherActivated += playerEvents.DisableStand;
             playerEvents.LauncherActivated += playerEvents.DisableInputMovement;
@@ -122,10 +131,6 @@ namespace Src.Scripts.Gameplay
 
         private void UnsubEvents()
         {
-            GameManager.Instance.onPause?.RemoveListener(playerEvents.DisableInputMovement);
-            GameManager.Instance.onPause?.RemoveListener(playerEvents.DisableSquid);
-            GameManager.Instance.onResume?.RemoveListener(playerEvents.EnableInputMovement);
-            GameManager.Instance.onResume?.RemoveListener(playerEvents.EnableSquid);
             playerEvents.TakeHit -= TakeHit;
             playerEvents.LauncherActivated -= playerEvents.DisableStand;
             playerEvents.LauncherActivated -= playerEvents.DisableInputMovement;
@@ -137,7 +142,18 @@ namespace Src.Scripts.Gameplay
             playerEvents.Land -= EnableGravity;
             playerEvents.Squid -= SquidMode;
             playerEvents.Stand -= HumanMode;
-        }        
+        }
+        
+        /// <summary>
+        /// Matches player position and rotation to spawn point.
+        /// </summary>
+        private void MoveToSpawn()
+        {
+            if (this == null) return;
+            xrRig.MoveCameraToWorldLocation(SpawnPoint.Instance.transform.position);
+            float rotY = SpawnPoint.Instance.transform.rotation.eulerAngles.y - Camera.main!.transform.rotation.eulerAngles.y;
+            transform.Rotate(0,rotY,0);
+        }
         
         public void EnableUIHands()
         {
@@ -195,57 +211,57 @@ namespace Src.Scripts.Gameplay
 
         public void SetWeapon(Weapon newWeapon)
         {
-            if (!_weaponHandler.EquipWeapon(newWeapon))
+            if (!weaponHandler.EquipWeapon(newWeapon))
             {
                 return;
             }
 
-            _weaponHandler.SetColor(GameManager.Instance.GetTeamColor(TeamChannel));
+            weaponHandler.SetColor(teamColorData.GetTeamColor(TeamChannel));
             if (_paintColorMatcher)
             {
-                _weaponHandler.MatchColors(_paintColorMatcher);
+                weaponHandler.MatchColors(_paintColorMatcher);
             }
         }
 
         public void TryUnequipWeapon(Weapon weapon)
         {
-            if (!_weaponHandler.IsUnequipValid(weapon) || isSquid) return;
+            if (!weaponHandler.IsUnequipValid(weapon) || isSquid) return;
             
-            if (_paintColorMatcher != null && _weaponHandler.Weapon != null)
+            if (_paintColorMatcher != null && weaponHandler.Weapon != null)
             {
-                _weaponHandler.UnmatchColors(_paintColorMatcher);
+                weaponHandler.UnmatchColors(_paintColorMatcher);
             }
-            _weaponHandler.UnequipWeapon();
+            weaponHandler.UnequipWeapon();
         }
 
         public void DisableWeapon()
         {
-            _weaponHandler.DisableWeapon();
+            weaponHandler.DisableWeapon();
         }
         
         public void EnableWeapon()
         {
-            _weaponHandler.EnableWeapon();
+            weaponHandler.EnableWeapon();
         }
 
         public void HideWeapon()
         {
-            _weaponHandler.HideWeapon();
+            weaponHandler.HideWeapon();
         }
 
         private void ShowWeapon()
         {
-            _weaponHandler.ShowWeapon();
+            weaponHandler.ShowWeapon();
         }
     
         public void RefillWeaponAmmo()
         {
-            _weaponHandler.RefillWeaponAmmo();
+            weaponHandler.RefillWeaponAmmo();
         }
 
         public void StopManualReload()
         {
-            _weaponHandler.StopManualReload();
+            weaponHandler.StopManualReload();
         }
         
         private void NewResetPosition()
@@ -253,12 +269,13 @@ namespace Src.Scripts.Gameplay
             if (!_charController.isGrounded) return;
             
             _resetPosition = transform.position;
-            _resetPosition.y += 0.5f;
+            _resetPosition.y += 1f;
         }
 
+        [ContextMenu("Reset Position")]
         public void ResetPosition()
         {
-            transform.position = _resetPosition;
+            xrRig.MoveCameraToWorldLocation(_resetPosition);
         }
         
         private void OnTriggerEnter(Collider other)
@@ -272,7 +289,7 @@ namespace Src.Scripts.Gameplay
         // Make any required changes when the player turns into a squid
         private void SquidMode()
         {
-            _weaponHandler.SquidMode();
+            weaponHandler.SquidMode();
             HideGameHands();
             isSquid = true;
         }
@@ -281,7 +298,7 @@ namespace Src.Scripts.Gameplay
         private void HumanMode()
         {
             ShowGameHands();
-            _weaponHandler.HumanMode();
+            weaponHandler.HumanMode();
             isSquid = false;
         }
 
@@ -321,27 +338,42 @@ namespace Src.Scripts.Gameplay
                     ? rightHand.GetComponent<XRBaseInteractor>()
                     : leftHand.GetComponent<XRBaseInteractor>(),
                 interactable);
-            _weaponHandler.EquipWeapon(weapon);
         }
-        
-        /// <summary>
-        /// Restores player health and moves them to last checkpoint position. State of objects and enemies is untouched.
-        /// </summary>
-        [ContextMenu("Restart Checkpoint")]
-        public void RestartFromCheckpoint()
+
+        public void OnEnd()
         {
-            Checkpoint checkpoint = GameManager.Instance.CurrCheckpoint;
-            if (checkpoint == null)
-            {
-                GameManager.Instance.RestartLevel();
-                return;
-            }
-            
-            _health.Hitpoints = _health.maxHitpoints;
-            Transform chkptPos = checkpoint.transform;
-            transform.position = chkptPos.position;
-            transform.rotation = chkptPos.rotation;
+            DisableOverlayUI();
+            DisableWeapon();
+            DisableGameHands();
+            EnableUIHands();
+        }
+
+        public void ToUIMode()
+        {
+            EnableUIHands();
+            HideGameHands();
+        }
+
+        public void ToGameplayMode()
+        {
+            DisableUIHands();
+            ShowGameHands();
         }
         
+        public void OnPause()
+        {
+            ToUIMode();
+            playerEvents.DisableInputMovement();
+            playerEvents.DisableSquid();
+            _snapTurnProvider.debounceTime = PauseDebounceTime;
+        }
+
+        public void OnResume()
+        {
+            ToGameplayMode();
+            playerEvents.EnableInputMovement();
+            playerEvents.EnableSquid();
+            _snapTurnProvider.debounceTime = NormalDebounceTime;
+        }
     }
 }

@@ -1,7 +1,6 @@
 using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Src.Scripts.Gameplay
 {

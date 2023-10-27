@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Src.Scripts.Audio;
-using Src.Scripts.UI;
 using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Events;
@@ -32,8 +31,8 @@ namespace Src.Scripts.Gameplay
         #endregion
         
         #region Visuals
-        [Header("Visuals")]
-        public Renderer meshRenderer;
+        [FormerlySerializedAs("meshRenderer")] [Header("Visuals")]
+        public Renderer damageMeshRenderer;
         public Animator animator;
         public Material damageMaterial;
         #endregion
@@ -69,22 +68,12 @@ namespace Src.Scripts.Gameplay
         }
         
         private bool _onCooldown;
-        private readonly int _takeHitHash = Animator.StringToHash("TakeHit");
+        private readonly int _takeHitHash = Animator.StringToHash("Take Hit");
         private SFXSource _sfxSource;
         private float _regenTime; // Time until regeneration starts
 
         private void Start()
         {
-            if (meshRenderer == null && !TryGetComponent(out meshRenderer))
-            {
-                Debug.Log("No mesh renderer on " + name, this);
-            }
-
-            if (animator == null && !TryGetComponent(out animator))
-            {
-                Debug.Log("No animator on " + name, this);
-            }
-            
             TryGetComponent(out _sfxSource);
         }
 
@@ -134,12 +123,27 @@ namespace Src.Scripts.Gameplay
             {
                 OnDeath();
             }
-        
-            if (useHitDamageMaterial && meshRenderer.material != damageMaterial)
-                meshRenderer.material = damageMaterial;
+
+            if (useHitDamageMaterial)
+            {
+                ShowDamageMaterial();
+            }
         
             if (hitCooldown != 0)
                 StartCoroutine(StartCooldown());
+        }
+
+        private void ShowDamageMaterial()
+        {
+            if (damageMeshRenderer == null)
+            {
+                Debug.Log("Cannot show damage material on " + gameObject.name + ". No mesh renderer found.",
+                    this);
+            }
+            else if (damageMeshRenderer.material != damageMaterial)
+            {
+                damageMeshRenderer.material = damageMaterial;
+            }
         }
 
         private IEnumerator StartCooldown()

@@ -1,5 +1,3 @@
-using Paintz_Free.Scripts;
-using Src.Scripts.ScriptableObjects;
 using UnityEngine;
 
 namespace Src.Scripts.Gameplay

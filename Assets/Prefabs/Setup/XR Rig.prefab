@@ -98,7 +98,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -233,7 +233,7 @@ GameObject:
   - component: {fileID: 419668178}
   - component: {fileID: 419668180}
   - component: {fileID: 419668179}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: FrontCheckSpace
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -865,6 +865,56 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
+--- !u!1 &991595114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 991595115}
+  - component: {fileID: 991595116}
+  m_Layer: 3
+  m_Name: MenuAnchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &991595115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991595114}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4989558146584083176}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1818360609 &991595116
+RotationConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991595114}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AffectRotationX: 1
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 4989558147164366923}
+    weight: 1
 --- !u!1 &1166761028
 GameObject:
   m_ObjectHideFlags: 0
@@ -874,7 +924,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1166761029}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: FrontCheckAxis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1013,7 +1063,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1570858205}
-  m_Layer: 3
+  m_Layer: 2
   m_Name: FrontCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1027,13 +1077,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1570858204}
-  m_LocalRotation: {x: -0.13052548, y: -0, z: -0, w: 0.991445}
-  m_LocalPosition: {x: 0, y: 0, z: 0.13}
+  m_LocalRotation: {x: -0.2588179, y: 0.000000029802322, z: 0.000000014901161, w: 0.9659262}
+  m_LocalPosition: {x: -0.00000062584877, y: 0, z: 0.14999962}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1166761029}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -30, y: 0, z: 0}
 --- !u!1 &1592644098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1704,6 +1754,7 @@ GameObject:
   - component: {fileID: 4989558145643014248}
   - component: {fileID: 4989558145643014250}
   - component: {fileID: 4989558145643014252}
+  - component: {fileID: 7602975073363071122}
   m_Layer: 15
   m_Name: RightHand Controller
   m_TagString: Player
@@ -1885,7 +1936,7 @@ MonoBehaviour:
   m_OnSelectExited:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectActionTrigger: 0
+  m_SelectActionTrigger: 1
   m_HideControllerOnSelect: 0
   m_PlayAudioClipOnSelectEntered: 0
   m_AudioClipForOnSelectEntered: {fileID: 0}
@@ -1946,6 +1997,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7602975073363071122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558145643014254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46acb67b2bad57c4cbfd650620d0eed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactor: {fileID: 4989558145643014248}
+  player: {fileID: 1614226184}
 --- !u!1 &4989558146584083183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1981,6 +2046,7 @@ Transform:
   - {fileID: 726572739}
   - {fileID: 1674933}
   - {fileID: 1469653722}
+  - {fileID: 991595115}
   m_Father: {fileID: 4989558145235880231}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2039,7 +2105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1920fba3a163184ca0e3fd23abad80b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedThreshold: 5
+  speedThreshold: 4
   linesVFX: {fileID: 2049899795}
 --- !u!81 &4989558146584083178
 AudioListener:
@@ -2152,7 +2218,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RenderShadows: 1
   m_RequiresDepthTextureOption: 1
-  m_RequiresOpaqueTextureOption: 2
+  m_RequiresOpaqueTextureOption: 1
   m_CameraType: 0
   m_Cameras:
   - {fileID: 726572741}
@@ -2186,6 +2252,7 @@ GameObject:
   - component: {fileID: 4989558146991971853}
   - component: {fileID: 2166605066285271879}
   - component: {fileID: 3427421121454913392}
+  - component: {fileID: 2703988316084835335}
   m_Layer: 15
   m_Name: LeftHand Controller
   m_TagString: Player
@@ -2412,6 +2479,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2703988316084835335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558146991971952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46acb67b2bad57c4cbfd650620d0eed1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactor: {fileID: 2166605066285271879}
+  player: {fileID: 1614226184}
 --- !u!1 &4989558147164366925
 GameObject:
   m_ObjectHideFlags: 0
@@ -2441,6 +2522,8 @@ GameObject:
   - component: {fileID: 2461705147737017340}
   - component: {fileID: 1675898088}
   - component: {fileID: 1675898090}
+  - component: {fileID: 439407202267325064}
+  - component: {fileID: 8658160734091696733}
   m_Layer: 3
   m_Name: XR Rig
   m_TagString: Player
@@ -2478,7 +2561,7 @@ CharacterController:
   m_Height: 1
   m_Radius: 0.15
   m_SlopeLimit: 46
-  m_StepOffset: 0.3
+  m_StepOffset: 0.2
   m_SkinWidth: 0.01
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 1, z: 0}
@@ -2495,6 +2578,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerEvents: {fileID: 1614226181}
+  pauseHandler: {fileID: 439407202267325064}
+  weaponHandler: {fileID: 0}
+  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
+  xrRig: {fileID: 4989558147164366922}
   overlayUICam: {fileID: 726572738}
   xrInteractionManager: {fileID: 0}
   canSquid: 1
@@ -2517,6 +2604,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputs: {fileID: -944628639613478452, guid: b0c1d4f9606bd6449aba71126370870d, type: 3}
+  pauseHandler: {fileID: 439407202267325064}
 --- !u!114 &1614226183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2529,9 +2617,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48865e9f8cae3c84d926aff26e389a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 60
-  sinkSpeed: 100
-  gravityAngleLimit: 75
+  rotationSpeed: 2
+  sinkSpeed: 6
+  gravityAngleLimit: 80
   locomotion: {fileID: 3953089385813430785}
 --- !u!114 &4989558145552763728
 MonoBehaviour:
@@ -2552,7 +2640,7 @@ MonoBehaviour:
   squidSpeed: 2
   swimSpeed: 6
   enemyPaintSpeed: 1
-  speedTransitionStep: 0
+  speedTransitionStep: 7
   frontCheck: {fileID: 1570858205}
   normalSet: 0
   swimSound: {fileID: 1675898090}
@@ -2595,8 +2683,8 @@ MonoBehaviour:
   regenerative: 1
   hitCooldown: 0
   regenCooldown: 4
-  regenRate: 0.5
-  meshRenderer: {fileID: 0}
+  regenRate: 0.01
+  damageMeshRenderer: {fileID: 0}
   animator: {fileID: 0}
   damageMaterial: {fileID: 0}
   hitFX: {fileID: 0}
@@ -2607,9 +2695,33 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 1614226184}
+        m_TargetAssemblyTypeName: Src.Scripts.Gameplay.Player, Assembly-CSharp
+        m_MethodName: OnEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: PlayerDeath
+        m_TargetAssemblyTypeName: GameMenu, Assembly-CSharp
+        m_MethodName: ShowMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 439407202267325064}
+        m_TargetAssemblyTypeName: Src.Scripts.Utility.PauseHandler, Assembly-CSharp
+        m_MethodName: Pause
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2844,6 +2956,7 @@ MonoBehaviour:
   baseControlSchemeName: Generic XR Controller
   leftHandedControlSchemeName: Left-Handed
   rightHandedControlSchemeName: Right-Handed
+  pauseHandler: {fileID: 439407202267325064}
   onHandChange:
     m_PersistentCalls:
       m_Calls: []
@@ -2860,12 +2973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   matchEnvironmentColor: []
-  matchTeamColor:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  matchTeamColor: []
 --- !u!114 &2461705147737017340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2912,7 +3020,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: df40cd50cc86c0740a9f98f9d2f6a04e, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.508
+  m_Volume: 0.35
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -2956,7 +3064,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -2996,6 +3104,90 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &439407202267325064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558147164366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec2b8e07808deb344b06800667bf520b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseButton:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Pause Button
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: f9b90b0d-2132-4f75-b477-a795829c95a9
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+    m_Reference: {fileID: -9181390090371721781, guid: b0c1d4f9606bd6449aba71126370870d, type: 3}
+  onPauseButton:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 439407202267325064}
+        m_TargetAssemblyTypeName: Src.Scripts.Utility.PauseHandler, Assembly-CSharp
+        m_MethodName: TogglePause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onPause:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1614226184}
+        m_TargetAssemblyTypeName: Src.Scripts.Gameplay.Player, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onResume:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1614226184}
+        m_TargetAssemblyTypeName: Src.Scripts.Gameplay.Player, Assembly-CSharp
+        m_MethodName: OnResume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8658160734091696733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558147164366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 674f1d717406b004e8642ae45dcd36cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  userPreferencesManager: {fileID: 1675898091}
+  pauseHandler: {fileID: 439407202267325064}
+  isDirty: 0
 --- !u!1001 &447563299
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3201,14 +3393,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
---- !u!4 &6019286514161777702 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6019286514318719493, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
-  m_PrefabInstance: {fileID: 447563299}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3848210651443976586 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3848210651887181737, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
+  m_PrefabInstance: {fileID: 447563299}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6019286514161777702 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6019286514318719493, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
   m_PrefabInstance: {fileID: 447563299}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1073907779

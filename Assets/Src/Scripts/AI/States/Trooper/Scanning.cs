@@ -24,6 +24,7 @@
 
         public override void Exit()
         {
+            base.Exit();
             _scanner.searchWhenNoTarget = false;
             _scanner.StopCoroutine(_scanner.PeriodicSearch());
         }

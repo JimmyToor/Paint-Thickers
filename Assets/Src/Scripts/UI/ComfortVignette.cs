@@ -26,7 +26,7 @@ namespace Src.Scripts.UI
             _volume.profile.TryGet(out _vignette);
             _charController = GetComponent<CharacterController>();
         }
-
+        
         private void Update()
         {
             if (IsMoving() && !_vignetteActive) // Fade in vignette if player goes from stationary to moving

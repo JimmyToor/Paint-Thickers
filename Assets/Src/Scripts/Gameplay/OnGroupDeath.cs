@@ -18,6 +18,12 @@ namespace Src.Scripts.Gameplay
                 _enemyManager.SubscribeGroupDefeatedEvent(groupId, onGroupDeath.Invoke);
             }
         }
+
+        [ContextMenu("Trigger Events")]
+        public void ManualTrigger()
+        {
+            onGroupDeath.Invoke();
+        }
     
     }
 }

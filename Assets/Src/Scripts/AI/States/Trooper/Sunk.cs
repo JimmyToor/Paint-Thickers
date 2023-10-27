@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Src.Scripts.AI.States.Trooper
+﻿namespace Src.Scripts.AI.States.Trooper
 {
     public class Sunk : BaseState<TrooperStateMachine>
     {

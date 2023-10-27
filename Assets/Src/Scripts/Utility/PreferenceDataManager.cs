@@ -1,7 +1,5 @@
-using System;
 using Src.Scripts.Preferences;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Src.Scripts.Utility
 {
@@ -11,17 +9,18 @@ namespace Src.Scripts.Utility
     public class PreferenceDataManager : Singleton<PreferenceDataManager>
     {
         public UserPreferencesManager userPreferencesManager;
+        public PauseHandler pauseHandler;
 
         [SerializeField] private bool isDirty = false;
         
         private void OnEnable()
         {
-            GameManager.Instance.onResume.AddListener(SaveData);
+            pauseHandler.onResume.AddListener(SaveData);
         }
 
         private void OnDisable()
         {
-            GameManager.Instance.onResume.RemoveListener(SaveData);
+            pauseHandler.onResume.RemoveListener(SaveData);
         }
 
         public override void Awake()

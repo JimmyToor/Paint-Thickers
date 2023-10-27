@@ -5155,7 +5155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 1602208250728616211}
 --- !u!1 &1160667131795105559
 GameObject:
@@ -6209,6 +6208,36 @@ Transform:
   m_Father: {fileID: 6012196889532472712}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4751290913782807410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2840393829794864513}
+  m_Layer: 10
+  m_Name: Scan Origin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2840393829794864513
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4751290913782807410}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7342069465489470859}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4792392565023160598
 GameObject:
   m_ObjectHideFlags: 0
@@ -6304,7 +6333,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 6786248083687487556}
 --- !u!1 &5273099450616966555
 GameObject:
@@ -11370,6 +11398,7 @@ MonoBehaviour:
     steps: 2
   damage: 1
   randomChannel: 0
+  splashObject: {fileID: 0}
   collisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &749624021976703926
@@ -11385,7 +11414,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 928634118598668549}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 2671851362997991513}
 --- !u!1 &5721877311866650466
 GameObject:
@@ -16710,7 +16738,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 6473791964641388963}
 --- !u!1773428102 &1882568556827083753
 ParentConstraint:
@@ -21723,6 +21750,7 @@ MonoBehaviour:
     steps: 2
   damage: 1
   randomChannel: 0
+  splashObject: {fileID: 0}
   collisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &7092883789690065226
@@ -21781,7 +21809,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 7092883789690065227}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 7092883789690065268}
 --- !u!1 &7092883790087109802
 GameObject:
@@ -26714,7 +26741,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 7092883790087109844}
 --- !u!1 &7092883790325589511
 GameObject:
@@ -31648,7 +31674,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 7092883790325589505}
 --- !u!1 &7092883790659141640
 GameObject:
@@ -36526,7 +36551,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 7092883790659141642}
 --- !u!1 &7399093030035663733
 GameObject:
@@ -41468,6 +41492,7 @@ MonoBehaviour:
     steps: 2
   damage: 1
   randomChannel: 0
+  splashObject: {fileID: 0}
   collisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &4836306880909642676
@@ -41483,7 +41508,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 843754734618459472}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 8636605846771862225}
 --- !u!1 &7691891980511213064
 GameObject:
@@ -46459,6 +46483,7 @@ MonoBehaviour:
     steps: 2
   damage: 1
   randomChannel: 0
+  splashObject: {fileID: 0}
   collisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!1773428102 &6229600115034325407
@@ -46566,7 +46591,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 0}
 --- !u!1 &7975758305875046193
 GameObject:
@@ -46589,6 +46613,7 @@ GameObject:
   - component: {fileID: 4036768657405813249}
   - component: {fileID: 6555876089391402238}
   - component: {fileID: 4399186479569082314}
+  - component: {fileID: 861189072752288782}
   m_Layer: 10
   m_Name: TrooperTuber
   m_TagString: Enemy
@@ -46615,6 +46640,7 @@ Transform:
   - {fileID: 6516487234405991436}
   - {fileID: 1531171408502459164}
   - {fileID: 5625309016766643010}
+  - {fileID: 2840393829794864513}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -46687,7 +46713,8 @@ MonoBehaviour:
   animator: {fileID: 8163667220085843564}
   damageMaterial: {fileID: 0}
   hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
-  hitSfx: []
+  hitSfx:
+  - {fileID: 8300000, guid: 09c9540d9408cba45930a06462877e1c, type: 3}
   deathFX: {fileID: 113441720838220952, guid: b0530af8f4be6e04999bf865f046ba68, type: 3}
   deathSfx: []
   onDeath:
@@ -46920,6 +46947,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sightDistance: 9
   timeBetweenScans: 0.3
+  targetLossCooldown: 0
   searchWhenNoTarget: 1
   targetLayerMask:
     serializedVersion: 2
@@ -46927,7 +46955,7 @@ MonoBehaviour:
   blockingLayerMask:
     serializedVersion: 2
     m_Bits: 16640
-  originTransform: {fileID: 2604521928876325535}
+  originTransform: {fileID: 2840393829794864513}
   onTargetSighted:
     m_PersistentCalls:
       m_Calls:
@@ -46950,6 +46978,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 861189072752288782}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 7c63f9a4535768d49bad41c90497a619, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -47077,6 +47117,102 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
+--- !u!82 &861189072752288782
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7975758305875046193}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8347343486583864622
 GameObject:
   m_ObjectHideFlags: 0

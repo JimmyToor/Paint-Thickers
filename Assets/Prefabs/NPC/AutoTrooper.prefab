@@ -4971,6 +4971,7 @@ MonoBehaviour:
     steps: 2
   damage: 1
   randomChannel: 0
+  splashObject: {fileID: 0}
   collisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &2433924810294789995
@@ -4986,7 +4987,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 8179991029649155461}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 7775685860494501285}
 --- !u!1 &480795502051526664
 GameObject:
@@ -10724,6 +10724,7 @@ MonoBehaviour:
     steps: 2
   damage: 1
   randomChannel: 0
+  splashObject: {fileID: 0}
   collisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!1773428102 &3370363940608102966
@@ -10765,8 +10766,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 8001782767062859895}
+--- !u!1 &2562239456660662002
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2125587768337905334}
+  m_Layer: 10
+  m_Name: Scan Origin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2125587768337905334
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2562239456660662002}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.027, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9083028906718061473}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2744349316946284645
 GameObject:
   m_ObjectHideFlags: 0
@@ -15707,6 +15737,7 @@ MonoBehaviour:
     steps: 2
   damage: 1
   randomChannel: 0
+  splashObject: {fileID: 0}
   collisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &1839918439632334949
@@ -15722,7 +15753,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 9196770329984698194}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 6563641307574201960}
 --- !u!1 &2778961536315228292
 GameObject:
@@ -21011,7 +21041,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 522747141251734151}
 --- !u!1 &3721347387843687436
 GameObject:
@@ -26509,7 +26538,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 5990740571016277935}
 --- !u!1773428102 &9092248053039816787
 ParentConstraint:
@@ -26755,7 +26783,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 6515469216043399229}
 --- !u!1 &7804852058036705906
 GameObject:
@@ -27099,6 +27126,7 @@ GameObject:
   - component: {fileID: 93034513692682609}
   - component: {fileID: 1251428225989904237}
   - component: {fileID: 6426571808963969446}
+  - component: {fileID: 5542284236909864397}
   m_Layer: 10
   m_Name: AutoTrooper
   m_TagString: Enemy
@@ -27125,6 +27153,7 @@ Transform:
   - {fileID: 3311371822478406109}
   - {fileID: 5808559898974005023}
   - {fileID: 5485880151431793969}
+  - {fileID: 2125587768337905334}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -27339,6 +27368,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sightDistance: 17
   timeBetweenScans: 0.3
+  targetLossCooldown: 0
   searchWhenNoTarget: 0
   targetLayerMask:
     serializedVersion: 2
@@ -27346,7 +27376,7 @@ MonoBehaviour:
   blockingLayerMask:
     serializedVersion: 2
     m_Bits: 16640
-  originTransform: {fileID: 2189986747081097462}
+  originTransform: {fileID: 2125587768337905334}
   onTargetSighted:
     m_PersistentCalls:
       m_Calls:
@@ -27369,6 +27399,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5542284236909864397}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 7c63f9a4535768d49bad41c90497a619, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -27565,6 +27607,102 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 90, y: 0, z: 0}
     m_Visible: 1
+--- !u!82 &5542284236909864397
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8757214117243039789
 GameObject:
   m_ObjectHideFlags: 0
@@ -32497,7 +32635,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 8757214117243039787}
 --- !u!1 &8757214117580264994
 GameObject:
@@ -37375,7 +37512,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 8757214117580264992}
 --- !u!1 &8757214118557992805
 GameObject:
@@ -42332,6 +42468,7 @@ MonoBehaviour:
     steps: 2
   damage: 1
   randomChannel: 0
+  splashObject: {fileID: 0}
   collisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &8757214118557992800
@@ -42394,7 +42531,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 8757214118557992801}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 8757214118557992798}
 --- !u!1 &8757214119225043584
 GameObject:
@@ -47327,7 +47463,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 8757214119225043710}
 --- !u!1 &8864813187642049974
 GameObject:

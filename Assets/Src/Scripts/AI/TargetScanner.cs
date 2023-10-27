@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Src.Scripts.AI
 {
@@ -9,6 +8,8 @@ namespace Src.Scripts.AI
     {
         public float sightDistance;
         public float timeBetweenScans;
+        [Tooltip("Time between losing a target and beginning another scan.")]
+        public float targetLossCooldown;
         public bool searchWhenNoTarget;
         public LayerMask targetLayerMask;
         public LayerMask blockingLayerMask;
@@ -17,9 +18,12 @@ namespace Src.Scripts.AI
         public UnityEvent onTargetLost;
         
         private WaitForSeconds _scanDelay;
+        private CharacterController _targetCharController;
+        private TargetModifier _targetModifier;
         [HideInInspector]public bool hasTarget;
         [HideInInspector]public bool hasLOS;
         
+        private Transform _target;
         public Transform Target
         {
             get => _target;
@@ -38,9 +42,6 @@ namespace Src.Scripts.AI
             }
         }
         
-        private CharacterController _targetCharController;
-        private Transform _target;
-
         private void Start()
         {
             _scanDelay = new WaitForSeconds(timeBetweenScans);
@@ -75,9 +76,13 @@ namespace Src.Scripts.AI
 
         private bool IsValidTarget(Collider newTarget)
         {
-            return newTarget.gameObject.activeSelf
-                   && newTarget.TryGetComponent(out _targetCharController)
-                   && CheckLOS(newTarget.transform.TransformPoint(_targetCharController.center));
+            if (newTarget.gameObject.activeSelf && newTarget.TryGetComponent(out _targetCharController))
+            {
+                return newTarget.TryGetComponent(out TargetModifier targetModifier)
+                    ? CheckLOS(targetModifier.targetTransform.position)
+                    : CheckLOS(newTarget.transform.TransformPoint(_targetCharController.center));
+            }
+            return false;
         }
         
         private void SetNewTarget(Transform newTarget)
@@ -86,6 +91,11 @@ namespace Src.Scripts.AI
             if (_targetCharController == null)
             {
                 Target.TryGetComponent(out _targetCharController);
+            }
+
+            if (_targetModifier == null)
+            {
+                Target.TryGetComponent(out _targetModifier);
             }
            
             hasTarget = true;
@@ -98,6 +108,7 @@ namespace Src.Scripts.AI
             StopCoroutine(PeriodicLOSCheck());
             Target = null;
             _targetCharController = null;
+            _targetModifier = null;
             hasTarget = false;
             if (searchWhenNoTarget)
             {
@@ -136,12 +147,17 @@ namespace Src.Scripts.AI
                 return Vector3.zero;
             }
             
-            if (_targetCharController == null)
+            if (_targetModifier != null)
             {
-                return Target.position;
+                return _targetModifier.targetTransform.position;
             }
             
-            return Target.TransformPoint(_targetCharController.center);
+            if (_targetCharController != null)
+            {
+                return Target.TransformPoint(_targetCharController.center);
+            }
+            
+            return Target.position;
         }
         
         private void OnDrawGizmosSelected()
@@ -152,6 +168,11 @@ namespace Src.Scripts.AI
 
         public IEnumerator PeriodicSearch()
         {
+            float cooldown = targetLossCooldown;
+            while (cooldown > 0)
+            {
+                cooldown -= Time.deltaTime;
+            }
             while (!hasTarget)
             {
                 TargetSearch();

@@ -489,7 +489,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
 
             return true;
         }
-
+        
         /// <summary>
         /// This function will rotate the rig object such that the rig's up vector will match the provided vector.
         /// </summary>

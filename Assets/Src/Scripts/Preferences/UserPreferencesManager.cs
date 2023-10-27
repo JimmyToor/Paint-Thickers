@@ -239,7 +239,8 @@ namespace Src.Scripts.Preferences
             }
         }
 
-
+        public PauseHandler pauseHandler;
+        
         public UnityEvent<MainHand> onHandChange;
         private void Awake()
         {
@@ -318,12 +319,12 @@ namespace Src.Scripts.Preferences
             {
                 case MainHand.Left:
                     SetHandBindingMasks(_leftHandedControlScheme);
-                    GameManager.Instance.onResume.AddListener(()=> Player.MainHand = MainHand.Left);
+                    pauseHandler.onResume.AddListener(()=> Player.MainHand = MainHand.Left);
                     break;
                 
                 case MainHand.Right:
                     SetHandBindingMasks(_rightHandedControlScheme);
-                    GameManager.Instance.onResume.AddListener(()=> Player.MainHand = MainHand.Right);
+                    pauseHandler.onResume.AddListener(()=> Player.MainHand = MainHand.Right);
                     break;
                 
                 default:

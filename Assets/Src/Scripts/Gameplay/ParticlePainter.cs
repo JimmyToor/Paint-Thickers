@@ -27,6 +27,7 @@ namespace Src.Scripts.Gameplay
 
         private ParticleSystem _partSys;
         private List<ParticleCollisionEvent> _collisionEvents;
+        private bool hitSuccess;
 
         private void Start()
         {
@@ -39,10 +40,10 @@ namespace Src.Scripts.Gameplay
             int numCollisionEvents = _partSys.GetCollisionEvents(other, _collisionEvents);
             for (int i = 0; i < numCollisionEvents; i++)
             {
-                CheckCollision(_collisionEvents[i], other);
+                hitSuccess = CheckCollision(_collisionEvents[i], other);
             }
         
-            if (collisionSfx)
+            if (collisionSfx && hitSuccess)
             {
                 for (int i = 0; i < numCollisionEvents; i++)
                 {
@@ -51,7 +52,7 @@ namespace Src.Scripts.Gameplay
             }
         }
 
-        private void CheckCollision(ParticleCollisionEvent collisionEvent, GameObject other)
+        private bool CheckCollision(ParticleCollisionEvent collisionEvent, GameObject other)
         {
             switch (LayerMask.LayerToName(other.layer))
             {
@@ -65,6 +66,7 @@ namespace Src.Scripts.Gameplay
                         Vector3 normal = collisionEvent.normal;
                         if (randomChannel) brush.splatChannel = Random.Range(0, 2);
                         paintTarget.PaintSphere(collisionEvent.intersection, normal, brush);
+                        return true;
                     }
                     break;
                 case "Players":
@@ -73,6 +75,7 @@ namespace Src.Scripts.Gameplay
                         if (brush.splatChannel != player.TeamChannel)
                         {
                             other.gameObject.GetComponent<PlayerEvents>().OnTakeHit(damage);
+                            return true;
                         }
                     }
                     break;
@@ -82,6 +85,7 @@ namespace Src.Scripts.Gameplay
                         if (brush.splatChannel != enemy.team.teamChannel && other.gameObject.TryGetComponent(out Health enemyHealth))
                         {
                             enemyHealth.TakeHit(damage,collisionEvent.intersection);
+                            return true;
                         }
                     }
                     break;
@@ -90,11 +94,9 @@ namespace Src.Scripts.Gameplay
                     {
                         health.TakeHit(damage,collisionEvent.intersection);
                     }
-                    // else
-                    //     Debug.LogFormat("Object {0} hit by particle (fired by {1}) but has no way to react on layer {2}.",
-                    //         other.gameObject, other.layer, gameObject.name);
                     break;
             }
+            return false;
         }
 
         private void SpawnSplash(Vector3 normal, Vector3 intersection, int channel)

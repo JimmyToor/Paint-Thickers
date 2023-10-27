@@ -1124,9 +1124,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Unpause
+      - m_Target: {fileID: 8341852838103274637}
+        m_TargetAssemblyTypeName: Src.Scripts.UI.GameMenu, Assembly-CSharp
+        m_MethodName: HideMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1137,12 +1137,12 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Src.Scripts.GameManager, Assembly-CSharp
-        m_MethodName: HideMenu
-        m_Mode: 2
+        m_TargetAssemblyTypeName: Src.Scripts.Utility.PauseHandler, Assembly-CSharp
+        m_MethodName: Unpause
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 7145939952126666979}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2208,9 +2208,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: Quit
+      - m_Target: {fileID: 11400000, guid: cf6c554c695b3e44a9fc9a09ccbcdb61, type: 2}
+        m_TargetAssemblyTypeName: Src.Scripts.ScriptableObjects.GameEvent, Assembly-CSharp
+        m_MethodName: Raise
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2296,6 +2296,7 @@ GameObject:
   - component: {fileID: 7145939952126667007}
   - component: {fileID: 6735323568573643060}
   - component: {fileID: 8702999139291024230}
+  - component: {fileID: 8341852838103274637}
   m_Layer: 17
   m_Name: UI_PauseMenu_Options
   m_TagString: Untagged
@@ -2454,6 +2455,50 @@ RotationConstraint:
   m_Sources:
   - sourceTransform: {fileID: 0}
     weight: 1
+--- !u!114 &8341852838103274637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7145939952126666979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e47df4210324404198e697caa680902, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onShow:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.Rendering.Volume, Unity.RenderPipelines.Core.Runtime
+        m_MethodName: set_profile
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 10fc4df2da32a41aaa32d77bc913491c, type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Rendering.VolumeProfile,
+            Unity.RenderPipelines.Core.Runtime
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHide:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.Rendering.Volume, Unity.RenderPipelines.Core.Runtime
+        m_MethodName: set_profile
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 17d9bb71c2d7e2849a753d2146175026, type: 2}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Rendering.VolumeProfile,
+            Unity.RenderPipelines.Core.Runtime
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &5732738864119626947
 PrefabInstance:
   m_ObjectHideFlags: 0

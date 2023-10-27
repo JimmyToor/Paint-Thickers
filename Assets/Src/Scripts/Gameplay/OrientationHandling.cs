@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Gameplay
@@ -17,12 +15,8 @@ namespace Src.Scripts.Gameplay
         [Tooltip("The angle at which rig-relative gravity is enabled.")]
         public float gravityAngleLimit;
         public ActionBasedContinuousMoveProvider locomotion;
-
-        public bool rotating { get; set; } // Represents whether or not a rotation is in-progress
-        public bool transforming { get; set; } // Represents whether or not a height change is in-progress
         
         private Vector3 _targetNormal;
-        private Player _player;
         private Transform _camOffset;
         private Transform _playerHead;
         private RaycastHit _directionHit;
@@ -43,7 +37,6 @@ namespace Src.Scripts.Gameplay
         void Start()
         {
             _xrRig = GameObject.Find("XR Rig").GetComponent<XRRig>();
-            _player = GetComponent<Player>();
             _camOffset = GameObject.Find("Camera Offset").transform;
             _playerHead = GameObject.Find("Main Camera").transform;
             _targetNormal = transform.up;
@@ -53,16 +46,18 @@ namespace Src.Scripts.Gameplay
         /// Set the new normal that the XRRig will rotate to match based on the hit surface's normal.
         /// </summary>
         /// <param name="hit"></param>
-        /// <param name="channel"></param>
+        /// <param name="useAngleLimit">When true, the target normal will only be set if it is below the angle limit.</param>
         /// <returns>True if goal normal is successfully set, false otherwise.</returns>
-        public bool SetNewTargetNormal(RaycastHit hit, int channel)
+        public bool SetNewTargetNormal(RaycastHit hit, bool useAngleLimit = false)
         {
             if (hit.transform == null) return false;
             
             // Only match orientation with this surface if it has friendly paint or is a shallow enough slope.
             float angle = Vector3.Angle(hit.normal, Vector3.up);
-            if (channel != _player.TeamChannel && angle >= gravityAngleLimit) return false;
-            
+            if (useAngleLimit && angle >= gravityAngleLimit)
+            {
+                return false;
+            }
             _targetNormal = hit.normal;
             return true;
         }
@@ -151,7 +146,6 @@ namespace Src.Scripts.Gameplay
             
             // Reduce gravity for the rig enough to be able to move up the wall, but still slide down if not moving
             locomotion.GravityScale = newAngle >= gravityAngleLimit ? _wallGravityScale : 1f;
-            rotating = transform.up != _targetNormal;
         }
     
         /// <summary>
@@ -175,7 +169,6 @@ namespace Src.Scripts.Gameplay
             
             newPos.y = Mathf.MoveTowards(newPos.y, newHeight, Time.deltaTime * sinkSpeed);
             _camOffset.localPosition = newPos;
-            transforming = !Mathf.Approximately(newPos.y, newHeight);
         }
     }
 }

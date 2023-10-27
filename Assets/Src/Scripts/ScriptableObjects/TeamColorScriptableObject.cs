@@ -8,5 +8,10 @@ namespace Src.Scripts.ScriptableObjects
     public class TeamColorScriptableObject : ScriptableObject
     {
         public Color[] teamColors;
+        
+        public Color GetTeamColor(int channel)
+        {
+            return teamColors[channel];
+        }
     }
 }

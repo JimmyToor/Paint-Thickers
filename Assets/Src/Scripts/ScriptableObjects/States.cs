@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Src.Scripts.ScriptableObjects
 {
     [Serializable]
-    [CreateAssetMenu(fileName = "New States Data", menuName = "Data Objects/StatesData")]
+    [CreateAssetMenu(fileName = "New States Data", menuName = "Data Objects/States Data")]
     public class States : ScriptableObject
     {
         public StateId[] stateList;

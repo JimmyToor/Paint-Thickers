@@ -5440,6 +5440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
+  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 2320646126164769155}
 --- !u!1 &2320646126277885705
 GameObject:
@@ -10363,6 +10364,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
+  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 2320646126277885175}
 --- !u!1 &2320646126362269967
 GameObject:
@@ -16566,6 +16568,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 1645615636236446711}
+  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 3261298254214477544}
 --- !u!1 &7186612638759510843
 GameObject:
@@ -17189,8 +17192,9 @@ MonoBehaviour:
   hitCooldown: 0
   regenCooldown: 0
   regenRate: 0
+  meshRenderer: {fileID: 0}
+  animator: {fileID: 0}
   damageMaterial: {fileID: 0}
-  damageUIController: {fileID: 0}
   hitFX: {fileID: 0}
   hitSfx: []
   deathFX: {fileID: 0}
@@ -17902,6 +17906,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
+  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 4503324378041925325}
 --- !u!114 &278472321806946118
 MonoBehaviour:

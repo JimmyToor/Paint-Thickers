@@ -1,25 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Src.Scripts.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts.Weapons
 {
-    [Serializable]
-    public struct WeaponParameters
-    {
-        public float maxAmmo;
-        [Tooltip("How much ammo to consume when starting to fire.")]
-        public float initialUsage;
-        public float refillRate;
-        public float usageRate;
-        [Tooltip("Ammo refills automatically once below this threshold.")]
-        public float lowRefillThreshold;
-        [Tooltip("Seconds to wait after falling below ammo threshold to refill ammo.")]
-        public float lowAmmoRegenCooldownTime;
-    }
-    
     public class Weapon : MonoBehaviour
     {
         public WeaponParameters wepParams;

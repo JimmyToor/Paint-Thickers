@@ -24,7 +24,7 @@ namespace Src.Scripts.Utility
         private IEnumerator DisableObject()
         {
             yield return _destroyDelay;
-            Destroy(this);
+            Destroy(gameObject);
         }
         
     }

@@ -1,3 +1,4 @@
+using Src.Scripts.Gameplay;
 using UnityEngine;
 
 namespace Src.Scripts.Utility
@@ -6,17 +7,19 @@ namespace Src.Scripts.Utility
     {
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
-            {
-                GameManager.Instance.ResetPlayerPosition();
-            }
+            ResetPlayerPosition(other);
         }
 
         private void OnTriggerStay(Collider other)
         {
+            ResetPlayerPosition(other);
+        }
+
+        private static void ResetPlayerPosition(Collider other)
+        {
             if (other.CompareTag("Player"))
             {
-                GameManager.Instance.ResetPlayerPosition();
+                other.GetComponent<Player>().ResetPosition();
             }
         }
     }

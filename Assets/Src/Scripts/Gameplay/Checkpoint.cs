@@ -6,9 +6,9 @@ namespace Src.Scripts.Gameplay
     {
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Player"))
+            if (other.TryGetComponent(out Player _))
             {
-                GameManager.Instance.SetCheckpoint(this);
+                GameManager.Instance.NewCheckpoint(this);
             }
         }
     }

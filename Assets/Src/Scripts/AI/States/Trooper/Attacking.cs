@@ -4,7 +4,7 @@
     {
         private AutoTrooper _trooper;
         private TargetScanner _scanner;
-
+        
         public Attacking(TrooperStateMachine trooperStateMachine) : base(trooperStateMachine)
         {
             _trooper = trooperStateMachine.trooper;

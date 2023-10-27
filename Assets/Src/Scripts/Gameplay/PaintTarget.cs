@@ -31,7 +31,9 @@ namespace Src.Scripts.Gameplay
         
         public ComputeShader paintComputeShader;
 
+        [Tooltip("Used to store the paintMap data on the CPU.")]
         public Texture2D splatTexPick;
+        public Texture2D splatPixelPick;
         public Texture2D bakedPaintMap;
         
         public int maxNearSplats = 16; // Maximum number of nearby targets to paint in addition to the primary target.
@@ -373,6 +375,7 @@ namespace Src.Scripts.Gameplay
             _worldBinormalTex.Create();
 
             splatTexPick = new Texture2D((int)paintTextureSize, (int)paintTextureSize, TextureFormat.ARGB32, false);
+            splatPixelPick = new Texture2D(1, 1, TextureFormat.ARGB32, false);
             foreach (Material mat in _paintRenderer.materials)
             {
                 mat.SetTexture(PaintMap, _paintMap);

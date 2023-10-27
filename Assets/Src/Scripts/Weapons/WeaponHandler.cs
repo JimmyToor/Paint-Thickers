@@ -104,7 +104,7 @@ namespace Src.Scripts.Weapons
         
         public void MatchColors(PaintColorMatcher paintColorMatcher)
         {
-            // Add the weapon's particle renderers to the color matcher list to ensure they are the correct color
+            // Add the weapon's paint renderers to the color matcher list to ensure they are the correct color
             foreach (var rend in Weapon.Renderers)
             {
                 if (rend.TryGetComponent(out PaintColorManager colorManager) &&

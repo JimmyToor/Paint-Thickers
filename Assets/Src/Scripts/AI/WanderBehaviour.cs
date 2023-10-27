@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Random = UnityEngine.Random;
@@ -68,6 +67,9 @@ namespace Src.Scripts.AI
 
         private bool SetWanderPos()
         {
+            if (!_navAgent.isActiveAndEnabled || !_navAgent.isOnNavMesh)
+                return false;
+            
             Vector3 randomPos = _initialPos + Random.insideUnitSphere * wanderDistance;
 
             if (!NavMesh.SamplePosition(randomPos, out NavMeshHit hit, wanderDistance, _navAgent.areaMask))

@@ -1,5 +1,3 @@
-using System;
-using Src.Scripts.AI;
 using Src.Scripts.Audio;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -85,7 +83,7 @@ namespace Src.Scripts.Gameplay
         private LayerMask _squidLayer;
         private LayerMask _playerLayer;
         private float _standSpeed;
-        private float _frontAngle;
+        private float _frontCheckLength = 0.5f;
         private OrientationHandling _orientationHandling;
         private RaycastHit _belowHit;
         private RaycastHit _frontHit;
@@ -95,7 +93,7 @@ namespace Src.Scripts.Gameplay
         private CharacterController _charController;
         private float _goalSpeed;
         private float _sign;
-
+        
         private void OnEnable()
         {
             _player = GetComponent<Player>();
@@ -105,7 +103,7 @@ namespace Src.Scripts.Gameplay
 
         private void Awake()
         {
-            if (locomotion == null && TryGetComponent<ActionBasedContinuousMoveProvider>(out locomotion))
+            if (locomotion == null && TryGetComponent(out locomotion))
             {
                 Debug.LogError("No Locomotion Provider on PaintSwim!", this);
             }
@@ -161,8 +159,8 @@ namespace Src.Scripts.Gameplay
         private bool CheckGroundBelow()
         {
             //Debug.DrawRay(_playerHead.position,-_camOffset.up,Color.blue,2f);
-            if (!Physics.Raycast(_playerHead.position, -_camOffset.up, out _belowHit, 1f, swimmableLayers) 
-                || _belowHit.transform == null) return false;
+            if (!Physics.Raycast(_playerHead.position, -_camOffset.up, out _belowHit, 1f,
+                    swimmableLayers) || _belowHit.transform == null) return false;
             
             int channel = PaintTarget.RayChannel(_belowHit);
 
@@ -177,7 +175,6 @@ namespace Src.Scripts.Gameplay
             }
             else if (channel != -1)
             {
-                
                 InPaint = true;
                 CanSwim = false;
             }
@@ -185,13 +182,10 @@ namespace Src.Scripts.Gameplay
             {
                 InPaint = false;
             }
-            
-            if (!normalSet) // Don't want to change the normal if it's been set by terrain ahead
-            {
-                _orientationHandling.SetNewTargetNormal(_belowHit, channel);
-            }
 
-            return true;
+            if (normalSet) return true; // Don't want to change the normal if it's been set by terrain ahead
+            
+            return _orientationHandling.SetNewTargetNormal(_belowHit, !CanSwim);
         }
 
         /// <summary>
@@ -200,16 +194,21 @@ namespace Src.Scripts.Gameplay
         /// <returns>True if something is ahead of us, false otherwise</returns>
         private bool CheckGroundAhead()
         {
+            Vector3 dir = -frontCheck.up.normalized;
             //Debug.DrawRay(_frontCheckAxis.position,-frontCheck.up,Color.green,1f);
-
-            if (!Physics.Raycast(frontCheck.position, -frontCheck.up, out _frontHit, 1f, swimmableLayers)
+            if (!Physics.Raycast(frontCheck.position, -frontCheck.up, out _frontHit,
+                    _frontCheckLength, swimmableLayers)
                 || _frontHit.transform == null)
             {
+                Debug.DrawRay(_frontCheckAxis.position,dir*_frontCheckLength,Color.red,_frontCheckLength);
                 normalSet = false;
                 return false;
             }
 
-            normalSet = _orientationHandling.SetNewTargetNormal(_frontHit, PaintTarget.RayChannel(_frontHit));
+            Debug.DrawRay(_frontCheckAxis.position,dir*_frontCheckLength,Color.green,_frontCheckLength);
+            
+            normalSet = _orientationHandling.SetNewTargetNormal(_frontHit,
+                PaintTarget.RayChannel(_frontHit) != _player.TeamChannel);
             return true;
         }
 

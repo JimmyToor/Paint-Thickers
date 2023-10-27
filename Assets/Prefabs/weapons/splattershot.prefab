@@ -5498,7 +5498,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 1529877294}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 1529877295}
 --- !u!1 &1800229030
 GameObject:
@@ -10755,7 +10754,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 01fc23c9e9476444695d635ef65ed757, type: 3}
   - {fileID: 8300000, guid: ad90d2d9af49406459f8aae9884c63cf, type: 3}
   - {fileID: 8300000, guid: 2c9a504218714244196807e412626c2c, type: 3}
-  volume: 0.1
+  volume: 0.4
   minPitch: 1.2
   maxPitch: 0.8
   cooldownTime: 0.2
@@ -10801,7 +10800,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 2145561392}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 2036904280780318480}
 --- !u!1 &2036904280967990508
 GameObject:
@@ -15727,7 +15725,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 2036904281424473600}
 --- !u!1 &2036904281454378536
 GameObject:
@@ -20693,7 +20690,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 2036904281454378538}
 --- !u!1 &2036904281756565162
 GameObject:
@@ -25627,7 +25623,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 2036904281756565164}
 --- !u!114 &1935619846
 MonoBehaviour:

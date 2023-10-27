@@ -1,283 +1,145 @@
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections;
 using DG.Tweening;
 using Src.Scripts.Gameplay;
 using Src.Scripts.ScriptableObjects;
 using Src.Scripts.Utility;
+using Src.Scripts.Weapons;
 using UnityEngine;
-using UnityEngine.Animations;
 using UnityEngine.Events;
-using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Src.Scripts
 {
     public class GameManager : Singleton<GameManager>
     {
-        public GameObject xrRigGameObject;
-        public Volume postProcessVolume;
-        public Transform spawnPoint;
-        public GameObject gameOverUI;
-        public GameObject winUI;
-        public GameObject pauseMenu;
-        public InputActionProperty pauseButton;
-        public GameObject mainMenu;
+        public Player player;
         public TeamColorScriptableObject teamColorData;
-        public UnityEvent onPause;
-        public UnityEvent onResume;
-        public Checkpoint CurrCheckpoint { get; set; }
+        [Tooltip("Invoked on first level load.")]
+        public UnityEvent onGameInit;
+        [Tooltip("Invoked when gameplay begins.")]
+        public UnityEvent onGameStart;
 
-        private ColorAdjustments _volumeColorAdjustments;
-        private ParentConstraint _menuParentConstraint;
-        private Player _player;
-        private XRRig _xrRig;
-
+        public GameObject _lastWeapon;
+        
         private static readonly int PaintColor1 = Shader.PropertyToID("_PaintColor1");
         private static readonly int PaintColor2 = Shader.PropertyToID("_PaintColor2");
         private static readonly int PaintColor3 = Shader.PropertyToID("_PaintColor3");
         private static readonly int PaintColor4 = Shader.PropertyToID("_PaintColor4");
-        private const int PauseSaturationAdjustment = -100;
-
 
         private void Start()
         {
-            if (xrRigGameObject == null)
-            {
-                xrRigGameObject = GameObject.Find("XR Rig");
-            }
-
-            _xrRig = xrRigGameObject.GetComponent<XRRig>();
-
-            _player = xrRigGameObject.GetComponent<Player>();
-            
-            if (gameOverUI == null)
-            {
-                gameOverUI = GameObject.Find("UI_GameOverMenu");
-            }
-
-            if (winUI == null)
-            {
-                winUI = GameObject.Find("UI_WinMenu");
-            }
-            
-            if (postProcessVolume != null)
-            {
-                postProcessVolume.profile.TryGet(out _volumeColorAdjustments);
-            }
-        
             Initialize();
-            SetShaderColors();
+        }
+
+        public override void Awake()
+        {
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Initialize()
         {
-            pauseButton.action.performed += OnPauseButtonPressed;
-            _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
-            DisablePauseButton();
-            HideMenu(winUI);
-            HideMenu(gameOverUI);
-            HideMenu(pauseMenu);
-            ShowMenu(mainMenu);
-            _player.DisableGameHands();
-            _player.EnableUIHands();
-            _xrRig.MoveCameraToWorldLocation(_xrRig.transform.position);
-            Shader.WarmupAllShaders();
+            onGameInit.Invoke();
+            SetShaderColors();
         }
 
-        public void PlayerDeath()
+        public IEnumerator RestartLevel()
         {
-            _player.playerEvents.OnDeath();
-            _player.DisableOverlayUI();
-            _player.DisableWeapon();
-            _player.DisableGameHands();
-            _player.EnableUIHands();
-            ShowGameOverUI();
-            Pause();
-        }
-
-        public void RespawnPlayer()
-        {
-            _player.EnableOverlayUI();
-            _player.EnableWeapon();
-            _player.EnableGameHands();
-            _player.DisableUIHands();
-            HideMenu(gameOverUI);
-            Unpause();
-        }
-
-        public void ResetPlayerPosition()
-        {
-            if (_xrRig == null)
-            {
-                Debug.Log("GAME_MANAGER: Could not respawn player. XRRig was not found.");
-                return;
-            }
-            
-            if (spawnPoint == null)
-            {
-                Debug.Log("GAME_MANAGER: Could not respawn player. Spawn Point was not found.");
-                return;
-            }
-            
-            _xrRig.MoveCameraToWorldLocation(spawnPoint.position);
-        }
-        
-        public void Win()
-        {
-            _player.DisableOverlayUI();
-            _player.DisableWeapon();
-            _player.DisableGameHands();
-            _player.EnableUIHands();
-            ShowWinUI();
-        }
-
-        private void OnPauseButtonPressed(InputAction.CallbackContext callbackContext)
-        {
-            TogglePause();
-        }
-
-        [ContextMenu("Toggle Pause")]
-        public void TogglePause()
-        {
-            if (Time.timeScale == 0f)
-            {
-                HideMenu(pauseMenu);
-                Unpause();
-            }
-            else
-            {
-                ShowMenu(pauseMenu);
-                Pause();
-            }
-        }
-
-        public void Pause()
-        {
-            onPause.Invoke();
-            _volumeColorAdjustments.saturation.value = PauseSaturationAdjustment;
-            _player.EnableUIHands();
-            _player.HideGameHands();
-            Time.timeScale = 0f;
-        }
-
-        public void Unpause()
-        { 
-            _volumeColorAdjustments.saturation.value = 0;
-            _player.DisableUIHands();
-            _player.ShowGameHands();
-            Time.timeScale = 1f;
-            onResume.Invoke();
-        }
-
-        public static void ShowMenu(GameObject menu)
-        {
-            menu.transform.localScale = Vector3.one;
-            
-            // Stop the menu from moving around while it's open
-            DisableConstraints(menu);
-        }
-
-        private static void EnableConstraints(GameObject gameObj)
-        {
-            var menuConstraints = gameObj.GetComponents<IConstraint>()?.ToList();
-            if (menuConstraints == null) return;
-
-            foreach (var constraint in menuConstraints)
-            {
-                constraint.constraintActive = true;
-            }
-        }
-        
-        private static void DisableConstraints(GameObject gameObj)
-        {
-            var menuConstraints = gameObj.GetComponents<IConstraint>()?.ToList();
-            if (menuConstraints == null) return;
-
-            foreach (var constraint in menuConstraints)
-            {
-                constraint.constraintActive = false;
-            }
-        }
-
-        public static void HideMenu(GameObject menu)
-        {
-            menu.transform.localScale = Vector3.zero;
-            
-            // Allow the menu to move around while it's hidden
-            EnableConstraints(menu);
-        }
-
-        [ContextMenu("Start Game")]
-        public void StartGame()
-        {
-            HideMenu(mainMenu);
-            _player.EnableGameHands();
-            Unpause();
-            EnablePauseButton();
-        }
-    
-        private void ShowWinUI()
-        {
-            ShowMenu(winUI);
-            _player.DisableGameHands();
-            _player.EnableUIHands();
-        }
-    
-        private void ShowGameOverUI()
-        {
-            ShowMenu(gameOverUI);
-            _player.DisableGameHands();
-            _player.EnableUIHands();
-            DisableConstraints(gameOverUI);
-        }
-    
-        [ContextMenu("Restart Level")]
-        public void RestartLevel()
-        {
+            Time.timeScale = 1;
+            SpawnPoint.Instance.Reset();
             DOTween.KillAll();
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            var asyncLoadLevel = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+            while (!asyncLoadLevel.isDone)
+            {
+                Debug.Log("Loading the Scene");
+                yield return null;
+            }
+
+            onGameInit.Invoke();
         }
 
         /// <summary>
         /// Sets the color of each paint channel based on the team color data
         /// </summary>
-        public void SetShaderColors()
+        private void SetShaderColors()
         {
-            Shader.SetGlobalColor(PaintColor1,GetTeamColor(0));
-            Shader.SetGlobalColor(PaintColor2,GetTeamColor(1));
-            Shader.SetGlobalColor(PaintColor3,GetTeamColor(2));
-            Shader.SetGlobalColor(PaintColor4,GetTeamColor(3));
+            Shader.SetGlobalColor(PaintColor1,teamColorData.GetTeamColor(0));
+            Shader.SetGlobalColor(PaintColor2,teamColorData.GetTeamColor(1));
+            Shader.SetGlobalColor(PaintColor3,teamColorData.GetTeamColor(2));
+            Shader.SetGlobalColor(PaintColor4,teamColorData.GetTeamColor(3));
         }
-    
-        public void Quit()
+        
+        [ContextMenu("Start Game")]
+        public void StartGame()
+        {
+            onGameStart.Invoke();
+        }
+        
+        public static void Quit()
         {
             #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
             #endif
             Application.Quit();
         }
-    
-        public Color GetTeamColor(int channel)
+        
+        public void RetryLevel()
         {
-            return teamColorData.teamColors[channel];
+            StartCoroutine(!SpawnPoint.Instance.checkpointReached ? RestartLevel() : RestartFromCheckpoint());
+        }
+        
+        /// <summary>
+        /// Reloads level and places player at last checkpoint reached with their weapon.
+        /// Restarts level if no checkpoint reached.
+        /// </summary>
+        public IEnumerator RestartFromCheckpoint()
+        {
+            Time.timeScale = 1;
+            DOTween.KillAll();
+            
+            if (player == null)
+            {
+                player = FindObjectOfType<Player>();
+            }
+            
+            var asyncLoadLevel = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+            while (!asyncLoadLevel.isDone)
+            {
+                yield return null;
+            }
+            
+            if (player == null)
+            {
+                player = FindObjectOfType<Player>();
+            }
+            
+            onGameStart.Invoke();
+            
+            if (_lastWeapon != null)
+            {
+                GameObject weaponObject = Instantiate(_lastWeapon);
+                weaponObject.TryGetComponent(out Weapon weapon);
+                player.ForceEquipWeapon(weapon);
+            }
         }
 
-        public void EnablePauseButton()
+        public void NewCheckpoint(Checkpoint checkpoint)
         {
-            pauseButton.action.Enable();
-        }
-    
-        public void DisablePauseButton()
-        {
-            pauseButton.action.Disable();
+            SpawnPoint.Instance.transform.position = checkpoint.transform.position;
+            SpawnPoint.Instance.checkpointReached = true;
+            RememberWeapon();
         }
 
-        public void SetCheckpoint(Checkpoint newCheckpoint)
+        private void RememberWeapon()
         {
-            CurrCheckpoint = newCheckpoint;
+            if (player == null)
+            {
+                player = FindObjectOfType<Player>();
+            }
+            if (player.weaponHandler.Weapon != null)
+            {
+                _lastWeapon = player.weaponHandler.Weapon.wepParams.weaponPrefab;
+            }
         }
     }
 }

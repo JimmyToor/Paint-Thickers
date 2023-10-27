@@ -126,7 +126,6 @@ namespace Src.Scripts.AI
 
             var up = transform.up;
             Physics.Raycast(currPos, -up, out RaycastHit hit, PaintCheckDistance, PaintTerrainLayerMask);
-            //Debug.DrawRay(currPos, -up * PaintCheckDistance, Color.red);
             int channel = PaintTarget.RayChannel(hit);
 
             if (channel == -1)

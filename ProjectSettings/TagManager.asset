@@ -16,6 +16,7 @@ TagManager:
   - trooper_explode
   - item_pickup
   - GameManager
+  - paint_splash
   layers:
   - Default
   - TransparentFX

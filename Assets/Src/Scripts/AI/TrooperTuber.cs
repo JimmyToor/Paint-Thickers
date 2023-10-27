@@ -19,7 +19,7 @@ namespace Src.Scripts.AI
         public float slowedSpeed;
         public NavMeshAgent navAgent;
         
-        private readonly int _moveSpeedHash = Animator.StringToHash("MoveSpeed");
+        private readonly int _moveSpeedHash = Animator.StringToHash("Move Speed");
         
         private const float GroundDistance = 1.4f;
 

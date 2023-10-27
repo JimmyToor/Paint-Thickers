@@ -1,10 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Src.Scripts.Preferences;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class HandednessSwap : MonoBehaviour
 {
