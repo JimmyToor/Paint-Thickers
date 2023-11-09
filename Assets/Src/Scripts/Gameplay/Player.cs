@@ -111,7 +111,7 @@ namespace Src.Scripts.Gameplay
             
             _resetPosition = SpawnPoint.Instance.transform.position;
             InvokeRepeating(nameof(NewResetPosition),2f,5f);
-            Invoke(nameof(MoveToSpawn), 0.5f);
+            Invoke(nameof(MoveToSpawn), 0.2f); // Slight delay to wait for main camera to line up with player head.
         }
 
         private void SetupEvents()
@@ -150,9 +150,9 @@ namespace Src.Scripts.Gameplay
         private void MoveToSpawn()
         {
             if (this == null) return;
-            xrRig.MoveCameraToWorldLocation(SpawnPoint.Instance.transform.position);
             float rotY = SpawnPoint.Instance.transform.rotation.eulerAngles.y - Camera.main!.transform.rotation.eulerAngles.y;
             transform.Rotate(0,rotY,0);
+            xrRig.MoveCameraToWorldLocation(SpawnPoint.Instance.transform.position);
         }
         
         public void EnableUIHands()
