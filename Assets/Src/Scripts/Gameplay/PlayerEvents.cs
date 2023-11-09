@@ -8,7 +8,6 @@ namespace Src.Scripts.Gameplay
     public class PlayerEvents : MonoBehaviour
     {
         public InputActionAsset inputs;
-        public PauseHandler pauseHandler;
         public event Action Land;
         public event Action Squid;
         public event Action Stand;

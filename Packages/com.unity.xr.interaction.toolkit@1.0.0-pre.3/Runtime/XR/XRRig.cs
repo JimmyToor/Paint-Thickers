@@ -491,6 +491,27 @@ namespace UnityEngine.XR.Interaction.Toolkit
         }
         
         /// <summary>
+        /// Rotates the rig object around the provided position in world space using the provided <paramref name="vector"/>
+        /// as the rotation axis. The rig object is rotated by the amount of degrees provided in <paramref name="angleDegrees"/>.
+        /// </summary>
+        /// <param name="position">The position to be rotated around.</param>
+        /// <param name="vector">The axis of the rotation.</param>
+        /// <param name="angleDegrees">The amount of rotation in degrees.</param>
+        /// <returns>Returns <see langword="true"/> if the rotation is performed. Otherwise, returns <see langword="false"/>.</returns>
+        public bool RotateAroundPosition(Vector3 position, Vector3 vector, float angleDegrees)
+        {
+            if (m_CameraGameObject == null || m_RigBaseGameObject == null)
+            {
+                return false;
+            }
+
+            // Rotate around the camera position
+            m_RigBaseGameObject.transform.RotateAround(position, vector, angleDegrees);
+
+            return true;
+        }
+        
+        /// <summary>
         /// This function will rotate the rig object such that the rig's up vector will match the provided vector.
         /// </summary>
         /// <param name="destinationUp">the vector to which the rig object's up vector will be matched.</param>

@@ -12,8 +12,7 @@ namespace Src.Scripts.Gameplay
 {
     public class Health : MonoBehaviour
     {
-        #region Data
-        [Header("Data")]
+        [Header("Parameters")]
         [SerializeField] private float hitpoints;
         public float maxHitpoints;
         public bool invulnerable;
@@ -28,16 +27,12 @@ namespace Src.Scripts.Gameplay
         public float regenCooldown;
         [Tooltip("How many hitpoints are regenerated per LateUpdate")]
         public float regenRate;
-        #endregion
         
-        #region Visuals
-        [FormerlySerializedAs("meshRenderer")] [Header("Visuals")]
+        [Header("Visuals")]
         public Renderer damageMeshRenderer;
         public Animator animator;
         public Material damageMaterial;
-        #endregion
         
-        #region FX
         [Header("FX")]
         public GameObject hitFX;
         [Tooltip("One random sound clip will play when this object is hit. Requires an SFXSource component.")]
@@ -45,13 +40,10 @@ namespace Src.Scripts.Gameplay
         public GameObject deathFX;
         [Tooltip("One random sound clip will play when this object dies. Requires an SFXSource component.")]
         public List<AudioClip> deathSfx;
-        #endregion
         
-        #region Events
         [Header("Events")]
         public UnityEvent onDeath;
         public UnityEvent onHit;
-        #endregion
         
         public event Action<float> onHealthChanged;
 

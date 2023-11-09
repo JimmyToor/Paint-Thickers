@@ -61,6 +61,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1573704257038419482}
   - component: {fileID: 4206458098355610941}
+  - component: {fileID: 2950151380401079847}
   m_Layer: 10
   m_Name: Head
   m_TagString: Enemy
@@ -151,6 +152,20 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0000000037252903, y: 0.040538367, z: 0.0000000037252903}
     m_Extent: {x: 0.031159982, y: 0.007618502, z: 0.031159982}
   m_DirtyAABB: 0
+--- !u!64 &2950151380401079847
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 360233899622651742}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8839368762345780380, guid: 0850c974fe17e704fa9e27cd21168657, type: 3}
 --- !u!1 &495468306446907231
 GameObject:
   m_ObjectHideFlags: 0
@@ -5440,7 +5455,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 2320646126164769155}
 --- !u!1 &2320646126277885705
 GameObject:
@@ -10364,7 +10378,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 2320646126277885175}
 --- !u!1 &2320646126362269967
 GameObject:
@@ -16551,8 +16564,10 @@ MonoBehaviour:
     splatRotation: 0
     splatRandomRotation: 180
     splatChannel: 1
+    steps: 1
   damage: 0
   randomChannel: 0
+  splashObject: {fileID: 0}
   collisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &8066563521588599004
@@ -16568,7 +16583,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 1645615636236446711}
-  teamColorData: {fileID: 0}
   paintRenderer: {fileID: 3261298254214477544}
 --- !u!1 &7186612638759510843
 GameObject:
@@ -17192,7 +17206,7 @@ MonoBehaviour:
   hitCooldown: 0
   regenCooldown: 0
   regenRate: 0
-  meshRenderer: {fileID: 0}
+  damageMeshRenderer: {fileID: 0}
   animator: {fileID: 0}
   damageMaterial: {fileID: 0}
   hitFX: {fileID: 0}
@@ -17906,7 +17920,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particlePainter: {fileID: 0}
-  teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   paintRenderer: {fileID: 4503324378041925325}
 --- !u!114 &278472321806946118
 MonoBehaviour:
@@ -17920,6 +17933,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a776de680c5f7884d93d27f24f727f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damage: 1.5
   hitCooldownTime: 0.2
   teamMember: {fileID: 8931736691586958929}

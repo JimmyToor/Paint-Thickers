@@ -29,11 +29,12 @@ namespace Src.Scripts.Gameplay
         public bool paintAllSplats;
         public bool useBakedPaintMap;
         
+        public RenderTexture paintMap;
+        
         public ComputeShader paintComputeShader;
 
         [Tooltip("Used to store the paintMap data on the CPU.")]
         public Texture2D splatTexPick;
-        public Texture2D splatPixelPick;
         public Texture2D bakedPaintMap;
         
         public int maxNearSplats = 16; // Maximum number of nearby targets to paint in addition to the primary target.
@@ -43,8 +44,7 @@ namespace Src.Scripts.Gameplay
         private bool _bHasMeshCollider;
 
         private Collider[] _colliders;
-
-        private RenderTexture _paintMap;
+        
         private RenderTexture _worldPosTex;
         private RenderTexture _worldPosTexTemp;
         private RenderTexture _worldTangentTex;
@@ -64,7 +64,6 @@ namespace Src.Scripts.Gameplay
         private RenderTexture _rt;
         private MeshCollider _mc;
         
-        private ComputeBuffer _paintComputeBuffer;
         private static uint _xGroupSize, _yGroupSize;
         private static int _paintKernel;
         private const int PaintMatrixBufferStride = sizeof(float) * 16;
@@ -106,16 +105,15 @@ namespace Src.Scripts.Gameplay
                 out _xGroupSize, out _yGroupSize, out _);
         }
 
-        private bool SetComponents()
+        private void SetComponents()
         {
             _mc = GetComponent<MeshCollider>();
-            if (!_mc) return false;
+            if (!_mc) return;
 
             _r = GetComponent<Renderer>();
-            if (!_r) return false;
+            if (!_r) return;
 
             _rt = (RenderTexture)_r.sharedMaterial.GetTexture(PaintMap);
-            return _rt;
         }
 
         private static Color GetPixelColor(PaintTarget paintTarget, RaycastHit hit)
@@ -275,10 +273,10 @@ namespace Src.Scripts.Gameplay
                 paintTarget.splatTexPick = new Texture2D((int)paintTarget.paintTextureSize, (int)paintTarget.paintTextureSize, TextureFormat.ARGB32, false);
             }
             
-            RenderTexture.active = paintTarget._paintMap;
-            paintTarget.splatTexPick = new Texture2D(paintTarget._paintMap.width, paintTarget._paintMap.height, TextureFormat.ARGB32, false,true);
-            paintTarget.splatTexPick.ReadPixels(new Rect(0, 0, paintTarget._paintMap.width, paintTarget._paintMap.height), 0, 0);
-            paintTarget.splatTexPick.Apply();
+            RenderTexture.active = paintTarget.paintMap;
+            //paintTarget.splatTexPick = new Texture2D(paintTarget._paintMap.width, paintTarget._paintMap.height, TextureFormat.ARGB32, false,true);
+            paintTarget.splatTexPick.ReadPixels(new Rect(0, 0, paintTarget.paintMap.width, paintTarget.paintMap.height), 0, 0);
+            //paintTarget.splatTexPick.Apply();
 
             RenderTexture.active = null;
             paintTarget._bPickDirty = false;
@@ -348,14 +346,14 @@ namespace Src.Scripts.Gameplay
 
         private void CreateTextures()
         {
-            _paintMap = new RenderTexture((int)paintTextureSize, (int)paintTextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear)
+            paintMap = new RenderTexture((int)paintTextureSize, (int)paintTextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear)
             {
                 enableRandomWrite = true
             };
-            _paintMap.Create();
+            paintMap.Create();
 
             if (useBakedPaintMap)
-                Graphics.Blit(bakedPaintMap, _paintMap);
+                Graphics.Blit(bakedPaintMap, paintMap);
             
 
             _worldPosTex = new RenderTexture((int)renderTextureSize, (int)renderTextureSize, 0, RenderTextureFormat.ARGBFloat, RenderTextureReadWrite.Linear)
@@ -375,10 +373,9 @@ namespace Src.Scripts.Gameplay
             _worldBinormalTex.Create();
 
             splatTexPick = new Texture2D((int)paintTextureSize, (int)paintTextureSize, TextureFormat.ARGB32, false);
-            splatPixelPick = new Texture2D(1, 1, TextureFormat.ARGB32, false);
             foreach (Material mat in _paintRenderer.materials)
             {
-                mat.SetTexture(PaintMap, _paintMap);
+                mat.SetTexture(PaintMap, paintMap);
                 mat.SetTexture(WorldPosTex, _worldPosTex);
                 mat.SetTexture(WorldTangentTex, _worldTangentTex);
                 mat.SetTexture(WorldBinormalTex, _worldBinormalTex);
@@ -429,7 +426,7 @@ namespace Src.Scripts.Gameplay
         {
             if (_setupComplete)
             {
-                Graphics.Blit(_paintMap, _paintMap, _paintBlitMaterial, 1);
+                Graphics.Blit(paintMap, paintMap, _paintBlitMaterial, 1);
             }
         }
         
@@ -439,9 +436,9 @@ namespace Src.Scripts.Gameplay
         /// <returns></returns>
         public Texture2D CreateBakedPaintMap()
         {        
-            RenderTexture.active = _paintMap;
-            Texture2D bakedTexture = new Texture2D(_paintMap.width, _paintMap.height, TextureFormat.ARGB32, false,true);
-            bakedTexture.ReadPixels(new Rect(0, 0, _paintMap.width, _paintMap.height), 0, 0);
+            RenderTexture.active = paintMap;
+            Texture2D bakedTexture = new Texture2D(paintMap.width, paintMap.height, TextureFormat.ARGB32, false,true);
+            bakedTexture.ReadPixels(new Rect(0, 0, paintMap.width, paintMap.height), 0, 0);
             bakedTexture.Apply();
             RenderTexture.active = null;
             return bakedTexture;
@@ -503,17 +500,17 @@ namespace Src.Scripts.Gameplay
             stepsBuffer.SetData(stepsArray);
             
             paintComputeShader.SetTexture(_paintKernel, WorldPosTexCompute, _worldPosTex);
-            paintComputeShader.SetTexture(_paintKernel, Paintmap, _paintMap);
+            paintComputeShader.SetTexture(_paintKernel, Paintmap, paintMap);
             paintComputeShader.SetTexture(_paintKernel,PaintPattern, paintPattern);
             paintComputeShader.SetBuffer(_paintKernel, PaintWorldToObject, paintWorldToObjectBuffer);
             paintComputeShader.SetBuffer(_paintKernel, ScaleBias, paintScaleBiasBuffer);
             paintComputeShader.SetBuffer(_paintKernel, PaintChannelMask, paintChannelMaskBuffer);
             paintComputeShader.SetBuffer(_paintKernel, Steps, stepsBuffer);
             paintComputeShader.SetFloat(NumSplats, numSplats);
-            paintComputeShader.SetFloats(Resolution,_paintMap.width, _paintMap.height);
+            paintComputeShader.SetFloats(Resolution,paintMap.width, paintMap.height);
             paintComputeShader.Dispatch(_paintKernel,
-                Mathf.CeilToInt(_paintMap.width / (float) _xGroupSize),
-                Mathf.CeilToInt(_paintMap.height / (float) _yGroupSize), 1);
+                Mathf.CeilToInt(paintMap.width / (float) _xGroupSize),
+                Mathf.CeilToInt(paintMap.height / (float) _yGroupSize), 1);
             
             paintWorldToObjectBuffer.Dispose();
             paintChannelMaskBuffer.Dispose();

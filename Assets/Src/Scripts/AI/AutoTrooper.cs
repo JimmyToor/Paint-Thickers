@@ -15,10 +15,11 @@ namespace Src.Scripts.AI
     {
         [Header("Behaviour")]
         [StateDataDropdown]public StateId initialRootState;
-        [Tooltip("The state to be in when there's nothing important to do")]
+        [Tooltip("The state to be in when there is nothing important to do")]
         [StateDataDropdown]public StateId idleBehaviour;
         [HideInInspector] public TrooperStateMachine stateMachine;
         [HideInInspector] public PaintStatus paintStatus;
+        public PaintChecker paintChecker;
         public TargetScanner scanner;
         [Tooltip("The time in seconds spent in enemy ink until trying to escape")]
         public float timeSunk;
@@ -117,6 +118,7 @@ namespace Src.Scripts.AI
         {
             stateMachine.Update();
             CheckForPaint();
+            PaintEffects();
         }
 
         // Figure out what colour paint, if any, is underneath
@@ -125,9 +127,10 @@ namespace Src.Scripts.AI
             Vector3 currPos = paintCheckPosition.position;
 
             var up = transform.up;
-            Physics.Raycast(currPos, -up, out RaycastHit hit, PaintCheckDistance, PaintTerrainLayerMask);
-            int channel = PaintTarget.RayChannel(hit);
-
+            //Physics.Raycast(currPos, -up, out RaycastHit hit, PaintCheckDistance, PaintTerrainLayerMask);
+            //int channel = PaintTarget.RayChannel(hit);
+            
+            int channel = paintChecker.currChannel;
             if (channel == -1)
             {
                 paintStatus = PaintStatus.NoPaint;
@@ -141,8 +144,6 @@ namespace Src.Scripts.AI
                 
                 paintStatus = channel == team.teamChannel ? PaintStatus.FriendlyPaint : PaintStatus.EnemyPaint;
             }
-            
-            PaintEffects();
         }
 
         protected virtual void PaintEffects()

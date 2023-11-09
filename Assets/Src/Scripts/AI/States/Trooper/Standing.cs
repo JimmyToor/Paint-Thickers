@@ -23,7 +23,7 @@
         {
             SetSubState(_trooper.scanner.hasTarget
                 ? StateMachine.GetState(StateId.TargetSighted)
-                : StateMachine.GetState(StateId.Idle));
+                : StateMachine.GetState(_trooper.idleBehaviour));
         }
     }
 }

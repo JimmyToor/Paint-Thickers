@@ -25,6 +25,7 @@ namespace Src.Scripts.Gameplay
         private XRRig _xrRig;
         private float _wallGravityScale = 0.05f;
         private bool _useFloorOffset = true;
+        private Vector3 _rotatePos;
         
         private void Awake()
         {
@@ -45,20 +46,19 @@ namespace Src.Scripts.Gameplay
         /// <summary>
         /// Set the new normal that the XRRig will rotate to match based on the hit surface's normal.
         /// </summary>
-        /// <param name="hit"></param>
+        /// <param name="normal"></param>
         /// <param name="useAngleLimit">When true, the target normal will only be set if it is below the angle limit.</param>
         /// <returns>True if goal normal is successfully set, false otherwise.</returns>
-        public bool SetNewTargetNormal(RaycastHit hit, bool useAngleLimit = false)
+        public bool SetNewTargetNormal(Vector3 normal, bool useAngleLimit = false, Vector3 position = default)
         {
-            if (hit.transform == null) return false;
-            
             // Only match orientation with this surface if it has friendly paint or is a shallow enough slope.
-            float angle = Vector3.Angle(hit.normal, Vector3.up);
+            float angle = Vector3.Angle(normal, Vector3.up);
             if (useAngleLimit && angle >= gravityAngleLimit)
             {
                 return false;
             }
-            _targetNormal = hit.normal;
+            _targetNormal = normal;
+            _rotatePos = position;
             return true;
         }
         
@@ -68,11 +68,10 @@ namespace Src.Scripts.Gameplay
         /// <param name="height">The target height.</param>
         /// <param name="useOffset">Determines if the height passed is relative to the floor offset or not.</param>
         /// <returns>True if goal height is successfully set, false otherwise.</returns>
-        public bool SetNewTargetHeight(float height, bool useOffset = true)
+        public void SetNewTargetHeight(float height, bool useOffset = true)
         {
             _targetHeight = height;
             _useFloorOffset = useOffset;
-            return true;
         }
 
         private void FixedUpdate()
@@ -92,7 +91,7 @@ namespace Src.Scripts.Gameplay
             locomotion.GravityScale = 1f;
         }
 
-        private void UpdateOrientation()
+        public void UpdateOrientation()
         {
             ToOrientation(_targetNormal.normalized);
         }
@@ -125,9 +124,10 @@ namespace Src.Scripts.Gameplay
             }
 
             float angle = Vector3.SignedAngle(transform.up, newUp, axis);
-            float rotationAmount;
+            float absAngle = Mathf.Abs(angle);
             
-            if (Mathf.Abs(angle) <= rotationSpeed)
+            float rotationAmount;
+            if (absAngle <= rotationSpeed)
             {   // Rotate only the remaining degrees to prevent over-rotation
                 rotationAmount = angle;
             }
@@ -140,18 +140,24 @@ namespace Src.Scripts.Gameplay
                 rotationAmount = -rotationSpeed;
             }
 
-            _xrRig.RotateAroundCameraPosition(axis, rotationAmount);
+            if (_rotatePos == default)
+            {
+                _xrRig.RotateAroundCameraPosition(axis, rotationAmount);
+            }
+            else
+            {
+                _xrRig.RotateAroundPosition(_rotatePos, axis, rotationAmount);
+            }
             
-            float newAngle = Vector3.Angle(newUp, Vector3.up);
+            float terrainAngle = Vector3.Angle(newUp, Vector3.up);
             
             // Reduce gravity for the rig enough to be able to move up the wall, but still slide down if not moving
-            locomotion.GravityScale = newAngle >= gravityAngleLimit ? _wallGravityScale : 1f;
+            locomotion.GravityScale = terrainAngle >= gravityAngleLimit ? _wallGravityScale : 1f;
         }
     
         /// <summary>
         /// Set player's head height from the floor, ignoring floor offset and vertical head position.
         /// </summary>
-        /// <param name="height"></param>
         public void ToHeightWithoutOffset(float height)
         {
             Vector3 localPosition = _playerHead.localPosition;
@@ -160,9 +166,9 @@ namespace Src.Scripts.Gameplay
         }
 
         /// <summary>
-        /// Move the camera offset's y-position towards the passed float to change the height of the player's view
+        /// Move the camera offset's y-position towards the provided <paramref name="newHeight"/>
+        /// to change the height of the player's view
         /// </summary>
-        /// <param name="newHeight"></param>
         private void ToHeight(float newHeight)
         {
             Vector3 newPos = _camOffset.localPosition;

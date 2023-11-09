@@ -6232,7 +6232,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4751290913782807410}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.641, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7342069465489470859}
@@ -46614,6 +46614,7 @@ GameObject:
   - component: {fileID: 6555876089391402238}
   - component: {fileID: 4399186479569082314}
   - component: {fileID: 861189072752288782}
+  - component: {fileID: 2929941394384505144}
   m_Layer: 10
   m_Name: TrooperTuber
   m_TagString: Enemy
@@ -46664,6 +46665,7 @@ MonoBehaviour:
   stateMachine:
     trooper: {fileID: 0}
   paintStatus: 0
+  paintChecker: {fileID: 2929941394384505144}
   scanner: {fileID: 7975758305875046204}
   timeSunk: 2
   attackCooldown: 1
@@ -47213,6 +47215,29 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2929941394384505144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7975758305875046193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7fc9b38b010b214fb8c46b3ee1b13ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keepUpdated: 1
+  getColor: 1
+  checkOrigin: {fileID: 5625309016766643010}
+  referenceTransform: {fileID: 7342069465489470859}
+  validLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  hitPosition: {x: 0, y: 0, z: 0}
+  currChannel: -1
+  currNormal: {x: 0, y: 0, z: 0}
+  paintCheckDistance: 1.4
 --- !u!1 &8347343486583864622
 GameObject:
   m_ObjectHideFlags: 0

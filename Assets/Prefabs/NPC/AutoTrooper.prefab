@@ -27127,6 +27127,7 @@ GameObject:
   - component: {fileID: 1251428225989904237}
   - component: {fileID: 6426571808963969446}
   - component: {fileID: 5542284236909864397}
+  - component: {fileID: 9190525003169889609}
   m_Layer: 10
   m_Name: AutoTrooper
   m_TagString: Enemy
@@ -27177,6 +27178,7 @@ MonoBehaviour:
   stateMachine:
     trooper: {fileID: 0}
   paintStatus: 0
+  paintChecker: {fileID: 9190525003169889609}
   scanner: {fileID: 4822369598100376106}
   timeSunk: 2
   attackCooldown: 0.5
@@ -27703,6 +27705,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &9190525003169889609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8450641888619837723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7fc9b38b010b214fb8c46b3ee1b13ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keepUpdated: 1
+  checkOrigin: {fileID: 5808559898974005023}
+  referenceTransform: {fileID: 5808559898974005023}
+  validLayers:
+    serializedVersion: 2
+    m_Bits: 256
+  currChannel: -1
+  paintCheckDistance: 2.3
 --- !u!1 &8757214117243039789
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,12 @@
+#pragma kernel GetPixel
+
+Texture2D pixel_texture;
+RWStructuredBuffer<float4> pixel_color;
+int pixel_coordinateX;
+int pixel_coordinateY;
+
+[numthreads(1,1,1)]
+void GetPixel (uint3 id : SV_DispatchThreadID)
+{
+    pixel_color[0] = pixel_texture.Load(int3(pixel_coordinateX,pixel_coordinateY,0));
+}

@@ -3,12 +3,17 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using Random = UnityEngine.Random;
 
-// Handle swimming in paint and squid related movement
+
 namespace Src.Scripts.Gameplay
 {
+    /// <summary>
+    /// Handle swimming in paint and squid related movement
+    /// </summary>
     [RequireComponent(typeof(OrientationHandling))]
     public class PaintSwim : MonoBehaviour
     {
+        public PaintChecker paintCheckerBelow;
+        public PaintChecker paintCheckerAhead;
         public ActionBasedContinuousMoveProvider locomotion; 
         [Tooltip("Mask for swimmable layers")]
         public LayerMask swimmableLayers;
@@ -20,16 +25,14 @@ namespace Src.Scripts.Gameplay
         public float enemyPaintSpeed;
         [Tooltip("Controls how much move speed will increase or decrease over a second.")]
         public float speedTransitionStep;
-        [Tooltip("Used to check for terrain changes in the direction we're moving")]
+        [Tooltip("Used to check for terrain changes in the direction we're moving.")]
         public Transform frontCheck;
-        [HideInInspector]
-        public bool normalSet;
         public AudioSource swimSound;
         public SFXSource sinkSounds;
-
+        
         /// <summary>
         /// Tracks if the player is in paint of any colour.
-        /// <remarks>Can affect <paramref name="CanSwim"/> when set to prevent contradicting values.</remarks>
+        /// <remarks>Can affect <see cref="CanSwim"/> when set to prevent contradicting values.</remarks>
         /// </summary>
         public bool InPaint
         {
@@ -46,7 +49,7 @@ namespace Src.Scripts.Gameplay
         
         /// <summary>
         /// Tracks if the player is in paint they can swim in.
-        /// <remarks>Can affect <paramref name="InPaint"/> when set to prevent contradicting values.</remarks>
+        /// <remarks>Can affect <see cref="InPaint"/> when set to prevent contradicting values.</remarks>
         /// </summary>
         public bool CanSwim
         {
@@ -77,13 +80,10 @@ namespace Src.Scripts.Gameplay
         private Player _player;
         private PlayerEvents _playerEvents;
         private Transform _playerHead;
-        private Transform _camOffset;
         private Transform _frontCheckAxis;
         private Vector3 _direction;
         private LayerMask _squidLayer;
         private LayerMask _playerLayer;
-        private float _standSpeed;
-        private float _frontCheckLength = 0.5f;
         private OrientationHandling _orientationHandling;
         private RaycastHit _belowHit;
         private RaycastHit _frontHit;
@@ -92,6 +92,7 @@ namespace Src.Scripts.Gameplay
         private bool _speedTransitioning;
         private CharacterController _charController;
         private float _goalSpeed;
+        private float _standSpeed;
         private float _sign;
         
         private void OnEnable()
@@ -114,9 +115,9 @@ namespace Src.Scripts.Gameplay
             _playerLayer = LayerMask.NameToLayer("Players");
         }
 
+        
         void Start()
         {
-            _camOffset = GameObject.Find("Camera Offset").transform;
             _playerHead = GameObject.Find("Main Camera").transform;
             _frontCheckAxis = frontCheck.parent;
             GoalSpeed = locomotion.moveSpeed;
@@ -124,12 +125,18 @@ namespace Src.Scripts.Gameplay
 
         private void Update()
         {
-            if (!Mathf.Approximately(locomotion.moveSpeed, GoalSpeed))
-            {   // Move the current speed closer to the goal speed
-                float speedRemaining = Mathf.Abs(GoalSpeed - locomotion.moveSpeed);
-                float delta = _sign * Mathf.Min(Time.deltaTime * speedTransitionStep,speedRemaining);
-                locomotion.moveSpeed += delta;
-            }
+            if (Mathf.Approximately(locomotion.moveSpeed,
+                    GoalSpeed)) return; 
+            
+            // Move the current speed closer to the goal speed
+            UpdateSpeed();
+        }
+
+        private void UpdateSpeed()
+        {
+            var speedRemaining = Mathf.Abs(GoalSpeed - locomotion.moveSpeed);
+            var delta = _sign * Mathf.Min(Time.deltaTime * speedTransitionStep, speedRemaining);
+            locomotion.moveSpeed += delta;
         }
 
         private void FixedUpdate()
@@ -145,26 +152,20 @@ namespace Src.Scripts.Gameplay
 
         private void CheckTerrain()
         {
-            // Check ahead first so we can adjust to slopes and walls
-            if (!CheckGroundAhead() & !CheckGroundBelow())
+            if (!CheckGround())
             {
                 _orientationHandling.ResetOrientation();
             }
         }
 
         /// <summary>
-        /// Look for terrain changes under the main camera
+        /// Look for terrain orientation and paint changes below us.
         /// </summary>
-        /// <returns>True if something is below us, false otherwise</returns>
-        private bool CheckGroundBelow()
+        /// <remarks>Prioritizes terrain orientation ahead.</remarks>
+        /// <returns>True if something is below us to match orientation with, false otherwise.</returns>
+        private bool CheckGround()
         {
-            //Debug.DrawRay(_playerHead.position,-_camOffset.up,Color.blue,2f);
-            if (!Physics.Raycast(_playerHead.position, -_camOffset.up, out _belowHit, 1f,
-                    swimmableLayers) || _belowHit.transform == null) return false;
-            
-            int channel = PaintTarget.RayChannel(_belowHit);
-
-            // Figure out what colour paint, if any, is underneath the player
+            int channel = paintCheckerBelow.currChannel;
             if (channel == _player.TeamChannel)
             {
                 if (!CanSwim) // Player was previously not in swimmable paint
@@ -183,35 +184,18 @@ namespace Src.Scripts.Gameplay
                 InPaint = false;
             }
 
-            if (normalSet) return true; // Don't want to change the normal if it's been set by terrain ahead
-            
-            return _orientationHandling.SetNewTargetNormal(_belowHit, !CanSwim);
-        }
-
-        /// <summary>
-        /// Look for terrain changes under frontCheck
-        /// </summary>
-        /// <returns>True if something is ahead of us, false otherwise</returns>
-        private bool CheckGroundAhead()
-        {
-            Vector3 dir = -frontCheck.up.normalized;
-            //Debug.DrawRay(_frontCheckAxis.position,-frontCheck.up,Color.green,1f);
-            if (!Physics.Raycast(frontCheck.position, -frontCheck.up, out _frontHit,
-                    _frontCheckLength, swimmableLayers)
-                || _frontHit.transform == null)
+            // Check ahead first so we can adjust to slopes and walls
+            if (paintCheckerAhead.currNormal != Vector3.zero && 
+                _orientationHandling.SetNewTargetNormal(paintCheckerAhead.currNormal,
+                    paintCheckerAhead.currChannel != _player.TeamChannel, paintCheckerAhead.hitPosition)) 
             {
-                Debug.DrawRay(_frontCheckAxis.position,dir*_frontCheckLength,Color.red,_frontCheckLength);
-                normalSet = false;
-                return false;
+                return true; 
             }
 
-            Debug.DrawRay(_frontCheckAxis.position,dir*_frontCheckLength,Color.green,_frontCheckLength);
-            
-            normalSet = _orientationHandling.SetNewTargetNormal(_frontHit,
-                PaintTarget.RayChannel(_frontHit) != _player.TeamChannel);
-            return true;
+            return paintCheckerBelow.currNormal != Vector3.zero &&
+                   _orientationHandling.SetNewTargetNormal(paintCheckerBelow.currNormal, !CanSwim, paintCheckerBelow.hitPosition);
         }
-
+        
         private void SetupEvents()
         {
             _playerEvents.Squid += HandleSwimActivation;
@@ -219,7 +203,8 @@ namespace Src.Scripts.Gameplay
             _playerEvents.Move += HandleMove;
         }
 
-        private void OnDisable() {
+        private void OnDisable() 
+        {
             _playerEvents.Squid -= HandleSwimActivation;
             _playerEvents.Stand -= HandleStand;
         }
@@ -230,6 +215,8 @@ namespace Src.Scripts.Gameplay
             
             locomotion.SlopeHandling = false;
             gameObject.layer = _squidLayer;
+            paintCheckerAhead.keepUpdated = true;
+            _orientationHandling.SetNewTargetHeight(OrientationHandling.SquidHeight, false);
         }
 
         private void HandleStand()
@@ -241,6 +228,7 @@ namespace Src.Scripts.Gameplay
             CanSwim = false;
             _orientationHandling.ResetOrientation();
             _orientationHandling.ResetHeight();
+            paintCheckerAhead.keepUpdated = false;
         }
 
         // Adjust speed, height, and SFX while swimming

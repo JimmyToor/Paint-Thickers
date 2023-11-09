@@ -21,12 +21,8 @@ namespace Src.Scripts.AI
         
         private readonly int _moveSpeedHash = Animator.StringToHash("Move Speed");
         
-        private const float GroundDistance = 1.4f;
-
-        
         protected override void Start() 
         {
-            PaintCheckDistance = GroundDistance;
             navAgent = GetComponent<NavMeshAgent>();
             base.Start();
         }
@@ -35,12 +31,6 @@ namespace Src.Scripts.AI
         {
             base.FixedUpdate();
             UpdateSpeed();
-            
-            BaseState<TrooperStateMachine> idleState = stateMachine.CurrentRootState?.GetDescendantState(StateId.Idle);
-            if (idleState != null && idleBehaviour == StateId.Wander)
-            {
-                idleState.SwitchState(StateId.Wander);
-            }
         }
         
         private void UpdateSpeed()

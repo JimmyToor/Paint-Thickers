@@ -43,6 +43,12 @@ namespace Src.Scripts
             SetShaderColors();
         }
 
+        public void BeginRestartLevel()
+        {
+            StartCoroutine(RestartLevel());
+        }
+        
+        
         public IEnumerator RestartLevel()
         {
             Time.timeScale = 1;
@@ -51,7 +57,6 @@ namespace Src.Scripts
             var asyncLoadLevel = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
             while (!asyncLoadLevel.isDone)
             {
-                Debug.Log("Loading the Scene");
                 yield return null;
             }
 
