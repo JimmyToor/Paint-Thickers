@@ -116,7 +116,6 @@ namespace Src.Scripts.Gameplay
 
         private void SetupEvents()
         {
-            playerEvents.TakeHit += TakeHit;
             playerEvents.LauncherActivated += playerEvents.DisableStand;
             playerEvents.LauncherActivated += playerEvents.DisableInputMovement;
             playerEvents.LauncherActivated += DisableGravity;
@@ -131,7 +130,6 @@ namespace Src.Scripts.Gameplay
 
         private void UnsubEvents()
         {
-            playerEvents.TakeHit -= TakeHit;
             playerEvents.LauncherActivated -= playerEvents.DisableStand;
             playerEvents.LauncherActivated -= playerEvents.DisableInputMovement;
             playerEvents.LauncherActivated -= DisableGravity;
@@ -199,14 +197,6 @@ namespace Src.Scripts.Gameplay
         public bool ConsumeItem(ItemType item)
         {
             return Inventory.ConsumeItem(item);
-        }
-    
-        private void TakeHit(float damage)
-        {
-            if (_health != null)
-            {
-                _health.TakeHit(damage);
-            }
         }
 
         public void SetWeapon(Weapon newWeapon)

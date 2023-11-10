@@ -60,8 +60,7 @@ namespace Src.Scripts.Gameplay
                     SpawnSplash(collisionEvent.normal, collisionEvent.intersection, brush.splatChannel);
                     if (!other.CompareTag("Terrain")) break; // Must be on 'Terrain' layer and have 'Terrain' tag
                     
-                    PaintTarget paintTarget = other.GetComponent<PaintTarget>();
-                    if (paintTarget != null)
+                    if (other.TryGetComponent(out PaintTarget paintTarget))
                     {
                         Vector3 normal = collisionEvent.normal;
                         if (randomChannel) brush.splatChannel = Random.Range(0, 2);
@@ -69,30 +68,14 @@ namespace Src.Scripts.Gameplay
                         return true;
                     }
                     break;
-                case "Players":
-                    if (other.TryGetComponent(out Player player))
-                    {
-                        if (brush.splatChannel != player.TeamChannel)
-                        {
-                            other.gameObject.GetComponent<PlayerEvents>().OnTakeHit(damage);
-                            return true;
-                        }
-                    }
-                    break;
-                case "Enemies":
-                    if (other.TryGetComponent(out Enemy enemy))
-                    {
-                        if (brush.splatChannel != enemy.team.teamChannel && other.gameObject.TryGetComponent(out Health enemyHealth))
-                        {
-                            enemyHealth.TakeHit(damage,collisionEvent.intersection);
-                            return true;
-                        }
-                    }
-                    break;
                 default:
-                    if (other.gameObject.TryGetComponent(out Health health))
+                    if (other.TryGetComponent(out TeamMember teamMember) && other.gameObject.TryGetComponent(out Health targetHealth))
                     {
-                        health.TakeHit(damage,collisionEvent.intersection);
+                        if (brush.splatChannel != teamMember.teamChannel)
+                        {
+                            targetHealth.TakeHit(damage,collisionEvent.intersection);;
+                            return true;
+                        }
                     }
                     break;
             }
@@ -101,21 +84,24 @@ namespace Src.Scripts.Gameplay
 
         private void SpawnSplash(Vector3 normal, Vector3 intersection, int channel)
         {
-            if (splashObject != null)
+            if (splashObject == null) return;
+            
+            Vector3 tangent = Vector3.Cross(normal, Vector3.up);
+            
+            Quaternion rot = Quaternion.identity;
+            if (tangent.magnitude > 0.001f)
             {
-                Vector3 tangent = Vector3.Cross(normal, Vector3.up);
-                Quaternion rot = Quaternion.identity;
-                if (tangent.magnitude > 0.001f)
-                    rot = Quaternion.LookRotation(tangent, normal);
-                GameObject splash = ObjectPooler.Instance.GetObjectFromPool(splashObject.tag);
-                splash.transform.position = intersection;
-                splash.transform.rotation = rot;
-                if (splash.TryGetComponent(out PaintColorManager manager))
-                {
-                    manager.UpdateColorChannel(channel);
-                }
-                splash.SetActive(true);
+                rot = Quaternion.LookRotation(tangent, normal);
             }
+            GameObject splash = ObjectPooler.Instance.GetObjectFromPool(splashObject.tag);
+            splash.transform.position = intersection;
+            splash.transform.rotation = rot;
+            
+            if (splash.TryGetComponent(out PaintColorManager manager))
+            {
+                manager.UpdateColorChannel(channel);
+            }
+            splash.SetActive(true);
         }
     }
 }

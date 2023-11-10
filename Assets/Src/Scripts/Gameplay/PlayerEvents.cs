@@ -83,11 +83,6 @@ namespace Src.Scripts.Gameplay
             Land?.Invoke();
         }
 
-        public void OnTakeHit(float damage)
-        {
-            TakeHit?.Invoke(damage);
-        }
-
         public void OnDeath()
         {
             Stand?.Invoke();
