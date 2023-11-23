@@ -274,9 +274,7 @@ namespace Src.Scripts.Gameplay
             }
             
             RenderTexture.active = paintTarget.paintMap;
-            //paintTarget.splatTexPick = new Texture2D(paintTarget._paintMap.width, paintTarget._paintMap.height, TextureFormat.ARGB32, false,true);
             paintTarget.splatTexPick.ReadPixels(new Rect(0, 0, paintTarget.paintMap.width, paintTarget.paintMap.height), 0, 0);
-            //paintTarget.splatTexPick.Apply();
 
             RenderTexture.active = null;
             paintTarget._bPickDirty = false;

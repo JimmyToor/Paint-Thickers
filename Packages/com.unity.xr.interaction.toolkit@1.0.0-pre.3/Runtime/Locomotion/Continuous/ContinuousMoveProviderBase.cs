@@ -235,7 +235,7 @@ namespace UnityEngine.XR.Interaction.Toolkit
                     }
                 }
 
-                if (SlopeHandling)
+                if (SlopeHandling && m_CharacterController.isGrounded)
                 {
                     m_VerticalVelocity += Vector3.down*2;
                 }

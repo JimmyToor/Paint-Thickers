@@ -35,14 +35,10 @@ namespace Src.Scripts.Gameplay
         }
 
         [ContextMenu("Spawn Group")]
-        public void TriggerSpawnGroup()
-        {
-            SpawnGroup();
-        }
-
-        private void SpawnGroup()
+        public void SpawnGroup()
         {
             _enemyManager.EnableGroup(enemyGroupId);
+            spawnEvents.Invoke();
             Destroy(this);
         }
     }

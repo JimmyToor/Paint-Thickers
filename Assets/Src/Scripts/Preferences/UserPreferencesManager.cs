@@ -167,13 +167,13 @@ namespace Src.Scripts.Preferences
         }
         
         [SerializeField] 
-        private ComfortVignette comfortVignette;
-        public ComfortVignette ComfortVignette
+        private ComfortVignette playerComfortVignette;
+        public ComfortVignette PlayerComfortVignette
         {
-            get => comfortVignette;
+            get => playerComfortVignette;
             set
             {
-                comfortVignette = value; 
+                playerComfortVignette = value; 
                 PreferenceDataManager.Instance.MarkDirty();
             }
         }
@@ -264,15 +264,15 @@ namespace Src.Scripts.Preferences
         
         private void GetInputs()
         {
-            _leftHandActionMap = inputs.FindActionMap("XRI LeftHand");
-            _rightHandActionMap = inputs.FindActionMap("XRI RightHand");
+            _leftHandActionMap = Inputs.FindActionMap("XRI LeftHand");
+            _rightHandActionMap = Inputs.FindActionMap("XRI RightHand");
             
             _leftHandedControlScheme = FindControlScheme(leftHandedControlSchemeName);
             _rightHandedControlScheme = FindControlScheme(rightHandedControlSchemeName);
             _baseControlScheme = FindControlScheme(baseControlSchemeName);
         }
 
-        void SetTurnStyle(TurnStyle style)
+        private void SetTurnStyle(TurnStyle style)
         {
             switch (style)
             {
@@ -313,18 +313,18 @@ namespace Src.Scripts.Preferences
             }
         }
 
-        void SetMainHand(MainHand hand)
+        private void SetMainHand(MainHand hand)
         {
             switch (hand)
             {
                 case MainHand.Left:
                     SetHandBindingMasks(_leftHandedControlScheme);
-                    pauseHandler.onResume.AddListener(()=> Player.MainHand = MainHand.Left);
+                    Player.preferredHand = MainHand.Left;
                     break;
                 
                 case MainHand.Right:
                     SetHandBindingMasks(_rightHandedControlScheme);
-                    pauseHandler.onResume.AddListener(()=> Player.MainHand = MainHand.Right);
+                    Player.preferredHand = MainHand.Right;
                     break;
                 
                 default:
@@ -340,7 +340,7 @@ namespace Src.Scripts.Preferences
             }
         }
 
-        void SetForwardReference(MovementOrientation forwardRef)
+        private void SetForwardReference(MovementOrientation forwardRef)
         {
             switch (forwardRef)
             {
@@ -382,16 +382,16 @@ namespace Src.Scripts.Preferences
             switch (strength)
             {
                 case VignetteStrength.Off:
-                    ComfortVignette.intensity = 0f;
+                    PlayerComfortVignette.intensity = 0f;
                     break;
                 case VignetteStrength.Low:
-                    ComfortVignette.intensity = LowVignetteValue;
+                    PlayerComfortVignette.intensity = LowVignetteValue;
                     break;
                 case VignetteStrength.Med:
-                    ComfortVignette.intensity = MedVignetteValue;
+                    PlayerComfortVignette.intensity = MedVignetteValue;
                     break;
                 case VignetteStrength.High:
-                    ComfortVignette.intensity = HighVignetteValue;
+                    PlayerComfortVignette.intensity = HighVignetteValue;
                     break;
                 default:
                     Debug.LogError("USERPREFERENCES: Invalid vignette value: " + strength);

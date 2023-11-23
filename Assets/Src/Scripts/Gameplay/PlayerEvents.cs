@@ -1,5 +1,4 @@
 using System;
-using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

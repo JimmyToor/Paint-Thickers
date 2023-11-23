@@ -940,7 +940,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1166761028}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.14999962}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1570858205}
@@ -2150,6 +2150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1920fba3a163184ca0e3fd23abad80b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speedDriver: {fileID: 4989558147164366923}
   speedThreshold: 4
   linesVFX: {fileID: 2049899795}
 --- !u!81 &4989558146584083178
@@ -2648,6 +2649,7 @@ GameObject:
   - component: {fileID: 1614226181}
   - component: {fileID: 1614226183}
   - component: {fileID: 4989558145552763728}
+  - component: {fileID: 1995776302555621397}
   - component: {fileID: 7502116420608393179}
   - component: {fileID: 7547286212558639657}
   - component: {fileID: 4989558147164366922}
@@ -2723,18 +2725,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerEvents: {fileID: 1614226181}
   pauseHandler: {fileID: 439407202267325064}
+  speedController: {fileID: 1995776302555621397}
   weaponHandler: {fileID: 2461705147737017340}
   teamColorData: {fileID: 11400000, guid: a9f369f6ad3c92748bcd4a36f0c53470, type: 2}
   xrRig: {fileID: 4989558147164366922}
   overlayUICam: {fileID: 726572738}
   xrInteractionManager: {fileID: 0}
-  canSquid: 1
-  isSquid: 0
   walkSpeed: 3
   leftHand: {fileID: 4989558146991971952}
   rightHand: {fileID: 4989558145643014254}
   leftUIHand: {fileID: 697424777}
   rightUIHand: {fileID: 1592644098}
+  preferredHand: 0
 --- !u!114 &1614226181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2762,7 +2764,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotationSpeed: 2
   sinkSpeed: 6
-  gravityAngleLimit: 50
+  gravityAngleLimit: 46
   locomotion: {fileID: 3953089385813430785}
 --- !u!114 &4989558145552763728
 MonoBehaviour:
@@ -2776,19 +2778,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ac8bb692eaff248942bdf7234c9b3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerEvents: {fileID: 1614226181}
+  teamMember: {fileID: 633588063}
   paintCheckerBelow: {fileID: 1584678593}
   paintCheckerAhead: {fileID: 196824277}
+  frontCheckTransform: {fileID: 1570858205}
   locomotion: {fileID: 3953089385813430785}
-  swimmableLayers:
-    serializedVersion: 2
-    m_Bits: 256
+  speedController: {fileID: 1995776302555621397}
   squidSpeed: 2
   swimSpeed: 6
   enemyPaintSpeed: 1
-  speedTransitionStep: 7
-  frontCheck: {fileID: 1570858205}
   swimSound: {fileID: 1021995857}
   sinkSounds: {fileID: 1675898088}
+--- !u!114 &1995776302555621397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4989558147164366925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 726cc5d531d832b47b28a8bb41d32ca9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  locomotion: {fileID: 3953089385813430785}
+  speedTransitionStep: 7
 --- !u!114 &7502116420608393179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2818,18 +2833,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091bf8be20d216c4eb44f9a5654cf119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitpoints: 5
-  maxHitpoints: 5
+  hitpoints: 4
+  maxHitpoints: 4
   invulnerable: 0
-  useHitDamageMaterial: 0
   destroyOnDeath: 0
   destroyOnDeathDelay: 0
-  regenerative: 1
   hitCooldown: 0
+  regenerative: 1
   regenCooldown: 4
   regenRate: 0.01
-  damageMeshRenderer: {fileID: 0}
   animator: {fileID: 0}
+  useHitDamageMaterial: 0
+  damageMeshRenderer: {fileID: 0}
   damageMaterial: {fileID: 0}
   hitFX: {fileID: 0}
   hitSfx:
@@ -3106,7 +3121,7 @@ MonoBehaviour:
   smoothTurnSpeed: 150
   snapTurnProvider: {fileID: 3849075432392634047}
   snapTurnAmount: 45
-  comfortVignette: {fileID: 1834541895}
+  playerComfortVignette: {fileID: 1834541895}
   player: {fileID: 1614226184}
   inputs: {fileID: -944628639613478452, guid: b0c1d4f9606bd6449aba71126370870d, type: 3}
   baseControlSchemeName: Generic XR Controller
@@ -3163,7 +3178,7 @@ MonoBehaviour:
   volume: 1
   minPitch: 1.2
   maxPitch: 0.8
-  cooldownTime: 1
+  cooldownTime: 0.5
 --- !u!82 &1675898090
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3661,14 +3676,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
---- !u!4 &3848210651443976586 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3848210651887181737, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
-  m_PrefabInstance: {fileID: 447563299}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6019286514161777702 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6019286514318719493, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
+  m_PrefabInstance: {fileID: 447563299}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3848210651443976586 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3848210651887181737, guid: f6075462e6fad0f45abef7762c615b28, type: 3}
   m_PrefabInstance: {fileID: 447563299}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1073907779
@@ -4054,13 +4069,13 @@ PrefabInstance:
       objectReference: {fileID: 4989558145643014248}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
---- !u!4 &4956531211393627399 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 141681224042260141, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
-  m_PrefabInstance: {fileID: 4989558145943688106}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4963077313354681072 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 134576065517394266, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
+  m_PrefabInstance: {fileID: 4989558145943688106}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4956531211393627399 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 141681224042260141, guid: bfd03519ee3b6ee47b59c6bcd285eedb, type: 3}
   m_PrefabInstance: {fileID: 4989558145943688106}
   m_PrefabAsset: {fileID: 0}

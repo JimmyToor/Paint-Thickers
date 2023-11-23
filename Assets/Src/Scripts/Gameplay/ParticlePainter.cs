@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Paintz_Free.Scripts;
-using Src.Scripts.AI;
 using Src.Scripts.Attributes;
 using Src.Scripts.Audio;
 using Src.Scripts.Utility;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Src.Scripts.Gameplay
@@ -20,16 +20,15 @@ namespace Src.Scripts.Gameplay
         public bool randomChannel;
         public GameObject splashObject;
         [Tooltip("Play sound effects on collision (requires SFXSource component)")]
-        public bool collisionSfx;
-        [ShowIf(nameof(collisionSfx))]
+        public bool useCollisionSfx;
+        [ShowIf(nameof(useCollisionSfx))]
         public SFXSource sfxSource;
 
 
         private ParticleSystem _partSys;
         private List<ParticleCollisionEvent> _collisionEvents;
-        private bool hitSuccess;
 
-        private void Start()
+        private void Awake()
         {
             _partSys = GetComponent<ParticleSystem>();
             _collisionEvents = new List<ParticleCollisionEvent>();
@@ -40,18 +39,21 @@ namespace Src.Scripts.Gameplay
             int numCollisionEvents = _partSys.GetCollisionEvents(other, _collisionEvents);
             for (int i = 0; i < numCollisionEvents; i++)
             {
-                hitSuccess = CheckCollision(_collisionEvents[i], other);
-            }
-        
-            if (collisionSfx && hitSuccess)
-            {
-                for (int i = 0; i < numCollisionEvents; i++)
+                if (CheckCollision(_collisionEvents[i] ,other) && useCollisionSfx)
                 {
                     sfxSource.TriggerPlay(_collisionEvents[i].intersection);
                 }
             }
+        
+            
         }
 
+        /// <summary>
+        /// Checks for specific collisions and performs the required behaviours.
+        /// </summary>
+        /// <param name="collisionEvent"></param>
+        /// <param name="other"></param>
+        /// <returns>True when the the collision was successfully acted upon. False otherwise.</returns>
         private bool CheckCollision(ParticleCollisionEvent collisionEvent, GameObject other)
         {
             switch (LayerMask.LayerToName(other.layer))
@@ -69,15 +71,19 @@ namespace Src.Scripts.Gameplay
                     }
                     break;
                 default:
-                    if (other.TryGetComponent(out TeamMember teamMember) && other.gameObject.TryGetComponent(out Health targetHealth))
+                    if (!other.gameObject.TryGetComponent(out Health targetHealth))
                     {
-                        if (brush.splatChannel != teamMember.teamChannel)
-                        {
-                            targetHealth.TakeHit(damage,collisionEvent.intersection);;
-                            return true;
-                        }
+                        break;
                     }
-                    break;
+
+                    if (other.TryGetComponent(out TeamMember teamMember) && 
+                        brush.splatChannel == teamMember.teamChannel)
+                    {
+                        break;
+                    }
+                    
+                    targetHealth.TakeHit(damage,collisionEvent.intersection);;
+                    return true;
             }
             return false;
         }

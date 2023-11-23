@@ -1,11 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Src.Scripts.Attributes;
 using Src.Scripts.Audio;
 using Src.Scripts.Utility;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Src.Scripts.Gameplay
@@ -16,21 +16,24 @@ namespace Src.Scripts.Gameplay
         [SerializeField] private float hitpoints;
         public float maxHitpoints;
         public bool invulnerable;
-        public bool useHitDamageMaterial;
         public bool destroyOnDeath;
+        [ShowIf(nameof(destroyOnDeath))]
         public float destroyOnDeathDelay;
-        [Tooltip("Whether or not health regenerates")]
-        public bool regenerative; 
         [Tooltip("How long until we can be hit again after being hit")]
         public float hitCooldown; 
-        [Tooltip("How long until health regenerates")]
+        [Tooltip("Whether or not health regenerates")]
+        public bool regenerative; 
+        [Tooltip("How long until health regenerates")] [ShowIf(nameof(regenerative))]
         public float regenCooldown;
-        [Tooltip("How many hitpoints are regenerated per LateUpdate")]
+        [Tooltip("How many hitpoints are regenerated per LateUpdate")] [ShowIf(nameof(regenerative))]
         public float regenRate;
         
         [Header("Visuals")]
-        public Renderer damageMeshRenderer;
         public Animator animator;
+        public bool useHitDamageMaterial;
+        [ShowIf(nameof(useHitDamageMaterial))]
+        public Renderer damageMeshRenderer;
+        [ShowIf(nameof(useHitDamageMaterial))]
         public Material damageMaterial;
         
         [Header("FX")]

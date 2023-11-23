@@ -123,7 +123,7 @@ namespace Src.Scripts
             if (_lastWeapon != null)
             {
                 GameObject weaponObject = Instantiate(_lastWeapon);
-                weaponObject.TryGetComponent(out Weapon weapon);
+                Weapon weapon = weaponObject.GetComponent<Weapon>();
                 player.ForceEquipWeapon(weapon);
             }
         }

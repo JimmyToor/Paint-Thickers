@@ -56,9 +56,16 @@ namespace Src.Scripts.Weapons
 
         protected virtual void FixedUpdate()
         {
-            if (_lowAmmoRegenCooldown <= 0 && wepParams.lowRefillThreshold >= AmmoRemaining)
+            if (_lowAmmoRegenCooldown <= 0)
             {
-                RefillAmmo();
+                if (wepParams.lowRefillThreshold >= AmmoRemaining)
+                {
+                    RefillAmmo();
+                }
+                else
+                {
+                    StopManualReload();
+                }
             }
             else
             {

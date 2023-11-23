@@ -128,13 +128,13 @@ namespace Src.Scripts.AI
         {
             Vector3 fromPos = originTransform.position;
             
-            if (!Physics.Raycast(fromPos,  targetPos - fromPos, out _,Vector3.Distance(targetPos, fromPos),blockingLayerMask))
+            if (!Physics.Raycast(fromPos,  targetPos - fromPos, out RaycastHit _hit,Vector3.Distance(targetPos, fromPos),blockingLayerMask))
             {
-                //Debug.DrawRay(fromPos, targetPos - fromPos, Color.blue);
+                // Debug.DrawRay(fromPos, targetPos - fromPos, Color.blue);
                 hasLOS = true;
                 return true;
             }
-            //Debug.DrawRay(fromPos, targetPos - fromPos, Color.red);
+            // Debug.DrawRay(fromPos, targetPos - fromPos, Color.red);
             hasLOS = false;
 
             return false;

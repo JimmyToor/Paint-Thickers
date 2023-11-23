@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.Serialization;
 
 namespace Src.Scripts.Gameplay
 {
@@ -12,7 +11,7 @@ namespace Src.Scripts.Gameplay
     {
         [Tooltip("Continually perform checks.")]
         public bool keepUpdated;
-        [Tooltip("Get the material color below.")]
+        [Tooltip("Get the material color on check.")]
         public bool getColor = true;
         [Tooltip("The origin point of the check.")]
         public Transform checkOrigin;
@@ -36,14 +35,12 @@ namespace Src.Scripts.Gameplay
         [HideInInspector] 
         public Vector3 currNormal = Vector3.zero;
         public float paintCheckDistance;
-        
         private AsyncGPUReadbackRequest _request;
         private ComputeShader _getPixelComputeShader;
         private ComputeBuffer _pixelColorBuffer;
         private float[] _paintPixelArray;
         private RaycastHit _hit;
         private bool _checkReady = true;
-        private GameObject _lastHitObject;
         private PaintTarget _paintTarget;
         
         private const int GetPixelBufferStride = sizeof(int)*4;
@@ -56,7 +53,7 @@ namespace Src.Scripts.Gameplay
         private static readonly int PixelCoordinateX = Shader.PropertyToID("pixel_coordinateX");
         private static readonly int PixelCoordinateY = Shader.PropertyToID("pixel_coordinateY");
         private static readonly int PixelColor = Shader.PropertyToID("pixel_color");
-
+        
         private void FixedUpdate()
         {
             CheckBelow();
@@ -64,8 +61,7 @@ namespace Src.Scripts.Gameplay
 
         private void CheckBelow()
         {
-            if (!keepUpdated || !_checkReady || !_request.done) return;
-            
+            if (!keepUpdated) return;
             if (Physics.Raycast(checkOrigin.position, -referenceTransform.up,
                     out _hit, paintCheckDistance,validLayers)
                     && _hit.transform != null)
@@ -96,31 +92,30 @@ namespace Src.Scripts.Gameplay
         /// Checks the channel of the point hit by the passed Raycast <paramref name="hit"/>.
         /// </summary>
         /// <remarks>Object hit by ray must have collider, transform, and PaintTarget components.</remarks>
-        /// <returns>Return true if the object hit can be checked, false otherwise.</returns>
         public void RayChannel(RaycastHit hit)
         {
-            if (!hit.collider || !hit.transform)
+            if (hit.collider == null || hit.transform == null)
             {
                 currChannel = -1;
                 return;
             }
 
-            if (_hit.transform.gameObject != _lastHitObject)
+            if (_paintTarget == null || _hit.transform.gameObject != _paintTarget.gameObject)
             {   // Cache the object
-                _lastHitObject = _hit.transform.gameObject;
-                _paintTarget = _lastHitObject.GetComponent<PaintTarget>();
+                _paintTarget = _hit.transform.GetComponent<PaintTarget>();
             }
             
-            if (!_paintTarget || !_paintTarget.paintMap)
+            if (_paintTarget == null || _paintTarget.paintMap == null)
             {
                 currChannel = -1;
                 return;
             }
-            StartCoroutine(GetPixelColor(_paintTarget, hit));
+            StartCoroutine(CheckChannel(_paintTarget, hit));
         }
         
-        private IEnumerator GetPixelColor(PaintTarget paintTarget, RaycastHit hit)
+        private IEnumerator CheckChannel(PaintTarget paintTarget, RaycastHit hit)
         {
+            if (!_checkReady || !_request.done) yield break;
             _checkReady = false;
             int x = (int)(hit.lightmapCoord.x * paintTarget.paintMap.width);
             int y = (int)(hit.lightmapCoord.y * paintTarget.paintMap.height);

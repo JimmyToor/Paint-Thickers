@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips: []
-  volume: 1.2
+  volume: 1.5
   minPitch: 1.2
   maxPitch: 0.8
   cooldownTime: 0

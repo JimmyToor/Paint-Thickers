@@ -1,4 +1,3 @@
-using System;
 using Src.Scripts.Gameplay;
 using UnityEngine;
 using UnityEngine.VFX;

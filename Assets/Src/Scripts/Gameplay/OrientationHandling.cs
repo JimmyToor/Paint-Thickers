@@ -48,8 +48,9 @@ namespace Src.Scripts.Gameplay
         /// </summary>
         /// <param name="normal"></param>
         /// <param name="useAngleLimit">When true, the target normal will only be set if it is below the angle limit.</param>
+        /// <param name="targetPosition">The position to rotate around when matching this normal. Defaults to head.</param>
         /// <returns>True if goal normal is successfully set, false otherwise.</returns>
-        public bool SetNewTargetNormal(Vector3 normal, bool useAngleLimit = false, Vector3 position = default)
+        public bool SetNewTargetNormal(Vector3 normal, bool useAngleLimit = false, Vector3 targetPosition = default)
         {
             // Only match orientation with this surface if it has friendly paint or is a shallow enough slope.
             float angle = Vector3.Angle(normal, Vector3.up);
@@ -58,7 +59,7 @@ namespace Src.Scripts.Gameplay
                 return false;
             }
             _targetNormal = normal;
-            _rotatePos = position;
+            _rotatePos = targetPosition;
             return true;
         }
         

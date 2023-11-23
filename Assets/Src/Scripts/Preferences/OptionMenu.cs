@@ -66,7 +66,6 @@ namespace Src.Scripts.Preferences
 
         private void OnLeftHandToggled(bool value)
         {
-            Debug.Log("lefthand toggled");
             userPreferencesManager.PreferredHand = UserPreferencesManager.MainHand.Left;
         }
         
@@ -82,7 +81,6 @@ namespace Src.Scripts.Preferences
         
         private void OnOffHandToggled(bool value)
         {
-            Debug.Log("offhand");
             userPreferencesManager.ForwardReference = UserPreferencesManager.MovementOrientation.OffHand;
         }
 

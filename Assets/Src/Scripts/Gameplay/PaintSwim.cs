@@ -1,6 +1,5 @@
 using Src.Scripts.Audio;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 using Random = UnityEngine.Random;
 
