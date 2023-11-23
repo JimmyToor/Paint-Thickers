@@ -13,8 +13,13 @@ namespace Src.Scripts.Gameplay
         public event Action Stand;
         public event Action<Vector3> Move;
         public event Action Launch;
+        public event Action Swim;
+        public event Action StopSwim;
+        
+        public event Action FriendlyPaint;
+        public event Action EnemyPaint;
+        public event Action NoPaint;
         public event Action LauncherActivated;
-        public event Action<float> TakeHit;
         
         private InputAction _leftHandMove;
         private InputAction _leftHandTurn;
@@ -105,6 +110,16 @@ namespace Src.Scripts.Gameplay
             }
         }
         
+        public void OnSwim()
+        {
+            Swim?.Invoke();
+        }
+        
+        public void OnStopSwim()
+        {
+            StopSwim?.Invoke();
+        }
+        
         public void DisableInputMovement()
         {
             _leftHandMove.Disable();
@@ -131,6 +146,21 @@ namespace Src.Scripts.Gameplay
         {
             _leftHandSquid.Enable();
             _rightHandSquid.Enable();
+        }
+
+        public void OnFriendlyPaint()
+        {
+            FriendlyPaint?.Invoke();
+        }
+
+        public void OnEnemyPaint()
+        {
+            EnemyPaint?.Invoke();
+        }
+
+        public void OnNoPaint()
+        {
+            NoPaint?.Invoke();
         }
     }
 }

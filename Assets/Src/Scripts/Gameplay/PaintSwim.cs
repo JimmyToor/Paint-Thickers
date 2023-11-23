@@ -1,5 +1,6 @@
 using Src.Scripts.Audio;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.XR.Interaction.Toolkit;
 using Random = UnityEngine.Random;
 
@@ -12,21 +13,25 @@ namespace Src.Scripts.Gameplay
     [RequireComponent(typeof(OrientationHandling))]
     public class PaintSwim : MonoBehaviour
     {
+        public PlayerEvents playerEvents;
+        public TeamMember teamMember;
+        [Header("Checkers")]
         public PaintChecker paintCheckerBelow;
         public PaintChecker paintCheckerAhead;
-        public ActionBasedContinuousMoveProvider locomotion; 
-        [Tooltip("Mask for swimmable layers")]
-        public LayerMask swimmableLayers;
+        [Tooltip("Used to check for terrain changes in the direction we're moving.")]
+        public Transform frontCheckTransform;
+        [Header("Movement")]
+        public ActionBasedContinuousMoveProvider locomotion;
+        public SpeedController speedController;
         [Tooltip("Speed of squid out of paint")]
         public float squidSpeed; 
         [Tooltip("Speed of squid in paint")]
         public float swimSpeed;
         [Tooltip("Speed in enemy paint as human or squid")]
         public float enemyPaintSpeed;
-        [Tooltip("Controls how much move speed will increase or decrease over a second.")]
-        public float speedTransitionStep;
-        [Tooltip("Used to check for terrain changes in the direction we're moving.")]
-        public Transform frontCheck;
+        
+        
+        [Header("SFX")]
         public AudioSource swimSound;
         public SFXSource sinkSounds;
         
@@ -63,32 +68,16 @@ namespace Src.Scripts.Gameplay
                 }
             }
         }
-        
-        /// <summary>
-        /// The target speed to be transitioned to over time.
-        /// </summary>
-        public float GoalSpeed
-        {
-            get => _goalSpeed;
-            set
-            {
-                _goalSpeed = value;
-                _sign = Mathf.Sign(_goalSpeed - locomotion.moveSpeed);
-            } 
-        }
 
-        private Player _player;
-        private PlayerEvents _playerEvents;
         private Transform _playerHead;
         private Transform _frontCheckAxis;
         private Vector3 _direction;
         private LayerMask _squidLayer;
         private LayerMask _playerLayer;
         private OrientationHandling _orientationHandling;
-        private RaycastHit _belowHit;
-        private RaycastHit _frontHit;
         private bool _inPaint;
         private bool _canSwim;
+        private bool _isSquid;
         private bool _speedTransitioning;
         private CharacterController _charController;
         private float _goalSpeed;
@@ -97,8 +86,6 @@ namespace Src.Scripts.Gameplay
         
         private void OnEnable()
         {
-            _player = GetComponent<Player>();
-            _playerEvents = GetComponent<PlayerEvents>();
             SetupEvents();
         }
 
@@ -115,33 +102,28 @@ namespace Src.Scripts.Gameplay
             _playerLayer = LayerMask.NameToLayer("Players");
         }
 
+        private void SetupEvents()
+        {
+            playerEvents.Squid += HandleSwimActivation;
+            playerEvents.Stand += HandleStand;
+            playerEvents.Move += HandleMove;
+        }
+
+        private void OnDisable() 
+        {
+            playerEvents.Squid -= HandleSwimActivation;
+            playerEvents.Stand -= HandleStand;
+        }
         
         void Start()
         {
             _playerHead = GameObject.Find("Main Camera").transform;
-            _frontCheckAxis = frontCheck.parent;
-            GoalSpeed = locomotion.moveSpeed;
-        }
-
-        private void Update()
-        {
-            if (Mathf.Approximately(locomotion.moveSpeed,
-                    GoalSpeed)) return; 
-            
-            // Move the current speed closer to the goal speed
-            UpdateSpeed();
-        }
-
-        private void UpdateSpeed()
-        {
-            var speedRemaining = Mathf.Abs(GoalSpeed - locomotion.moveSpeed);
-            var delta = _sign * Mathf.Min(Time.deltaTime * speedTransitionStep, speedRemaining);
-            locomotion.moveSpeed += delta;
+            _frontCheckAxis = frontCheckTransform.parent;
         }
 
         private void FixedUpdate()
         {
-            if (!_player.isSquid)
+            if (!_isSquid)
             {
                 return;
             }
@@ -166,7 +148,7 @@ namespace Src.Scripts.Gameplay
         private bool CheckGround()
         {
             int channel = paintCheckerBelow.currChannel;
-            if (channel == _player.TeamChannel)
+            if (channel == teamMember.teamChannel)
             {
                 if (!CanSwim) // Player was previously not in swimmable paint
                 {
@@ -187,7 +169,7 @@ namespace Src.Scripts.Gameplay
             // Check ahead first so we can adjust to slopes and walls
             if (paintCheckerAhead.currNormal != Vector3.zero && 
                 _orientationHandling.SetNewTargetNormal(paintCheckerAhead.currNormal,
-                    paintCheckerAhead.currChannel != _player.TeamChannel, paintCheckerAhead.hitPosition)) 
+                    paintCheckerAhead.currChannel != teamMember.teamChannel, paintCheckerAhead.hitPosition)) 
             {
                 return true; 
             }
@@ -196,23 +178,10 @@ namespace Src.Scripts.Gameplay
                    _orientationHandling.SetNewTargetNormal(paintCheckerBelow.currNormal, !CanSwim, paintCheckerBelow.hitPosition);
         }
         
-        private void SetupEvents()
-        {
-            _playerEvents.Squid += HandleSwimActivation;
-            _playerEvents.Stand += HandleStand;
-            _playerEvents.Move += HandleMove;
-        }
-
-        private void OnDisable() 
-        {
-            _playerEvents.Squid -= HandleSwimActivation;
-            _playerEvents.Stand -= HandleStand;
-        }
 
         private void HandleSwimActivation()
         {
-            if (!_player.canSquid || !_player.isSquid) return;
-            
+            _isSquid = true;
             locomotion.SlopeHandling = false;
             gameObject.layer = _squidLayer;
             paintCheckerAhead.keepUpdated = true;
@@ -221,9 +190,9 @@ namespace Src.Scripts.Gameplay
 
         private void HandleStand()
         {
+            _isSquid = false;
             locomotion.SlopeHandling = true;
             gameObject.layer = _playerLayer;
-            GoalSpeed = _player.walkSpeed;
             swimSound.Stop();
             CanSwim = false;
             _orientationHandling.ResetOrientation();
@@ -237,9 +206,9 @@ namespace Src.Scripts.Gameplay
             if (CanSwim) // Indicates we are swimming in friendly paint
             {
                 _orientationHandling.SetNewTargetHeight(OrientationHandling.SwimHeight, false);
-                GoalSpeed = swimSpeed;
+                speedController.GoalSpeed = swimSpeed;
 
-                _player.RefillWeaponAmmo();
+                playerEvents.OnSwim();
             
                 if (!swimSound.isPlaying)
                 {
@@ -255,7 +224,7 @@ namespace Src.Scripts.Gameplay
             }
             else
             {
-                _player.StopManualReload();
+                playerEvents.OnStopSwim();
                 _orientationHandling.SetNewTargetHeight(OrientationHandling.SquidHeight, false);
 
                 if (swimSound.isPlaying)
@@ -263,7 +232,7 @@ namespace Src.Scripts.Gameplay
                     swimSound.Stop();
                 }
                 
-                GoalSpeed = !InPaint ? squidSpeed : enemyPaintSpeed;
+                speedController.GoalSpeed = !InPaint ? squidSpeed : enemyPaintSpeed;
             }
         }
 

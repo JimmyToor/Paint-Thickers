@@ -13,29 +13,27 @@ namespace Src.Scripts.Gameplay
     {
         public PlayerEvents playerEvents;
         public PauseHandler pauseHandler;
+        public SpeedController speedController;
         public WeaponHandler weaponHandler;
         public TeamColorScriptableObject teamColorData;
         public XRRig xrRig;
         public GameObject overlayUICam;
         public XRInteractionManager xrInteractionManager;
         [Header("Movement")]
-        public bool canSquid = true;
-        public bool isSquid;
         public float walkSpeed;
         [Header("Hands")]
         public GameObject leftHand;
         public GameObject rightHand;
         public GameObject leftUIHand;
         public GameObject rightUIHand;
+        [HideInInspector]
+        public UserPreferencesManager.MainHand preferredHand;
         
         public int TeamChannel { get; set; }
-        public UserPreferencesManager.MainHand MainHand { get; set; }
         public Inventory Inventory = new Inventory();
         
         private ActionBasedContinuousMoveProvider _locomotion;
         private ActionBasedSnapTurnProvider _snapTurnProvider;
-        private float _oldSpeed;
-        private Health _health;
         private CharacterController _charController;
         private Vector3 _resetPosition;
         private PaintColorMatcher _paintColorMatcher;
@@ -70,7 +68,6 @@ namespace Src.Scripts.Gameplay
             
             
             _snapTurnProvider = GetComponent<ActionBasedSnapTurnProvider>();
-            TryGetComponent(out _health);
             if (leftUIHand == null)
             {
                 leftUIHand = GameObject.Find("LeftHand Ray Controller");
@@ -126,6 +123,8 @@ namespace Src.Scripts.Gameplay
             playerEvents.Land += EnableGravity;
             playerEvents.Squid += SquidMode;
             playerEvents.Stand += HumanMode;
+            playerEvents.Swim += RefillWeaponAmmo;
+            playerEvents.StopSwim += StopManualReload;
         }
 
         private void UnsubEvents()
@@ -140,6 +139,8 @@ namespace Src.Scripts.Gameplay
             playerEvents.Land -= EnableGravity;
             playerEvents.Squid -= SquidMode;
             playerEvents.Stand -= HumanMode;
+            playerEvents.Swim -= RefillWeaponAmmo;
+            playerEvents.StopSwim -= StopManualReload;
         }
         
         /// <summary>
@@ -215,7 +216,7 @@ namespace Src.Scripts.Gameplay
 
         public void TryUnequipWeapon(Weapon weapon)
         {
-            if (!weaponHandler.IsUnequipValid(weapon) || isSquid) return;
+            if (!weaponHandler.IsUnequipValid(weapon)) return;
             
             if (_paintColorMatcher != null && weaponHandler.Weapon != null)
             {
@@ -257,23 +258,32 @@ namespace Src.Scripts.Gameplay
         private void NewResetPosition()
         {
             if (!_charController.isGrounded) return;
-            
-            _resetPosition = transform.position;
-            _resetPosition.y += 1f;
+            _resetPosition = xrRig.cameraGameObject.transform.position;
         }
 
         [ContextMenu("Reset Position")]
         public void ResetPosition()
         {
+            _charController.Move(Vector3.zero); // Set velocity to zero
             xrRig.MoveCameraToWorldLocation(_resetPosition);
         }
         
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("OOBVolume"))
-            {
-                ResetPosition();
-            }
+            CheckResetCollision(other);
+        }
+
+        private void CheckResetCollision(Collider other)
+        {
+            if (!other.CompareTag("OOBVolume")) return;
+            
+            _charController.Move(Vector3.zero);
+            ResetPosition();
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            CheckResetCollision(other);
         }
 
         // Make any required changes when the player turns into a squid
@@ -281,15 +291,14 @@ namespace Src.Scripts.Gameplay
         {
             weaponHandler.SquidMode();
             HideGameHands();
-            isSquid = true;
         }
 
         // Make any required changes when the player turns into a Human
         private void HumanMode()
         {
+            speedController.GoalSpeed = walkSpeed;
             ShowGameHands();
             weaponHandler.HumanMode();
-            isSquid = false;
         }
 
         private void DisableGravity()
@@ -322,11 +331,11 @@ namespace Src.Scripts.Gameplay
                 // Make the current interactor drop the weapon so we can grab it
                 interactable.ForceDrop();
             }
-                
+
             xrInteractionManager.ForceSelect(
-                MainHand == UserPreferencesManager.MainHand.Right
-                    ? rightHand.GetComponent<XRBaseInteractor>()
-                    : leftHand.GetComponent<XRBaseInteractor>(),
+                preferredHand == UserPreferencesManager.MainHand.Left
+                    ? leftHand.GetComponent<XRBaseInteractor>()
+                    : rightHand.GetComponent<XRBaseInteractor>(),
                 interactable);
         }
 
