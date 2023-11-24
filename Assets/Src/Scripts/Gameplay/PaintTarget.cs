@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Paintz_Free.Scripts;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Random = UnityEngine.Random;
 
 // Based on 'PaintTarget.cs' from https://assetstore.unity.com/packages/tools/paintz-free-145977
+// and https://github.com/SquirrelyJones/Splatoonity/blob/master/Assets/Splatoonity/Scripts/SplatManager.cs
 namespace Src.Scripts.Gameplay
 {
     public enum TextureSize
@@ -26,43 +26,26 @@ namespace Src.Scripts.Gameplay
         public TextureSize renderTextureSize = TextureSize.Texture256x256;
 
         public bool setupOnStart = true;
-        public bool paintAllSplats;
         public bool useBakedPaintMap;
-        
         public RenderTexture paintMap;
-        
         public ComputeShader paintComputeShader;
-
-        [Tooltip("Used to store the paintMap data on the CPU.")]
-        public Texture2D splatTexPick;
         public Texture2D bakedPaintMap;
-        
         public int maxNearSplats = 16; // Maximum number of nearby targets to paint in addition to the primary target.
-
-        private bool _bPickDirty = true;
-        private bool _validTarget;
-        private bool _bHasMeshCollider;
-
-        private Collider[] _colliders;
         
+        private bool _validTarget;
+        private Collider[] _colliders;
         private RenderTexture _worldPosTex;
         private RenderTexture _worldPosTexTemp;
         private RenderTexture _worldTangentTex;
         private RenderTexture _worldBinormalTex;
-        
         private List<Paint> _paintList = new List<Paint>();
         private bool _setupComplete;
-
         private Renderer _paintRenderer;
 
         private Material _paintBlitMaterial;
         private Material _worldPosMaterial;
         private Material _worldTangentMaterial;
         private Material _worldBiNormalMaterial;
-
-        private Renderer _r;
-        private RenderTexture _rt;
-        private MeshCollider _mc;
         
         private static uint _xGroupSize, _yGroupSize;
         private static int _paintKernel;
@@ -103,51 +86,9 @@ namespace Src.Scripts.Gameplay
             _paintKernel = paintComputeShader.FindKernel("BrushPaint");
             paintComputeShader.GetKernelThreadGroupSizes(_paintKernel,
                 out _xGroupSize, out _yGroupSize, out _);
-        }
-
-        private void SetComponents()
-        {
-            _mc = GetComponent<MeshCollider>();
-            if (!_mc) return;
-
-            _r = GetComponent<Renderer>();
-            if (!_r) return;
-
-            _rt = (RenderTexture)_r.sharedMaterial.GetTexture(PaintMap);
-        }
-
-        private static Color GetPixelColor(PaintTarget paintTarget, RaycastHit hit)
-        {
-            if (!paintTarget._validTarget) return Color.clear;
             
-            UpdatePickColors(paintTarget);
-            Texture2D tc = paintTarget.splatTexPick;
-            if (!tc)
-            {
-                return Color.clear;
-            }
-            int x = (int)(hit.lightmapCoord.x * tc.width);
-            int y = (int)(hit.lightmapCoord.y * tc.height);
-            
-            return tc.GetPixel(x,y);
-            
-        }
-
-        public static int RayChannel(RaycastHit hit)
-        {
-            if (!hit.collider || !hit.transform) return -1;
-            PaintTarget paintTarget = hit.collider.gameObject.GetComponent<PaintTarget>();
-            if (!paintTarget)
-            {
-                return -1;
-            }
-            Color pc = GetPixelColor(paintTarget, hit);
-            int l = -1;
-            if (pc.r > .5) l = 0;
-            if (pc.g > .5) l = 1;
-            if (pc.b > .5) l = 2;
-            if (pc.a > .5) l = 3;
-            return l;
+            // Paint around 100 times per second to make paint increments look smooth
+            InvokeRepeating(nameof(PaintSplats),1f,0.01f);
         }
 
         /// <summary>
@@ -157,7 +98,7 @@ namespace Src.Scripts.Gameplay
         /// <param name="point">The spot to paint.</param>
         /// <param name="normal">The normal of the paint.</param>
         /// <param name="brush">The brush parameters to use.</param>
-        public static void Paint(GameObject target, Vector3 point, Vector3 normal, Brush brush)
+        private static void Paint(GameObject target, Vector3 point, Vector3 normal, Brush brush)
         {
             target.TryGetComponent(out PaintTarget paintTarget);
             if (paintTarget != null)
@@ -216,7 +157,7 @@ namespace Src.Scripts.Gameplay
         /// <param name="point"></param>
         /// <param name="normal"></param>
         /// <param name="brush"></param>
-        public void PaintObject(Vector3 point, Vector3 normal, Brush brush)
+        private void PaintObject(Vector3 point, Vector3 normal, Brush brush)
         {
             if (!_validTarget) return;
 
@@ -241,13 +182,15 @@ namespace Src.Scripts.Gameplay
             splatTransform.RotateAround(point, normal, Random.Range(-brush.splatRandomRotation, brush.splatRandomRotation));
             splatTransform.localScale = new Vector3(randScale, randScale, randScale) * brush.splatScale;
 
-            Paint newPaint = new Paint();
-            newPaint.paintMatrix = splatTransform.worldToLocalMatrix;
-            newPaint.channelMask = brush.GetMask();
-            newPaint.scaleBias = brush.GetTile();
-            newPaint.brush = brush;
-            newPaint.stepsRemaining = brush.steps; // Don't want to change the brush's step amount when painting
-    
+            Paint newPaint = new Paint
+            {
+                paintMatrix = splatTransform.worldToLocalMatrix,
+                channelMask = brush.GetMask(),
+                scaleBias = brush.GetTile(),
+                brush = brush,
+                stepsRemaining = brush.steps // Don't want to change the brush's step amount when painting
+            };
+
             PaintSplat(newPaint);
         }
 
@@ -262,28 +205,10 @@ namespace Src.Scripts.Gameplay
             }
         }
 
-        private static void UpdatePickColors(PaintTarget paintTarget)
-        {
-            if (!paintTarget._validTarget) return;
-            if (!paintTarget._bPickDirty) return;
-            if (!paintTarget._bHasMeshCollider) return;
-
-            if (!paintTarget.splatTexPick)
-            {
-                paintTarget.splatTexPick = new Texture2D((int)paintTarget.paintTextureSize, (int)paintTarget.paintTextureSize, TextureFormat.ARGB32, false);
-            }
-            
-            RenderTexture.active = paintTarget.paintMap;
-            paintTarget.splatTexPick.ReadPixels(new Rect(0, 0, paintTarget.paintMap.width, paintTarget.paintMap.height), 0, 0);
-
-            RenderTexture.active = null;
-            paintTarget._bPickDirty = false;
-        }
-
         /// <summary>
         /// Creates and configures a camera to be able to render out the required textures
         /// </summary>
-        private void CreateCamera()
+        private void SetupCamera()
         {
             // Need to use an existing camera with Target Eye set to None because the stereoTargetEye property
             // does not actually change when modified via script
@@ -313,24 +238,28 @@ namespace Src.Scripts.Gameplay
 
         private void CheckValid()
         {
-            _paintRenderer = GetComponent<Renderer>();
-            if (!_paintRenderer) return;
-
-            MeshCollider mc = GetComponent<MeshCollider>();
-            if (mc != null) _bHasMeshCollider = true;
+            if (!TryGetComponent(out _paintRenderer))
+            {
+                Debug.LogError("No renderer on " + name, gameObject);
+                return;
+            }
+            
+            if (!TryGetComponent(out MeshCollider _))
+            {
+                Debug.LogError("No MeshCollider on " + name, gameObject);
+                return;
+            }
 
             _validTarget = true;
         }
 
         private void SetupPaint()
         {
-
-            CreateCamera();
+            SetupCamera();
             CreateMaterials();
             CreateTextures();
 
             RenderTextures();
-            SetComponents();
             _setupComplete = true;
         }
 
@@ -370,7 +299,6 @@ namespace Src.Scripts.Gameplay
             _worldBinormalTex = new RenderTexture((int)renderTextureSize, (int)renderTextureSize, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Linear);
             _worldBinormalTex.Create();
 
-            splatTexPick = new Texture2D((int)paintTextureSize, (int)paintTextureSize, TextureFormat.ARGB32, false);
             foreach (Material mat in _paintRenderer.materials)
             {
                 mat.SetTexture(PaintMap, paintMap);
@@ -415,7 +343,8 @@ namespace Src.Scripts.Gameplay
             _renderCamera.RemoveAllCommandBuffers();
 
             // Bleed the world position out 2 pixels
-            _paintBlitMaterial.SetVector(SplatTexSize, new Vector2((int)paintTextureSize, (int)paintTextureSize));
+            _paintBlitMaterial.SetVector(SplatTexSize, new Vector2((int)paintTextureSize,
+                (int)paintTextureSize));
             Graphics.Blit(_worldPosTex, _worldPosTexTemp, _paintBlitMaterial, 2);
             Graphics.Blit(_worldPosTexTemp, _worldPosTex, _paintBlitMaterial, 2);
         }
@@ -453,8 +382,6 @@ namespace Src.Scripts.Gameplay
 
             if (_paintList.Count <= 0) return;
             
-            _bPickDirty = true;
-
             if (!_setupComplete) SetupPaint();
 
             if (transform.hasChanged) RenderTextures();
@@ -514,19 +441,6 @@ namespace Src.Scripts.Gameplay
             paintChannelMaskBuffer.Dispose();
             paintScaleBiasBuffer.Dispose();
             stepsBuffer.Dispose();
-        }
-
-        private void Update()
-        {
-            if (paintAllSplats)
-            {
-                while(_paintList.Count > 0)
-                {
-                    PaintSplats();
-                }
-            }
-            else
-                PaintSplats();
         }
     }
 }

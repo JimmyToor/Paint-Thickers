@@ -1,3 +1,4 @@
+using Src.Scripts.AI;
 using Src.Scripts.Audio;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -28,45 +29,11 @@ namespace Src.Scripts.Gameplay
         public float swimSpeed;
         [Tooltip("Speed in enemy paint as human or squid")]
         public float enemyPaintSpeed;
-        
-        
+        [HideInInspector]
+        public PaintStatus paintStatus;
         [Header("SFX")]
         public AudioSource swimSound;
         public SFXSource sinkSounds;
-        
-        /// <summary>
-        /// Tracks if the player is in paint of any colour.
-        /// <remarks>Can affect <see cref="CanSwim"/> when set to prevent contradicting values.</remarks>
-        /// </summary>
-        public bool InPaint
-        {
-            get => _inPaint;
-            set
-            {
-                _inPaint = value;
-                if (!value)
-                {
-                    _canSwim = false; // Can't swim if not in paint
-                }
-            }
-        }
-        
-        /// <summary>
-        /// Tracks if the player is in paint they can swim in.
-        /// <remarks>Can affect <see cref="InPaint"/> when set to prevent contradicting values.</remarks>
-        /// </summary>
-        public bool CanSwim
-        {
-            get => _canSwim;
-            set
-            {
-                _canSwim = value;
-                if (value)
-                {
-                    _inPaint = true; // Must be in paint if we can swim
-                }
-            }
-        }
 
         private Transform _playerHead;
         private Transform _frontCheckAxis;
@@ -128,7 +95,7 @@ namespace Src.Scripts.Gameplay
             }
             
             CheckTerrain();
-            Swim();
+            AttemptSwim();
         }
 
         private void CheckTerrain()
@@ -149,20 +116,19 @@ namespace Src.Scripts.Gameplay
             int channel = paintCheckerBelow.currChannel;
             if (channel == teamMember.teamChannel)
             {
-                if (!CanSwim) // Player was previously not in swimmable paint
+                if (paintStatus != PaintStatus.FriendlyPaint) // Player was previously not in swimmable paint
                 {
                     sinkSounds.TriggerPlay(_playerHead.position);
                 }
-                CanSwim = true;
+                paintStatus = PaintStatus.FriendlyPaint;
             }
             else if (channel != -1)
             {
-                InPaint = true;
-                CanSwim = false;
+                paintStatus = PaintStatus.EnemyPaint;
             }
             else
             {
-                InPaint = false;
+                paintStatus = PaintStatus.NoPaint;
             }
 
             // Check ahead first so we can adjust to slopes and walls
@@ -174,7 +140,8 @@ namespace Src.Scripts.Gameplay
             }
 
             return paintCheckerBelow.currNormal != Vector3.zero &&
-                   _orientationHandling.SetNewTargetNormal(paintCheckerBelow.currNormal, !CanSwim, paintCheckerBelow.hitPosition);
+                   _orientationHandling.SetNewTargetNormal(paintCheckerBelow.currNormal,
+                       paintStatus != PaintStatus.FriendlyPaint, paintCheckerBelow.hitPosition);
         }
         
 
@@ -193,16 +160,16 @@ namespace Src.Scripts.Gameplay
             locomotion.SlopeHandling = true;
             gameObject.layer = _playerLayer;
             swimSound.Stop();
-            CanSwim = false;
+            paintStatus = PaintStatus.NoPaint;
             _orientationHandling.ResetOrientation();
             _orientationHandling.ResetHeight();
             paintCheckerAhead.keepUpdated = false;
         }
 
         // Adjust speed, height, and SFX while swimming
-        private void Swim()
+        private void AttemptSwim()
         {
-            if (CanSwim) // Indicates we are swimming in friendly paint
+            if (paintStatus == PaintStatus.FriendlyPaint)
             {
                 _orientationHandling.SetNewTargetHeight(OrientationHandling.SwimHeight, false);
                 speedController.GoalSpeed = swimSpeed;
@@ -231,7 +198,7 @@ namespace Src.Scripts.Gameplay
                     swimSound.Stop();
                 }
                 
-                speedController.GoalSpeed = !InPaint ? squidSpeed : enemyPaintSpeed;
+                speedController.GoalSpeed = paintStatus == PaintStatus.NoPaint ? squidSpeed : enemyPaintSpeed;
             }
         }
 

@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using Paintz_Free.Scripts;
 using Src.Scripts.Attributes;
 using Src.Scripts.Audio;
 using Src.Scripts.Utility;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Src.Scripts.Gameplay

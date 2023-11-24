@@ -2788,6 +2788,7 @@ MonoBehaviour:
   squidSpeed: 2
   swimSpeed: 6
   enemyPaintSpeed: 1
+  paintStatus: 0
   swimSound: {fileID: 1021995857}
   sinkSounds: {fileID: 1675898088}
 --- !u!114 &1995776302555621397

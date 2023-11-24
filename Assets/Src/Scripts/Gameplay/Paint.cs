@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-namespace Paintz_Free.Scripts
+// Based on 'Paint.cs' from https://assetstore.unity.com/packages/tools/paintz-free-145977
+namespace Src.Scripts.Gameplay
 {
     public class Paint
     {

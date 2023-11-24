@@ -6,6 +6,7 @@ namespace Src.Scripts.Gameplay
 {
     /// <summary>
     /// Non-blocking paint channel checking directly below the check origin.
+    /// <remarks>Paint channel can only be detected on non-convex mesh colliders.</remarks>
     /// </summary>
     public class PaintChecker : MonoBehaviour
     {

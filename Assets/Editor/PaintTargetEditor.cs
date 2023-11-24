@@ -25,7 +25,6 @@ namespace Editor
             paintTextureSize = serializedObject.FindProperty("paintTextureSize");
             renderTextureSize = serializedObject.FindProperty("renderTextureSize");
             setupOnStart = serializedObject.FindProperty("setupOnStart");
-            paintAllSplats = serializedObject.FindProperty("paintAllSplats");
             useBakedPaintMap = serializedObject.FindProperty("useBakedPaintMap");
         }
 
@@ -40,8 +39,6 @@ namespace Editor
             {
                 GUILayout.BeginVertical(GUI.skin.box);
                 
-                script.paintAllSplats = GUILayout.Toggle(script.paintAllSplats, "Paint All Splats");
-
                 if (GUILayout.Button("Clear Paint"))
                 {
                     script.ClearPaint();
@@ -118,7 +115,7 @@ namespace Editor
                 }
                 if (!foundMeshCollider)
                 {
-                    EditorGUILayout.HelpBox("WARNING: Color Pick only works with Mesh Collider", MessageType.Warning);
+                    EditorGUILayout.HelpBox("WARNING: Color detection only works with non-convex mesh collider", MessageType.Warning);
                 }
 
                 if (GUI.changed)
