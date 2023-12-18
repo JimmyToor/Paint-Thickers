@@ -18,6 +18,7 @@ namespace Src.Scripts.AI
         public UnityEvent onTargetLost;
         
         private WaitForSeconds _scanDelay;
+        private Collider[] _targetsHit = new Collider[10];
         private CharacterController _targetCharController;
         private TargetModifier _targetModifier;
         [HideInInspector]public bool hasTarget;
@@ -50,25 +51,24 @@ namespace Src.Scripts.AI
         /// <summary>
         /// Searches for and targets the nearest valid target within line of sight.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True if a valid target is found, false otherwise.</returns>
         public bool TargetSearch()
         {
-            Collider[] targetsHit = new Collider[1];
-            int size = Physics.OverlapSphereNonAlloc(transform.position, sightDistance, targetsHit, targetLayerMask);
+            int numTargets = Physics.OverlapSphereNonAlloc(transform.position, sightDistance, _targetsHit, targetLayerMask);
 
-            if (size <= 0)
+            if (numTargets <= 0)
             {
                 return false;
             }
 
-            foreach (var targetHit in targetsHit)
+            for (int curr = 0; curr < numTargets; curr++)
             {
-                if (!IsValidTarget(targetHit))
+                if (!IsValidTarget(_targetsHit[curr]))
                 {
                     continue;
                 }
                 
-                SetNewTarget(targetHit.transform);
+                SetNewTarget(_targetsHit[curr].transform);
                 return true;
             }
             return false;
@@ -128,7 +128,7 @@ namespace Src.Scripts.AI
         {
             Vector3 fromPos = originTransform.position;
             
-            if (!Physics.Raycast(fromPos,  targetPos - fromPos, out RaycastHit _hit,Vector3.Distance(targetPos, fromPos),blockingLayerMask))
+            if (!Physics.Raycast(fromPos,  targetPos - fromPos, Vector3.Distance(targetPos, fromPos),blockingLayerMask))
             {
                 // Debug.DrawRay(fromPos, targetPos - fromPos, Color.blue);
                 hasLOS = true;

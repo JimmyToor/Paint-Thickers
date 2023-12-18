@@ -3176,9 +3176,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 37ae926e12bacc14d9a04a82781424c0, type: 3}
   - {fileID: 8300000, guid: 8686076f0334e4e479e85a732170905d, type: 3}
   - {fileID: 8300000, guid: bc08535e7fc58d94f8ce5e3e3cbf2b9b, type: 3}
-  volume: 1
-  minPitch: 1.2
-  maxPitch: 0.8
+  volume: 0.5
+  minPitch: 0.9
+  maxPitch: 1.1
   cooldownTime: 0.5
 --- !u!82 &1675898090
 AudioSource:
@@ -3192,7 +3192,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.35
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0

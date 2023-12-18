@@ -51,15 +51,15 @@ MonoBehaviour:
   hitpoints: 2
   maxHitpoints: 2
   invulnerable: 0
-  useHitDamageMaterial: 1
   destroyOnDeath: 1
   destroyOnDeathDelay: 0
-  regenerative: 0
   hitCooldown: 0.25
+  regenerative: 0
   regenCooldown: 0
   regenRate: 0
-  damageMeshRenderer: {fileID: 1439803139}
   animator: {fileID: 1957672845038423826}
+  useHitDamageMaterial: 1
+  damageMeshRenderer: {fileID: 1439803139}
   damageMaterial: {fileID: 2100000, guid: 02f651351c871e444b239264d2e86dbc, type: 2}
   hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
   hitSfx:
@@ -87,9 +87,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips: []
-  volume: 1.5
-  minPitch: 1.2
-  maxPitch: 0.8
+  volume: 0.4
+  minPitch: 0.8
+  maxPitch: 1.2
   cooldownTime: 0
 --- !u!54 &173716766453119642
 Rigidbody:

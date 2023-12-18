@@ -139,6 +139,13 @@ namespace Src.Scripts.Weapons
             audioSource.Stop();
         }
 
+        public virtual void ManualRefillAmmo()
+        {
+            if (AmmoRemaining >= wepParams.maxAmmo) return;
+            _lowAmmoRegenCooldown = wepParams.lowAmmoRegenCooldownTime;
+            RefillAmmo(Time.deltaTime * wepParams.refillRate);
+        }
+        
         public virtual void RefillAmmo()
         {
             if (AmmoRemaining >= wepParams.maxAmmo) return;

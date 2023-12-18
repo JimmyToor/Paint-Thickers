@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -46,6 +47,11 @@ namespace Src.Scripts.Gameplay
         private Material _worldPosMaterial;
         private Material _worldTangentMaterial;
         private Material _worldBiNormalMaterial;
+        
+        private Matrix4x4[] _paintMatrixArray = new Matrix4x4[10];
+        private Vector4[] _paintScaleBiasArray = new Vector4[10];
+        private Vector4[] _paintChannelMaskArray = new Vector4[10];
+        private int[] _stepsArray = new int[10];
         
         private static uint _xGroupSize, _yGroupSize;
         private static int _paintKernel;
@@ -386,12 +392,6 @@ namespace Src.Scripts.Gameplay
 
             if (transform.hasChanged) RenderTextures();
 
-            Matrix4x4[] paintMatrixArray = new Matrix4x4[10];
-            Vector4[] paintScaleBiasArray = new Vector4[10];
-            Vector4[] paintChannelMaskArray = new Vector4[10];
-            int[] stepsArray = new int[10];
-
-            // Render up to 10 splats per frame of the same texture!
             int numSplats = 0;
             Texture2D paintPattern = _paintList[0].brush.paintPattern;
 
@@ -403,10 +403,10 @@ namespace Src.Scripts.Gameplay
                     continue;
                 }
                 
-                paintMatrixArray[numSplats] = _paintList[s].paintMatrix;
-                paintScaleBiasArray[numSplats] = _paintList[s].scaleBias;
-                paintChannelMaskArray[numSplats] = _paintList[s].channelMask;
-                stepsArray[numSplats] = _paintList[s].stepsRemaining;
+                _paintMatrixArray[numSplats] = _paintList[s].paintMatrix;
+                _paintScaleBiasArray[numSplats] = _paintList[s].scaleBias;
+                _paintChannelMaskArray[numSplats] = _paintList[s].channelMask;
+                _stepsArray[numSplats] = _paintList[s].stepsRemaining;
                 numSplats++;
 
                 if (--_paintList[s].stepsRemaining < 0)
@@ -415,14 +415,14 @@ namespace Src.Scripts.Gameplay
                 }
             }
 
-            ComputeBuffer paintWorldToObjectBuffer = new ComputeBuffer(paintMatrixArray.Length, PaintMatrixBufferStride); 
-            ComputeBuffer paintScaleBiasBuffer = new ComputeBuffer(paintScaleBiasArray.Length, ScaleBiasBufferStride);
-            ComputeBuffer paintChannelMaskBuffer = new ComputeBuffer(paintChannelMaskArray.Length, PaintColorBufferStride);
-            ComputeBuffer stepsBuffer = new ComputeBuffer(stepsArray.Length, StepsBufferStride);
-            paintWorldToObjectBuffer.SetData(paintMatrixArray);
-            paintScaleBiasBuffer.SetData(paintScaleBiasArray);
-            paintChannelMaskBuffer.SetData(paintChannelMaskArray);
-            stepsBuffer.SetData(stepsArray);
+            ComputeBuffer paintWorldToObjectBuffer = new ComputeBuffer(_paintMatrixArray.Length, PaintMatrixBufferStride); 
+            ComputeBuffer paintScaleBiasBuffer = new ComputeBuffer(_paintScaleBiasArray.Length, ScaleBiasBufferStride);
+            ComputeBuffer paintChannelMaskBuffer = new ComputeBuffer(_paintChannelMaskArray.Length, PaintColorBufferStride);
+            ComputeBuffer stepsBuffer = new ComputeBuffer(_stepsArray.Length, StepsBufferStride);
+            paintWorldToObjectBuffer.SetData(_paintMatrixArray);
+            paintScaleBiasBuffer.SetData(_paintScaleBiasArray);
+            paintChannelMaskBuffer.SetData(_paintChannelMaskArray);
+            stepsBuffer.SetData(_stepsArray);
             
             paintComputeShader.SetTexture(_paintKernel, WorldPosTexCompute, _worldPosTex);
             paintComputeShader.SetTexture(_paintKernel, Paintmap, paintMap);

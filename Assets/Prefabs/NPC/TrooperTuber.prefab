@@ -11399,7 +11399,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   splashObject: {fileID: 0}
-  collisionSfx: 0
+  useCollisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &749624021976703926
 MonoBehaviour:
@@ -20696,7 +20696,7 @@ ParticleSystem:
     radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
-      m_Bits: 975
+      m_Bits: 21455
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -21751,8 +21751,8 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   splashObject: {fileID: 0}
-  collisionSfx: 0
-  sfxSource: {fileID: 0}
+  useCollisionSfx: 1
+  sfxSource: {fileID: 7092883789690065226}
 --- !u!114 &7092883789690065226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21766,9 +21766,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips: []
-  volume: 1
-  minPitch: 1.2
-  maxPitch: 0.8
+  volume: 0.3
+  minPitch: 0.9
+  maxPitch: 1.1
   cooldownTime: 0
 --- !u!1773428102 &7092883789690065225
 ParentConstraint:
@@ -41493,7 +41493,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   splashObject: {fileID: 0}
-  collisionSfx: 0
+  useCollisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &4836306880909642676
 MonoBehaviour:
@@ -46484,7 +46484,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   splashObject: {fileID: 0}
-  collisionSfx: 0
+  useCollisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!1773428102 &6229600115034325407
 ParentConstraint:
@@ -46704,15 +46704,15 @@ MonoBehaviour:
   hitpoints: 3
   maxHitpoints: 3
   invulnerable: 0
-  useHitDamageMaterial: 0
   destroyOnDeath: 1
   destroyOnDeathDelay: 5
-  regenerative: 0
   hitCooldown: 0.45
+  regenerative: 0
   regenCooldown: 0
   regenRate: 0
-  damageMeshRenderer: {fileID: 0}
   animator: {fileID: 8163667220085843564}
+  useHitDamageMaterial: 0
+  damageMeshRenderer: {fileID: 0}
   damageMaterial: {fileID: 0}
   hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
   hitSfx:
@@ -46930,8 +46930,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06a3489cd830ef54da8cd9c1bbcb5428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clips: []
-  volume: 1
+  clips:
+  - {fileID: 8300000, guid: f2be57a3f90cb324f91650f6ed0c1785, type: 3}
+  - {fileID: 8300000, guid: 01fc23c9e9476444695d635ef65ed757, type: 3}
+  - {fileID: 8300000, guid: ad90d2d9af49406459f8aae9884c63cf, type: 3}
+  - {fileID: 8300000, guid: 2c9a504218714244196807e412626c2c, type: 3}
+  volume: 0.5
   minPitch: 1
   maxPitch: 1
   cooldownTime: 0

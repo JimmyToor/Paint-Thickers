@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7396438316312812166}
   - component: {fileID: 7396438316312812161}
   - component: {fileID: 7396438316312812160}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: OOBVol
   m_TagString: OOBVolume
   m_Icon: {fileID: 0}

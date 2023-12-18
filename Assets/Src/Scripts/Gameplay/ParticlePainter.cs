@@ -42,8 +42,6 @@ namespace Src.Scripts.Gameplay
                     sfxSource.TriggerPlay(_collisionEvents[i].intersection);
                 }
             }
-        
-            
         }
 
         /// <summary>

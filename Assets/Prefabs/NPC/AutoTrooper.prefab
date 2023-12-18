@@ -4972,7 +4972,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   splashObject: {fileID: 0}
-  collisionSfx: 0
+  useCollisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &2433924810294789995
 MonoBehaviour:
@@ -10725,7 +10725,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   splashObject: {fileID: 0}
-  collisionSfx: 0
+  useCollisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!1773428102 &3370363940608102966
 ParentConstraint:
@@ -15738,7 +15738,7 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   splashObject: {fileID: 0}
-  collisionSfx: 0
+  useCollisionSfx: 0
   sfxSource: {fileID: 0}
 --- !u!114 &1839918439632334949
 MonoBehaviour:
@@ -27215,15 +27215,15 @@ MonoBehaviour:
   hitpoints: 3
   maxHitpoints: 3
   invulnerable: 0
-  useHitDamageMaterial: 0
   destroyOnDeath: 1
   destroyOnDeathDelay: 5
-  regenerative: 0
   hitCooldown: 0.45
+  regenerative: 0
   regenCooldown: 0
   regenRate: 0
-  damageMeshRenderer: {fileID: 0}
   animator: {fileID: 7683721474867376198}
+  useHitDamageMaterial: 0
+  damageMeshRenderer: {fileID: 0}
   damageMaterial: {fileID: 0}
   hitFX: {fileID: 8940228086136423718, guid: 9e6c79f1894fc7e47bfee8a002dd089e, type: 3}
   hitSfx:
@@ -27495,7 +27495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clips: []
-  volume: 1
+  volume: 0.5
   minPitch: 1
   maxPitch: 1
   cooldownTime: 0
@@ -27718,12 +27718,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keepUpdated: 1
+  getColor: 1
   checkOrigin: {fileID: 5808559898974005023}
   referenceTransform: {fileID: 5808559898974005023}
   validLayers:
     serializedVersion: 2
     m_Bits: 256
+  hitPosition: {x: 0, y: 0, z: 0}
   currChannel: -1
+  currNormal: {x: 0, y: 0, z: 0}
   paintCheckDistance: 2.3
 --- !u!1 &8757214117243039789
 GameObject:
@@ -41436,7 +41439,7 @@ ParticleSystem:
     radiusScale: 0.5
     collidesWith:
       serializedVersion: 2
-      m_Bits: 975
+      m_Bits: 21455
     maxCollisionShapes: 256
     quality: 0
     voxelSize: 0.5
@@ -42491,8 +42494,8 @@ MonoBehaviour:
   damage: 1
   randomChannel: 0
   splashObject: {fileID: 0}
-  collisionSfx: 0
-  sfxSource: {fileID: 0}
+  useCollisionSfx: 1
+  sfxSource: {fileID: 8757214118557992800}
 --- !u!114 &8757214118557992800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42510,9 +42513,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 01fc23c9e9476444695d635ef65ed757, type: 3}
   - {fileID: 8300000, guid: ad90d2d9af49406459f8aae9884c63cf, type: 3}
   - {fileID: 8300000, guid: 2c9a504218714244196807e412626c2c, type: 3}
-  volume: 1
-  minPitch: 1.2
-  maxPitch: 0.8
+  volume: 0.25
+  minPitch: 0.9
+  maxPitch: 1.1
   cooldownTime: 0
 --- !u!1773428102 &8757214118557992803
 ParentConstraint:

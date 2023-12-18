@@ -24,7 +24,7 @@ namespace Src.Scripts.Gameplay
             {
                 float distance = Vector3.Distance(launchable.transform.position, launchParameters.endPos);
                 launchParameters.stepScale = speed / distance;
-                AudioSource.PlayClipAtPoint(launchAudioClip,transform.position);
+                AudioSource.PlayClipAtPoint(launchAudioClip,transform.position,0.8f);
                 launchable.Launch(launchParameters);
             }
         }

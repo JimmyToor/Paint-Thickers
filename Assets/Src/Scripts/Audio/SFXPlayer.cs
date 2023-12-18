@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Src.Scripts.Utility;
 using UnityEngine;
 
-// Got this from SO but can't find the post anymore
+// Got this from SO but can't find the source anymore
 namespace Src.Scripts.Audio
 {
     /// <summary>
@@ -93,7 +93,7 @@ namespace Src.Scripts.Audio
         /// <param name="position"></param>
         /// <param name="parameters"></param>
         /// <param name="cooldownTime">Time before another PlaySFX with the same parameters.SourceID can be played again</param>
-        public void PlaySfx(AudioClip clip, Vector3 position, PlayParameters parameters, float cooldownTime = 0.5f, bool isClosedCaptioned = false)
+        public void PlaySfx(AudioClip clip, Vector3 position, PlayParameters parameters, float cooldownTime = 0.5f)
         {
             if(clip == null)
                 return;

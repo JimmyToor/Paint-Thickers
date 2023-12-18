@@ -78,7 +78,7 @@ namespace Src.Scripts.Weapons
         public void RefillWeaponAmmo()
         {
             if (Weapon == null) return;
-            Weapon.RefillAmmo();
+            Weapon.ManualRefillAmmo();
         }
 
         public void StopManualReload()
