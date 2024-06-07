@@ -26,6 +26,8 @@ namespace Src.Scripts.Gameplay
         private float _wallGravityScale = 0.05f;
         private bool _useFloorOffset = true;
         private Vector3 _rotatePos;
+        private float gravityAngleLimitDot; // Pre-calculated dot product of the angle limit
+
         
         private void Awake()
         {
@@ -33,6 +35,8 @@ namespace Src.Scripts.Gameplay
             {
                 locomotion = GetComponent<ActionBasedContinuousMoveProvider>();
             }
+            // Pre calculate the dot product of the angle limit for performance
+            gravityAngleLimitDot = Mathf.Cos(maxGroundAngle * Mathf.Deg2Rad);
         }
         
         void Start()
@@ -53,8 +57,7 @@ namespace Src.Scripts.Gameplay
         public bool SetNewTargetNormal(Vector3 normal, bool useAngleLimit = false, Vector3 targetPosition = default)
         {
             // Only match orientation with this surface if it has friendly paint or is a shallow enough slope.
-            float angle = Vector3.Angle(normal, Vector3.up);
-            if (useAngleLimit && angle >= gravityAngleLimit)
+            if (useAngleLimit && normal.y <= gravityAngleLimitDot)
             {
                 return false;
             }
@@ -150,10 +153,9 @@ namespace Src.Scripts.Gameplay
                 _xrRig.RotateAroundPosition(_rotatePos, axis, rotationAmount);
             }
             
-            float terrainAngle = Vector3.Angle(newUp, Vector3.up);
             
             // Reduce gravity for the rig enough to be able to move up the wall, but still slide down if not moving
-            locomotion.GravityScale = terrainAngle >= gravityAngleLimit ? _wallGravityScale : 1f;
+            locomotion.GravityScale = newUp.y <= gravityAngleLimitDot ? _wallGravityScale : 1f;
         }
     
         /// <summary>
